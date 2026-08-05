@@ -74,8 +74,8 @@ export function KitMockup({ kit, view, name, number, priority }: Props) {
         </svg>
       )}
 
-      <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-primary/85 px-3 py-2 text-center text-primary-foreground">
-        Concept mockup — not a photograph of the finished product
+      <figcaption className="label-caps absolute bottom-0 left-0 right-0 truncate bg-primary/85 px-3 py-2 text-center text-[0.6rem] tracking-[0.12em] text-primary-foreground">
+        Concept mockup — not a photograph
       </figcaption>
     </figure>
   );
