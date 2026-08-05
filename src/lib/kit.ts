@@ -11,12 +11,15 @@ export type Item = "top" | "bottom" | "set";
 
 export const SIZES: Size[] = ["2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
-/** Back-panel lettering zones, as % of the mockup image. */
+/** Back-panel lettering zones, as % of the mockup image.
+ *  Number height follows pro-kit proportion: ~10–12" on an adult back panel,
+ *  i.e. roughly a quarter of the visible torso. */
 export const LETTERING = {
   centerX: 48.8,
-  name: { y: 29.5, heightPct: 3.2, maxWidthPct: 34 },
-  number: { y: 44.5, heightPct: 13.5 },
+  name: { y: 28, heightPct: 4.2, maxWidthPct: 38 },
+  number: { y: 47, heightPct: 26 },
 } as const;
+
 
 export type KitConfig = {
   slug: string;
