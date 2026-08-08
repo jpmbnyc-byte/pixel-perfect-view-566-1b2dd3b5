@@ -1,11 +1,13 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import logo from "@/assets/bayonne/bayonne-bees-logo.png";
+import logo from "@/assets/bayonne/spirit/boxing-bee.png";
 import { CATEGORIES, productsInCategory, type CategoryId } from "@/lib/catalog";
 import { countdownParts } from "@/lib/kit";
 import { shopifySynced } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
+
+const CATEGORY_IDS: CategoryId[] = ["core", "spirit", "warmup", "lifestyle"];
 
 export const Route = createFileRoute("/team/$slug/")({
   component: TeamStorePage,
@@ -17,6 +19,14 @@ function TeamStorePage() {
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
   const catalogReady = shopifySynced(sync);
+
+  // Deep-link: /team/bayonne-bees#spirit
+  useEffect(() => {
+    const raw = window.location.hash.replace(/^#/, "");
+    if (CATEGORY_IDS.includes(raw as CategoryId)) {
+      setCategory(raw as CategoryId);
+    }
+  }, []);
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
   const products = useMemo(() => productsInCategory(category), [category]);
@@ -32,12 +42,13 @@ function TeamStorePage() {
             >
               No Parade F.C. · Team Customs
             </Link>
-            <h1 className="mt-2 text-4xl leading-none tracking-tight">{kit.teamName}</h1>
-            <p className="label-caps mt-1 text-muted-foreground">Queen Bees crest build</p>
-            <p className="label-caps mt-3 text-garnet">{kit.colorway.name}</p>
+            <h1 className="mt-2 text-4xl leading-none tracking-tight">Bayonne Team Customs</h1>
+            <p className="label-caps mt-1 text-muted-foreground">
+              {kit.teamName} · {kit.colorway.name}
+            </p>
             <p className="mt-2 max-w-sm text-base leading-snug text-muted-foreground">
-              Garnet field. Black panel. One crest on the left chest — the way a serious kit
-              is built.
+              Core kit, spirit, warm-up, and lifestyle — one garnet language for Bayonne
+              programs.
             </p>
           </div>
           <img src={logo} alt="" className="mt-1 h-14 w-14 shrink-0 object-contain" />
@@ -73,7 +84,11 @@ function TeamStorePage() {
               <button
                 key={c.id}
                 type="button"
-                onClick={() => setCategory(c.id)}
+                id={c.id}
+                onClick={() => {
+                  setCategory(c.id);
+                  window.history.replaceState(null, "", `#${c.id}`);
+                }}
                 className={`border px-3 py-3 text-left transition-colors ${
                   on
                     ? "border-primary bg-primary text-primary-foreground"
@@ -94,7 +109,7 @@ function TeamStorePage() {
 
       <section className="mt-6 px-5">
         <div className="relative aspect-[16/9] overflow-hidden bg-black">
-          <img src={active.hero} alt="" className="h-full w-full object-cover opacity-80" />
+          <img src={active.hero} alt="" className="h-full w-full object-cover opacity-90" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-4">
             <p className="label-caps text-bone/60">Selected</p>
@@ -103,6 +118,13 @@ function TeamStorePage() {
           </div>
         </div>
       </section>
+
+      {category === "spirit" && (
+        <p className="mt-4 px-5 text-sm leading-relaxed text-muted-foreground">
+          Spirit carries the boxing bee and football energy. No district marks. No claim of an
+          official school relationship — just Bayonne programs, dressed for the night.
+        </p>
+      )}
 
       <section className="mt-8 px-5">
         <div className="mb-3 flex items-baseline justify-between">
@@ -141,7 +163,15 @@ function TeamStorePage() {
         </ul>
       </section>
 
-      <p className="mt-10 px-5 text-center text-sm text-muted-foreground">
+      <aside className="mx-5 mt-10 border-t border-border pt-6">
+        <p className="label-caps text-muted-foreground">Featured identity</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          Queen Bees crest — drawn free for one Bayonne program. Available inside this store;
+          not the whole of Team Customs.
+        </p>
+      </aside>
+
+      <p className="mt-8 px-5 text-center text-sm text-muted-foreground">
         Open any listing to choose the panel motif, the lettering face, and — where it
         belongs — the name and number.
       </p>

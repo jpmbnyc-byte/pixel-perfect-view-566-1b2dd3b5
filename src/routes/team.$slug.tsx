@@ -16,8 +16,8 @@ export const Route = createFileRoute("/team/$slug")({
         meta: [{ title: "Team store unavailable" }, { name: "robots", content: "noindex" }],
       };
     }
-    const title = `${loaderData.kit.teamName} Store — No Parade F.C.`;
-    const description = `Browse Bayonne Bees Team Customs — core kit, spirit, warm-up, and lifestyle. Customize motif, font, name, and number.`;
+    const title = `Bayonne Team Customs — No Parade F.C.`;
+    const description = `Bayonne Team Customs — core kit, football spirit, warm-up, and lifestyle. Customize motif, font, name, and number.`;
     return {
       meta: [
         { title },

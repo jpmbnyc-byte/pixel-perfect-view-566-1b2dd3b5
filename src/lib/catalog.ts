@@ -8,7 +8,7 @@ import type { Item } from "./kit";
 
 /* Category heroes — do not regenerate; campaign stills only */
 import heroKit from "@/assets/bayonne/heroes/hero-kit-studio.jpg";
-import heroSpirit from "@/assets/bayonne/heroes/hero-spirit-gym.jpg";
+import heroSpirit from "@/assets/bayonne/heroes/hero-spirit-football.jpg";
 import heroCrew from "@/assets/bayonne/heroes/hero-crewneck-studio.jpg";
 import heroField from "@/assets/bayonne/heroes/hero-field-lifestyle.jpg";
 
@@ -77,7 +77,8 @@ export const CATEGORIES: Category[] = [
   {
     id: "spirit",
     label: "Spirit",
-    description: "Court pieces cut with the same crest and the same discipline.",
+    description:
+      "Football nights and sideline noise — the boxing bee on garnet, built for the programs that show up.",
     hero: heroSpirit,
   },
   {
@@ -202,7 +203,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "hoops-jersey",
     handle: "bayonne-bees-hoops-jersey",
     name: "Hoops Jersey",
-    blurb: "Black mesh court jersey. Garnet trim. One crest. Number on the chest.",
+    blurb: "Court spirit jersey. Garnet trim, boxing-bee crest, number on the chest.",
     category: "spirit",
     price: 52,
     customizable: true,
@@ -214,7 +215,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey-dress",
     handle: "bayonne-bees-jersey-dress",
     name: "Jersey Dress",
-    blurb: "A spirit dress cut like a jersey — crest first, no clutter.",
+    blurb: "Sideline spirit dress — crest first, built for game-day noise.",
     category: "spirit",
     price: 72,
     customizable: true,

@@ -1,13 +1,14 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import { RevealCarousel } from "@/components/RevealCarousel";
+import landingHero from "@/assets/bayonne/bayonne-landing-hero.jpg";
+import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
 export const Route = createFileRoute("/team/")({
   head: () => {
-    const title = "The Queen Bees never had a crest. Now they do. | No Parade F.C.";
+    const title = "Bayonne teams, dressed properly. | No Parade F.C.";
     const description =
-      "We drew a crest for Bayonne’s Queen Bees — free of charge — and we print kits to order. No inventory. No money up front from the club.";
+      "Team Customs for Bayonne programs — kits fulfilled on demand, no inventory, no upfront cost to the club. Identity design for one Bayonne program each season.";
     return {
       meta: [
         { title },
@@ -27,62 +28,100 @@ function TeamLanding() {
 
   return (
     <main className="bg-black text-bone">
-      {/* Layer 1 — silent reveal. No CTA. No music. */}
-      <RevealCarousel />
-
-      {/* Layer 4 — landing hero */}
+      {/* Universal Team Customs hero — not Queen Bees–only */}
       <section className="relative isolate min-h-dvh overflow-hidden">
-        <div
-          className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_-10%,color-mix(in_oklab,var(--garnet)_55%,transparent),transparent_55%),linear-gradient(180deg,#12080a_0%,#1a0c10_42%,#0a0607_100%)]"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay motion-safe:animate-team-hero-drift"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          }}
-          aria-hidden
-        />
+        <div className="absolute inset-0" aria-hidden>
+          <img
+            src={landingHero}
+            alt=""
+            className="h-full w-full object-cover object-center motion-safe:animate-team-hero-drift"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,6,8,0.35)_0%,rgba(8,6,8,0.2)_40%,rgba(8,6,8,0.75)_72%,rgba(8,6,8,0.95)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(80%_50%_at_50%_20%,color-mix(in_oklab,var(--garnet)_40%,transparent),transparent_70%)]" />
+        </div>
 
-        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[560px] flex-col px-6 pb-16 pt-14">
-          <p className="label-caps text-bone/55 motion-safe:animate-team-rise">
-            No Parade F.C. · Bayonne, NJ
+        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[560px] flex-col px-6 pb-14 pt-10">
+          <p className="label-caps text-bone/60 motion-safe:animate-team-rise">
+            No Parade F.C. · Team Customs · Bayonne, NJ
           </p>
 
-          <div className="mt-10 flex flex-1 flex-col justify-center motion-safe:animate-team-logo-in">
-            <h1 className="font-kit text-[clamp(2.6rem,11vw,4rem)] leading-[0.95] tracking-[0.02em] text-bone">
-              The Queen Bees never had a crest. Now they do.
+          <div className="mt-10 flex flex-1 flex-col items-start justify-center motion-safe:animate-team-logo-in">
+            <h1 className="font-kit text-[clamp(2.75rem,12vw,4.25rem)] leading-[0.95] tracking-[0.02em] text-bone">
+              Bayonne teams, dressed properly.
             </h1>
-            <p className="mt-6 max-w-[30rem] text-lg leading-snug text-bone/75 sm:text-xl">
-              We drew it for one Bayonne program — free of charge — and we will print the
-              kits to order. No inventory sitting in a closet. No check from the club before a
-              stitch is cut.
+            <p className="mt-6 max-w-[28rem] text-lg leading-snug text-bone/75 sm:text-xl">
+              Kits and warm-ups for Bayonne programs — printed to order. No inventory in a
+              closet. No check from the club before a stitch is cut.
             </p>
           </div>
 
-          <div className="mt-12 space-y-8 motion-safe:animate-team-rise [animation-delay:180ms]">
+          <div className="mt-auto space-y-4 pt-10 motion-safe:animate-team-rise [animation-delay:160ms]">
             <Link
               to="/team/$slug"
               params={{ slug: kit.slug }}
               className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
             >
-              Inspect the Queen Bees kit
+              Open Team Customs
             </Link>
+            <a
+              href="#spirit"
+              className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
+            >
+              See Spirit — football energy
+            </a>
+          </div>
+        </div>
+      </section>
 
-            {/* Layer 2 — caption. No CTA. No link. */}
-            <div className="border-t border-bone/15 pt-8">
-              <p className="text-base leading-relaxed text-bone/70">
-                In 2024 the Hudson County champions answered to a name that lived only in
-                speech. Queen Bees. There was no mark. No embroidery. Nothing a mother could
-                point to on a jacket and say, that is ours.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-bone/70">
-                So we drew the crest. There is no invoice. There is no pitch. The files are
-                theirs if they want them.
+      {/* Spirit — football / sideline energy using Bayonne Bees mark */}
+      <section id="spirit" className="relative border-t border-bone/10 bg-[#0c0809] px-6 py-16">
+        <div className="mx-auto w-full max-w-[560px]">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="label-caps text-bone/50">Category</p>
+              <h2 className="mt-2 font-kit text-4xl tracking-wide text-bone">Spirit</h2>
+              <p className="mt-3 max-w-sm text-base leading-relaxed text-bone/70">
+                Football nights. Sideline noise. The boxing bee on a garnet field — spirit
+                wear for the programs that show up.
               </p>
             </div>
+            <img
+              src={boxingBee}
+              alt=""
+              className="h-16 w-16 shrink-0 object-contain drop-shadow-[0_8px_24px_rgba(90,22,38,0.55)]"
+            />
           </div>
+
+          <Link
+            to="/team/$slug"
+            params={{ slug: kit.slug }}
+            hash="spirit"
+            className="label-caps mt-8 inline-flex w-full items-center justify-center bg-bone px-6 py-4 text-black transition-opacity hover:opacity-90"
+          >
+            Shop Spirit
+          </Link>
+        </div>
+      </section>
+
+      {/* Queen Bees — featured identity, not the whole site */}
+      <section className="border-t border-bone/10 bg-black px-6 py-16">
+        <div className="mx-auto w-full max-w-[560px]">
+          <p className="label-caps text-bone/50">Featured identity</p>
+          <h2 className="mt-2 font-kit text-3xl tracking-wide text-bone">
+            Queen Bees crest
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-bone/70">
+            One Bayonne program. A name that lived in speech for years without a mark. We
+            drew the crest free of charge — no invoice, no pitch. If the program wants it,
+            the files are theirs.
+          </p>
+          <Link
+            to="/team/$slug"
+            params={{ slug: kit.slug }}
+            className="label-caps mt-8 inline-flex text-garnet underline-offset-4 transition-colors hover:text-bone hover:underline"
+          >
+            View the crest build →
+          </Link>
         </div>
       </section>
     </main>
