@@ -124,12 +124,10 @@ function ProductListingPage() {
           params={{ slug: kit.slug }}
           className="label-caps text-muted-foreground transition-colors hover:text-foreground"
         >
-          ← {kit.teamName} store
+          ← Bayonne store
         </Link>
         <h1 className="mt-3 text-4xl leading-none tracking-tight">{product.name}</h1>
-        <p className="label-caps mt-2 text-garnet">
-          ${product.price} · {product.handle}
-        </p>
+        <p className="label-caps mt-2 text-garnet">${product.price}</p>
         <p className="mt-2 text-base text-muted-foreground">{product.blurb}</p>
         <div className="mt-4 space-y-3 border-t border-border pt-4 text-base leading-relaxed text-foreground/85">
           <p>
@@ -206,7 +204,7 @@ function ProductListingPage() {
 
       {/* Fonts */}
       <section className="mt-7 px-5">
-        <Field label="Lettering font" hint="4 kit faces (local OTF)">
+        <Field label="Lettering font" hint="4 faces">
           <div className="grid grid-cols-2 gap-2">
             {FONTS.map((f) => {
               const on = fontId === f.id;

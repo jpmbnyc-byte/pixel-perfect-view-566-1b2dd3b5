@@ -89,7 +89,7 @@ export const CATEGORIES: Category[] = [
   {
     id: "alumni",
     label: "Alumni",
-    description: "The years are on the back.",
+    description: "The years are on the sleeve, or the collar.",
     hero: heroField,
   },
 ];
@@ -227,7 +227,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-crewneck",
     name: "1936 Crewneck",
     blurb: "Garnet body, black panels. The year the school opened — for people who don’t need the chest to explain it.",
-    category: "warmups",
+    category: "alumni",
     price: 64,
     customizable: true,
     nameNumber: false,

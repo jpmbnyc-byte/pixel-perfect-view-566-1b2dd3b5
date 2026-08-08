@@ -9,7 +9,7 @@ export const Route = createFileRoute("/team/")({
     const title =
       "Bayonne has worn garnet and white since 1936. Most sweatshirts get the color wrong. | No Parade F.C.";
     const description =
-      "Everything in this store is printed in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. On-demand Team Customs from No Parade F.C.";
+      "Every garment is specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Printed when you order. No Parade F.C., Bayonne, NJ.";
     return {
       meta: [
         { title },
@@ -50,8 +50,8 @@ function TeamLanding() {
               wrong.
             </h1>
             <p className="mt-5 max-w-[30rem] text-lg leading-snug text-bone/75">
-              Everything in this store is printed in Bayonne’s actual garnet — not maroon,
-              not burgundy, not cardinal.
+              Every garment here is specified in Bayonne’s actual garnet — not maroon, not
+              burgundy, not cardinal.
             </p>
           </div>
 
@@ -100,7 +100,6 @@ function TeamLanding() {
             </li>
             <li>
               Nothing is printed until you order it. There is no back room of unsold XLs.
-              Fulfillment runs on demand through Merchize to Shopify.
             </li>
             <li>
               Sizes run from adult 2XS to 3XL. The size chart gives chest and body length in
@@ -111,11 +110,9 @@ function TeamLanding() {
               by Queen Bees for years. The crest for that name was drawn by hand, in Bayonne,
               and had never existed as a mark before.
             </li>
+            <li>The year can sit inside the collar, where only the player sees it.</li>
             <li>
-              The year can sit inside the collar, where only the player sees it.
-            </li>
-            <li>
-              Order at{" "}
+              Checkout is at{" "}
               <a
                 href="https://noparade-store.com"
                 className="text-bone underline underline-offset-4"
@@ -124,11 +121,7 @@ function TeamLanding() {
               >
                 noparade-store.com
               </a>
-              . Design and customize here at{" "}
-              <Link to="/team/$slug" params={{ slug: kit.slug }} className="text-bone underline underline-offset-4">
-                /team
-              </Link>
-              .
+              . You design the piece here first.
             </li>
           </ol>
           <p className="pt-2">
@@ -140,6 +133,13 @@ function TeamLanding() {
             This is a Bayonne store from No Parade F.C. — a resident studio. It is not an
             official district store until the Board says so in writing.
           </p>
+          <Link
+            to="/team/$slug"
+            params={{ slug: kit.slug }}
+            className="label-caps mt-6 inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
+          >
+            Open the Bayonne store
+          </Link>
         </div>
       </section>
 
@@ -150,6 +150,10 @@ function TeamLanding() {
               <p className="label-caps text-bone/50">Categories</p>
               <ul className="mt-4 space-y-3 text-base text-bone/75">
                 <li>
+                  <span className="text-bone">Match</span> — what they wear when the whistle
+                  blows
+                </li>
+                <li>
                   <span className="text-bone">Sideline</span> — for standing outside in
                   November
                 </li>
@@ -158,24 +162,30 @@ function TeamLanding() {
                   whistle
                 </li>
                 <li>
-                  <span className="text-bone">Alumni</span> — the years are on the back
-                </li>
-                <li>
-                  <span className="text-bone">Match</span> — what they wear when the whistle
-                  blows
+                  <span className="text-bone">Alumni</span> — the years are on the sleeve, or
+                  the collar
                 </li>
               </ul>
             </div>
             <img src={boxingBee} alt="" className="h-14 w-14 shrink-0 object-contain" />
           </div>
-          <Link
-            to="/team/$slug"
-            params={{ slug: kit.slug }}
-            hash="sideline"
-            className="label-caps mt-10 inline-flex w-full items-center justify-center bg-bone px-6 py-4 text-black transition-opacity hover:opacity-90"
-          >
-            Shop Sideline
-          </Link>
+          <div className="mt-10 flex flex-col gap-3">
+            <Link
+              to="/team/$slug"
+              params={{ slug: kit.slug }}
+              className="label-caps inline-flex w-full items-center justify-center bg-bone px-6 py-4 text-black transition-opacity hover:opacity-90"
+            >
+              Shop Match
+            </Link>
+            <Link
+              to="/team/$slug"
+              params={{ slug: kit.slug }}
+              hash="sideline"
+              className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
+            >
+              Shop Sideline
+            </Link>
+          </div>
         </div>
       </section>
     </main>

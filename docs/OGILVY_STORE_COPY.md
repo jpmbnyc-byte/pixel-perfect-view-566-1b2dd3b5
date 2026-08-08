@@ -26,7 +26,7 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 >
 > **1.** Every garment is specified in one matched garnet (`#5A1626` in our files) and used across the whole store. A crew bought in October matches a jersey ordered in April.
 >
-> **2.** Nothing is printed until you order it. There is no back room of unsold XLs. Fulfillment runs through Merchize → Shopify on demand.
+> **2.** Nothing is printed until you order it. There is no back room of unsold XLs.
 >
 > **3.** Sizes run from adult **2XS to 3XL**. The size chart gives chest and body length in inches — not “runs small.”
 >
@@ -49,7 +49,7 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 | `match` | Match | What they wear when the whistle blows |
 | `sideline` | Sideline | For standing outside in November |
 | `warmups` | Warmups | What the team wears before the whistle |
-| `alumni` | Alumni | The years are on the back |
+| `alumni` | Alumni | The years are on the sleeve, or the collar |
 
 ---
 

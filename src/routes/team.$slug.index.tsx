@@ -20,7 +20,7 @@ function TeamStorePage() {
   const closed = kit.status !== "live" || countdown === null;
   const catalogReady = shopifySynced(sync);
 
-  // Deep-link: /team/bayonne-bees#spirit
+  // Deep-link: /team/bayonne-bees#sideline
   useEffect(() => {
     const raw = window.location.hash.replace(/^#/, "");
     if (CATEGORY_IDS.includes(raw as CategoryId)) {
@@ -40,12 +40,10 @@ function TeamStorePage() {
               to="/team"
               className="label-caps text-muted-foreground transition-colors hover:text-foreground"
             >
-              No Parade F.C. · Team Customs
+              ← No Parade F.C.
             </Link>
             <h1 className="mt-2 text-4xl leading-none tracking-tight">Bayonne store</h1>
-            <p className="label-caps mt-1 text-muted-foreground">
-              No Parade F.C. · {kit.colorway.name}
-            </p>
+            <p className="label-caps mt-1 text-muted-foreground">{kit.colorway.name}</p>
             <p className="mt-2 max-w-sm text-base leading-snug text-muted-foreground">
               Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Printed when
               you order.
@@ -70,7 +68,7 @@ function TeamStorePage() {
 
       {!catalogReady && (
         <div className="border-b border-border bg-secondary/60 px-5 py-3 text-sm leading-snug text-muted-foreground">
-          You may design every piece now. Checkout opens when Merchize finishes syncing to{" "}
+          You can design every piece now. Checkout opens when products finish syncing to{" "}
           <span className="text-foreground">noparade-store.com</span>.
         </div>
       )}
@@ -154,7 +152,7 @@ function TeamStorePage() {
                   </div>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{p.blurb}</p>
                   <p className="label-caps mt-2 text-muted-foreground">
-                    {p.nameNumber ? "Custom name + number" : "Motif + crest"} · Design →
+                    {p.nameNumber ? "Name + number" : "Choose motif"} · Open →
                   </p>
                 </div>
               </Link>
