@@ -234,12 +234,11 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Full kit back includes shorts — jersey panel sits higher in frame */
+    /** Full kit back includes shorts — keep reference scale on jersey panel */
     lettering: {
-      centerX: 49.5,
-      name: { y: 20, heightPct: 3.8, maxWidthPct: 34 },
-      number: { y: 33, heightPct: 20 },
-      surface: "garnet",
+      ...LETTERING,
+      name: { ...LETTERING.name, y: 16 },
+      number: { ...LETTERING.number, y: 28 },
     },
     thumb: setFront,
     previews: { front: setFront, secondary: setBack },
@@ -256,13 +255,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Blackout (black mesh) — white lettering with stronger contrast */
-    lettering: {
-      centerX: 49.5,
-      name: { y: 23, heightPct: 4.2, maxWidthPct: 38 },
-      number: { y: 35.5, heightPct: 26 },
-      surface: "blackout",
-    },
+    /** Blackout mesh — same reference scale, stronger white contrast */
+    lettering: { ...LETTERING, surface: "blackout" },
     thumb: hoopsFront,
     previews: { front: hoopsFront, secondary: hoopsBack },
   },
@@ -278,12 +272,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: {
-      centerX: 49.5,
-      name: { y: 21, heightPct: 4, maxWidthPct: 36 },
-      number: { y: 34, heightPct: 22 },
-      surface: "garnet",
-    },
+    lettering: LETTERING,
     thumb: dressFront,
     previews: { front: dressFront, secondary: dressBack },
   },
@@ -329,12 +318,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: {
-      centerX: 49.5,
-      name: { y: 21.5, heightPct: 4.2, maxWidthPct: 38 },
-      number: { y: 34.5, heightPct: 25 },
-      surface: "garnet",
-    },
+    lettering: LETTERING,
     thumb: lsFront,
     previews: { front: lsFront, secondary: lsBack },
   },

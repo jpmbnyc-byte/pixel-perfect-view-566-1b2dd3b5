@@ -12,22 +12,24 @@ export type Item = "top" | "bottom" | "set";
 export const SIZES: Size[] = ["2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
 /**
- * Back-panel lettering zones, as % of the photoreal mockup image.
- * Tuned for ghost-mannequin PDP backs (name under yoke, number mid-torso).
- * Products with different framing (set, blackout) override via catalog.lettering.
+ * Back-panel lettering zones, as % of the mockup / print template.
+ * Matches crest-options reference scale:
+ *   name  — X 50% · Y 18% · W 44% · H 8%
+ *   number — X 50% · Y 32% · W 28% · H 22%
+ * Products with different framing override via catalog.lettering.
  */
 export type LetteringLayout = {
   centerX: number;
   name: { y: number; heightPct: number; maxWidthPct: number };
-  number: { y: number; heightPct: number };
+  number: { y: number; heightPct: number; maxWidthPct: number };
   /** Black mesh / dark field — stronger white lettering contrast */
   surface: "garnet" | "blackout";
 };
 
 export const LETTERING: LetteringLayout = {
-  centerX: 49.5,
-  name: { y: 22, heightPct: 4.2, maxWidthPct: 38 },
-  number: { y: 34.5, heightPct: 25 },
+  centerX: 50,
+  name: { y: 18, heightPct: 8, maxWidthPct: 44 },
+  number: { y: 32, heightPct: 22, maxWidthPct: 28 },
   surface: "garnet",
 };
 
