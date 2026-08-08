@@ -1,9 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import landingHero from "@/assets/bayonne/bayonne-landing-hero.jpg";
+import landingHero from "@/assets/bayonne/heroes/hero-landing.jpg";
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
-import { PRODUCTS } from "@/lib/catalog";
+import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
 export const Route = createFileRoute("/team/")({
@@ -27,6 +27,8 @@ export const Route = createFileRoute("/team/")({
 });
 
 const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
+const jersey = productById("jersey")!;
+const fullSet = productById("full-set")!;
 
 function TeamLanding() {
   const kit = BAYONNE_BEES_KIT;
@@ -62,10 +64,10 @@ function TeamLanding() {
           <div className="mt-auto space-y-3 pt-8 motion-safe:animate-team-rise [animation-delay:160ms]">
             <Link
               to="/team/$slug/$product"
-              params={{ slug: kit.slug, product: "jersey" }}
+              params={{ slug: kit.slug, product: jersey.id }}
               className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
             >
-              Shop Match jersey · $58
+              Shop Match jersey · ${jersey.price}
             </Link>
             <Link
               to="/team/$slug"
@@ -93,17 +95,17 @@ function TeamLanding() {
           <div className="mt-6 flex flex-col gap-3">
             <Link
               to="/team/$slug/$product"
-              params={{ slug: kit.slug, product: "jersey" }}
+              params={{ slug: kit.slug, product: jersey.id }}
               className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
             >
-              Personalize Match jersey · $58
+              Personalize Match jersey · ${jersey.price}
             </Link>
             <Link
               to="/team/$slug/$product"
-              params={{ slug: kit.slug, product: "set" }}
+              params={{ slug: kit.slug, product: fullSet.id }}
               className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
             >
-              Jersey + shorts · $89
+              Jersey + shorts · ${fullSet.price}
             </Link>
           </div>
         </div>
@@ -165,10 +167,10 @@ function TeamLanding() {
           <p className="text-sm text-bone/45">No Parade F.C. · Bayonne, NJ</p>
           <Link
             to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: "jersey" }}
+            params={{ slug: kit.slug, product: jersey.id }}
             className="label-caps mt-6 inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
           >
-            Start with the jersey · $58
+            Start with the jersey · ${jersey.price}
           </Link>
           <StoreCloseCountdown closesAt={kit.closesAt} className="mt-3 text-center" />
         </div>
