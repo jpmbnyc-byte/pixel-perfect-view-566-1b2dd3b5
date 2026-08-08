@@ -215,9 +215,9 @@ Asset folder: `src/assets/bayonne/heroes/`
 
 No manufacturer logos or 3-stripe marks on finals.
 
-### Base mockups
+### Base product previews
 
-Asset folder: `src/assets/bayonne/mockups/`
+Asset folder: `src/assets/bayonne/previews/` (photoreal front/back PDP shots)
 
 | File | Purpose |
 |---|---|

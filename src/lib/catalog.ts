@@ -6,22 +6,42 @@
 
 import type { Item } from "./kit";
 
-import mockCrewneck from "@/assets/bayonne/mockups/mock-crewneck.jpg";
-import mockHoops from "@/assets/bayonne/mockups/mock-hoops-jersey.jpg";
-import mockJerseyBack from "@/assets/bayonne/mockups/mock-jersey-back.jpg";
-import mockJerseyFront from "@/assets/bayonne/mockups/mock-jersey-front.jpg";
-import mockQuarterZip from "@/assets/bayonne/mockups/mock-quarter-zip.jpg";
-import mockShorts from "@/assets/bayonne/mockups/mock-shorts.jpg";
+/* Category heroes — do not regenerate; campaign stills only */
 import heroKit from "@/assets/bayonne/heroes/hero-kit-studio.jpg";
 import heroSpirit from "@/assets/bayonne/heroes/hero-spirit-gym.jpg";
 import heroCrew from "@/assets/bayonne/heroes/hero-crewneck-studio.jpg";
 import heroField from "@/assets/bayonne/heroes/hero-field-lifestyle.jpg";
+
+/* Photoreal PDP front/back detail shots */
+import jerseyFront from "@/assets/bayonne/previews/jersey-front.jpg";
+import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
+import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
+import shortsBack from "@/assets/bayonne/previews/shorts-back.jpg";
+import setFront from "@/assets/bayonne/previews/set-front.jpg";
+import setBack from "@/assets/bayonne/previews/set-back.jpg";
+import hoopsFront from "@/assets/bayonne/previews/hoops-front.jpg";
+import hoopsBack from "@/assets/bayonne/previews/hoops-back.jpg";
+import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
+import dressBack from "@/assets/bayonne/previews/dress-back.jpg";
+import crewFront from "@/assets/bayonne/previews/crew-front.jpg";
+import crewBack from "@/assets/bayonne/previews/crew-back.jpg";
+import lsFront from "@/assets/bayonne/previews/ls-front.jpg";
+import lsBack from "@/assets/bayonne/previews/ls-back.jpg";
+import qzipFront from "@/assets/bayonne/previews/qzip-front.jpg";
+import qzipBack from "@/assets/bayonne/previews/qzip-back.jpg";
+import geoShortsFront from "@/assets/bayonne/previews/geo-shorts-front.jpg";
+import geoShortsBack from "@/assets/bayonne/previews/geo-shorts-back.jpg";
 
 export type CategoryId = "core" | "spirit" | "warmup" | "lifestyle";
 
 export type MotifId = "chevron" | "grid" | "arc";
 
 export type FontId = "france" | "haiti" | "jamaica" | "usa";
+
+export type ProductPreviews = {
+  front: string;
+  back: string;
+};
 
 export type CatalogProduct = {
   id: string;
@@ -34,8 +54,10 @@ export type CatalogProduct = {
   shopifyItem?: Item;
   customizable: boolean;
   nameNumber: boolean;
+  /** Store grid thumb — always the photoreal front */
   thumb: string;
-  gallery: string[];
+  /** Photoreal front/back for live PDP preview */
+  previews: ProductPreviews;
 };
 
 export type Category = {
@@ -147,8 +169,8 @@ export const PRODUCTS: CatalogProduct[] = [
     shopifyItem: "top",
     customizable: true,
     nameNumber: true,
-    thumb: mockJerseyFront,
-    gallery: [mockJerseyFront, mockJerseyBack],
+    thumb: jerseyFront,
+    previews: { front: jerseyFront, back: jerseyBack },
   },
   {
     id: "shorts",
@@ -160,8 +182,8 @@ export const PRODUCTS: CatalogProduct[] = [
     shopifyItem: "bottom",
     customizable: true,
     nameNumber: false,
-    thumb: mockShorts,
-    gallery: [mockShorts],
+    thumb: shortsFront,
+    previews: { front: shortsFront, back: shortsBack },
   },
   {
     id: "full-set",
@@ -173,8 +195,8 @@ export const PRODUCTS: CatalogProduct[] = [
     shopifyItem: "set",
     customizable: true,
     nameNumber: true,
-    thumb: mockJerseyFront,
-    gallery: [mockJerseyFront, mockJerseyBack, mockShorts],
+    thumb: setFront,
+    previews: { front: setFront, back: setBack },
   },
   {
     id: "hoops-jersey",
@@ -185,8 +207,8 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 52,
     customizable: true,
     nameNumber: true,
-    thumb: mockHoops,
-    gallery: [mockHoops],
+    thumb: hoopsFront,
+    previews: { front: hoopsFront, back: hoopsBack },
   },
   {
     id: "jersey-dress",
@@ -197,8 +219,8 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 72,
     customizable: true,
     nameNumber: true,
-    thumb: heroSpirit,
-    gallery: [heroSpirit],
+    thumb: dressFront,
+    previews: { front: dressFront, back: dressBack },
   },
   {
     id: "crewneck",
@@ -209,8 +231,8 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 64,
     customizable: true,
     nameNumber: false,
-    thumb: mockCrewneck,
-    gallery: [mockCrewneck, heroCrew],
+    thumb: crewFront,
+    previews: { front: crewFront, back: crewBack },
   },
   {
     id: "ls-jersey",
@@ -221,8 +243,8 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 62,
     customizable: true,
     nameNumber: true,
-    thumb: mockJerseyBack,
-    gallery: [mockJerseyBack, mockJerseyFront],
+    thumb: lsFront,
+    previews: { front: lsFront, back: lsBack },
   },
   {
     id: "quarter-zip",
@@ -233,8 +255,8 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 68,
     customizable: true,
     nameNumber: false,
-    thumb: mockQuarterZip,
-    gallery: [mockQuarterZip],
+    thumb: qzipFront,
+    previews: { front: qzipFront, back: qzipBack },
   },
   {
     id: "geo-shorts",
@@ -245,8 +267,8 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 42,
     customizable: true,
     nameNumber: false,
-    thumb: mockShorts,
-    gallery: [mockShorts, heroField],
+    thumb: geoShortsFront,
+    previews: { front: geoShortsFront, back: geoShortsBack },
   },
 ];
 

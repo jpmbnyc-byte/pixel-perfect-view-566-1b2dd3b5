@@ -165,6 +165,8 @@ function ProductListingPage() {
 
         <ProductCanvas
           view={view}
+          frontSrc={product.previews.front}
+          backSrc={product.previews.back}
           motif={motif}
           fontId={fontId}
           name={name}

@@ -6,6 +6,8 @@ export type CanvasView = "front" | "back";
 
 type Props = {
   view: CanvasView;
+  frontSrc: string;
+  backSrc: string;
   motif: MotifId;
   fontId: FontId;
   name: string;
@@ -14,13 +16,14 @@ type Props = {
   showLettering?: boolean;
 };
 
-const FILL = "#5A1626";
-const BONE = "#F4F1F0";
-const BLACK = "#0A0A0A";
-
-/** Live configurator canvas: garnet base + motif + premium lettering. */
+/**
+ * Photoreal live preview — product detail photo + live name/number overlay.
+ * Motif choice is recorded on the order; preview shows a light panel accent only.
+ */
 export function ProductCanvas({
   view,
+  frontSrc,
+  backSrc,
   motif,
   fontId,
   name,
@@ -29,115 +32,58 @@ export function ProductCanvas({
   showLettering = true,
 }: Props) {
   const font = fontById(fontId)!;
+  const src = view === "front" ? frontSrc : backSrc;
+  const displayName = (name || "NAME").slice(0, 12).toUpperCase();
+  const displayNumber = number || "00";
 
   return (
     <figure className="relative aspect-[3/4] overflow-hidden bg-black">
-      <svg
-        viewBox="0 0 300 400"
-        className="h-full w-full"
-        role="img"
-        aria-label={`${productLabel}, ${view} view`}
-      >
-        <defs>
-          <MotifPatterns />
-          <clipPath id="garment">
-            <GarmentPath view={view} />
-          </clipPath>
-          <linearGradient id="baseGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6B1C2E" />
-            <stop offset="100%" stopColor={FILL} />
-          </linearGradient>
-          <filter id="softShadow" x="-20%" y="-10%" width="140%" height="130%">
-            <feDropShadow dx="0" dy="10" stdDeviation="12" floodOpacity="0.45" />
-          </filter>
-        </defs>
+      <img
+        src={src}
+        alt={`${productLabel}, ${view} view`}
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        draggable={false}
+      />
 
-        {/* Studio ground */}
-        <rect width="300" height="400" fill="#141214" />
-        <ellipse cx="150" cy="360" rx="110" ry="18" fill="#000" opacity="0.45" />
+      {/* Subtle motif accent — does not replace the photo */}
+      <div
+        className="pointer-events-none absolute inset-y-[18%] left-[8%] w-[6%] opacity-40 mix-blend-soft-light"
+        style={{ backgroundImage: motifCss(motif) }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-y-[18%] right-[8%] w-[6%] opacity-40 mix-blend-soft-light"
+        style={{ backgroundImage: motifCss(motif) }}
+        aria-hidden
+      />
 
-        <g filter="url(#softShadow)">
-          <g clipPath="url(#garment)">
-            {/* Base background layer */}
-            <rect width="300" height="400" fill="url(#baseGrad)" />
-            {/* Alternate geometric motif */}
-            <rect width="300" height="400" fill={`url(#motif-${motif})`} opacity="0.92" />
-            {/* Subtle fabric grain */}
-            <rect width="300" height="400" fill="url(#motif-grain)" opacity="0.18" />
-            {view === "front" && <ChestPanel />}
-          </g>
-
-          {/* Garment outline / seams */}
-          <GarmentPath
-            view={view}
-            fill="none"
-            stroke={BONE}
-            strokeOpacity="0.22"
-            strokeWidth="1.2"
-          />
-          <Collar view={view} />
-        </g>
-
-        {view === "front" && (
-          <>
-            <CrestBadge />
-            {/* Solid white wordmark on the black panel — never tonal / faded */}
-            <text
-              x="150"
-              y="216"
-              textAnchor="middle"
-              fill="#FFFFFF"
-              stroke={BLACK}
-              strokeWidth="1.25"
-              style={{
-                fontFamily: font.cssFamily,
-                fontSize: 19,
-                letterSpacing: "0.2em",
-                paintOrder: "stroke fill",
-              }}
-            >
-              BAYONNE
-            </text>
-          </>
-        )}
-
-        {view === "back" && showLettering && (
-          <>
-            <text
-              x={LETTERING.centerX * 3}
-              y={LETTERING.name.y * 4}
-              textAnchor="middle"
-              fill={BONE}
-              stroke={FILL}
-              strokeWidth="0.8"
-              style={{
-                fontFamily: font.cssFamily,
-                fontSize: 14,
-                letterSpacing: "0.16em",
-                paintOrder: "stroke fill",
-              }}
-            >
-              {(name || "NAME").slice(0, 12)}
-            </text>
-            <text
-              x={LETTERING.centerX * 3}
-              y={LETTERING.number.y * 4}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill={BONE}
-              stroke={BLACK}
-              strokeWidth="1.4"
-              style={{
-                fontFamily: font.cssFamily,
-                fontSize: 72,
-                paintOrder: "stroke fill",
-              }}
-            >
-              {number || "00"}
-            </text>
-          </>
-        )}
-      </svg>
+      {view === "back" && showLettering && (
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <p
+            className="absolute left-1/2 -translate-x-1/2 text-center tracking-[0.18em] text-white"
+            style={{
+              top: `${LETTERING.name.y}%`,
+              width: `${LETTERING.name.maxWidthPct}%`,
+              fontFamily: font.cssFamily,
+              fontSize: "clamp(0.85rem, 3.6vw, 1.15rem)",
+              textShadow: "0 1px 0 #0a0a0a, 0 0 8px rgba(0,0,0,0.45)",
+            }}
+          >
+            {displayName}
+          </p>
+          <p
+            className="absolute left-1/2 -translate-x-1/2 text-center leading-none text-white"
+            style={{
+              top: `${LETTERING.number.y}%`,
+              fontFamily: font.cssFamily,
+              fontSize: "clamp(4.5rem, 22vw, 7rem)",
+              textShadow: "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)",
+            }}
+          >
+            {displayNumber}
+          </p>
+        </div>
+      )}
 
       <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
         {productLabel} · {view} · live preview
@@ -146,175 +92,14 @@ export function ProductCanvas({
   );
 }
 
-function GarmentPath({
-  view,
-  fill,
-  stroke,
-  strokeWidth,
-  strokeOpacity,
-}: {
-  view: CanvasView;
-  fill?: string;
-  stroke?: string;
-  strokeWidth?: string | number;
-  strokeOpacity?: string | number;
-}) {
-  // Minimal athletic jersey silhouette (front/back share body; neck differs slightly).
-  const d =
-    view === "front"
-      ? "M95 78 C95 62 120 52 150 52 C180 52 205 62 205 78 L230 110 L268 128 L255 168 L220 155 L220 330 C220 348 200 360 150 360 C100 360 80 348 80 330 L80 155 L45 168 L32 128 L70 110 Z"
-      : "M95 78 C95 62 120 52 150 52 C180 52 205 62 205 78 L230 110 L268 128 L255 168 L220 155 L220 330 C220 348 200 360 150 360 C100 360 80 348 80 330 L80 155 L45 168 L32 128 L70 110 Z";
-
-  return (
-    <path
-      d={d}
-      fill={fill}
-      stroke={stroke}
-      strokeWidth={strokeWidth}
-      strokeOpacity={strokeOpacity}
-    />
-  );
-}
-
-/** Bold torso band edged in bone — high-contrast honeycomb, not tonal. */
-function ChestPanel() {
-  const hexes: { cx: number; cy: number }[] = [];
-  for (let row = 0; row < 4; row++) {
-    for (let col = 0; col < 7; col++) {
-      hexes.push({
-        cx: 90 + col * 18 + (row % 2) * 9,
-        cy: 198 + row * 10,
-      });
-    }
+function motifCss(motif: MotifId): string {
+  switch (motif) {
+    case "grid":
+      return "repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(244,241,240,0.35) 6px, rgba(244,241,240,0.35) 7px), repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(244,241,240,0.35) 6px, rgba(244,241,240,0.35) 7px)";
+    case "arc":
+      return "repeating-radial-gradient(circle at 50% 120%, transparent 0 10px, rgba(244,241,240,0.28) 10px 12px)";
+    case "chevron":
+    default:
+      return "repeating-linear-gradient(-32deg, transparent, transparent 10px, rgba(244,241,240,0.4) 10px, rgba(244,241,240,0.4) 12px)";
   }
-  const hexPath = (cx: number, cy: number, r: number) => {
-    const pts = Array.from({ length: 6 }, (_, i) => {
-      const a = (Math.PI / 180) * (60 * i);
-      return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`;
-    });
-    return `M${pts.join("L")}Z`;
-  };
-
-  return (
-    <g>
-      <rect x="78" y="188" width="144" height="44" fill={BLACK} opacity="0.95" />
-      <rect x="78" y="188" width="144" height="2.4" fill={BONE} />
-      <rect x="78" y="229.6" width="144" height="2.4" fill={BONE} />
-      {hexes.map(({ cx, cy }) => (
-        <path
-          key={`${cx}-${cy}`}
-          d={hexPath(cx, cy, 7.5)}
-          fill="none"
-          stroke="#FFFFFF"
-          strokeOpacity="0.88"
-          strokeWidth="1.35"
-        />
-      ))}
-    </g>
-  );
-}
-
-function CrestBadge() {
-  return (
-    <g transform="translate(168 118)">
-      <path
-        d="M0 0 L28 0 L28 30 L14 38 L0 30 Z"
-        fill={BLACK}
-        stroke={BONE}
-        strokeWidth="1.4"
-      />
-      <path
-        d="M6 10 L14 6 L22 10 L20 22 L14 26 L8 22 Z"
-        fill={FILL}
-        stroke={BONE}
-        strokeWidth="0.8"
-      />
-      <circle cx="14" cy="14" r="3.2" fill={BONE} opacity="0.85" />
-    </g>
-  );
-}
-
-function Collar({ view }: { view: CanvasView }) {
-  if (view === "back") {
-    return (
-      <path
-        d="M118 78 C130 70 170 70 182 78"
-        fill="none"
-        stroke="#F4F1F0"
-        strokeWidth="3"
-        strokeOpacity="0.35"
-      />
-    );
-  }
-  return (
-    <path
-      d="M118 78 L150 98 L182 78"
-      fill="none"
-      stroke="#F4F1F0"
-      strokeWidth="3"
-      strokeOpacity="0.4"
-    />
-  );
-}
-
-function MotifPatterns() {
-  return (
-    <>
-      {/* Chevron — sharp diagonal blocks */}
-      <pattern
-        id="motif-chevron"
-        width="40"
-        height="40"
-        patternUnits="userSpaceOnUse"
-        patternTransform="rotate(-28)"
-      >
-        <rect width="40" height="40" fill="#5A1626" />
-        <rect width="20" height="40" fill="#0A0A0A" opacity="0.55" />
-        <rect x="20" width="4" height="40" fill="#F4F1F0" opacity="0.35" />
-      </pattern>
-
-      {/* Grid — micro athletic grid */}
-      <pattern id="motif-grid" width="12" height="12" patternUnits="userSpaceOnUse">
-        <rect width="12" height="12" fill="#5A1626" />
-        <path
-          d="M12 0 H0 V12"
-          fill="none"
-          stroke="#F4F1F0"
-          strokeOpacity="0.14"
-          strokeWidth="0.6"
-        />
-        <circle cx="0" cy="0" r="0.7" fill="#0A0A0A" opacity="0.35" />
-      </pattern>
-
-      {/* Arc panel — curved band geometry */}
-      <pattern
-        id="motif-arc"
-        width="80"
-        height="80"
-        patternUnits="userSpaceOnUse"
-        patternTransform="translate(-10 0)"
-      >
-        <rect width="80" height="80" fill="#5A1626" />
-        <path
-          d="M-10 80 Q40 20 90 80"
-          fill="none"
-          stroke="#0A0A0A"
-          strokeWidth="22"
-          opacity="0.5"
-        />
-        <path
-          d="M-10 80 Q40 28 90 80"
-          fill="none"
-          stroke="#F4F1F0"
-          strokeWidth="2"
-          opacity="0.28"
-        />
-      </pattern>
-
-      <pattern id="motif-grain" width="4" height="4" patternUnits="userSpaceOnUse">
-        <rect width="4" height="4" fill="transparent" />
-        <circle cx="1" cy="2" r="0.4" fill="#000" opacity="0.35" />
-      </pattern>
-    </>
-  );
 }
