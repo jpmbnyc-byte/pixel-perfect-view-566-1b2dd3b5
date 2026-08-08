@@ -311,8 +311,8 @@ export const PRODUCTS: CatalogProduct[] = [
   {
     id: "sweatpants",
     handle: "bayonne-bees-sweatpants",
-    name: "Blackout Sweatpants",
-    blurb: "All black. Tonal geometric side panel you pick. Crest on the left thigh. Motif only.",
+    name: "Base Layer Sweats",
+    blurb: "Black base. Garnet geometric side panel you pick. Crest on the left thigh. Motif only.",
     category: "warmups",
     price: 58,
     customizable: true,
