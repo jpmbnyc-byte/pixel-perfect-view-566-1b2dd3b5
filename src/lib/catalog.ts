@@ -38,12 +38,14 @@ import geoShortsFront from "@/assets/bayonne/previews/geo-shorts-front.jpg";
 import geoShortsSide from "@/assets/bayonne/previews/geo-shorts-side.jpg";
 import hatFront from "@/assets/bayonne/previews/hat-front.jpg";
 import hatSide from "@/assets/bayonne/previews/hat-side.jpg";
+import sweatsFront from "@/assets/bayonne/previews/sweats-front.jpg";
+import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
 
 export type CategoryId = "match" | "sideline" | "warmups" | "alumni";
 
 export type MotifId = "chevron" | "grid" | "arc";
 
-export type FontId = "france" | "haiti" | "jamaica" | "usa";
+export type FontId = "rail" | "beacon" | "whistle" | "forge";
 
 /** Companion shot paired with front — back for lettered tops, side for motif pieces */
 export type PreviewPair = "front-back" | "front-side";
@@ -140,7 +142,7 @@ export const MOTIFS: {
 
 /**
  * Four kit lettering faces — local OTFs in src/assets/fonts/.
- * Loaded via @font-face in styles.css (not Google Fonts).
+ * Creative kit labels (not country names). Loaded via @font-face in styles.css.
  */
 export const FONTS: {
   id: FontId;
@@ -150,30 +152,30 @@ export const FONTS: {
   sample: string;
 }[] = [
   {
-    id: "france",
-    label: "France Away",
-    cssFamily: "'France Away', sans-serif",
+    id: "rail",
+    label: "Rail Cut",
+    cssFamily: "'Rail Cut', sans-serif",
     file: "france-away.otf",
     sample: "BAYONNE",
   },
   {
-    id: "haiti",
-    label: "Haiti",
-    cssFamily: "'Haiti', sans-serif",
+    id: "beacon",
+    label: "Beacon",
+    cssFamily: "'Beacon', sans-serif",
     file: "haiti.otf",
     sample: "BAYONNE",
   },
   {
-    id: "jamaica",
-    label: "Jamaica Away",
-    cssFamily: "'Jamaica Away', sans-serif",
+    id: "whistle",
+    label: "Whistle",
+    cssFamily: "'Whistle', sans-serif",
     file: "jamaica-away.otf",
     sample: "BAYONNE",
   },
   {
-    id: "usa",
-    label: "USA Away",
-    cssFamily: "'USA Away', sans-serif",
+    id: "forge",
+    label: "Forge",
+    cssFamily: "'Forge', sans-serif",
     file: "usa-away.otf",
     sample: "BAYONNE",
   },
@@ -305,6 +307,21 @@ export const PRODUCTS: CatalogProduct[] = [
     sizeChart: "apparel",
     thumb: crewFront,
     previews: { front: crewFront, secondary: crewSide },
+  },
+  {
+    id: "sweatpants",
+    handle: "bayonne-bees-sweatpants",
+    name: "Match Sweatpants",
+    blurb: "Garnet field. Geometric side panel you pick. Crest on the left thigh. Motif only.",
+    category: "warmups",
+    price: 58,
+    customizable: true,
+    nameNumber: false,
+    typography: false,
+    previewPair: "front-side",
+    sizeChart: "apparel",
+    thumb: sweatsFront,
+    previews: { front: sweatsFront, secondary: sweatsSide },
   },
   {
     id: "ls-jersey",

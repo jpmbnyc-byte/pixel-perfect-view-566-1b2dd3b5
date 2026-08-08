@@ -36,7 +36,7 @@ Store (/team/bayonne-bees)
 | `Number` | Back / chest number |
 | `Size` | Human-readable size |
 | `Motif` | Chevron / Grid / Arc Panel |
-| `Font` | France Away / Haiti / Jamaica Away / USA Away |
+| `Font` | Rail Cut / Beacon / Whistle / Forge |
 | `Product` | Listing display name |
 | `_ArtSpec` | Base64 JSON art payload for ops (includes motif + font) |
 | `_Confirmed` | Buyer confirmed final-sale custom |
@@ -49,7 +49,7 @@ Store (/team/bayonne-bees)
 |---|---|
 | Base layer | Single maroon field (always on) |
 | Geometric motif | Chevron · Grid · Arc Panel |
-| Lettering font | France Away · Haiti · Jamaica Away · USA Away (local OTF) |
+| Lettering font | Rail Cut · Beacon · Whistle · Forge (local OTF) |
 
 ---
 
@@ -70,7 +70,8 @@ Extra tag when customizable: `custom-name-number`
 | 7 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | No — motif on side panels | — |
 | 8 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
 | 9 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
-| 10 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | No — motif on side only | — |
+| 10 | `bayonne-bees-sweatpants` | AOP / panel sweatpants | Warm-up | No — motif on side only | — |
+| 11 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | No — motif on side only | — |
 
 **PDP preview pairs**
 - Lettered tops → **front + back** (font + name/number UI)
@@ -200,7 +201,17 @@ One-piece mid-thigh jersey dress. Color-block chest logo (not all-white).
 | Body | Tonal geo / marble distress in maroon-black-grey |
 | No back number | — |
 
-### 9. Geo lifestyle shorts (`bayonne-bees-geo-shorts`)
+### 9. Match sweatpants (`bayonne-bees-sweatpants`)
+
+App preview: **front + side**. Motif on outer leg panel; crest left thigh. No typography.
+
+| Zone | Placement | Art |
+|---|---|---|
+| Side panels | Hip to ankle | Customer motif (chevron / grid / arc) |
+| Soft brand | Left thigh | Small boxing-bee crest |
+| Waist / cuff | Black rib | Drawcord optional |
+
+### 10. Geo lifestyle shorts (`bayonne-bees-geo-shorts`)
 
 | Zone | Art |
 |---|---|

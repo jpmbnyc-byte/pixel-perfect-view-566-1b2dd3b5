@@ -74,7 +74,7 @@ function ProductListingPage() {
     product.previewPair === "front-side" ? "side" : product.nameNumber ? "back" : "front",
   );
   const [motif, setMotif] = useState<MotifId>("chevron");
-  const [fontId, setFontId] = useState<FontId>("usa");
+  const [fontId, setFontId] = useState<FontId>("forge");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [size, setSize] = useState<Size | HatSize | "">("");
@@ -303,11 +303,7 @@ function ProductListingPage() {
       <section className="mt-8 px-5">
         <Field
           label="Geometric motif"
-          hint={
-            product.previewPair === "front-side"
-              ? `Shown on ${secondaryView}`
-              : "Garnet field. One panel language."
-          }
+          hint="Live preview updates when you pick one"
         >
           <div className="grid grid-cols-3 gap-2">
             {MOTIFS.map((m) => {
