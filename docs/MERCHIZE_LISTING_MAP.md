@@ -109,12 +109,14 @@ Bleed: follow Merchize AOP template bleed (typically extend geo fills to edge).
 
 ### Shared lettering (back — customizable tops)
 
+Photoreal PDP defaults (`src/lib/kit.ts` → `LETTERING`), as % of mockup image:
+
 | Element | Center X | Top Y | Height | Max width | Notes |
 |---|---|---|---|---|---|
-| Name bar | 50% | 18–22% | 4–5% | 38–42% | ALL CAPS, condensed athletic; 12 char max |
-| Number | 50% | 38–48% | 22–28% | 50% | 0–99; outline in maroon or bone |
+| Name bar | 49.5% | **22%** | 4.2% | 38% | ALL CAPS; 12 char max; under yoke |
+| Number | 49.5% | **34.5%** | 25% | — | 0–99; mid-torso, tight under name |
 
-Matches app geometry in `src/lib/kit.ts` → `LETTERING` (mockup % may differ slightly from print template; always re-check on Merchize flat).
+Per-SKU overrides live on `catalog.lettering` (full-set framing, blackout hoops mesh, dress, LS). Blackout surface uses stronger white stroke for black mesh. Always re-check on Merchize flat before print.
 
 ### 1. Soccer / football jersey (`bayonne-bees-jersey`)
 

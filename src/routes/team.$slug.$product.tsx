@@ -9,6 +9,7 @@ import {
   MOTIFS,
   fontsStylesheetHref,
   fontById,
+  letteringFor,
   previewViewsFor,
   productById,
   type FontId,
@@ -67,6 +68,7 @@ function ProductListingPage() {
   const secondaryView = views[1]!;
   const isHat = product.sizeChart === "hat";
   const usesTypography = product.typography;
+  const lettering = letteringFor(product);
 
   const [view, setView] = useState<CanvasView>(
     product.previewPair === "front-side" ? "side" : product.nameNumber ? "back" : "front",
@@ -289,6 +291,7 @@ function ProductListingPage() {
           productLabel={product.name}
           showLettering={usesTypography && product.nameNumber}
           emphasizeMotif={product.previewPair === "front-side"}
+          lettering={lettering}
         />
         {product.previewPair === "front-side" && (
           <p className="mt-2 text-center text-sm text-muted-foreground">

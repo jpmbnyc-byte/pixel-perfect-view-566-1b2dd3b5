@@ -8,7 +8,8 @@
  * - Shorts / sweats / hats → front + side (motif only, no name/number/font)
  */
 
-import type { Item } from "./kit";
+import type { Item, LetteringLayout } from "./kit";
+import { LETTERING } from "./kit";
 
 /* Category heroes — do not regenerate; campaign stills only */
 import heroKit from "@/assets/bayonne/heroes/hero-kit-studio.jpg";
@@ -72,6 +73,8 @@ export type CatalogProduct = {
   /** Which second live-preview angle to offer */
   previewPair: PreviewPair;
   sizeChart: SizeChartKind;
+  /** Per-product back lettering (photoreal framing differs by SKU) */
+  lettering?: LetteringLayout;
   /** Store grid thumb — always the photoreal front */
   thumb: string;
   /** Photoreal front + secondary for live PDP preview */
@@ -198,6 +201,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
+    lettering: LETTERING,
     thumb: jerseyFront,
     previews: { front: jerseyFront, secondary: jerseyBack },
   },
@@ -230,6 +234,13 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
+    /** Full kit back includes shorts — jersey panel sits higher in frame */
+    lettering: {
+      centerX: 49.5,
+      name: { y: 20, heightPct: 3.8, maxWidthPct: 34 },
+      number: { y: 33, heightPct: 20 },
+      surface: "garnet",
+    },
     thumb: setFront,
     previews: { front: setFront, secondary: setBack },
   },
@@ -237,7 +248,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "hoops-jersey",
     handle: "bayonne-bees-hoops-jersey",
     name: "Hoops Jersey",
-    blurb: "Black mesh. Garnet trim. Crest left. Number on the chest.",
+    blurb: "Blackout mesh. Garnet trim. Crest left. Name and number on the back.",
     category: "sideline",
     price: 52,
     customizable: true,
@@ -245,6 +256,13 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
+    /** Blackout (black mesh) — white lettering with stronger contrast */
+    lettering: {
+      centerX: 49.5,
+      name: { y: 23, heightPct: 4.2, maxWidthPct: 38 },
+      number: { y: 35.5, heightPct: 26 },
+      surface: "blackout",
+    },
     thumb: hoopsFront,
     previews: { front: hoopsFront, secondary: hoopsBack },
   },
@@ -260,6 +278,12 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
+    lettering: {
+      centerX: 49.5,
+      name: { y: 21, heightPct: 4, maxWidthPct: 36 },
+      number: { y: 34, heightPct: 22 },
+      surface: "garnet",
+    },
     thumb: dressFront,
     previews: { front: dressFront, secondary: dressBack },
   },
@@ -305,6 +329,12 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
+    lettering: {
+      centerX: 49.5,
+      name: { y: 21.5, heightPct: 4.2, maxWidthPct: 38 },
+      number: { y: 34.5, heightPct: 25 },
+      surface: "garnet",
+    },
     thumb: lsFront,
     previews: { front: lsFront, secondary: lsBack },
   },
@@ -363,6 +393,11 @@ export function motifById(id: MotifId) {
 /** Views offered on the PDP for a product */
 export function previewViewsFor(product: CatalogProduct): Array<"front" | "back" | "side"> {
   return product.previewPair === "front-side" ? ["front", "side"] : ["front", "back"];
+}
+
+/** Resolved back-lettering layout for live preview + art spec */
+export function letteringFor(product: CatalogProduct): LetteringLayout {
+  return product.lettering ?? LETTERING;
 }
 
 /** @deprecated Kit faces are local OTFs via styles.css; keep UI chrome on Barlow. */
