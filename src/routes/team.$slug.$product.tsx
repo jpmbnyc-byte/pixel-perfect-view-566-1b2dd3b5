@@ -4,11 +4,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
   FONTS,
+  HAT_SIZE_CHART,
+  HAT_SIZES,
   MOTIFS,
   fontsStylesheetHref,
   fontById,
+  previewViewsFor,
   productById,
   type FontId,
+  type HatSize,
   type MotifId,
 } from "@/lib/catalog";
 import {
@@ -59,12 +63,19 @@ function ProductListingPage() {
   const { product } = Route.useLoaderData();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [view, setView] = useState<CanvasView>(product.nameNumber ? "back" : "front");
+  const views = previewViewsFor(product);
+  const secondaryView = views[1]!;
+  const isHat = product.sizeChart === "hat";
+  const usesTypography = product.typography;
+
+  const [view, setView] = useState<CanvasView>(
+    product.previewPair === "front-side" ? "side" : product.nameNumber ? "back" : "front",
+  );
   const [motif, setMotif] = useState<MotifId>("chevron");
   const [fontId, setFontId] = useState<FontId>("usa");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [size, setSize] = useState<Size | "">("");
+  const [size, setSize] = useState<Size | HatSize | "">("");
   const [confirmed, setConfirmed] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
 
@@ -72,13 +83,29 @@ function ProductListingPage() {
   const itemReady = shopifyItem ? itemSyncReady(sync, shopifyItem) : false;
 
   useEffect(() => {
-    if (size && shopifyItem && !variantIdFor(kit, shopifyItem, size)) setSize("");
-  }, [kit, shopifyItem, size]);
+    if (!views.includes(view)) setView("front");
+  }, [views, view]);
 
-  // Flip to back when personalizing so parents see the name/number landing.
+  useEffect(() => {
+    if (
+      size &&
+      shopifyItem &&
+      !isHat &&
+      !variantIdFor(kit, shopifyItem, size as Size)
+    ) {
+      setSize("");
+    }
+  }, [kit, shopifyItem, size, isHat]);
+
+  // Flip to back when personalizing lettered tops.
   useEffect(() => {
     if (product.nameNumber && (name || number)) setView("back");
   }, [product.nameNumber, name, number]);
+
+  // Flip to side when choosing motif on shorts / sweats / hat.
+  useEffect(() => {
+    if (product.previewPair === "front-side") setView("side");
+  }, [product.previewPair, motif]);
 
   const numberValue = Number(number);
   const numberValid =
@@ -88,16 +115,25 @@ function ProductListingPage() {
       numberValue >= kit.rules.numberMin &&
       numberValue <= kit.rules.numberMax);
 
-  const variantId = size && shopifyItem ? variantIdFor(kit, shopifyItem, size) : null;
+  const apparelSize = !isHat && size ? (size as Size) : "";
+  const variantId =
+    apparelSize && shopifyItem ? variantIdFor(kit, shopifyItem, apparelSize) : null;
 
   const nameReady = !product.nameNumber || Boolean(name && numberValid);
-  const ready = Boolean(nameReady && size && variantId && confirmed && itemReady);
+  // Hat / motif-only listings without Shopify item stay design-only until sync.
+  const checkoutReady = Boolean(
+    nameReady && size && confirmed && (shopifyItem ? variantId && itemReady : false),
+  );
 
   const cta: CtaState = useMemo(() => {
-    if (!shopifyItem) {
-      return { kind: "sync", label: "Checkout opening soon" };
-    }
-    if (!itemReady) {
+    if (!shopifyItem || (shopifyItem && !itemReady)) {
+      if (!size) return { kind: "step", label: "Choose a size" };
+      if (!confirmed) {
+        return {
+          kind: "step",
+          label: usesTypography ? "Confirm spelling & size" : "Confirm motif & size",
+        };
+      }
       return { kind: "sync", label: "Checkout opening soon" };
     }
     if (product.nameNumber && !name) {
@@ -110,45 +146,65 @@ function ProductListingPage() {
       return { kind: "step", label: "Choose a size" };
     }
     if (!confirmed) {
-      return { kind: "step", label: "Confirm spelling & size" };
-    }
-    return { kind: "ready", label: `Checkout · $${product.price}` };
-  }, [shopifyItem, itemReady, product.nameNumber, product.price, name, numberValid, size, confirmed]);
-
-  const artSpec = useMemo(() => {
-    if (!size || !shopifyItem) {
       return {
-        v: 2,
-        kit: kit.slug,
-        product: product.id,
-        handle: product.handle,
-        motif,
-        font: fontId,
-        name,
-        number,
-        size: size || null,
+        kind: "step",
+        label: usesTypography ? "Confirm spelling & size" : "Confirm motif & size",
       };
     }
+    return { kind: "ready", label: `Checkout · $${product.price}` };
+  }, [
+    shopifyItem,
+    itemReady,
+    product.nameNumber,
+    product.price,
+    name,
+    numberValid,
+    size,
+    confirmed,
+    usesTypography,
+  ]);
+
+  const artSpec = useMemo(() => {
+    const base = {
+      v: 2,
+      kit: kit.slug,
+      product: product.id,
+      handle: product.handle,
+      motif,
+      font: usesTypography ? fontId : null,
+      name: usesTypography ? name : "",
+      number: usesTypography ? number : "",
+      size: size || null,
+      previewPair: product.previewPair,
+    };
+    if (!apparelSize || !shopifyItem) return base;
     return {
       ...buildArtSpec({
         kit,
         item: shopifyItem,
-        name,
-        number,
-        size,
+        name: usesTypography ? name : "",
+        number: usesTypography ? number : "",
+        size: apparelSize,
       }),
-      v: 2,
-      product: product.id,
-      handle: product.handle,
-      motif,
-      font: fontId,
+      ...base,
     };
-  }, [kit, product, shopifyItem, motif, fontId, name, number, size]);
+  }, [
+    kit,
+    product,
+    shopifyItem,
+    motif,
+    fontId,
+    name,
+    number,
+    size,
+    apparelSize,
+    usesTypography,
+  ]);
 
   const font = fontById(fontId)!;
 
   const goNext = () => {
-    if (ready) {
+    if (checkoutReady) {
       formRef.current?.submit();
       return;
     }
@@ -178,21 +234,35 @@ function ProductListingPage() {
         <p className="label-caps mt-2 text-garnet">${product.price}</p>
         <p className="mt-2 text-base text-muted-foreground">{product.blurb}</p>
         <div className="mt-4 space-y-3 border-t border-border pt-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            Garnet is a dark, slightly brown-toned red. Maroon is purple-toned. Burgundy is
-            darker still. This piece is specified in Bayonne’s garnet — not the red the vendor
-            already had loaded.
-          </p>
-          <p className="text-muted-foreground">
-            Inside the collar, where only the player looks, we can print the year. Nothing is
-            printed until you order it.
-          </p>
+          {usesTypography ? (
+            <>
+              <p>
+                Garnet is a dark, slightly brown-toned red. Maroon is purple-toned. Burgundy is
+                darker still. This piece is specified in Bayonne’s garnet — not the red the
+                vendor already had loaded.
+              </p>
+              <p className="text-muted-foreground">
+                Inside the collar, where only the player looks, we can print the year. Nothing
+                is printed until you order it.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                The geometric language lives on the side — switch to the side view to see the
+                motif you pick. No name, number, or lettering on this piece.
+              </p>
+              <p className="text-muted-foreground">
+                Same Bayonne garnet as the match strip. Nothing prints until you order.
+              </p>
+            </>
+          )}
         </div>
       </header>
 
       <section className="px-5 pt-5">
         <div className="mb-3 grid grid-cols-2 gap-px overflow-hidden border border-border">
-          {(["front", "back"] as CanvasView[]).map((v) => (
+          {views.map((v) => (
             <button
               key={v}
               type="button"
@@ -211,18 +281,31 @@ function ProductListingPage() {
         <ProductCanvas
           view={view}
           frontSrc={product.previews.front}
-          backSrc={product.previews.back}
+          secondarySrc={product.previews.secondary}
           motif={motif}
           fontId={fontId}
           name={name}
           number={number}
           productLabel={product.name}
-          showLettering={product.nameNumber}
+          showLettering={usesTypography && product.nameNumber}
+          emphasizeMotif={product.previewPair === "front-side"}
         />
+        {product.previewPair === "front-side" && (
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            Side view shows your selected geometric pattern on the panel.
+          </p>
+        )}
       </section>
 
       <section className="mt-8 px-5">
-        <Field label="Geometric motif" hint="Garnet field. One panel language.">
+        <Field
+          label="Geometric motif"
+          hint={
+            product.previewPair === "front-side"
+              ? `Shown on ${secondaryView}`
+              : "Garnet field. One panel language."
+          }
+        >
           <div className="grid grid-cols-3 gap-2">
             {MOTIFS.map((m) => {
               const on = motif === m.id;
@@ -249,36 +332,38 @@ function ProductListingPage() {
         </Field>
       </section>
 
-      <section className="mt-7 px-5">
-        <Field label="Lettering font" hint="4 faces">
-          <div className="grid grid-cols-2 gap-2">
-            {FONTS.map((f) => {
-              const on = fontId === f.id;
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => setFontId(f.id)}
-                  className={`border px-3 py-3 text-left transition-colors ${
-                    on
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-card hover:bg-secondary"
-                  }`}
-                >
-                  <span className="label-caps block opacity-70">{f.label}</span>
-                  <span
-                    className="mt-1 block text-2xl tracking-wide"
-                    style={{ fontFamily: f.cssFamily }}
+      {usesTypography && (
+        <section className="mt-7 px-5">
+          <Field label="Lettering font" hint="Tops only · 4 faces">
+            <div className="grid grid-cols-2 gap-2">
+              {FONTS.map((f) => {
+                const on = fontId === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setFontId(f.id)}
+                    className={`border px-3 py-3 text-left transition-colors ${
+                      on
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card hover:bg-secondary"
+                    }`}
                   >
-                    {f.sample}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          <p className="mt-2 text-sm text-muted-foreground">Active: {font.label}</p>
-        </Field>
-      </section>
+                    <span className="label-caps block opacity-70">{f.label}</span>
+                    <span
+                      className="mt-1 block text-2xl tracking-wide"
+                      style={{ fontFamily: f.cssFamily }}
+                    >
+                      {f.sample}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">Active: {font.label}</p>
+          </Field>
+        </section>
+      )}
 
       {product.nameNumber && (
         <section className="mt-7 space-y-6 px-5">
@@ -321,51 +406,90 @@ function ProductListingPage() {
             </button>
           }
         >
-          <div className="grid grid-cols-4 gap-2">
-            {SIZES.map((s) => {
-              const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
-              return (
+          {isHat ? (
+            <div className="grid grid-cols-2 gap-2">
+              {HAT_SIZES.map((s) => (
                 <button
                   key={s}
                   type="button"
-                  disabled={!available && Boolean(shopifyItem)}
                   onClick={() => setSize(s)}
                   className={`label-caps border py-3 transition-colors ${
                     size === s
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-border bg-card hover:bg-secondary"
-                  } disabled:cursor-not-allowed disabled:border-dashed disabled:bg-transparent disabled:text-muted-foreground/50`}
+                  }`}
                 >
                   {s}
                 </button>
-              );
-            })}
-          </div>
-          {shopifyItem && SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
-            <p className="mt-2 text-sm text-muted-foreground">
-              Dashed sizes are still syncing — pick an available size to checkout.
-            </p>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 gap-2">
+              {SIZES.map((s) => {
+                const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    disabled={!available && Boolean(shopifyItem)}
+                    onClick={() => setSize(s)}
+                    className={`label-caps border py-3 transition-colors ${
+                      size === s
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card hover:bg-secondary"
+                    } disabled:cursor-not-allowed disabled:border-dashed disabled:bg-transparent disabled:text-muted-foreground/50`}
+                  >
+                    {s}
+                  </button>
+                );
+              })}
+            </div>
           )}
-          {chartOpen && (
-            <table className="mt-4 w-full border border-border text-sm">
-              <thead>
-                <tr className="bg-secondary">
-                  <th className="label-caps px-3 py-2 text-left">Size</th>
-                  <th className="label-caps px-3 py-2 text-left">Chest</th>
-                  <th className="label-caps px-3 py-2 text-left">Length</th>
-                </tr>
-              </thead>
-              <tbody>
-                {SIZE_CHART.map((row) => (
-                  <tr key={row.size} className="border-t border-border">
-                    <td className="px-3 py-2 font-kit text-base">{row.size}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{row.chest}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{row.length}</td>
+          {!isHat &&
+            shopifyItem &&
+            SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
+              <p className="mt-2 text-sm text-muted-foreground">
+                Dashed sizes are still syncing — pick an available size to checkout.
+              </p>
+            )}
+          {chartOpen &&
+            (isHat ? (
+              <table className="mt-4 w-full border border-border text-sm">
+                <thead>
+                  <tr className="bg-secondary">
+                    <th className="label-caps px-3 py-2 text-left">Size</th>
+                    <th className="label-caps px-3 py-2 text-left">Fit</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                </thead>
+                <tbody>
+                  {HAT_SIZE_CHART.map((row) => (
+                    <tr key={row.size} className="border-t border-border">
+                      <td className="px-3 py-2 font-kit text-base">{row.size}</td>
+                      <td className="px-3 py-2 text-muted-foreground">{row.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <table className="mt-4 w-full border border-border text-sm">
+                <thead>
+                  <tr className="bg-secondary">
+                    <th className="label-caps px-3 py-2 text-left">Size</th>
+                    <th className="label-caps px-3 py-2 text-left">Chest</th>
+                    <th className="label-caps px-3 py-2 text-left">Length</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {SIZE_CHART.map((row) => (
+                    <tr key={row.size} className="border-t border-border">
+                      <td className="px-3 py-2 font-kit text-base">{row.size}</td>
+                      <td className="px-3 py-2 text-muted-foreground">{row.chest}</td>
+                      <td className="px-3 py-2 text-muted-foreground">{row.length}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ))}
         </Field>
       </section>
 
@@ -378,8 +502,9 @@ function ProductListingPage() {
             className="mt-1 size-5 shrink-0 accent-[var(--primary)]"
           />
           <span>
-            I’ve double-checked the spelling, number, and size. Custom kits can’t be edited
-            after checkout.
+            {usesTypography
+              ? "I’ve double-checked the spelling, number, and size. Custom kits can’t be edited after checkout."
+              : "I’ve double-checked the motif and size. Custom pieces can’t be edited after checkout."}
           </span>
         </label>
 
@@ -398,9 +523,9 @@ function ProductListingPage() {
           <input type="hidden" name="properties[Collection]" value="Team Customs" />
           <input type="hidden" name="properties[Product]" value={product.name} />
           <input type="hidden" name="properties[Motif]" value={motif} />
-          <input type="hidden" name="properties[Font]" value={font.label} />
-          <input type="hidden" name="properties[Name]" value={name} />
-          <input type="hidden" name="properties[Number]" value={number} />
+          {usesTypography && <input type="hidden" name="properties[Font]" value={font.label} />}
+          {usesTypography && <input type="hidden" name="properties[Name]" value={name} />}
+          {usesTypography && <input type="hidden" name="properties[Number]" value={number} />}
           <input type="hidden" name="properties[Size]" value={size} />
           <input type="hidden" name="properties[_ArtSpec]" value={encodeArtSpec(artSpec)} />
           <input type="hidden" name="properties[_Confirmed]" value="yes" />
@@ -409,7 +534,6 @@ function ProductListingPage() {
         <SyncNote sync={sync} hasShopifyItem={Boolean(shopifyItem)} />
       </section>
 
-      {/* Sticky ATC — always one clear next step */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-[560px] flex-col gap-1.5 px-5 py-3">
           <button
@@ -425,7 +549,7 @@ function ProductListingPage() {
               ? "Secure checkout on noparade-store.com · Nothing prints until you order"
               : cta.kind === "sync"
                 ? "Design now — checkout unlocks when this listing finishes syncing"
-                : "Tap to jump to the next step · Preview updates as you type"}
+                : "Tap to jump to the next step · Preview updates as you choose"}
           </p>
         </div>
       </div>

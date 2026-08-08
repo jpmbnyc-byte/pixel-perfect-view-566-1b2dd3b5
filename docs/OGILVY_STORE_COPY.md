@@ -65,6 +65,6 @@ Prices from current catalog. Fabric weights cut until measured.
 - **1936 Crewneck** — $64. Garnet body, black panels. The year belongs in the collar story — for people who don’t need the chest to explain it.
 - **Long-Sleeve Jersey** — $62. Name and number on the back. Year inside the collar.
 - **Quarter-Zip** — $68. Crest on the left chest. Nothing else on the front.
-- **Alumni Shorts** — $42. Same garnet as the match strip. Off the field.
+- **Alumni Shorts** — $42. Same garnet as the match strip. Geometric side panel off the field (front + side).
 
 **Queen Bees Tee** (when listed): Made for the girls soccer program. The crest was drawn for them and had never existed before. Price TBD when the SKU ships.

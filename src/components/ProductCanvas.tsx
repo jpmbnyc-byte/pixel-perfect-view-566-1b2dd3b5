@@ -2,39 +2,44 @@ import type { FontId, MotifId } from "@/lib/catalog";
 import { fontById } from "@/lib/catalog";
 import { LETTERING } from "@/lib/kit";
 
-export type CanvasView = "front" | "back";
+export type CanvasView = "front" | "back" | "side";
 
 type Props = {
   view: CanvasView;
   frontSrc: string;
-  backSrc: string;
+  /** Back (tops) or side (shorts/sweats/hat) companion shot */
+  secondarySrc: string;
   motif: MotifId;
   fontId: FontId;
   name: string;
   number: string;
   productLabel: string;
   showLettering?: boolean;
+  /** Stronger side-panel motif preview for bottoms / AOP pieces */
+  emphasizeMotif?: boolean;
 };
 
 /**
- * Photoreal live preview — product detail photo + live name/number overlay.
- * Motif choice is recorded on the order; preview shows a light panel accent only.
+ * Photoreal live preview — product detail photo + optional name/number overlay.
+ * Motif accent is stronger on side views so shorts/sweats show the selected geo.
  */
 export function ProductCanvas({
   view,
   frontSrc,
-  backSrc,
+  secondarySrc,
   motif,
   fontId,
   name,
   number,
   productLabel,
   showLettering = true,
+  emphasizeMotif = false,
 }: Props) {
   const font = fontById(fontId)!;
-  const src = view === "front" ? frontSrc : backSrc;
+  const src = view === "front" ? frontSrc : secondarySrc;
   const displayName = (name || "NAME").slice(0, 12).toUpperCase();
   const displayNumber = number || "00";
+  const motifHeavy = emphasizeMotif || view === "side";
 
   return (
     <figure className="relative aspect-[3/4] overflow-hidden bg-black">
@@ -45,17 +50,34 @@ export function ProductCanvas({
         draggable={false}
       />
 
-      {/* Subtle motif accent — does not replace the photo */}
-      <div
-        className="pointer-events-none absolute inset-y-[18%] left-[8%] w-[6%] opacity-40 mix-blend-soft-light"
-        style={{ backgroundImage: motifCss(motif) }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-y-[18%] right-[8%] w-[6%] opacity-40 mix-blend-soft-light"
-        style={{ backgroundImage: motifCss(motif) }}
-        aria-hidden
-      />
+      {/* Motif accent — side panel language; heavier on side views */}
+      {motifHeavy ? (
+        <>
+          <div
+            className="pointer-events-none absolute inset-y-[12%] left-[42%] w-[16%] opacity-55 mix-blend-soft-light"
+            style={{ backgroundImage: motifCss(motif) }}
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-y-[18%] right-[10%] w-[10%] opacity-35 mix-blend-soft-light"
+            style={{ backgroundImage: motifCss(motif) }}
+            aria-hidden
+          />
+        </>
+      ) : (
+        <>
+          <div
+            className="pointer-events-none absolute inset-y-[18%] left-[8%] w-[6%] opacity-40 mix-blend-soft-light"
+            style={{ backgroundImage: motifCss(motif) }}
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-y-[18%] right-[8%] w-[6%] opacity-40 mix-blend-soft-light"
+            style={{ backgroundImage: motifCss(motif) }}
+            aria-hidden
+          />
+        </>
+      )}
 
       {view === "back" && showLettering && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>

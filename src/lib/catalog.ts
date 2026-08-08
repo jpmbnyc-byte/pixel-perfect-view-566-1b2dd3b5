@@ -1,7 +1,11 @@
 /**
  * Bayonne Bees Team Customs catalog.
- * Categories → products → customizable listing (motif + font + name/number).
+ * Categories → products → customizable listing (motif + optional typography).
  * Handles align with docs/MERCHIZE_LISTING_MAP.md
+ *
+ * Preview rule:
+ * - Tops with lettering → front + back (typography UI)
+ * - Shorts / sweats / hats → front + side (motif only, no name/number/font)
  */
 
 import type { Item } from "./kit";
@@ -12,11 +16,11 @@ import heroSpirit from "@/assets/bayonne/heroes/hero-spirit-football.jpg";
 import heroCrew from "@/assets/bayonne/heroes/hero-crewneck-studio.jpg";
 import heroField from "@/assets/bayonne/heroes/hero-field-lifestyle.jpg";
 
-/* Photoreal PDP front/back detail shots */
+/* Photoreal PDP detail shots */
 import jerseyFront from "@/assets/bayonne/previews/jersey-front.jpg";
 import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
 import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
-import shortsBack from "@/assets/bayonne/previews/shorts-back.jpg";
+import shortsSide from "@/assets/bayonne/previews/shorts-side.jpg";
 import setFront from "@/assets/bayonne/previews/set-front.jpg";
 import setBack from "@/assets/bayonne/previews/set-back.jpg";
 import hoopsFront from "@/assets/bayonne/previews/hoops-front.jpg";
@@ -24,13 +28,15 @@ import hoopsBack from "@/assets/bayonne/previews/hoops-back.jpg";
 import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
 import dressBack from "@/assets/bayonne/previews/dress-back.jpg";
 import crewFront from "@/assets/bayonne/previews/crew-front.jpg";
-import crewBack from "@/assets/bayonne/previews/crew-back.jpg";
+import crewSide from "@/assets/bayonne/previews/crew-side.jpg";
 import lsFront from "@/assets/bayonne/previews/ls-front.jpg";
 import lsBack from "@/assets/bayonne/previews/ls-back.jpg";
 import qzipFront from "@/assets/bayonne/previews/qzip-front.jpg";
 import qzipBack from "@/assets/bayonne/previews/qzip-back.jpg";
 import geoShortsFront from "@/assets/bayonne/previews/geo-shorts-front.jpg";
-import geoShortsBack from "@/assets/bayonne/previews/geo-shorts-back.jpg";
+import geoShortsSide from "@/assets/bayonne/previews/geo-shorts-side.jpg";
+import hatFront from "@/assets/bayonne/previews/hat-front.jpg";
+import hatSide from "@/assets/bayonne/previews/hat-side.jpg";
 
 export type CategoryId = "match" | "sideline" | "warmups" | "alumni";
 
@@ -38,9 +44,15 @@ export type MotifId = "chevron" | "grid" | "arc";
 
 export type FontId = "france" | "haiti" | "jamaica" | "usa";
 
+/** Companion shot paired with front — back for lettered tops, side for motif pieces */
+export type PreviewPair = "front-back" | "front-side";
+
+export type SizeChartKind = "apparel" | "hat";
+
 export type ProductPreviews = {
   front: string;
-  back: string;
+  /** Back when previewPair is front-back; side when front-side */
+  secondary: string;
 };
 
 export type CatalogProduct = {
@@ -53,10 +65,16 @@ export type CatalogProduct = {
   /** Maps to Shopify configurator item when Merchize-synced */
   shopifyItem?: Item;
   customizable: boolean;
+  /** Name + number fields (implies typography) */
   nameNumber: boolean;
+  /** Font picker + lettering overlay — tops only */
+  typography: boolean;
+  /** Which second live-preview angle to offer */
+  previewPair: PreviewPair;
+  sizeChart: SizeChartKind;
   /** Store grid thumb — always the photoreal front */
   thumb: string;
-  /** Photoreal front/back for live PDP preview */
+  /** Photoreal front + secondary for live PDP preview */
   previews: ProductPreviews;
 };
 
@@ -158,6 +176,14 @@ export const FONTS: {
   },
 ];
 
+export const HAT_SIZES = ["S/M", "L/XL"] as const;
+export type HatSize = (typeof HAT_SIZES)[number];
+
+export const HAT_SIZE_CHART: { size: HatSize; note: string }[] = [
+  { size: "S/M", note: 'Fits ~6⅞–7¼"' },
+  { size: "L/XL", note: 'Fits ~7⅜–7¾"' },
+];
+
 export const PRODUCTS: CatalogProduct[] = [
   {
     id: "jersey",
@@ -169,34 +195,43 @@ export const PRODUCTS: CatalogProduct[] = [
     shopifyItem: "top",
     customizable: true,
     nameNumber: true,
+    typography: true,
+    previewPair: "front-back",
+    sizeChart: "apparel",
     thumb: jerseyFront,
-    previews: { front: jerseyFront, back: jerseyBack },
+    previews: { front: jerseyFront, secondary: jerseyBack },
   },
   {
     id: "shorts",
     handle: "bayonne-bees-shorts",
     name: "Match Shorts",
-    blurb: "Garnet. Black honeycomb side panel. Crest on the left leg.",
+    blurb: "Garnet. Geometric side panel you pick. Crest on the left leg. No name or number.",
     category: "match",
     price: 34,
     shopifyItem: "bottom",
     customizable: true,
     nameNumber: false,
+    typography: false,
+    previewPair: "front-side",
+    sizeChart: "apparel",
     thumb: shortsFront,
-    previews: { front: shortsFront, back: shortsBack },
+    previews: { front: shortsFront, secondary: shortsSide },
   },
   {
     id: "full-set",
     handle: "bayonne-bees-full-set",
     name: "Full Kit Set",
-    blurb: "Jersey and shorts in one order. One garnet. One crest.",
+    blurb: "Jersey and shorts in one order. One garnet. One crest. Name and number on the jersey.",
     category: "match",
     price: 89,
     shopifyItem: "set",
     customizable: true,
     nameNumber: true,
+    typography: true,
+    previewPair: "front-back",
+    sizeChart: "apparel",
     thumb: setFront,
-    previews: { front: setFront, back: setBack },
+    previews: { front: setFront, secondary: setBack },
   },
   {
     id: "hoops-jersey",
@@ -207,8 +242,11 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 52,
     customizable: true,
     nameNumber: true,
+    typography: true,
+    previewPair: "front-back",
+    sizeChart: "apparel",
     thumb: hoopsFront,
-    previews: { front: hoopsFront, back: hoopsBack },
+    previews: { front: hoopsFront, secondary: hoopsBack },
   },
   {
     id: "jersey-dress",
@@ -219,20 +257,41 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 72,
     customizable: true,
     nameNumber: true,
+    typography: true,
+    previewPair: "front-back",
+    sizeChart: "apparel",
     thumb: dressFront,
-    previews: { front: dressFront, back: dressBack },
+    previews: { front: dressFront, secondary: dressBack },
+  },
+  {
+    id: "aop-hat",
+    handle: "bayonne-bees-aop-hat",
+    name: "AOP Hat",
+    blurb: "All-over geo on the crown. Crest up front. Pick the side-panel language.",
+    category: "sideline",
+    price: 36,
+    customizable: true,
+    nameNumber: false,
+    typography: false,
+    previewPair: "front-side",
+    sizeChart: "hat",
+    thumb: hatFront,
+    previews: { front: hatFront, secondary: hatSide },
   },
   {
     id: "crewneck",
     handle: "bayonne-bees-crewneck",
     name: "1936 Crewneck",
-    blurb: "Garnet body, black panels. The year the school opened — for people who don’t need the chest to explain it.",
+    blurb: "Garnet body, black geo side panels. The year the school opened — motif only, no lettering.",
     category: "alumni",
     price: 64,
     customizable: true,
     nameNumber: false,
+    typography: false,
+    previewPair: "front-side",
+    sizeChart: "apparel",
     thumb: crewFront,
-    previews: { front: crewFront, back: crewBack },
+    previews: { front: crewFront, secondary: crewSide },
   },
   {
     id: "ls-jersey",
@@ -243,8 +302,11 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 62,
     customizable: true,
     nameNumber: true,
+    typography: true,
+    previewPair: "front-back",
+    sizeChart: "apparel",
     thumb: lsFront,
-    previews: { front: lsFront, back: lsBack },
+    previews: { front: lsFront, secondary: lsBack },
   },
   {
     id: "quarter-zip",
@@ -255,20 +317,26 @@ export const PRODUCTS: CatalogProduct[] = [
     price: 68,
     customizable: true,
     nameNumber: false,
+    typography: false,
+    previewPair: "front-back",
+    sizeChart: "apparel",
     thumb: qzipFront,
-    previews: { front: qzipFront, back: qzipBack },
+    previews: { front: qzipFront, secondary: qzipBack },
   },
   {
     id: "geo-shorts",
     handle: "bayonne-bees-geo-shorts",
     name: "Alumni Shorts",
-    blurb: "Same garnet as the match strip. Off the field.",
+    blurb: "Same garnet as the match strip. Geometric side panel off the field.",
     category: "alumni",
     price: 42,
     customizable: true,
     nameNumber: false,
+    typography: false,
+    previewPair: "front-side",
+    sizeChart: "apparel",
     thumb: geoShortsFront,
-    previews: { front: geoShortsFront, back: geoShortsBack },
+    previews: { front: geoShortsFront, secondary: geoShortsSide },
   },
 ];
 
@@ -290,6 +358,11 @@ export function fontById(id: FontId) {
 
 export function motifById(id: MotifId) {
   return MOTIFS.find((m) => m.id === id) ?? MOTIFS[0]!;
+}
+
+/** Views offered on the PDP for a product */
+export function previewViewsFor(product: CatalogProduct): Array<"front" | "back" | "side"> {
+  return product.previewPair === "front-side" ? ["front", "side"] : ["front", "back"];
 }
 
 /** @deprecated Kit faces are local OTFs via styles.css; keep UI chrome on Barlow. */

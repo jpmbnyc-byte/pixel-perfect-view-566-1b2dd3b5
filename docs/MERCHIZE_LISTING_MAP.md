@@ -62,14 +62,19 @@ Extra tag when customizable: `custom-name-number`
 | # | Shopify handle | Merchize blank (from assortment) | Tier | Custom Name/Number | Configurator item |
 |---|---|---|---|---|---|
 | 1 | `bayonne-bees-jersey` | AOP / soccer V-neck short-sleeve jersey | **Core** | Yes — back | `top` |
-| 2 | `bayonne-bees-shorts` | Matching athletic shorts | **Core** | Optional side | `bottom` |
+| 2 | `bayonne-bees-shorts` | Matching athletic shorts | **Core** | No — motif on side only | `bottom` |
 | 3 | `bayonne-bees-full-set` | Jersey + shorts set (or bundle) | **Core** | Yes — jersey | `set` |
 | 4 | `bayonne-bees-hoops-jersey` | Basketball sleeveless jersey tank | Spirit | Yes — chest/back | — |
 | 5 | `bayonne-bees-jersey-dress` | Basketball jersey dress | Spirit | Crest / small # | — |
-| 6 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | Crest or back name | — |
-| 7 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
-| 8 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
-| 9 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | Soft brand mark | — |
+| 6 | `bayonne-bees-aop-hat` | AOP baseball / dad hat | Spirit | No — motif + crest | — |
+| 7 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | No — motif on side panels | — |
+| 8 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
+| 9 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
+| 10 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | No — motif on side only | — |
+
+**PDP preview pairs**
+- Lettered tops → **front + back** (font + name/number UI)
+- Shorts / sweats / AOP hat → **front + side** (motif UI only; no typography)
 
 **Launch set (ship first):** #1–3, then #7, #4. Rest wave 2.
 
@@ -127,12 +132,24 @@ Matches app geometry in `src/lib/kit.ts` → `LETTERING` (mockup % may differ sl
 
 ### 2. Athletic shorts (`bayonne-bees-shorts`)
 
+App preview: **front + side** (not back). Customer picks geometric motif; no name/number/font.
+
 | Zone | Placement | Art |
 |---|---|---|
-| Side panels | Outer thigh, full height | Geo chevron in maroon/black |
+| Side panels | Outer thigh, full height | Geo chevron / grid / arc (customer motif) |
 | Hem accent | Bottom 8–12% | Thin bone/maroon rule or micro-geo |
 | Soft brand | Lower left leg, H ~6% | Small crest or `BEES` wordmark |
 | Waistband | Solid black or maroon | No critical logos on elastic |
+
+### 2b. AOP hat (`bayonne-bees-aop-hat`)
+
+App preview: **front + side**. Motif on crown; crest front. Hat sizes S/M · L/XL. No typography.
+
+| Zone | Placement | Art |
+|---|---|---|
+| Crown AOP | Full panels | Selected geo (chevron / grid / arc) in garnet/black/bone |
+| Front | Center panels | Boxing-bee crest patch |
+| Brim | Top / undervisor | Matching garnet or black undervisor |
 
 ### 3. Full set (`bayonne-bees-full-set`)
 

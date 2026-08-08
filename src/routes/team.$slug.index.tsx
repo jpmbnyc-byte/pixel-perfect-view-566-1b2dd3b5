@@ -175,7 +175,14 @@ function TeamStorePage() {
                   </div>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{p.blurb}</p>
                   <p className="label-caps mt-2 text-garnet">
-                    {p.nameNumber ? "Personalize" : "Choose motif"} · ${p.price} →
+                    {p.typography
+                      ? p.nameNumber
+                        ? "Personalize"
+                        : "Choose font"
+                      : p.previewPair === "front-side"
+                        ? "Front + side · motif"
+                        : "Choose motif"}{" "}
+                    · ${p.price} →
                   </p>
                 </div>
               </Link>
