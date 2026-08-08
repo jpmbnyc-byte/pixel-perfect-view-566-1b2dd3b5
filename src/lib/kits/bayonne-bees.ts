@@ -3,15 +3,15 @@ import type { KitConfig } from "../kit";
 /**
  * Bayonne Bees — Team Customs kit.
  *
- * Launch checklist (Merchize → Shopify → configurator):
- * 1. In Merchize: Jersey / Shorts / Full Set (Garnet/Black), Name + Number personalization ON
+ * Launch checklist (print partner → Shopify → configurator):
+ * 1. Print partner: Jersey / Shorts / Full Set (Garnet/Black), Name + Number personalization ON
  * 2. Sync those products to Shopify into collection "Team Customs"
  * 3. Publish with handles below (or paste static variant IDs into shopify.*Variants)
  * 4. Keep this configurator as the only ATC path for customizable Team Customs SKUs
- * 5. Ops: each paid order → Merchize → apply Name/Number from Shopify properties → fulfill
+ * 5. Ops: each paid order → fulfillment → apply Name/Number from Shopify properties → fulfill
  *
- * Full listing map + placement guide: docs/MERCHIZE_LISTING_MAP.md
- * Until Merchize sync is live, variant maps stay empty and checkout stays locked.
+ * Full listing map + placement guide: docs/LISTING_MAP.md
+ * Until catalog sync is live, variant maps stay empty and checkout stays locked.
  */
 export const BAYONNE_BEES_KIT: KitConfig = {
   slug: "bayonne-bees",
@@ -38,7 +38,7 @@ export const BAYONNE_BEES_KIT: KitConfig = {
   mode: "both",
   shopify: {
     domain: "https://noparade-store.com",
-    /** Merchize→Shopify product handles. Size maps resolve from these at load time. */
+    /** Shopify product handles. Size maps resolve from these at load time. */
     productHandles: {
       top: "bayonne-bees-jersey",
       bottom: "bayonne-bees-shorts",
@@ -47,7 +47,7 @@ export const BAYONNE_BEES_KIT: KitConfig = {
     /**
      * Optional hardcoded Shopify variant IDs (size → id).
      * When non-empty, these win over handle resolve.
-     * Leave empty until Merchize sync; paste IDs here if handles differ.
+     * Leave empty until catalog sync; paste IDs here if handles differ.
      */
     topVariants: {},
     bottomVariants: {},

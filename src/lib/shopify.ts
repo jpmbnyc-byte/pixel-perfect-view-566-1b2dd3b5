@@ -3,12 +3,12 @@
  *
  * Order path:
  *   Configurator → POST {domain}/cart/add (variant + properties)
- *   → Shopify Checkout → paid order → Merchize sync
+ *   → Shopify Checkout → paid order → fulfillment sync
  *   → ops / personalizer applies Name + Number from line properties → print
  *
- * Products must be Merchize→Shopify synced.
- * Shopify-only products never trigger Merchize fulfillment.
- * Listing map: docs/MERCHIZE_LISTING_MAP.md
+ * Products must be print-partner → Shopify synced.
+ * Shopify-only products never trigger print fulfillment.
+ * Listing map: docs/LISTING_MAP.md
  */
 
 import type { Item, KitConfig, Size } from "./kit";
@@ -178,7 +178,7 @@ function dollarsFromProduct(product: ShopifyJsProduct | null) {
 
 /**
  * Resolve size→variant maps for a kit.
- * Static maps in kit config win; otherwise fetch Merchize-synced products by handle.
+ * Static maps in kit config win; otherwise fetch synced products by handle.
  */
 export async function resolveKitShopify(kit: KitConfig): Promise<{
   kit: KitConfig;

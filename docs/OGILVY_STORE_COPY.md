@@ -32,7 +32,7 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 >
 > **5.** The year can sit inside the collar, where only the player sees it — not decoration, a season stamp.
 >
-> **6.** Order at [noparade-store.com](https://noparade-store.com). Design and customize at `/team`. Ships to any address Merchize fulfills.
+> **6.** Order at [noparade-store.com](https://noparade-store.com). Design and customize at `/team`. Ships to any address we fulfill.
 >
 > Cut until true in writing: print process brand-name (DTG vs AOP per blank), exact business-day ship window, booster/% split, free two-way returns, youth sizes, “every sport in the school.”
 
