@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import logo from "@/assets/bayonne/bayonne-bees-logo.png";
-import hero from "@/assets/bayonne/heroes/hero-kit-studio.jpg";
+import hero from "@/assets/bayonne/heroes/hero-landing.jpg";
 import { countdownParts } from "@/lib/kit";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 

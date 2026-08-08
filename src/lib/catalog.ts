@@ -72,7 +72,7 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
-/** Base field + three alternate geometric motifs (Adidas-heritage, no trademarks). */
+/** Base field + three alternate geometric motifs (kit-campaign heritage, no trademarks). */
 export const MOTIFS: {
   id: MotifId;
   label: string;
@@ -184,18 +184,6 @@ export const PRODUCTS: CatalogProduct[] = [
     nameNumber: true,
     thumb: mockHoops,
     gallery: [mockHoops],
-  },
-  {
-    id: "spirit-skirt-set",
-    handle: "bayonne-bees-spirit-skirt-set",
-    name: "Spirit Skirt Set",
-    blurb: "Crop jersey + pleated skirt. School motif, clean number.",
-    category: "spirit",
-    price: 78,
-    customizable: true,
-    nameNumber: true,
-    thumb: heroSpirit,
-    gallery: [heroSpirit],
   },
   {
     id: "jersey-dress",
