@@ -11,14 +11,25 @@ export type Item = "top" | "bottom" | "set";
 
 export const SIZES: Size[] = ["2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
-/** Back-panel lettering zones, as % of the mockup image.
- *  Number height follows pro-kit proportion: ~10–12" on an adult back panel,
- *  i.e. roughly a quarter of the visible torso. */
-export const LETTERING = {
-  centerX: 48.8,
-  name: { y: 28, heightPct: 4.2, maxWidthPct: 38 },
-  number: { y: 47, heightPct: 26 },
-} as const;
+/**
+ * Back-panel lettering zones, as % of the photoreal mockup image.
+ * Tuned for ghost-mannequin PDP backs (name under yoke, number mid-torso).
+ * Products with different framing (set, blackout) override via catalog.lettering.
+ */
+export type LetteringLayout = {
+  centerX: number;
+  name: { y: number; heightPct: number; maxWidthPct: number };
+  number: { y: number; heightPct: number };
+  /** Black mesh / dark field — stronger white lettering contrast */
+  surface: "garnet" | "blackout";
+};
+
+export const LETTERING: LetteringLayout = {
+  centerX: 49.5,
+  name: { y: 22, heightPct: 4.2, maxWidthPct: 38 },
+  number: { y: 34.5, heightPct: 25 },
+  surface: "garnet",
+};
 
 export type KitConfig = {
   slug: string;

@@ -58,13 +58,14 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 Prices from current catalog. Fabric weights cut until measured.
 
 - **Match Jersey** — $58. Garnet field. Black chest panel edged in white. Crest left. Name and number on the back.
-- **Match Shorts** — $34. Garnet. Black honeycomb side panel. Crest on the left leg.
+- **Match Shorts** — $34. Garnet. Geometric side panel you pick (front + side preview). No name or number.
+- **AOP Hat** — $36. All-over geo on the crown. Crest up front. Front + side preview.
 - **Full Kit Set** — $89. Jersey and shorts, one order, one garnet.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
 - **Jersey Dress** — $72. Sideline cut. Crest first.
-- **1936 Crewneck** — $64. Garnet body, black panels. The year belongs in the collar story — for people who don’t need the chest to explain it.
+- **1936 Crewneck** — $64. Garnet body, black geo side panels (front + side). Motif only — no lettering.
 - **Long-Sleeve Jersey** — $62. Name and number on the back. Year inside the collar.
 - **Quarter-Zip** — $68. Crest on the left chest. Nothing else on the front.
-- **Alumni Shorts** — $42. Same garnet as the match strip. Off the field.
+- **Alumni Shorts** — $42. Same garnet as the match strip. Geometric side panel off the field (front + side).
 
 **Queen Bees Tee** (when listed): Made for the girls soccer program. The crest was drawn for them and had never existed before. Price TBD when the SKU ships.
