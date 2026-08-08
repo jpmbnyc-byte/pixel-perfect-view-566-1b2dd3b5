@@ -179,6 +179,20 @@ function MotifOverlay({
       const pd = plate.data;
       const od = out.data;
 
+      // Contrast-stretch luminance inside the panel so set lighting reads on dark fabrics
+      let lumMin = 1;
+      let lumMax = 0;
+      for (let i = 0; i < gd.length; i += 4) {
+        const px = (i / 4) % w;
+        const py = ((i / 4) / w) | 0;
+        const zone = panelZone(px / w, py / h, sideHeavy);
+        if (zone < 0.2) continue;
+        const lum = (0.2126 * gd[i]! + 0.7152 * gd[i + 1]! + 0.0722 * gd[i + 2]!) / 255;
+        if (lum < lumMin) lumMin = lum;
+        if (lum > lumMax) lumMax = lum;
+      }
+      const lumRange = Math.max(0.04, lumMax - lumMin);
+
       for (let i = 0; i < gd.length; i += 4) {
         const px = (i / 4) % w;
         const py = ((i / 4) / w) | 0;
@@ -190,8 +204,8 @@ function MotifOverlay({
         const gb = gd[i + 2]!;
         const lum = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / 255;
 
-        // Soft fabric presence — keep black panels (side stripes) while cutting studio void
-        const fabric = smoothstep(0.012, 0.08, lum);
+        // Soft fabric presence — keep black panels while cutting studio void
+        const fabric = smoothstep(0.01, 0.07, lum);
         const zone = panelZone(nx, ny, sideHeavy);
         const mask = fabric * zone;
         if (mask < 0.01) {
@@ -208,18 +222,18 @@ function MotifOverlay({
           continue;
         }
 
-        // Light the ink with set lighting: highlights wash the dye, shadows deepen it.
-        // Floor keeps geometry visible on near-black side panels.
-        const light = 0.28 + 0.72 * lum;
-        // Fold garment RGB into the ink so mesh / specular grain is in the print itself
-        const inkR = pr * light * 0.62 + gr * 0.38;
-        const inkG = pg * light * 0.62 + gg * 0.38;
-        const inkB = pb * light * 0.62 + gb * 0.38;
+        // Local light 0→1 across the panel’s own highlight range (not global)
+        const local = Math.min(1, Math.max(0, (lum - lumMin) / lumRange));
+        const light = 0.2 + 0.95 * Math.pow(local, 0.75);
 
-        const strength = mask * pa * (sideHeavy ? 0.78 : 0.62);
+        // Channel-wise fabric multiply + garment fold-in = ink sitting in the knit
+        const inkR = pr * (gr / 255) * (0.55 + 0.9 * light) * 0.7 + gr * 0.3;
+        const inkG = pg * (gg / 255) * (0.55 + 0.9 * light) * 0.7 + gg * 0.3;
+        const inkB = pb * (gb / 255) * (0.55 + 0.9 * light) * 0.7 + gb * 0.3;
 
-        // RGB = fabric-lit ink only; alpha = coverage. Drawn source-over (not multiply)
-        // so lighting isn't applied twice against the photo underneath.
+        // Stronger on the panel; still translucent enough for mesh to read
+        const strength = mask * pa * (sideHeavy ? 0.88 : 0.7);
+
         od[i] = clamp8(inkR);
         od[i + 1] = clamp8(inkG);
         od[i + 2] = clamp8(inkB);
@@ -251,7 +265,6 @@ function MotifOverlay({
     <canvas
       ref={canvasRef}
       className="pointer-events-none absolute inset-0 h-full w-full"
-      style={{ opacity: sideHeavy ? 0.94 : 0.85 } satisfies CSSProperties}
       aria-hidden
     />
   );
@@ -308,20 +321,20 @@ function paintMotifPlate(
     }
     case "chevron":
     default: {
-      // Diagonal blocks — draw as thick stripes (canvas has no repeating-linear-gradient helper)
-      const stripe = Math.max(14, w * 0.03);
+      // Tonal diagonal blocks — sublimation ink, not high-contrast sticker stripes
+      const stripe = Math.max(12, w * 0.026);
       ctx.save();
       ctx.translate(w * 0.5, h * 0.5);
       ctx.rotate((-32 * Math.PI) / 180);
       ctx.translate(-w * 0.9, -h * 0.9);
       const span = Math.max(w, h) * 2.4;
       for (let x = 0; x < span; x += stripe * 3) {
-        ctx.fillStyle = "#5A1626";
+        ctx.fillStyle = "#6e1c2e";
         ctx.fillRect(x, 0, stripe, span);
-        ctx.fillStyle = "#0A0A0A";
+        ctx.fillStyle = "#1a0a0e";
         ctx.fillRect(x + stripe, 0, stripe, span);
-        ctx.fillStyle = "rgba(244,241,240,0.7)";
-        ctx.fillRect(x + stripe * 2, 0, Math.max(2, stripe * 0.22), span);
+        ctx.fillStyle = "rgba(220,200,195,0.45)";
+        ctx.fillRect(x + stripe * 2, 0, Math.max(2, stripe * 0.18), span);
       }
       ctx.restore();
       break;
@@ -342,13 +355,14 @@ function coverRect(iw: number, ih: number, cw: number, ch: number) {
 }
 
 function panelZone(nx: number, ny: number, sideHeavy: boolean) {
-  const yFeather = smoothstep(0.04, 0.14, ny) * (1 - smoothstep(0.86, 0.96, ny));
+  // Match the garment’s side stripe / sleeve panel — not the whole body field
+  const yFeather = smoothstep(0.06, 0.16, ny) * (1 - smoothstep(0.84, 0.94, ny));
   if (sideHeavy) {
-    const x = smoothstep(0.3, 0.38, nx) * (1 - smoothstep(0.62, 0.7, nx));
+    const x = smoothstep(0.4, 0.44, nx) * (1 - smoothstep(0.56, 0.6, nx));
     return x * yFeather;
   }
-  const left = smoothstep(0.12, 0.17, nx) * (1 - smoothstep(0.27, 0.33, nx));
-  const right = smoothstep(0.67, 0.73, nx) * (1 - smoothstep(0.83, 0.88, nx));
+  const left = smoothstep(0.14, 0.18, nx) * (1 - smoothstep(0.24, 0.28, nx));
+  const right = smoothstep(0.72, 0.76, nx) * (1 - smoothstep(0.82, 0.86, nx));
   return Math.max(left, right) * yFeather;
 }
 
