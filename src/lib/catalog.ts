@@ -138,7 +138,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey",
     handle: "bayonne-bees-jersey",
     name: "Match Jersey",
-    blurb: "V-neck short sleeve. Base maroon field, motif accents, custom back.",
+    blurb: "V-neck short sleeve. Base garnet field, motif accents, custom back.",
     category: "core",
     price: 58,
     shopifyItem: "top",

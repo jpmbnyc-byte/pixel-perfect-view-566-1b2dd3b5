@@ -33,7 +33,8 @@ function TeamStorePage() {
               No Parade F.C. · Team Customs
             </Link>
             <h1 className="mt-2 text-4xl leading-none tracking-tight">{kit.teamName}</h1>
-            <p className="label-caps mt-3 text-maroon">
+            <p className="label-caps mt-1 text-muted-foreground">Queen Bees crest build</p>
+            <p className="label-caps mt-3 text-garnet">
               {kit.family.label} {kit.family.version} · {kit.colorway.name}
             </p>
             <p className="mt-1 text-lg text-muted-foreground">“{kit.family.doctrine}”</p>
@@ -47,7 +48,7 @@ function TeamStorePage() {
           ) : (
             <>
               <span className="label-caps text-muted-foreground">Store closes in</span>
-              <span className="font-kit text-2xl leading-none text-maroon">
+              <span className="font-kit text-2xl leading-none text-garnet">
                 {countdown.days}d {countdown.hours}h {countdown.minutes}m
               </span>
             </>
@@ -126,7 +127,7 @@ function TeamStorePage() {
                 <div className="flex min-w-0 flex-1 flex-col justify-center py-3 pr-3">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="font-kit text-2xl tracking-wide">{p.name}</h3>
-                    <span className="font-kit text-xl text-maroon">${p.price}</span>
+                    <span className="font-kit text-xl text-garnet">${p.price}</span>
                   </div>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{p.blurb}</p>
                   <p className="label-caps mt-2 text-muted-foreground">

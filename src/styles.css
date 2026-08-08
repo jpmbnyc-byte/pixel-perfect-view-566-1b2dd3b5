@@ -6,7 +6,7 @@
 
 /*
  * BAYONNE BEES × NO PARADE F.C.
- * Maroon / black / white — athletic, high-contrast.
+ * Garnet / black / white — athletic, high-contrast.
  * All colors are oklch tokens. Never hardcode color utilities in components.
  */
 
@@ -38,6 +38,7 @@
   --color-gold-foreground: var(--gold-foreground);
   --color-bone: var(--bone);
   --color-maroon: var(--maroon);
+  --color-garnet: var(--garnet);
   --font-display: "Bebas Neue", "Barlow Condensed", system-ui, sans-serif;
   --font-sans: "Barlow Condensed", system-ui, sans-serif;
   --font-kit: "Bebas Neue", "Barlow Condensed", sans-serif;
@@ -52,7 +53,7 @@
   --card-foreground: oklch(0.16 0.01 20);
   --popover: oklch(0.995 0.002 30);
   --popover-foreground: oklch(0.16 0.01 20);
-  /* Maroon brand */
+  /* Garnet brand (darker than supplier "maroon") */
   --primary: oklch(0.34 0.12 18);
   --primary-foreground: oklch(0.98 0.005 30);
   --secondary: oklch(0.94 0.01 30);
@@ -70,7 +71,8 @@
   --gold: oklch(0.86 0.04 90);
   --gold-foreground: oklch(0.18 0.02 20);
   --bone: oklch(0.97 0.006 30);
-  --maroon: oklch(0.34 0.12 18);
+  --garnet: oklch(0.34 0.12 18);
+  --maroon: var(--garnet); /* alias — prefer garnet in new copy */
 }
 
 .dark {
@@ -96,7 +98,8 @@
   --gold: oklch(0.86 0.04 90);
   --gold-foreground: oklch(0.14 0.015 20);
   --bone: oklch(0.97 0.006 30);
-  --maroon: oklch(0.45 0.14 18);
+  --garnet: oklch(0.45 0.14 18);
+  --maroon: var(--garnet);
 }
 
 @layer base {
@@ -130,7 +133,7 @@
 }
 
 @utility rule-gold {
-  border-bottom: 1px solid color-mix(in oklab, var(--maroon) 55%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--garnet) 55%, transparent);
 }
 
 @keyframes team-rise {

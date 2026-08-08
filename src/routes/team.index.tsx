@@ -1,15 +1,13 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import logo from "@/assets/bayonne/bayonne-bees-logo.png";
-import hero from "@/assets/bayonne/heroes/hero-landing.jpg";
-import { countdownParts } from "@/lib/kit";
+import { RevealCarousel } from "@/components/RevealCarousel";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
 export const Route = createFileRoute("/team/")({
   head: () => {
-    const title = "Bayonne Bees — Team Customs | No Parade F.C.";
+    const title = "Bayonne teams, dressed properly. | No Parade F.C.";
     const description =
-      "Bayonne Bees custom kits. Lock your name, number, and size before the store closes.";
+      "Free identity design for one Bayonne program each season. Kits fulfilled on demand — no inventory, no upfront cost to the club.";
     return {
       meta: [
         { title },
@@ -26,66 +24,67 @@ export const Route = createFileRoute("/team/")({
 
 function TeamLanding() {
   const kit = BAYONNE_BEES_KIT;
-  const live = kit.status === "live" && countdownParts(kit.closesAt, Date.now()) !== null;
 
   return (
-    <main className="relative min-h-dvh overflow-hidden bg-black text-bone">
-      {/* Single full-bleed merged visual plane */}
-      <div className="absolute inset-0" aria-hidden>
-        <img
-          src={hero}
-          alt=""
-          className="h-full w-full object-cover object-center motion-safe:animate-team-hero-drift"
+    <main className="bg-black text-bone">
+      {/* Layer 1 — silent reveal. No CTA. No music. */}
+      <RevealCarousel />
+
+      {/* Layer 4 — landing hero */}
+      <section className="relative isolate min-h-dvh overflow-hidden">
+        <div
+          className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_-10%,color-mix(in_oklab,var(--garnet)_55%,transparent),transparent_55%),linear-gradient(180deg,#12080a_0%,#1a0c10_42%,#0a0607_100%)]"
+          aria-hidden
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,6,8,0.15)_0%,rgba(8,6,8,0.05)_32%,rgba(8,6,8,0.55)_68%,rgba(8,6,8,0.92)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_18%,color-mix(in_oklab,var(--maroon)_35%,transparent),transparent_70%)]" />
-      </div>
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay motion-safe:animate-team-hero-drift"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+          aria-hidden
+        />
 
-      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[520px] flex-col px-6 pb-14 pt-10">
-        <div className="flex flex-1 flex-col items-center justify-center text-center motion-safe:animate-team-logo-in">
-          <img
-            src={logo}
-            alt="Bayonne Bees"
-            className="h-28 w-28 object-contain drop-shadow-[0_8px_28px_rgba(90,22,38,0.55)] sm:h-32 sm:w-32"
-          />
-          <p className="label-caps mt-6 text-bone/70">No Parade F.C. · Team Customs</p>
-          <h1 className="mt-3 font-kit text-[clamp(3.5rem,16vw,5.5rem)] leading-none tracking-[0.04em] text-bone">
-            Bayonne Bees
-          </h1>
-          <p className="mt-4 max-w-[20rem] text-base leading-snug text-bone/75 sm:text-lg">
-            Maroon and black. Name, number, size — held for the season.
+        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[560px] flex-col px-6 pb-16 pt-14">
+          <p className="label-caps text-bone/55 motion-safe:animate-team-rise">
+            No Parade F.C. · Bayonne, NJ
           </p>
-        </div>
 
-        <div className="mt-auto space-y-5 pt-8 motion-safe:animate-team-rise [animation-delay:160ms]">
-          <div className="text-center">
-            <p className="label-caps text-bone/50">
-              {live ? "Live now" : "Store closed"} · {kit.family.label} {kit.family.version}
-            </p>
-            <p className="mt-2 font-display text-lg tracking-[0.2em] text-maroon">
-              {kit.colorway.name}
+          <div className="mt-10 flex flex-1 flex-col justify-center motion-safe:animate-team-logo-in">
+            <h1 className="font-kit text-[clamp(2.75rem,12vw,4.25rem)] leading-[0.95] tracking-[0.02em] text-bone">
+              Bayonne teams, dressed properly.
+            </h1>
+            <p className="mt-6 max-w-[28rem] text-lg leading-snug text-bone/75 sm:text-xl">
+              Free identity design for one Bayonne program each season. Kits fulfilled on
+              demand — no inventory, no upfront cost to the club.
             </p>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="mt-12 space-y-8 motion-safe:animate-team-rise [animation-delay:180ms]">
             <Link
               to="/team/$slug"
               params={{ slug: kit.slug }}
-              className="label-caps inline-flex items-center justify-center bg-maroon px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
+              className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
             >
-              {live ? "Open the kit store" : "View the kit store"}
+              See the Queen Bees build
             </Link>
-            <a
-              href="https://noparade-store.com"
-              target="_blank"
-              rel="noreferrer"
-              className="label-caps inline-flex items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
-            >
-              No Parade store
-            </a>
+
+            {/* Layer 2 — caption. No CTA. No link. */}
+            <div className="border-t border-bone/15 pt-8">
+              <p className="text-base leading-relaxed text-bone/70">
+                The 2024 Hudson County champions have gone by the Queen Bees for years.
+                There was never a mark for it.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-bone/70">
+                So we made one. Free. No invoice, no pitch.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-bone/70">
+                If the program wants it, it&apos;s theirs.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
