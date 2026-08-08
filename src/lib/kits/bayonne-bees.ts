@@ -3,14 +3,15 @@ import type { KitConfig } from "../kit";
 /**
  * Bayonne Bees — VESPERS 26 Team Customs kit.
  *
- * Launch checklist (Printful → Shopify → configurator):
- * 1. In Printful: Jersey / Shorts / Full Set (Maroon/Black), Name + Number personalization ON
- * 2. Sync those 3 products to Shopify into collection "Team Customs"
+ * Launch checklist (Merchize → Shopify → configurator):
+ * 1. In Merchize: Jersey / Shorts / Full Set (Maroon/Black), Name + Number personalization ON
+ * 2. Sync those products to Shopify into collection "Team Customs"
  * 3. Publish with handles below (or paste static variant IDs into shopify.*Variants)
- * 4. Keep this configurator as the only add-to-cart path for Team Customs
- * 5. Ops: each paid order → Printful "Personalization required" → paste Name/Number → confirm
+ * 4. Keep this configurator as the only ATC path for customizable Team Customs SKUs
+ * 5. Ops: each paid order → Merchize → apply Name/Number from Shopify properties → fulfill
  *
- * Until Printful sync is live, variant maps stay empty and checkout stays locked.
+ * Full listing map + placement guide: docs/MERCHIZE_LISTING_MAP.md
+ * Until Merchize sync is live, variant maps stay empty and checkout stays locked.
  */
 export const BAYONNE_BEES_KIT: KitConfig = {
   slug: "bayonne-bees",
@@ -42,7 +43,7 @@ export const BAYONNE_BEES_KIT: KitConfig = {
   mode: "both",
   shopify: {
     domain: "https://noparade-store.com",
-    /** Printful→Shopify product handles. Size maps resolve from these at load time. */
+    /** Merchize→Shopify product handles. Size maps resolve from these at load time. */
     productHandles: {
       top: "bayonne-bees-jersey",
       bottom: "bayonne-bees-shorts",
@@ -51,7 +52,7 @@ export const BAYONNE_BEES_KIT: KitConfig = {
     /**
      * Optional hardcoded Shopify variant IDs (size → id).
      * When non-empty, these win over handle resolve.
-     * Leave empty until Printful sync; paste IDs here if handles differ.
+     * Leave empty until Merchize sync; paste IDs here if handles differ.
      */
     topVariants: {},
     bottomVariants: {},
