@@ -170,7 +170,10 @@ function TeamStorePage() {
                 <div className="flex min-w-0 flex-1 flex-col justify-center py-3 pr-3">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="font-kit text-2xl tracking-wide">{p.name}</h3>
-                    <span className="font-kit text-xl text-garnet">${p.price}</span>
+                    {/* Kit OTFs lack a $ glyph — never put prices in font-kit */}
+                    <span className="shrink-0 font-sans text-xl tabular-nums text-garnet">
+                      ${p.price}
+                    </span>
                   </div>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{p.blurb}</p>
                   <p className="label-caps mt-2 text-garnet">

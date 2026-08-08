@@ -233,7 +233,9 @@ function ProductListingPage() {
           ← Bayonne store
         </Link>
         <h1 className="mt-3 text-4xl leading-none tracking-tight">{product.name}</h1>
-        <p className="label-caps mt-2 text-garnet">${product.price}</p>
+        <p className="mt-2 font-sans text-sm font-semibold tabular-nums tracking-[0.08em] text-garnet">
+          ${product.price}
+        </p>
         <p className="mt-2 text-base text-muted-foreground">{product.blurb}</p>
         <div className="mt-4 space-y-3 border-t border-border pt-4 text-base leading-relaxed text-foreground/85">
           {usesTypography ? (
