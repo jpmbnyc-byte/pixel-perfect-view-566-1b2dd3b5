@@ -48,7 +48,7 @@ Store (/team/bayonne-bees)
 | Control | Options |
 |---|---|
 | Base layer | Single maroon field (always on) |
-| Geometric motif | Chevron · Grid · Arc Panel |
+| Geometric motif | No overlay · Chevron · Grid · Arc Panel |
 | Lettering font | Rail Cut · Beacon · Whistle · Forge (local OTF) |
 
 ---
@@ -139,7 +139,7 @@ App preview: **front + side** (not back). Customer picks geometric motif; no nam
 
 | Zone | Placement | Art |
 |---|---|---|
-| Side panels | Outer thigh, full height | Geo chevron / grid / arc (customer motif) |
+| Side panels | Outer thigh, full height | None / chevron / grid / arc (customer motif) |
 | Hem accent | Bottom 8–12% | Thin bone/maroon rule or micro-geo |
 | Soft brand | Lower left leg, H ~6% | Small crest or `BEES` wordmark |
 | Waistband | Solid black or maroon | No critical logos on elastic |

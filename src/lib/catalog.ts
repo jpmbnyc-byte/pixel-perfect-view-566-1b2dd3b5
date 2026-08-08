@@ -43,7 +43,7 @@ import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
 
 export type CategoryId = "match" | "sideline" | "warmups" | "alumni";
 
-export type MotifId = "chevron" | "grid" | "arc";
+export type MotifId = "none" | "chevron" | "grid" | "arc";
 
 export type FontId = "rail" | "beacon" | "whistle" | "forge";
 
@@ -117,12 +117,17 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
-/** Base field + three alternate geometric motifs (kit-campaign heritage, no trademarks). */
+/** No overlay + three geometric motifs (kit-campaign heritage, no trademarks). */
 export const MOTIFS: {
   id: MotifId;
   label: string;
   description: string;
 }[] = [
+  {
+    id: "none",
+    label: "No overlay",
+    description: "Clean field — no geometric motif on the panels.",
+  },
   {
     id: "chevron",
     label: "Chevron",

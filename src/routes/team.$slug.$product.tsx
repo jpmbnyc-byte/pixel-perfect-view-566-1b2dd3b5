@@ -297,7 +297,9 @@ function ProductListingPage() {
         />
         {product.previewPair === "front-side" && (
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Side view shows your selected geometric pattern on the panel.
+            {motif === "none"
+              ? "No overlay — clean panels, crest and color only."
+              : "Side view shows your selected geometric pattern on the panel."}
           </p>
         )}
       </section>
@@ -307,7 +309,7 @@ function ProductListingPage() {
           label="Geometric motif"
           hint="Live preview updates when you pick one"
         >
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {MOTIFS.map((m) => {
               const on = motif === m.id;
               return (
@@ -523,7 +525,11 @@ function ProductListingPage() {
           <input type="hidden" name="properties[Team]" value={kit.teamName} />
           <input type="hidden" name="properties[Collection]" value="Team Customs" />
           <input type="hidden" name="properties[Product]" value={product.name} />
-          <input type="hidden" name="properties[Motif]" value={motif} />
+          <input
+            type="hidden"
+            name="properties[Motif]"
+            value={MOTIFS.find((m) => m.id === motif)?.label ?? motif}
+          />
           {usesTypography && <input type="hidden" name="properties[Font]" value={font.label} />}
           {usesTypography && <input type="hidden" name="properties[Name]" value={name} />}
           {usesTypography && <input type="hidden" name="properties[Number]" value={number} />}
@@ -575,6 +581,17 @@ function SyncNote({ sync, hasShopifyItem }: { sync: ShopifySyncStatus; hasShopif
 }
 
 function MotifSwatch({ id, active }: { id: MotifId; active: boolean }) {
+  if (id === "none") {
+    return (
+      <div
+        className={`h-12 w-full border ${active ? "border-bone/40" : "border-border"}`}
+        style={{
+          background: "linear-gradient(135deg, #F4F1F0 0%, #d8d0ce 100%)",
+        }}
+        aria-hidden
+      />
+    );
+  }
   const fill =
     id === "chevron"
       ? "repeating-linear-gradient(-28deg,#5A1626 0 10px,#0A0A0A 10px 20px,#F4F1F0 20px 22px,#5A1626 22px 32px)"
