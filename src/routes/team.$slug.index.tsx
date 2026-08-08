@@ -34,10 +34,11 @@ function TeamStorePage() {
             </Link>
             <h1 className="mt-2 text-4xl leading-none tracking-tight">{kit.teamName}</h1>
             <p className="label-caps mt-1 text-muted-foreground">Queen Bees crest build</p>
-            <p className="label-caps mt-3 text-garnet">
-              {kit.family.label} {kit.family.version} · {kit.colorway.name}
+            <p className="label-caps mt-3 text-garnet">{kit.colorway.name}</p>
+            <p className="mt-2 max-w-sm text-base leading-snug text-muted-foreground">
+              Garnet field. Black panel. One crest on the left chest — the way a serious kit
+              is built.
             </p>
-            <p className="mt-1 text-lg text-muted-foreground">“{kit.family.doctrine}”</p>
           </div>
           <img src={logo} alt="" className="mt-1 h-14 w-14 shrink-0 object-contain" />
         </div>
@@ -58,8 +59,8 @@ function TeamStorePage() {
 
       {!catalogReady && (
         <div className="border-b border-border bg-secondary/60 px-5 py-3 text-sm leading-snug text-muted-foreground">
-          Checkout unlocks after Merchize syncs products to{" "}
-          <span className="text-foreground">noparade-store.com</span>. Browse and design now.
+          You may design every piece now. Checkout opens when Merchize finishes syncing to{" "}
+          <span className="text-foreground">noparade-store.com</span>.
         </div>
       )}
 
@@ -141,7 +142,8 @@ function TeamStorePage() {
       </section>
 
       <p className="mt-10 px-5 text-center text-sm text-muted-foreground">
-        Each listing opens a customizer — base layer, geometric motif, and premium font.
+        Open any listing to choose the panel motif, the lettering face, and — where it
+        belongs — the name and number.
       </p>
     </main>
   );

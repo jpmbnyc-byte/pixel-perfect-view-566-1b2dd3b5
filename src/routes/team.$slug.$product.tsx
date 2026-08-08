@@ -134,11 +134,13 @@ function ProductListingPage() {
         {/* Layer 5 — collar reveal / color truth. No official-claim language. */}
         <div className="mt-4 space-y-3 border-t border-border pt-4 text-base leading-relaxed text-foreground/85">
           <p>
-            Garnet, not maroon. Bayonne has worn the darker one since 1936, and most
-            suppliers get it wrong.
+            Most mills will sell you maroon and call it close enough. It is not. Bayonne has
+            worn garnet since 1936 — a darker red that turns almost black under the lights
+            until the camera finds it.
           </p>
           <p className="text-muted-foreground">
-            The year is printed inside the collar, where only the player sees it.
+            Inside the collar, where only the player looks, we print the year. That is how a
+            kit remembers a season.
           </p>
         </div>
       </header>
@@ -174,7 +176,7 @@ function ProductListingPage() {
 
       {/* Motif: base layer always on; choose 1 of 3 geos */}
       <section className="mt-8 px-5">
-        <Field label="Geometric motif" hint="Base garnet field + one accent">
+        <Field label="Geometric motif" hint="Garnet field. One panel language.">
           <div className="grid grid-cols-3 gap-2">
             {MOTIFS.map((m) => {
               const on = motif === m.id;

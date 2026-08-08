@@ -5,9 +5,9 @@ import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
 export const Route = createFileRoute("/team/")({
   head: () => {
-    const title = "Bayonne teams, dressed properly. | No Parade F.C.";
+    const title = "The Queen Bees never had a crest. Now they do. | No Parade F.C.";
     const description =
-      "Free identity design for one Bayonne program each season. Kits fulfilled on demand — no inventory, no upfront cost to the club.";
+      "We drew a crest for Bayonne’s Queen Bees — free of charge — and we print kits to order. No inventory. No money up front from the club.";
     return {
       meta: [
         { title },
@@ -51,12 +51,13 @@ function TeamLanding() {
           </p>
 
           <div className="mt-10 flex flex-1 flex-col justify-center motion-safe:animate-team-logo-in">
-            <h1 className="font-kit text-[clamp(2.75rem,12vw,4.25rem)] leading-[0.95] tracking-[0.02em] text-bone">
-              Bayonne teams, dressed properly.
+            <h1 className="font-kit text-[clamp(2.6rem,11vw,4rem)] leading-[0.95] tracking-[0.02em] text-bone">
+              The Queen Bees never had a crest. Now they do.
             </h1>
-            <p className="mt-6 max-w-[28rem] text-lg leading-snug text-bone/75 sm:text-xl">
-              Free identity design for one Bayonne program each season. Kits fulfilled on
-              demand — no inventory, no upfront cost to the club.
+            <p className="mt-6 max-w-[30rem] text-lg leading-snug text-bone/75 sm:text-xl">
+              We drew it for one Bayonne program — free of charge — and we will print the
+              kits to order. No inventory sitting in a closet. No check from the club before a
+              stitch is cut.
             </p>
           </div>
 
@@ -66,20 +67,19 @@ function TeamLanding() {
               params={{ slug: kit.slug }}
               className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
             >
-              See the Queen Bees build
+              Inspect the Queen Bees kit
             </Link>
 
             {/* Layer 2 — caption. No CTA. No link. */}
             <div className="border-t border-bone/15 pt-8">
               <p className="text-base leading-relaxed text-bone/70">
-                The 2024 Hudson County champions have gone by the Queen Bees for years.
-                There was never a mark for it.
+                In 2024 the Hudson County champions answered to a name that lived only in
+                speech. Queen Bees. There was no mark. No embroidery. Nothing a mother could
+                point to on a jacket and say, that is ours.
               </p>
               <p className="mt-4 text-base leading-relaxed text-bone/70">
-                So we made one. Free. No invoice, no pitch.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-bone/70">
-                If the program wants it, it&apos;s theirs.
+                So we drew the crest. There is no invoice. There is no pitch. The files are
+                theirs if they want them.
               </p>
             </div>
           </div>

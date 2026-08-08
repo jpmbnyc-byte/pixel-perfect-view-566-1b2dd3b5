@@ -64,6 +64,7 @@ export function ProductCanvas({
             <rect width="300" height="400" fill={`url(#motif-${motif})`} opacity="0.92" />
             {/* Subtle fabric grain */}
             <rect width="300" height="400" fill="url(#motif-grain)" opacity="0.18" />
+            {view === "front" && <ChestPanel />}
           </g>
 
           {/* Garment outline / seams */}
@@ -78,22 +79,25 @@ export function ProductCanvas({
         </g>
 
         {view === "front" && (
-          <text
-            x="150"
-            y="168"
-            textAnchor="middle"
-            fill={BONE}
-            stroke={BLACK}
-            strokeWidth="0.6"
-            style={{
-              fontFamily: font.cssFamily,
-              fontSize: 22,
-              letterSpacing: "0.14em",
-              paintOrder: "stroke fill",
-            }}
-          >
-            BAYONNE
-          </text>
+          <>
+            <CrestBadge />
+            <text
+              x="150"
+              y="214"
+              textAnchor="middle"
+              fill={BONE}
+              stroke={BLACK}
+              strokeWidth="0.5"
+              style={{
+                fontFamily: font.cssFamily,
+                fontSize: 18,
+                letterSpacing: "0.18em",
+                paintOrder: "stroke fill",
+              }}
+            >
+              BAYONNE
+            </text>
+          </>
         )}
 
         {view === "back" && showLettering && (
@@ -168,6 +172,50 @@ function GarmentPath({
       strokeWidth={strokeWidth}
       strokeOpacity={strokeOpacity}
     />
+  );
+}
+
+/** Bold torso band edged in bone — national-team panel language, unnamed. */
+function ChestPanel() {
+  return (
+    <g>
+      <rect x="78" y="148" width="144" height="42" fill={BLACK} opacity="0.92" />
+      <rect x="78" y="148" width="144" height="2.2" fill={BONE} opacity="0.9" />
+      <rect x="78" y="188" width="144" height="2.2" fill={BONE} opacity="0.9" />
+      {/* Tonal honeycomb hint inside the panel */}
+      {Array.from({ length: 5 }).map((_, row) =>
+        Array.from({ length: 8 }).map((_, col) => (
+          <circle
+            key={`${row}-${col}`}
+            cx={88 + col * 16 + (row % 2) * 8}
+            cy={156 + row * 7}
+            r="2.2"
+            fill={BONE}
+            opacity="0.12"
+          />
+        )),
+      )}
+    </g>
+  );
+}
+
+function CrestBadge() {
+  return (
+    <g transform="translate(168 118)">
+      <path
+        d="M0 0 L28 0 L28 30 L14 38 L0 30 Z"
+        fill={BLACK}
+        stroke={BONE}
+        strokeWidth="1.4"
+      />
+      <path
+        d="M6 10 L14 6 L22 10 L20 22 L14 26 L8 22 Z"
+        fill={FILL}
+        stroke={BONE}
+        strokeWidth="0.8"
+      />
+      <circle cx="14" cy="14" r="3.2" fill={BONE} opacity="0.85" />
+    </g>
   );
 }
 

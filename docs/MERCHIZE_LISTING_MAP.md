@@ -2,7 +2,7 @@
 
 Supplier: **Merchize** (Shopify app sync)  
 Brand: **Bayonne Bees** · No Parade F.C. Team Customs  
-Palette: Maroon `#5A1626` · Black `#0A0A0A` · Bone `#F4F1F0` · optional sting gold outline `#C9A96A`  
+Palette: Garnet `#5A1626` · Black `#0A0A0A` · Bone `#F4F1F0` · optional sting gold outline `#C9A96A`  
 Motif: School kit (crest + wordmark + number) + design-forward geometric accents  
 Style bar: Behance kit-campaign heroes — **no manufacturer trademarks / 3-stripe / wordmarks**
 
@@ -144,7 +144,7 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 |---|---|---|
 | Chest wordmark | Center X 50%, Y 22–28% | `BAYONNE` or `BEES` |
 | Chest number | Center X 50%, Y 40–55%, H ~20% | Custom number (white fill, maroon geo-outline) |
-| Binding | Neck + armholes | Maroon–bone–maroon stripe rib |
+| Binding | Neck + armholes | Garnet–bone–garnet stripe rib |
 | Side inserts | Optional | Subtle geo |
 
 ### 5. Jersey dress (`bayonne-bees-jersey-dress`)
@@ -207,7 +207,7 @@ Asset folder: `src/assets/bayonne/heroes/`
 | ID | File | Outfit | Setting | Use |
 |---|---|---|---|---|
 | H0 | `hero-landing.jpg` | Match jersey lifestyle | Floodlit pitch, cinematic | `/team` landing |
-| H1 | `hero-kit-studio.jpg` | Jersey + shorts, ball at hip | Maroon studio + diagonal band | Core category / kit PDP |
+| H1 | `hero-kit-studio.jpg` | Jersey + shorts, panel kit | Garnet studio + diagonal light | Core category / kit PDP |
 | H2 | `hero-spirit-gym.jpg` | Jersey dress | Indoor court | Spirit category |
 | H3 | `hero-crewneck-studio.jpg` | Geo crewneck | Neutral grey studio | Warm-up |
 | H4 | `hero-field-lifestyle.jpg` | Jersey lifestyle | Pitch / campaign | Lifestyle |

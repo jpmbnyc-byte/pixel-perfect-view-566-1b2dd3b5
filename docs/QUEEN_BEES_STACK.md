@@ -2,6 +2,8 @@
 
 The whole angle rests on one true sentence: **the name already exists and nobody ever drew it.** Every layer below is that sentence at a different distance.
 
+Write as Ogilvy would: specific facts, respect for the reader, no clever fog. Promise, then proof.
+
 ---
 
 ## Layer 1 — Reveal carousel (silent, no music)
@@ -29,11 +31,9 @@ Assets: `src/assets/bayonne/reveal/reveal-0{1–5}-*.jpg`
 
 Live under the landing hero. **No CTA. No link.** The absence is the credibility.
 
-> The 2024 Hudson County champions have gone by the Queen Bees for years. There was never a mark for it.
+> In 2024 the Hudson County champions answered to a name that lived only in speech. Queen Bees. There was no mark. No embroidery. Nothing a mother could point to on a jacket and say, that is ours.
 >
-> So we made one. Free. No invoice, no pitch.
->
-> If the program wants it, it's theirs.
+> So we drew the crest. There is no invoice. There is no pitch. The files are theirs if they want them.
 
 ---
 
@@ -45,9 +45,9 @@ Use as email. Do not paste a store link into the first send unless asked.
 
 > Coach —
 >
-> I run a small kit and identity studio out of Bayonne. I've watched the Queen Bees name get used for years without a mark behind it, so I drew one. It's attached, in vector, and it's yours whether or not we ever speak again.
+> I run a small kit studio out of Bayonne. For years I have watched the Queen Bees name travel by word of mouth alone — no mark behind it. So I drew one. The vector files are attached. They are yours whether or not we speak again.
 >
-> If the program ever wants it on warmups or fan gear, I can quote that. If not, use it anyway.
+> If the program ever wants the crest on warmups or fan gear, I can quote that work. If not, use the mark anyway.
 >
 > — JP, No Parade F.C.
 
@@ -59,9 +59,9 @@ The second paragraph is the whole sales motion. One sentence, past the gift, eas
 
 Shipped on `/team` below the reveal:
 
-- **H1:** Bayonne teams, dressed properly.
-- **Sub:** Free identity design for one Bayonne program each season. Kits fulfilled on demand — no inventory, no upfront cost to the club.
-- **CTA:** See the Queen Bees build → `/team/bayonne-bees`
+- **H1:** The Queen Bees never had a crest. Now they do.
+- **Sub:** We drew it for one Bayonne program — free of charge — and we will print the kits to order. No inventory sitting in a closet. No check from the club before a stitch is cut.
+- **CTA:** Inspect the Queen Bees kit → `/team/bayonne-bees`
 
 ---
 
@@ -69,9 +69,9 @@ Shipped on `/team` below the reveal:
 
 Shipped on Team Customs PDPs:
 
-> Garnet, not maroon. Bayonne has worn the darker one since 1936, and most suppliers get it wrong.
+> Most mills will sell you maroon and call it close enough. It is not. Bayonne has worn garnet since 1936 — a darker red that turns almost black under the lights until the camera finds it.
 >
-> The year is printed inside the collar, where only the player sees it.
+> Inside the collar, where only the player looks, we print the year. That is how a kit remembers a season.
 
 Primary reveal shot for TikTok / short video: open the collar, show the year.
 
@@ -98,3 +98,9 @@ Three real constraints:
 3. **"Queen Bees" and the Bees marks aren't yours to sell.** Design and give freely; the moment money attaches to the mark you need written permission from the district. Your own crest drawing is your IP — the nickname isn't.
 
 Layers 1–3 have nothing to sell. Do not let a CTA creep into the reveal.
+
+---
+
+## Kit graphic language (internal)
+
+Match-kit reference: bold torso panel, white edge line, tonal pattern inside the panel, single crest left chest, garnet field — the quiet confidence of a national-team strip. Never name the reference kit on-site or in ads.

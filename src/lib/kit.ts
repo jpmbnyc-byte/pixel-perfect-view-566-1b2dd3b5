@@ -26,7 +26,8 @@ export type KitConfig = {
   sport: string;
   status: "draft" | "live" | "closed";
   closesAt: string;
-  family: { id: string; label: string; version: number; doctrine: string };
+  /** Calendar season stamped inside the collar and carried on the order. */
+  seasonYear: number;
   colorway: { base: string; gesture: string; trim: string; name: string };
   font: {
     id: string;
@@ -105,7 +106,7 @@ export function buildArtSpec(args: {
     number,
     size,
     font: kit.font.id,
-    family: `${kit.family.id}-${kit.family.version}`,
+    season: kit.seasonYear,
     colors: {
       base: kit.colorway.base,
       gesture: kit.colorway.gesture,

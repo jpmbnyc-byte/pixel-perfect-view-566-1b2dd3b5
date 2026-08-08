@@ -1,7 +1,7 @@
 import type { KitConfig } from "../kit";
 
 /**
- * Bayonne Bees — VESPERS 26 Team Customs kit.
+ * Bayonne Bees — Team Customs kit.
  *
  * Launch checklist (Merchize → Shopify → configurator):
  * 1. In Merchize: Jersey / Shorts / Full Set (Garnet/Black), Name + Number personalization ON
@@ -20,12 +20,7 @@ export const BAYONNE_BEES_KIT: KitConfig = {
   status: "live",
   // Explicit ISO — do not use Date.now() here (build-time bake closes the store).
   closesAt: "2026-09-15T03:59:59.000Z",
-  family: {
-    id: "vespers",
-    label: "VESPERS",
-    version: 26,
-    doctrine: "One line, held.",
-  },
+  seasonYear: 2026,
   colorway: {
     base: "#5A1626",
     gesture: "#F4F1F0",

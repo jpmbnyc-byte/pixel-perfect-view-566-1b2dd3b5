@@ -1,6 +1,6 @@
 # Bayonne Bees Team Kit — No Parade F.C.
 
-Team Customs configurator for Bayonne Bees (VESPERS 26). Built with [Lovable](https://lovable.dev).
+Team Customs configurator for Bayonne Bees / Queen Bees crest build. Built with [Lovable](https://lovable.dev).
 
 **Live app**: https://pixel-perfect-view-566.lovable.app  
 **Shopify store**: https://noparade-store.com  
@@ -25,7 +25,7 @@ Products must be created/synced **from Merchize → Shopify**. Shopify-only prod
 
 ## Launch setup
 
-1. In **Merchize**: build Jersey / Shorts / Full Set (Maroon/Black) with school motif + geometric accents; enable Name + Number personalization where supported.
+1. In **Merchize**: build Jersey / Shorts / Full Set (Garnet/Black) with crest + panel accents; enable Name + Number personalization where supported.
 2. **Push/sync** those products to Shopify into collection **Team Customs**.
 3. Publish with handles in the [listing map](docs/MERCHIZE_LISTING_MAP.md) (auto-resolved), or paste static variant IDs into `src/lib/kits/bayonne-bees.ts`.
 4. Keep the configurator as the only add-to-cart path for customizable Team Customs SKUs.
