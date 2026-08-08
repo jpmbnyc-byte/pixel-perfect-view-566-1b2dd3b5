@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { KitMockup, exportMockupPng, type View } from "@/components/KitMockup";
@@ -130,7 +130,12 @@ function TeamOrderPage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-[520px] bg-background pb-16">
       <header className="border-b border-border px-5 pb-5 pt-6">
-        <p className="label-caps text-muted-foreground">No Parade F.C. · Team Customs</p>
+        <Link
+          to="/team"
+          className="label-caps text-muted-foreground transition-colors hover:text-foreground"
+        >
+          No Parade F.C. · Team Customs
+        </Link>
         <h1 className="mt-2 text-4xl leading-none tracking-tight">{kit.teamName}</h1>
         <p className="label-caps mt-3 text-accent-foreground">
           {kit.family.label} {kit.family.version} · {kit.colorway.name}
