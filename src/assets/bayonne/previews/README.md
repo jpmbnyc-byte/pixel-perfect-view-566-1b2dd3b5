@@ -21,7 +21,7 @@ Ghost mannequin / product still, studio lighting, full garment in frame.
 | Match Shorts | `shorts-front.jpg` | `shorts-side.jpg` |
 | Alumni Shorts | `geo-shorts-front.jpg` | `geo-shorts-side.jpg` |
 | 1936 Crewneck | `crew-front.jpg` | `crew-side.jpg` |
-| Match Sweatpants | `sweats-front.jpg` | `sweats-side.jpg` |
+| Blackout Sweatpants | `sweats-front.jpg` | `sweats-side.jpg` |
 | AOP Hat | `hat-front.jpg` | `hat-side.jpg` |
 
 Category campaign heroes live in `../heroes/` and are separate — do not overwrite them from this folder.
