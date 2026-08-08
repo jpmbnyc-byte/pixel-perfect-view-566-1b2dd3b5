@@ -3,11 +3,12 @@
  *
  * Order path:
  *   Configurator → POST {domain}/cart/add (variant + properties)
- *   → Shopify Checkout → paid order → Printful sync
- *   → "Personalization required" draft → ops confirms Name/Number → print
+ *   → Shopify Checkout → paid order → Merchize sync
+ *   → ops / personalizer applies Name + Number from line properties → print
  *
- * Products must be Printful→Shopify synced (SKU like `9223054_33938`).
- * Shopify-only products never trigger Printful fulfillment.
+ * Products must be Merchize→Shopify synced.
+ * Shopify-only products never trigger Merchize fulfillment.
+ * Listing map: docs/MERCHIZE_LISTING_MAP.md
  */
 
 import type { Item, KitConfig, Size } from "./kit";
@@ -116,7 +117,7 @@ function optionAt(v: ShopifyJsVariant, idx: 1 | 2 | 3) {
 
 /**
  * Map Shopify product variants → size → variant id string.
- * Prefers Printful personalization styles; skips blank/non-custom styles when alternatives exist.
+ * Prefers personalization-capable styles; skips blank/non-custom styles when alternatives exist.
  */
 export function variantMapFromProduct(product: ShopifyJsProduct): Partial<Record<Size, string>> {
   const sizeIdx = sizeOptionIndex(product);
@@ -177,7 +178,7 @@ function dollarsFromProduct(product: ShopifyJsProduct | null) {
 
 /**
  * Resolve size→variant maps for a kit.
- * Static maps in kit config win; otherwise fetch Printful-synced products by handle.
+ * Static maps in kit config win; otherwise fetch Merchize-synced products by handle.
  */
 export async function resolveKitShopify(kit: KitConfig): Promise<{
   kit: KitConfig;

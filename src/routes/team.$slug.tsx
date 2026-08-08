@@ -164,7 +164,7 @@ function TeamOrderPage() {
 
       {!catalogReady && (
         <div className="border-b border-border bg-secondary/60 px-5 py-3 text-sm leading-snug text-muted-foreground">
-          Checkout unlocks after Printful syncs Jersey / Shorts / Full Set to{" "}
+          Checkout unlocks after Merchize syncs Jersey / Shorts / Full Set to{" "}
           <span className="text-foreground">noparade-store.com</span>. You can still preview your
           name and number.
         </div>
@@ -355,7 +355,7 @@ function TeamOrderPage() {
           {closed
             ? "Store closed"
             : !itemReady
-              ? "Waiting for Printful sync"
+              ? "Waiting for Merchize sync"
               : `Checkout · $${priceFor(kit, item)}`}
         </button>
 
@@ -369,7 +369,7 @@ function TeamOrderPage() {
           >
             noparade-store.com
           </a>
-          . Printful personalizes Name + Number after payment.
+          . Merchize fulfills Name + Number after payment.
         </p>
         <SyncHint sync={sync} />
       </section>
