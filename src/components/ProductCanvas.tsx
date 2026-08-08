@@ -24,8 +24,8 @@ type Props = {
 
 /**
  * Photoreal live preview — product detail photo + motif panel + optional lettering.
- * Motif overlay always remounts on selection so Chevron / Grid / Arc read clearly
- * on front, back, and side views.
+ * Motif overlay is luminance-masked to the garment photo so it never floats on the
+ * studio background (the previous unmasked side rails).
  */
 export function ProductCanvas({
   view,
@@ -64,8 +64,13 @@ export function ProductCanvas({
         draggable={false}
       />
 
-      {/* Live motif panel — always on; changes with selection */}
-      <MotifOverlay key={motif} motif={motif} view={view} emphasize={emphasizeMotif} />
+      <MotifOverlay
+        key={`${motif}-${view}`}
+        motif={motif}
+        view={view}
+        emphasize={emphasizeMotif}
+        garmentSrc={src}
+      />
 
       {view === "back" && showLettering && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -113,46 +118,50 @@ export function ProductCanvas({
   );
 }
 
-/** Visible side-panel language that clearly switches with motif id */
+/**
+ * Motif fill clipped to the garment via luminance mask of the product photo,
+ * then further limited to side-panel zones so the chest/back stay clear.
+ */
 function MotifOverlay({
   motif,
   view,
   emphasize,
+  garmentSrc,
 }: {
   motif: MotifId;
   view: CanvasView;
   emphasize: boolean;
+  garmentSrc: string;
 }) {
   const sideHeavy = emphasize || view === "side";
   const panelStyle = motifPanelStyle(motif);
 
-  if (sideHeavy) {
-    return (
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div
-          className="absolute inset-y-[10%] left-[38%] w-[22%] rounded-[2px] opacity-85 mix-blend-soft-light transition-all duration-300"
-          style={{ ...panelStyle, boxShadow: "inset 0 0 0 1px rgba(244,241,240,0.25)" }}
-        />
-        <div className="absolute bottom-[14%] left-1/2 -translate-x-1/2 rounded-sm bg-black/55 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-bone/90">
-          Motif · {motif}
-        </div>
-      </div>
-    );
-  }
+  // Side-panel windows — never full-bleed edge rails on empty studio backdrop
+  const zoneMask = sideHeavy
+    ? "linear-gradient(90deg, transparent 28%, #000 42%, #000 58%, transparent 72%)"
+    : "linear-gradient(90deg, transparent 14%, #000 18%, #000 26%, transparent 32%, transparent 68%, #000 74%, #000 82%, transparent 86%)";
+
+  const maskStyle: CSSProperties = {
+    ...panelStyle,
+    opacity: sideHeavy ? 0.72 : 0.55,
+    mixBlendMode: "soft-light",
+    WebkitMaskImage: `url(${garmentSrc}), ${zoneMask}`,
+    maskImage: `url(${garmentSrc}), ${zoneMask}`,
+    WebkitMaskSize: "cover, 100% 100%",
+    maskSize: "cover, 100% 100%",
+    WebkitMaskPosition: "center, center",
+    maskPosition: "center, center",
+    WebkitMaskRepeat: "no-repeat, no-repeat",
+    maskRepeat: "no-repeat, no-repeat",
+    WebkitMaskComposite: "source-in",
+    maskComposite: "intersect",
+    // JPEG mask: treat bright garment pixels as solid, dark studio as cut out
+    maskMode: "luminance, alpha",
+  };
 
   return (
-    <div className="pointer-events-none absolute inset-0" aria-hidden>
-      <div
-        className="absolute inset-y-[16%] left-[7%] w-[9%] opacity-75 mix-blend-soft-light transition-all duration-300"
-        style={panelStyle}
-      />
-      <div
-        className="absolute inset-y-[16%] right-[7%] w-[9%] opacity-75 mix-blend-soft-light transition-all duration-300"
-        style={panelStyle}
-      />
-      <div className="absolute bottom-[14%] left-1/2 -translate-x-1/2 rounded-sm bg-black/55 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-bone/90">
-        Motif · {motif}
-      </div>
+    <div className="pointer-events-none absolute inset-0 transition-opacity duration-300" aria-hidden>
+      <div className="absolute inset-0" style={maskStyle} />
     </div>
   );
 }
@@ -162,22 +171,22 @@ function motifPanelStyle(motif: MotifId): CSSProperties {
     case "grid":
       return {
         backgroundImage: [
-          "linear-gradient(#F4F1F0 1px, transparent 1px)",
-          "linear-gradient(90deg, #F4F1F0 1px, transparent 1px)",
-          "linear-gradient(180deg, #5A1626, #3a0e18)",
+          "linear-gradient(rgba(244,241,240,0.85) 1px, transparent 1px)",
+          "linear-gradient(90deg, rgba(244,241,240,0.85) 1px, transparent 1px)",
+          "linear-gradient(180deg, #5A1626, #2a0a12)",
         ].join(", "),
         backgroundSize: "10px 10px, 10px 10px, auto",
       };
     case "arc":
       return {
         backgroundImage:
-          "repeating-radial-gradient(circle at 50% 110%, #0A0A0A 0 8px, #5A1626 8px 16px, #F4F1F0 16px 18px)",
+          "repeating-radial-gradient(circle at 50% 110%, #0A0A0A 0 8px, #5A1626 8px 16px, rgba(244,241,240,0.9) 16px 18px)",
       };
     case "chevron":
     default:
       return {
         backgroundImage:
-          "repeating-linear-gradient(-32deg, #5A1626 0 12px, #0A0A0A 12px 24px, #F4F1F0 24px 27px)",
+          "repeating-linear-gradient(-32deg, #5A1626 0 12px, #0A0A0A 12px 24px, rgba(244,241,240,0.9) 24px 27px)",
       };
   }
 }
