@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 import type { FontId, MotifId } from "@/lib/catalog";
 import { fontById } from "@/lib/catalog";
 import { LETTERING, type LetteringLayout } from "@/lib/kit";
@@ -191,7 +191,7 @@ function MotifOverlay({
         const gr = gd[i]!;
         const gg = gd[i + 1]!;
         const gb = gd[i + 2]!;
-        if (fabricMatte(gr, gg, gb, bg) < 0.4) continue;
+        if (fabricMatte(gr, gg, gb, bg, sideHeavy, zone, lum) < 0.35) continue;
         const lum = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / 255;
         if (lum < lumMin) lumMin = lum;
         if (lum > lumMax) lumMax = lum;
@@ -209,9 +209,10 @@ function MotifOverlay({
         const gb = gd[i + 2]!;
         const lum = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / 255;
 
-        // Cut studio via color-distance matte (black panels ≈ darker than grey floor)
-        const fabric = fabricMatte(gr, gg, gb, bg);
         const zone = panelZone(nx, ny, sideHeavy);
+        // Cut studio via color-distance matte. Black side stripes are close to the
+        // charcoal floor, so the panel core also trusts the zone itself.
+        const fabric = fabricMatte(gr, gg, gb, bg, sideHeavy, zone, lum);
         const mask = fabric * zone;
         if (mask < 0.02) {
           od[i + 3] = 0;
@@ -400,19 +401,27 @@ function sampleCornerBackground(gd: Uint8ClampedArray, w: number, h: number) {
 }
 
 /**
- * Fabric vs studio matte. Garnet (high red chroma) always counts; deep blacks that
- * differ from the grey studio floor count when far enough in RGB space.
+ * Fabric vs studio matte.
+ * - Garnet chroma always counts
+ * - Pixels far from corner-sampled backdrop count
+ * - On motif-first side views, the panel core also counts deep blacks (side stripe
+ *   is often as dark as the charcoal floor, so distance alone fails)
  */
 function fabricMatte(
   r: number,
   g: number,
   b: number,
   bg: { r: number; g: number; b: number },
+  sideHeavy: boolean,
+  zone: number,
+  lum: number,
 ) {
   const dist = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
-  const garnet = smoothstep(12, 28, r - g) * smoothstep(12, 28, r - b);
-  const fromBg = smoothstep(18, 42, dist);
-  return Math.max(garnet, fromBg);
+  const garnet = smoothstep(10, 24, r - g) * smoothstep(10, 24, r - b);
+  const fromBg = smoothstep(sideHeavy ? 8 : 18, sideHeavy ? 26 : 42, dist);
+  const blackPanel =
+    sideHeavy && lum < 0.22 ? smoothstep(0.5, 0.78, zone) * (1 - smoothstep(0.2, 0.35, lum)) : 0;
+  return Math.max(garnet, fromBg, blackPanel);
 }
 
 function smoothstep(edge0: number, edge1: number, x: number) {
