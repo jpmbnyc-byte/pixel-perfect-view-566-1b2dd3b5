@@ -1,12 +1,12 @@
 # Kit lettering fonts (OTF)
 
-Local OpenType faces used by the Team Customs name/number picker.
+Local faces for name/number preview. Display labels are creative kit names — not countries.
 
-| File | CSS family | Catalog id |
+| File | Kit label | FontId |
 |---|---|---|
-| `france-away.otf` | France Away | `france` |
-| `haiti.otf` | Haiti | `haiti` |
-| `jamaica-away.otf` | Jamaica Away | `jamaica` |
-| `usa-away.otf` | USA Away | `usa` |
+| `france-away.otf` | Rail Cut | `rail` |
+| `haiti.otf` | Beacon | `beacon` |
+| `jamaica-away.otf` | Whistle | `whistle` |
+| `usa-away.otf` | Forge | `forge` |
 
-Loaded with `@font-face` in `src/styles.css`. Wired in `src/lib/catalog.ts` → `FONTS`.
+`@font-face` family names in `src/styles.css` must match `FONTS.cssFamily` in `src/lib/catalog.ts`.

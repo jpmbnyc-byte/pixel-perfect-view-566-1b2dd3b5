@@ -6,31 +6,31 @@
 
 /*
  * Kit lettering — local OTF faces (repo uploads).
- * Family names must match src/lib/catalog.ts FONTS.cssFamily.
+ * Display names are creative kit labels; family names match catalog FONTS.cssFamily.
  */
 @font-face {
-  font-family: "France Away";
+  font-family: "Rail Cut";
   src: url("./assets/fonts/france-away.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Haiti";
+  font-family: "Beacon";
   src: url("./assets/fonts/haiti.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Jamaica Away";
+  font-family: "Whistle";
   src: url("./assets/fonts/jamaica-away.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "USA Away";
+  font-family: "Forge";
   src: url("./assets/fonts/usa-away.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
@@ -72,9 +72,9 @@
   --color-bone: var(--bone);
   --color-maroon: var(--maroon);
   --color-garnet: var(--garnet);
-  --font-display: "USA Away", "Barlow Condensed", system-ui, sans-serif;
+  --font-display: "Forge", "Barlow Condensed", system-ui, sans-serif;
   --font-sans: "Barlow Condensed", system-ui, sans-serif;
-  --font-kit: "USA Away", "Barlow Condensed", sans-serif;
+  --font-kit: "Forge", "Barlow Condensed", sans-serif;
 }
 
 :root {

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { FontId, MotifId } from "@/lib/catalog";
 import { fontById } from "@/lib/catalog";
 import { LETTERING, type LetteringLayout } from "@/lib/kit";
@@ -15,16 +16,16 @@ type Props = {
   number: string;
   productLabel: string;
   showLettering?: boolean;
-  /** Stronger side-panel motif preview for bottoms / AOP pieces */
+  /** Motif-first pieces (shorts / sweats / hat) — larger side-panel language */
   emphasizeMotif?: boolean;
   /** Per-product back lettering geometry (defaults to kit LETTERING) */
   lettering?: LetteringLayout;
 };
 
 /**
- * Photoreal live preview — product detail photo + optional name/number overlay.
- * Name/number boxes follow reference print-zone % (Y / W / H) and scale with the
- * preview container so live preview matches production scale.
+ * Photoreal live preview — product detail photo + motif panel + optional lettering.
+ * Motif overlay always remounts on selection so Chevron / Grid / Arc read clearly
+ * on front, back, and side views.
  */
 export function ProductCanvas({
   view,
@@ -43,7 +44,6 @@ export function ProductCanvas({
   const src = view === "front" ? frontSrc : secondarySrc;
   const displayName = (name || "NAME").slice(0, 12).toUpperCase();
   const displayNumber = number || "00";
-  const motifHeavy = emphasizeMotif || view === "side";
   const blackout = lettering.surface === "blackout";
   const nameShadow = blackout
     ? "0 0 2px #000, 0 1px 0 #000, 0 0 12px rgba(0,0,0,0.85)"
@@ -64,40 +64,11 @@ export function ProductCanvas({
         draggable={false}
       />
 
-      {/* Motif accent — side panel language; heavier on side views */}
-      {motifHeavy ? (
-        <>
-          <div
-            className="pointer-events-none absolute inset-y-[12%] left-[42%] w-[16%] opacity-55 mix-blend-soft-light"
-            style={{ backgroundImage: motifCss(motif) }}
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute inset-y-[18%] right-[10%] w-[10%] opacity-35 mix-blend-soft-light"
-            style={{ backgroundImage: motifCss(motif) }}
-            aria-hidden
-          />
-        </>
-      ) : (
-        view !== "back" && (
-          <>
-            <div
-              className="pointer-events-none absolute inset-y-[18%] left-[8%] w-[6%] opacity-40 mix-blend-soft-light"
-              style={{ backgroundImage: motifCss(motif) }}
-              aria-hidden
-            />
-            <div
-              className="pointer-events-none absolute inset-y-[18%] right-[8%] w-[6%] opacity-40 mix-blend-soft-light"
-              style={{ backgroundImage: motifCss(motif) }}
-              aria-hidden
-            />
-          </>
-        )
-      )}
+      {/* Live motif panel — always on; changes with selection */}
+      <MotifOverlay key={motif} motif={motif} view={view} emphasize={emphasizeMotif} />
 
       {view === "back" && showLettering && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
-          {/* Name zone — reference: Y 18% · W 44% · H 8% · centered */}
           <p
             className="absolute flex items-center justify-center text-center uppercase tracking-[0.12em] text-white"
             style={{
@@ -115,7 +86,6 @@ export function ProductCanvas({
           >
             {displayName}
           </p>
-          {/* Number zone — reference: Y 32% · W 28% · H 22% · centered */}
           <p
             className="absolute flex items-center justify-center text-center leading-none text-white"
             style={{
@@ -136,21 +106,78 @@ export function ProductCanvas({
       )}
 
       <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
-        {productLabel} · {view}
+        {productLabel} · {view} · {motif}
         {blackout && view === "back" ? " · blackout" : ""} · live preview
       </figcaption>
     </figure>
   );
 }
 
-function motifCss(motif: MotifId): string {
+/** Visible side-panel language that clearly switches with motif id */
+function MotifOverlay({
+  motif,
+  view,
+  emphasize,
+}: {
+  motif: MotifId;
+  view: CanvasView;
+  emphasize: boolean;
+}) {
+  const sideHeavy = emphasize || view === "side";
+  const panelStyle = motifPanelStyle(motif);
+
+  if (sideHeavy) {
+    return (
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div
+          className="absolute inset-y-[10%] left-[38%] w-[22%] rounded-[2px] opacity-85 mix-blend-soft-light transition-all duration-300"
+          style={{ ...panelStyle, boxShadow: "inset 0 0 0 1px rgba(244,241,240,0.25)" }}
+        />
+        <div className="absolute bottom-[14%] left-1/2 -translate-x-1/2 rounded-sm bg-black/55 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-bone/90">
+          Motif · {motif}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pointer-events-none absolute inset-0" aria-hidden>
+      <div
+        className="absolute inset-y-[16%] left-[7%] w-[9%] opacity-75 mix-blend-soft-light transition-all duration-300"
+        style={panelStyle}
+      />
+      <div
+        className="absolute inset-y-[16%] right-[7%] w-[9%] opacity-75 mix-blend-soft-light transition-all duration-300"
+        style={panelStyle}
+      />
+      <div className="absolute bottom-[14%] left-1/2 -translate-x-1/2 rounded-sm bg-black/55 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-bone/90">
+        Motif · {motif}
+      </div>
+    </div>
+  );
+}
+
+function motifPanelStyle(motif: MotifId): CSSProperties {
   switch (motif) {
     case "grid":
-      return "repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(244,241,240,0.35) 6px, rgba(244,241,240,0.35) 7px), repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(244,241,240,0.35) 6px, rgba(244,241,240,0.35) 7px)";
+      return {
+        backgroundImage: [
+          "linear-gradient(#F4F1F0 1px, transparent 1px)",
+          "linear-gradient(90deg, #F4F1F0 1px, transparent 1px)",
+          "linear-gradient(180deg, #5A1626, #3a0e18)",
+        ].join(", "),
+        backgroundSize: "10px 10px, 10px 10px, auto",
+      };
     case "arc":
-      return "repeating-radial-gradient(circle at 50% 120%, transparent 0 10px, rgba(244,241,240,0.28) 10px 12px)";
+      return {
+        backgroundImage:
+          "repeating-radial-gradient(circle at 50% 110%, #0A0A0A 0 8px, #5A1626 8px 16px, #F4F1F0 16px 18px)",
+      };
     case "chevron":
     default:
-      return "repeating-linear-gradient(-32deg, transparent, transparent 10px, rgba(244,241,240,0.4) 10px, rgba(244,241,240,0.4) 12px)";
+      return {
+        backgroundImage:
+          "repeating-linear-gradient(-32deg, #5A1626 0 12px, #0A0A0A 12px 24px, #F4F1F0 24px 27px)",
+      };
   }
 }
