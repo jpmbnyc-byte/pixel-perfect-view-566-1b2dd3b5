@@ -1,14 +1,15 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import heroKit from "@/assets/model-soccer-back.jpg";
+import logo from "@/assets/bayonne/bayonne-bees-logo.png";
+import hero from "@/assets/bayonne/bayonne-landing-hero.jpg";
 import { countdownParts } from "@/lib/kit";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
 export const Route = createFileRoute("/team/")({
   head: () => {
-    const title = "Team Customs — No Parade F.C.";
+    const title = "Bayonne Bees — Team Customs | No Parade F.C.";
     const description =
-      "Custom team kits from No Parade F.C. Open the live Bayonne Bees store to lock your name, number, and size.";
+      "Bayonne Bees custom kits. Lock your name, number, and size before the store closes.";
     return {
       meta: [
         { title },
@@ -28,55 +29,57 @@ function TeamLanding() {
   const live = kit.status === "live" && countdownParts(kit.closesAt, Date.now()) !== null;
 
   return (
-    <main className="relative min-h-dvh overflow-hidden bg-primary text-primary-foreground">
+    <main className="relative min-h-dvh overflow-hidden bg-black text-bone">
+      {/* Single full-bleed merged visual plane */}
       <div className="absolute inset-0" aria-hidden>
         <img
-          src={heroKit}
+          src={hero}
           alt=""
-          className="h-full w-full object-cover object-[center_20%] opacity-55 motion-safe:animate-team-hero-drift"
+          className="h-full w-full object-cover object-center motion-safe:animate-team-hero-drift"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_15%,transparent_0%,color-mix(in_oklab,var(--primary)_55%,transparent)_45%,var(--primary)_78%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--primary)_35%,transparent)_0%,transparent_28%,color-mix(in_oklab,var(--primary)_70%,transparent)_70%,var(--primary)_100%)]" />
-        <div
-          className="absolute inset-0 opacity-[0.07] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(-12deg, transparent 0 14px, color-mix(in oklab, var(--gold) 80%, white) 14px 15px)",
-          }}
-        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,6,8,0.15)_0%,rgba(8,6,8,0.05)_32%,rgba(8,6,8,0.55)_68%,rgba(8,6,8,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_18%,color-mix(in_oklab,var(--maroon)_35%,transparent),transparent_70%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[520px] flex-col justify-end px-6 pb-14 pt-16">
-        <div className="motion-safe:animate-team-rise">
-          <p className="label-caps text-accent">No Parade F.C.</p>
-          <h1 className="mt-4 font-display text-[clamp(3.25rem,14vw,4.75rem)] leading-[0.92] tracking-tight text-bone">
-            Team Customs
+      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[520px] flex-col px-6 pb-14 pt-10">
+        <div className="flex flex-1 flex-col items-center justify-center text-center motion-safe:animate-team-logo-in">
+          <img
+            src={logo}
+            alt="Bayonne Bees"
+            className="h-28 w-28 object-contain drop-shadow-[0_8px_28px_rgba(90,22,38,0.55)] sm:h-32 sm:w-32"
+          />
+          <p className="label-caps mt-6 text-bone/70">No Parade F.C. · Team Customs</p>
+          <h1 className="mt-3 font-kit text-[clamp(3.5rem,16vw,5.5rem)] leading-none tracking-[0.04em] text-bone">
+            Bayonne Bees
           </h1>
-          <p className="mt-4 max-w-[22rem] text-base leading-snug text-primary-foreground/80 sm:text-lg">
-            Name, number, size — ordered once, held for the season.
+          <p className="mt-4 max-w-[20rem] text-base leading-snug text-bone/75 sm:text-lg">
+            Maroon and black. Name, number, size — held for the season.
           </p>
         </div>
 
-        <div className="mt-10 space-y-4 motion-safe:animate-team-rise [animation-delay:180ms]">
-          <p className="label-caps text-primary-foreground/55">
-            {live ? "Live now" : "Store closed"} · {kit.family.label} {kit.family.version}
-          </p>
-          <p className="font-kit text-4xl tracking-wide text-bone sm:text-5xl">{kit.teamName}</p>
-          <p className="font-display text-xl italic text-accent">“{kit.family.doctrine}”</p>
+        <div className="mt-auto space-y-5 pt-8 motion-safe:animate-team-rise [animation-delay:160ms]">
+          <div className="text-center">
+            <p className="label-caps text-bone/50">
+              {live ? "Live now" : "Store closed"} · {kit.family.label} {kit.family.version}
+            </p>
+            <p className="mt-2 font-display text-lg tracking-[0.2em] text-maroon">
+              {kit.colorway.name}
+            </p>
+          </div>
 
-          <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-3">
             <Link
               to="/team/$slug"
               params={{ slug: kit.slug }}
-              className="label-caps inline-flex items-center justify-center bg-accent px-6 py-4 text-accent-foreground transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
+              className="label-caps inline-flex items-center justify-center bg-maroon px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
             >
-              {live ? "Open Bayonne Bees" : "View Bayonne Bees"}
+              {live ? "Open the kit store" : "View the kit store"}
             </Link>
             <a
               href="https://noparade-store.com"
               target="_blank"
               rel="noreferrer"
-              className="label-caps inline-flex items-center justify-center border border-primary-foreground/25 px-6 py-4 text-primary-foreground/85 transition-colors hover:border-accent hover:text-accent"
+              className="label-caps inline-flex items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
             >
               No Parade store
             </a>

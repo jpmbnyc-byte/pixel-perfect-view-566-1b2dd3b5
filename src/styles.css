@@ -5,7 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * NO PARADE F.C. — restrained, ceremonial. Navy / gold / bone.
+ * BAYONNE BEES × NO PARADE F.C.
+ * Maroon / black / white — athletic, high-contrast.
  * All colors are oklch tokens. Never hardcode color utilities in components.
  */
 
@@ -36,60 +37,66 @@
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
   --color-bone: var(--bone);
-  --font-display: "Instrument Serif", Georgia, serif;
+  --color-maroon: var(--maroon);
+  --font-display: "Bebas Neue", "Barlow Condensed", system-ui, sans-serif;
   --font-sans: "Barlow Condensed", system-ui, sans-serif;
   --font-kit: "Bebas Neue", "Barlow Condensed", sans-serif;
 }
 
 :root {
   --radius: 0.125rem;
-  --background: oklch(0.968 0.008 88);
-  --foreground: oklch(0.27 0.045 265);
-  --card: oklch(0.988 0.005 88);
-  --card-foreground: oklch(0.27 0.045 265);
-  --popover: oklch(0.988 0.005 88);
-  --popover-foreground: oklch(0.27 0.045 265);
-  --primary: oklch(0.29 0.052 264);
-  --primary-foreground: oklch(0.955 0.014 88);
-  --secondary: oklch(0.93 0.012 88);
-  --secondary-foreground: oklch(0.29 0.052 264);
-  --muted: oklch(0.94 0.009 88);
-  --muted-foreground: oklch(0.52 0.024 265);
-  --accent: oklch(0.78 0.076 82);
-  --accent-foreground: oklch(0.25 0.045 264);
-  --destructive: oklch(0.52 0.17 27);
-  --destructive-foreground: oklch(0.97 0.01 88);
-  --border: oklch(0.87 0.012 88);
-  --input: oklch(0.87 0.012 88);
-  --ring: oklch(0.78 0.076 82);
-  --gold: oklch(0.78 0.076 82);
-  --gold-foreground: oklch(0.25 0.045 264);
-  --bone: oklch(0.94 0.017 84);
+  /* Paper / bone field */
+  --background: oklch(0.975 0.004 30);
+  --foreground: oklch(0.16 0.01 20);
+  --card: oklch(0.995 0.002 30);
+  --card-foreground: oklch(0.16 0.01 20);
+  --popover: oklch(0.995 0.002 30);
+  --popover-foreground: oklch(0.16 0.01 20);
+  /* Maroon brand */
+  --primary: oklch(0.34 0.12 18);
+  --primary-foreground: oklch(0.98 0.005 30);
+  --secondary: oklch(0.94 0.01 30);
+  --secondary-foreground: oklch(0.22 0.03 18);
+  --muted: oklch(0.945 0.008 30);
+  --muted-foreground: oklch(0.48 0.02 20);
+  --accent: oklch(0.34 0.12 18);
+  --accent-foreground: oklch(0.98 0.005 30);
+  --destructive: oklch(0.5 0.18 25);
+  --destructive-foreground: oklch(0.98 0.005 30);
+  --border: oklch(0.88 0.01 30);
+  --input: oklch(0.88 0.01 30);
+  --ring: oklch(0.4 0.12 18);
+  /* Metallic / highlight (was gold in No Parade system) */
+  --gold: oklch(0.86 0.04 90);
+  --gold-foreground: oklch(0.18 0.02 20);
+  --bone: oklch(0.97 0.006 30);
+  --maroon: oklch(0.34 0.12 18);
 }
 
 .dark {
-  --background: oklch(0.24 0.04 264);
-  --foreground: oklch(0.95 0.014 88);
-  --card: oklch(0.29 0.045 264);
-  --card-foreground: oklch(0.95 0.014 88);
-  --popover: oklch(0.29 0.045 264);
-  --popover-foreground: oklch(0.95 0.014 88);
-  --primary: oklch(0.94 0.017 84);
-  --primary-foreground: oklch(0.24 0.04 264);
-  --secondary: oklch(0.33 0.042 264);
-  --secondary-foreground: oklch(0.95 0.014 88);
-  --muted: oklch(0.33 0.042 264);
-  --muted-foreground: oklch(0.72 0.026 265);
-  --accent: oklch(0.78 0.076 82);
-  --accent-foreground: oklch(0.24 0.04 264);
-  --destructive: oklch(0.62 0.17 27);
-  --destructive-foreground: oklch(0.97 0.01 88);
+  --background: oklch(0.14 0.015 20);
+  --foreground: oklch(0.96 0.005 30);
+  --card: oklch(0.18 0.02 18);
+  --card-foreground: oklch(0.96 0.005 30);
+  --popover: oklch(0.18 0.02 18);
+  --popover-foreground: oklch(0.96 0.005 30);
+  --primary: oklch(0.96 0.005 30);
+  --primary-foreground: oklch(0.22 0.08 18);
+  --secondary: oklch(0.22 0.03 18);
+  --secondary-foreground: oklch(0.96 0.005 30);
+  --muted: oklch(0.22 0.03 18);
+  --muted-foreground: oklch(0.72 0.02 30);
+  --accent: oklch(0.45 0.14 18);
+  --accent-foreground: oklch(0.98 0.005 30);
+  --destructive: oklch(0.58 0.18 25);
+  --destructive-foreground: oklch(0.98 0.005 30);
   --border: oklch(1 0 0 / 14%);
   --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.78 0.076 82);
-  --gold: oklch(0.78 0.076 82);
-  --gold-foreground: oklch(0.24 0.04 264);
-  --bone: oklch(0.94 0.017 84);
+  --ring: oklch(0.55 0.12 18);
+  --gold: oklch(0.86 0.04 90);
+  --gold-foreground: oklch(0.14 0.015 20);
+  --bone: oklch(0.97 0.006 30);
+  --maroon: oklch(0.45 0.14 18);
 }
 
 @layer base {
@@ -109,6 +116,8 @@
   h3 {
     font-family: var(--font-display);
     font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 }
 
@@ -121,7 +130,7 @@
 }
 
 @utility rule-gold {
-  border-bottom: 1px solid color-mix(in oklab, var(--gold) 55%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--maroon) 55%, transparent);
 }
 
 @keyframes team-rise {
@@ -137,10 +146,21 @@
 
 @keyframes team-hero-drift {
   from {
-    transform: scale(1.04) translate3d(0, 0, 0);
+    transform: scale(1.03) translate3d(0, 0, 0);
   }
   to {
-    transform: scale(1.1) translate3d(0, -1.5%, 0);
+    transform: scale(1.08) translate3d(0, -1.2%, 0);
+  }
+}
+
+@keyframes team-logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -150,4 +170,8 @@
 
 @utility animate-team-hero-drift {
   animation: team-hero-drift 18s ease-in-out infinite alternate;
+}
+
+@utility animate-team-logo-in {
+  animation: team-logo-in 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }

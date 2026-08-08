@@ -4,7 +4,7 @@ import type { KitConfig } from "../kit";
  * Bayonne Bees — VESPERS 26 Team Customs kit.
  *
  * Launch checklist (Printful → Shopify → configurator):
- * 1. In Printful: Jersey / Shorts / Full Set (Navy/Gold), Name + Number personalization ON
+ * 1. In Printful: Jersey / Shorts / Full Set (Maroon/Black), Name + Number personalization ON
  * 2. Sync those 3 products to Shopify into collection "Team Customs"
  * 3. Publish with handles below (or paste static variant IDs into shopify.*Variants)
  * 4. Keep this configurator as the only add-to-cart path for Team Customs
@@ -15,7 +15,7 @@ import type { KitConfig } from "../kit";
 export const BAYONNE_BEES_KIT: KitConfig = {
   slug: "bayonne-bees",
   teamName: "Bayonne Bees",
-  sport: "soccer",
+  sport: "football",
   status: "live",
   // Explicit ISO — do not use Date.now() here (build-time bake closes the store).
   closesAt: "2026-09-15T03:59:59.000Z",
@@ -26,16 +26,16 @@ export const BAYONNE_BEES_KIT: KitConfig = {
     doctrine: "One line, held.",
   },
   colorway: {
-    base: "#1F2A44",
-    gesture: "#C9A96A",
-    trim: "#EFE8DA",
-    name: "Navy / Gold",
+    base: "#5A1626",
+    gesture: "#F4F1F0",
+    trim: "#0A0A0A",
+    name: "Maroon / Black",
   },
   font: {
     id: "match_day",
     label: "Match Day",
     cssFamily: "'Bebas Neue', sans-serif",
-    name: { fill: "#EFE8DA", outline: "#C9A96A", outlineWidth: 2 },
+    name: { fill: "#F4F1F0", outline: "#5A1626", outlineWidth: 2 },
   },
   rules: { nameMaxChars: 12, numberMin: 0, numberMax: 99 },
   pricing: { top: 58, bottom: 34, set: 89, currency: "USD" },

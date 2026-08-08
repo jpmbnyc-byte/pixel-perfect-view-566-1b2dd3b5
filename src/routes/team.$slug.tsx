@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import logo from "@/assets/bayonne/bayonne-bees-logo.png";
 import { KitMockup, exportMockupPng, type View } from "@/components/KitMockup";
 import {
   SIZES,
@@ -130,17 +131,22 @@ function TeamOrderPage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-[520px] bg-background pb-16">
       <header className="border-b border-border px-5 pb-5 pt-6">
-        <Link
-          to="/team"
-          className="label-caps text-muted-foreground transition-colors hover:text-foreground"
-        >
-          No Parade F.C. · Team Customs
-        </Link>
-        <h1 className="mt-2 text-4xl leading-none tracking-tight">{kit.teamName}</h1>
-        <p className="label-caps mt-3 text-accent-foreground">
-          {kit.family.label} {kit.family.version} · {kit.colorway.name}
-        </p>
-        <p className="mt-1 font-display text-lg text-muted-foreground">“{kit.family.doctrine}”</p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <Link
+              to="/team"
+              className="label-caps text-muted-foreground transition-colors hover:text-foreground"
+            >
+              No Parade F.C. · Team Customs
+            </Link>
+            <h1 className="mt-2 text-4xl leading-none tracking-tight">{kit.teamName}</h1>
+            <p className="label-caps mt-3 text-maroon">
+              {kit.family.label} {kit.family.version} · {kit.colorway.name}
+            </p>
+            <p className="mt-1 text-lg text-muted-foreground">“{kit.family.doctrine}”</p>
+          </div>
+          <img src={logo} alt="" className="mt-1 h-14 w-14 shrink-0 object-contain" />
+        </div>
 
         <div className="mt-4 flex items-baseline gap-2 border-t border-border pt-4">
           {closed ? (
