@@ -4,7 +4,7 @@ Supplier: **Merchize** (Shopify app sync)
 Brand: **Bayonne Bees** · No Parade F.C. Team Customs  
 Palette: Maroon `#5A1626` · Black `#0A0A0A` · Bone `#F4F1F0` · optional sting gold outline `#C9A96A`  
 Motif: School kit (crest + wordmark + number) + design-forward geometric accents  
-Style bar: Adidas-quality heroes — **no Adidas trademarks / 3-stripe / wordmarks**
+Style bar: Behance kit-campaign heroes — **no manufacturer trademarks / 3-stripe / wordmarks**
 
 ---
 
@@ -65,12 +65,11 @@ Extra tag when customizable: `custom-name-number`
 | 2 | `bayonne-bees-shorts` | Matching athletic shorts | **Core** | Optional side | `bottom` |
 | 3 | `bayonne-bees-full-set` | Jersey + shorts set (or bundle) | **Core** | Yes — jersey | `set` |
 | 4 | `bayonne-bees-hoops-jersey` | Basketball sleeveless jersey tank | Spirit | Yes — chest/back | — |
-| 5 | `bayonne-bees-spirit-skirt-set` | Cropped V-neck jersey + pleated skirt | Spirit | Number + crest | — |
-| 6 | `bayonne-bees-jersey-dress` | Basketball jersey dress | Spirit | Crest / small # | — |
-| 7 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | Crest or back name | — |
-| 8 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
-| 9 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
-| 10 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | Soft brand mark | — |
+| 5 | `bayonne-bees-jersey-dress` | Basketball jersey dress | Spirit | Crest / small # | — |
+| 6 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | Crest or back name | — |
+| 7 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
+| 8 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
+| 9 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | Soft brand mark | — |
 
 **Launch set (ship first):** #1–3, then #7, #4. Rest wave 2.
 
@@ -148,18 +147,7 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 | Binding | Neck + armholes | Maroon–bone–maroon stripe rib |
 | Side inserts | Optional | Subtle geo |
 
-### 5. Spirit skirt set (`bayonne-bees-spirit-skirt-set`)
-
-**Crop jersey**
-| Zone | Art |
-|---|---|
-| Center number | Large block # |
-| Left chest | Varsity letter / crest |
-| Sleeve | Twin bone stripes (not Adidas 3-stripe — use **two** thin rules or broken geo dashes) |
-
-**Skirt:** solid maroon or black pleats; optional small crest near hem.
-
-### 6. Jersey dress (`bayonne-bees-jersey-dress`)
+### 5. Jersey dress (`bayonne-bees-jersey-dress`)
 
 | Zone | Art |
 |---|---|
@@ -167,7 +155,7 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 | Binding | Black–bone–black |
 | Side panels | Optional geo wash |
 
-### 7. Crewneck (`bayonne-bees-crewneck`)
+### 6. Crewneck (`bayonne-bees-crewneck`)
 
 | Zone | Art |
 |---|---|
@@ -175,7 +163,7 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 | Chest | Optional small crest if AOP is quiet enough; else crest-free AOP |
 | Back | Optional name bar only (no huge number) |
 
-### 8. Long-sleeve jersey (`bayonne-bees-ls-jersey`)
+### 7. Long-sleeve jersey (`bayonne-bees-ls-jersey`)
 
 | Zone | Art |
 |---|---|
@@ -183,7 +171,7 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 | Sleeve | Small crest |
 | Back | Name + number (shared lettering table) |
 
-### 9. Quarter-zip (`bayonne-bees-quarter-zip`)
+### 8. Quarter-zip (`bayonne-bees-quarter-zip`)
 
 | Zone | Art |
 |---|---|
@@ -191,7 +179,7 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 | Body | Tonal geo / marble distress in maroon-black-grey |
 | No back number | — |
 
-### 10. Geo lifestyle shorts (`bayonne-bees-geo-shorts`)
+### 9. Geo lifestyle shorts (`bayonne-bees-geo-shorts`)
 
 | Zone | Art |
 |---|---|
@@ -212,19 +200,20 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 
 ---
 
-## Hero images (Adidas-quality bar)
+## Hero images (Behance kit-campaign bar)
 
 Asset folder: `src/assets/bayonne/heroes/`
 
 | ID | File | Outfit | Setting | Use |
 |---|---|---|---|---|
-| H1 | `hero-kit-studio.jpg` | Jersey + shorts, ball at hip | Studio, maroon/black diagonal field | `/team`, jersey PDP |
-| H2 | `hero-spirit-gym.jpg` | Jersey dress or skirt set | Indoor court | Spirit SKUs |
-| H3 | `hero-crewneck-studio.jpg` | Geo crewneck | Neutral grey studio | Sweats PDP |
-| H4 | `hero-field-lifestyle.jpg` | Jersey + shorts on field | Daylight, shallow DOF | Landing / ads |
-| H5 | `hero-ls-rack.jpg` | LS jersey front + back | Minimal hanger rack | Explains Name/Number |
+| H0 | `hero-landing.jpg` | Match jersey lifestyle | Floodlit pitch, cinematic | `/team` landing |
+| H1 | `hero-kit-studio.jpg` | Jersey + shorts, ball at hip | Maroon studio + diagonal band | Core category / kit PDP |
+| H2 | `hero-spirit-gym.jpg` | Jersey dress | Indoor court | Spirit category |
+| H3 | `hero-crewneck-studio.jpg` | Geo crewneck | Neutral grey studio | Warm-up |
+| H4 | `hero-field-lifestyle.jpg` | Jersey lifestyle | Pitch / campaign | Lifestyle |
+| H5 | `hero-ls-rack.jpg` | LS jersey front + back | Minimal hanger rack | Name/Number education |
 
-Strip all Merchize watermarks from finals.
+No manufacturer logos or 3-stripe marks on finals.
 
 ### Base mockups
 

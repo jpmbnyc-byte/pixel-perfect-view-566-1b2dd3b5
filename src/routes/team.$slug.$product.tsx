@@ -127,10 +127,20 @@ function ProductListingPage() {
           ← {kit.teamName} store
         </Link>
         <h1 className="mt-3 text-4xl leading-none tracking-tight">{product.name}</h1>
-        <p className="label-caps mt-2 text-maroon">
+        <p className="label-caps mt-2 text-garnet">
           ${product.price} · {product.handle}
         </p>
         <p className="mt-2 text-base text-muted-foreground">{product.blurb}</p>
+        {/* Layer 5 — collar reveal / color truth. No official-claim language. */}
+        <div className="mt-4 space-y-3 border-t border-border pt-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            Garnet, not maroon. Bayonne has worn the darker one since 1936, and most
+            suppliers get it wrong.
+          </p>
+          <p className="text-muted-foreground">
+            The year is printed inside the collar, where only the player sees it.
+          </p>
+        </div>
       </header>
 
       <section className="px-5 pt-5">
@@ -164,7 +174,7 @@ function ProductListingPage() {
 
       {/* Motif: base layer always on; choose 1 of 3 geos */}
       <section className="mt-8 px-5">
-        <Field label="Geometric motif" hint="Base maroon field + one accent">
+        <Field label="Geometric motif" hint="Base garnet field + one accent">
           <div className="grid grid-cols-3 gap-2">
             {MOTIFS.map((m) => {
               const on = motif === m.id;

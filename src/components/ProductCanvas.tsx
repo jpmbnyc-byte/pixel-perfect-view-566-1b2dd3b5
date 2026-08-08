@@ -18,7 +18,7 @@ const FILL = "#5A1626";
 const BONE = "#F4F1F0";
 const BLACK = "#0A0A0A";
 
-/** Live configurator canvas: maroon base + motif + premium lettering. */
+/** Live configurator canvas: garnet base + motif + premium lettering. */
 export function ProductCanvas({
   view,
   motif,

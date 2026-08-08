@@ -4,7 +4,7 @@ import type { KitConfig } from "../kit";
  * Bayonne Bees — VESPERS 26 Team Customs kit.
  *
  * Launch checklist (Merchize → Shopify → configurator):
- * 1. In Merchize: Jersey / Shorts / Full Set (Maroon/Black), Name + Number personalization ON
+ * 1. In Merchize: Jersey / Shorts / Full Set (Garnet/Black), Name + Number personalization ON
  * 2. Sync those products to Shopify into collection "Team Customs"
  * 3. Publish with handles below (or paste static variant IDs into shopify.*Variants)
  * 4. Keep this configurator as the only ATC path for customizable Team Customs SKUs
@@ -30,7 +30,7 @@ export const BAYONNE_BEES_KIT: KitConfig = {
     base: "#5A1626",
     gesture: "#F4F1F0",
     trim: "#0A0A0A",
-    name: "Maroon / Black",
+    name: "Garnet / Black",
   },
   font: {
     id: "match_day",

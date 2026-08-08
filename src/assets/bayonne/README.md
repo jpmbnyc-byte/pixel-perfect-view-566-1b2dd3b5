@@ -2,24 +2,38 @@
 
 | Folder | Contents |
 |---|---|
-| `./` | Logo + landing composite hero |
-| `mockups/` | Merchize base design mockups (maroon/black/bone) |
-| `heroes/` | Adidas-quality campaign / PDP heroes |
+| `./` | Logo + archive composites |
+| `mockups/` | Clean PDP product photography (garnet/black/bone) |
+| `heroes/` | Behance-style kit campaign heroes |
+| `reveal/` | Silent Queen Bees crest reveal — 5 frames, no CTA |
 
-Placement instructions and Shopify handles: [`docs/MERCHIZE_LISTING_MAP.md`](../../../docs/MERCHIZE_LISTING_MAP.md).
+Creative stack (caption, coach email, paid lines, constraints): [`docs/QUEEN_BEES_STACK.md`](../../../docs/QUEEN_BEES_STACK.md).
 
-## Mockups
+Placement + handles: [`docs/MERCHIZE_LISTING_MAP.md`](../../../docs/MERCHIZE_LISTING_MAP.md).
 
-- `mock-jersey-front.jpg` / `mock-jersey-back.jpg` — core kit jersey
-- `mock-shorts.jpg` — matching shorts
-- `mock-crewneck.jpg` — AOP geo sweatshirt
-- `mock-hoops-jersey.jpg` — basketball tank
-- `mock-quarter-zip.jpg` — warm-up layer
+## Reveal (`reveal/`)
+
+Silent carousel on `/team`. No music. No CTA in-frame.
+
+1. `reveal-01-crest.jpg` — crest alone, garnet field
+2. `reveal-02-wordmark.jpg` — QUEEN BEES wordmark
+3. `reveal-03-crest-on-kit.jpg` — crest on kit, chest left
+4. `reveal-04-copy.jpg` — “They've been calling themselves this for years…”
+5. `reveal-05-credit.jpg` — No Parade F.C. — Bayonne, NJ
 
 ## Heroes
 
-- `hero-kit-studio.jpg` — H1 kit (diagonal studio)
-- `hero-field-lifestyle.jpg` — H4 field lifestyle
-- `hero-spirit-gym.jpg` — H2 spirit / jersey dress
-- `hero-crewneck-studio.jpg` — H3 crewneck
-- `hero-ls-rack.jpg` — H5 name/number education
+- `hero-landing.jpg` — campaign still (optional; landing now opens on reveal)
+- `hero-kit-studio.jpg` — Core category (diagonal studio)
+- `hero-spirit-gym.jpg` — Spirit category
+- `hero-crewneck-studio.jpg` — Warm-up
+- `hero-field-lifestyle.jpg` — Lifestyle
+- `hero-ls-rack.jpg` — Name/number education
+
+## Mockups (PDP)
+
+- `mock-jersey-front.jpg` / `mock-jersey-back.jpg`
+- `mock-shorts.jpg`
+- `mock-crewneck.jpg`
+- `mock-hoops-jersey.jpg`
+- `mock-quarter-zip.jpg`
