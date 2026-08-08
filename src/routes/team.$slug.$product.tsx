@@ -298,8 +298,8 @@ function ProductListingPage() {
         {product.previewPair === "front-side" && (
           <p className="mt-2 text-center text-sm text-muted-foreground">
             {motif === "none"
-              ? "No overlay — clean panels, crest and color only."
-              : "Side view shows your selected geometric pattern on the panel."}
+              ? "No geometric print — clean panels, crest and color only."
+              : "Side view: geometric print inked into the panel (sublimated, not a sticker)."}
           </p>
         )}
       </section>

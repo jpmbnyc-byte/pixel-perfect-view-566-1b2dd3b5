@@ -24,8 +24,8 @@ type Props = {
 
 /**
  * Photoreal live preview — product detail photo + motif panel + optional lettering.
- * Motif overlay is luminance-masked to the garment photo so it never floats on the
- * studio background (the previous unmasked side rails).
+ * Geometric motifs are composited as ink-sublimation into the garment (multiply dye +
+ * set-lighting reproject), never as a floating sticker over the studio shot.
  */
 export function ProductCanvas({
   view,
@@ -55,7 +55,7 @@ export function ProductCanvas({
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"
-      style={{ containerType: "size" }}
+      style={{ containerType: "size", isolation: "isolate" }}
     >
       <img
         src={src}
@@ -120,9 +120,18 @@ export function ProductCanvas({
   );
 }
 
+type MotifInk = {
+  /** Dark dye that multiplies into the fabric */
+  dye: CSSProperties;
+  /** Light piping / grid lines — soft-light only */
+  accent: CSSProperties;
+};
+
 /**
- * Motif fill clipped to the garment via luminance mask of the product photo,
- * then further limited to side-panel zones so the chest/back stay clear.
+ * Ink-sublimation composite:
+ * 1) multiply dye into the garment color
+ * 2) soft-light accents for piping
+ * 3) re-project the product photo so set lighting + mesh texture own the ink
  */
 function MotifOverlay({
   motif,
@@ -136,17 +145,15 @@ function MotifOverlay({
   garmentSrc: string;
 }) {
   const sideHeavy = emphasize || view === "side";
-  const panelStyle = motifPanelStyle(motif);
+  const ink = motifInk(motif);
 
-  // Side-panel windows — never full-bleed edge rails on empty studio backdrop
+  // Feathered panel window — soft edges so the print falls off with the garment,
+  // never hard floating side rails on empty studio backdrop.
   const zoneMask = sideHeavy
-    ? "linear-gradient(90deg, transparent 28%, #000 42%, #000 58%, transparent 72%)"
-    : "linear-gradient(90deg, transparent 14%, #000 18%, #000 26%, transparent 32%, transparent 68%, #000 74%, #000 82%, transparent 86%)";
+    ? "linear-gradient(90deg, transparent 30%, #000 38%, #000 62%, transparent 70%)"
+    : "linear-gradient(90deg, transparent 12%, #000 17%, #000 27%, transparent 33%, transparent 67%, #000 73%, #000 83%, transparent 88%)";
 
-  const maskStyle: CSSProperties = {
-    ...panelStyle,
-    opacity: sideHeavy ? 0.72 : 0.55,
-    mixBlendMode: "soft-light",
+  const clip: CSSProperties = {
     WebkitMaskImage: `url(${garmentSrc}), ${zoneMask}`,
     maskImage: `url(${garmentSrc}), ${zoneMask}`,
     WebkitMaskSize: "cover, 100% 100%",
@@ -157,40 +164,113 @@ function MotifOverlay({
     maskRepeat: "no-repeat, no-repeat",
     WebkitMaskComposite: "source-in",
     maskComposite: "intersect",
-    // JPEG mask: treat bright garment pixels as solid, dark studio as cut out
+    // JPEG mask: bright garment pixels keep ink; dark studio cuts out
     maskMode: "luminance, alpha",
   };
 
+  const photoLock: CSSProperties = {
+    backgroundImage: `url(${garmentSrc})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  };
+
   return (
-    <div className="pointer-events-none absolute inset-0 transition-opacity duration-300" aria-hidden>
-      <div className="absolute inset-0" style={maskStyle} />
+    <div
+      className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+      aria-hidden
+    >
+      {/* Dye — ink into fabric (follows shadows via multiply) */}
+      <div
+        className="absolute inset-0"
+        style={{
+          ...ink.dye,
+          ...clip,
+          mixBlendMode: "multiply",
+          opacity: sideHeavy ? 0.9 : 0.72,
+        }}
+      />
+      {/* Accent piping — low soft-light so bone lines sit in the highlight range */}
+      <div
+        className="absolute inset-0"
+        style={{
+          ...ink.accent,
+          ...clip,
+          mixBlendMode: "soft-light",
+          opacity: sideHeavy ? 0.4 : 0.28,
+        }}
+      />
+      {/* Re-project set lighting onto the ink so folds/speculars match the photo */}
+      <div
+        className="absolute inset-0"
+        style={{
+          ...photoLock,
+          ...clip,
+          mixBlendMode: "soft-light",
+          opacity: 0.7,
+        }}
+      />
+      {/* Mesh / fabric grain through the print */}
+      <div
+        className="absolute inset-0"
+        style={{
+          ...photoLock,
+          ...clip,
+          mixBlendMode: "overlay",
+          opacity: 0.28,
+        }}
+      />
     </div>
   );
 }
 
-function motifPanelStyle(motif: MotifId): CSSProperties {
+function motifInk(motif: MotifId): MotifInk {
   switch (motif) {
     case "none":
-      return { backgroundImage: "none", backgroundColor: "transparent" };
+      return {
+        dye: { backgroundImage: "none", backgroundColor: "transparent" },
+        accent: { backgroundImage: "none", backgroundColor: "transparent" },
+      };
     case "grid":
       return {
-        backgroundImage: [
-          "linear-gradient(rgba(244,241,240,0.85) 1px, transparent 1px)",
-          "linear-gradient(90deg, rgba(244,241,240,0.85) 1px, transparent 1px)",
-          "linear-gradient(180deg, #5A1626, #2a0a12)",
-        ].join(", "),
-        backgroundSize: "10px 10px, 10px 10px, auto",
+        dye: {
+          backgroundImage: [
+            "linear-gradient(#3a0e18 1px, transparent 1px)",
+            "linear-gradient(90deg, #3a0e18 1px, transparent 1px)",
+            "linear-gradient(180deg, #5A1626, #1a060c)",
+          ].join(", "),
+          backgroundSize: "11px 11px, 11px 11px, auto",
+        },
+        accent: {
+          backgroundImage: [
+            "linear-gradient(rgba(244,241,240,0.55) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(244,241,240,0.55) 1px, transparent 1px)",
+          ].join(", "),
+          backgroundSize: "11px 11px, 11px 11px",
+        },
       };
     case "arc":
       return {
-        backgroundImage:
-          "repeating-radial-gradient(circle at 50% 110%, #0A0A0A 0 8px, #5A1626 8px 16px, rgba(244,241,240,0.9) 16px 18px)",
+        dye: {
+          backgroundImage:
+            "repeating-radial-gradient(circle at 50% 110%, #0A0A0A 0 9px, #5A1626 9px 18px, #2a0a12 18px 20px)",
+        },
+        accent: {
+          backgroundImage:
+            "repeating-radial-gradient(circle at 50% 110%, transparent 0 17px, rgba(244,241,240,0.5) 17px 19px, transparent 19px 28px)",
+        },
       };
     case "chevron":
     default:
       return {
-        backgroundImage:
-          "repeating-linear-gradient(-32deg, #5A1626 0 12px, #0A0A0A 12px 24px, rgba(244,241,240,0.9) 24px 27px)",
+        dye: {
+          backgroundImage:
+            "repeating-linear-gradient(-32deg, #5A1626 0 13px, #0A0A0A 13px 26px, #3a0e18 26px 29px)",
+        },
+        accent: {
+          backgroundImage:
+            "repeating-linear-gradient(-32deg, transparent 0 26px, rgba(244,241,240,0.55) 26px 28px, transparent 28px 39px)",
+        },
       };
   }
 }

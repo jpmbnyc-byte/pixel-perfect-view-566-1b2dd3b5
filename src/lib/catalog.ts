@@ -126,22 +126,22 @@ export const MOTIFS: {
   {
     id: "none",
     label: "No overlay",
-    description: "Clean field — no geometric motif on the panels.",
+    description: "Clean field — no geometric print on the panels.",
   },
   {
     id: "chevron",
     label: "Chevron",
-    description: "Diagonal blocks — the equipment-room classic, drawn clean.",
+    description: "Diagonal blocks sublimated into the panel — equipment-room classic.",
   },
   {
     id: "grid",
     label: "Grid",
-    description: "A quiet technical grid. You notice it second.",
+    description: "A quiet technical grid printed into the fabric. You notice it second.",
   },
   {
     id: "arc",
     label: "Arc Panel",
-    description: "A curved torso panel — modern kit geometry, no noise.",
+    description: "Curved panel geometry, inked into the garment — modern kit, no noise.",
   },
 ];
 
