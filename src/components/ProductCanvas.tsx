@@ -178,6 +178,7 @@ function MotifOverlay({
       const gd = garment.data;
       const pd = plate.data;
       const od = out.data;
+      const bg = sampleCornerBackground(gd, w, h);
 
       // Contrast-stretch luminance inside the panel so set lighting reads on dark fabrics
       let lumMin = 1;
@@ -186,12 +187,16 @@ function MotifOverlay({
         const px = (i / 4) % w;
         const py = ((i / 4) / w) | 0;
         const zone = panelZone(px / w, py / h, sideHeavy);
-        if (zone < 0.2) continue;
-        const lum = (0.2126 * gd[i]! + 0.7152 * gd[i + 1]! + 0.0722 * gd[i + 2]!) / 255;
+        if (zone < 0.35) continue;
+        const gr = gd[i]!;
+        const gg = gd[i + 1]!;
+        const gb = gd[i + 2]!;
+        if (fabricMatte(gr, gg, gb, bg) < 0.4) continue;
+        const lum = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / 255;
         if (lum < lumMin) lumMin = lum;
         if (lum > lumMax) lumMax = lum;
       }
-      const lumRange = Math.max(0.04, lumMax - lumMin);
+      const lumRange = Math.max(0.035, lumMax - lumMin);
 
       for (let i = 0; i < gd.length; i += 4) {
         const px = (i / 4) % w;
@@ -204,35 +209,40 @@ function MotifOverlay({
         const gb = gd[i + 2]!;
         const lum = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / 255;
 
-        // Soft fabric presence — keep black panels while cutting studio void
-        const fabric = smoothstep(0.01, 0.07, lum);
+        // Cut studio via color-distance matte (black panels ≈ darker than grey floor)
+        const fabric = fabricMatte(gr, gg, gb, bg);
         const zone = panelZone(nx, ny, sideHeavy);
         const mask = fabric * zone;
-        if (mask < 0.01) {
+        if (mask < 0.02) {
           od[i + 3] = 0;
           continue;
         }
 
-        const pr = pd[i]!;
-        const pg = pd[i + 1]!;
-        const pb = pd[i + 2]!;
-        const pa = pd[i + 3]! / 255;
+        const local = Math.min(1, Math.max(0, (lum - lumMin) / lumRange));
+        // Warp the plate with lighting so folds pull the print (cheap fabric wrap)
+        const wrapX = Math.round((0.5 - local) * (sideHeavy ? 7 : 4) * dpr);
+        const wrapY = Math.round((local - 0.5) * 2 * dpr);
+        const sx = Math.min(w - 1, Math.max(0, px + wrapX));
+        const sy = Math.min(h - 1, Math.max(0, py + wrapY));
+        const si = (sy * w + sx) * 4;
+
+        const pr = pd[si]!;
+        const pg = pd[si + 1]!;
+        const pb = pd[si + 2]!;
+        const pa = pd[si + 3]! / 255;
         if (pa < 0.01) {
           od[i + 3] = 0;
           continue;
         }
 
-        // Local light 0→1 across the panel’s own highlight range (not global)
-        const local = Math.min(1, Math.max(0, (lum - lumMin) / lumRange));
-        const light = 0.2 + 0.95 * Math.pow(local, 0.75);
+        // Strong light response: ink almost sleeps in shadow, wakes on speculars
+        const light = Math.pow(local, 0.55);
+        const dye = 0.2 + 0.95 * light;
+        const inkR = gr * (0.5 - 0.15 * light) + pr * dye * 0.72;
+        const inkG = gg * (0.5 - 0.15 * light) + pg * dye * 0.72;
+        const inkB = gb * (0.5 - 0.15 * light) + pb * dye * 0.72;
 
-        // Channel-wise fabric multiply + garment fold-in = ink sitting in the knit
-        const inkR = pr * (gr / 255) * (0.55 + 0.9 * light) * 0.7 + gr * 0.3;
-        const inkG = pg * (gg / 255) * (0.55 + 0.9 * light) * 0.7 + gg * 0.3;
-        const inkB = pb * (gb / 255) * (0.55 + 0.9 * light) * 0.7 + gb * 0.3;
-
-        // Stronger on the panel; still translucent enough for mesh to read
-        const strength = mask * pa * (sideHeavy ? 0.88 : 0.7);
+        const strength = mask * pa * (sideHeavy ? 0.86 : 0.68) * (0.55 + 0.45 * light);
 
         od[i] = clamp8(inkR);
         od[i + 1] = clamp8(inkG);
@@ -279,13 +289,13 @@ function paintMotifPlate(
   switch (motif) {
     case "grid": {
       const g = ctx.createLinearGradient(0, 0, 0, h);
-      g.addColorStop(0, "#5A1626");
-      g.addColorStop(1, "#1a060c");
+      g.addColorStop(0, "#4a1420");
+      g.addColorStop(1, "#14060a");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = "rgba(244,241,240,0.55)";
-      ctx.lineWidth = Math.max(1, w * 0.0018);
-      const step = Math.max(8, w * 0.018);
+      ctx.strokeStyle = "rgba(200,185,180,0.35)";
+      ctx.lineWidth = Math.max(1, w * 0.0015);
+      const step = Math.max(9, w * 0.02);
       ctx.beginPath();
       for (let x = 0; x <= w; x += step) {
         ctx.moveTo(x, 0);
@@ -356,14 +366,53 @@ function coverRect(iw: number, ih: number, cw: number, ch: number) {
 
 function panelZone(nx: number, ny: number, sideHeavy: boolean) {
   // Match the garment’s side stripe / sleeve panel — not the whole body field
-  const yFeather = smoothstep(0.06, 0.16, ny) * (1 - smoothstep(0.84, 0.94, ny));
+  const yFeather = smoothstep(0.1, 0.2, ny) * (1 - smoothstep(0.8, 0.9, ny));
   if (sideHeavy) {
-    const x = smoothstep(0.4, 0.44, nx) * (1 - smoothstep(0.56, 0.6, nx));
+    const x = smoothstep(0.42, 0.455, nx) * (1 - smoothstep(0.545, 0.58, nx));
     return x * yFeather;
   }
-  const left = smoothstep(0.14, 0.18, nx) * (1 - smoothstep(0.24, 0.28, nx));
-  const right = smoothstep(0.72, 0.76, nx) * (1 - smoothstep(0.82, 0.86, nx));
+  const left = smoothstep(0.15, 0.185, nx) * (1 - smoothstep(0.235, 0.27, nx));
+  const right = smoothstep(0.73, 0.765, nx) * (1 - smoothstep(0.815, 0.85, nx));
   return Math.max(left, right) * yFeather;
+}
+
+/** Average corner / edge samples = studio backdrop color */
+function sampleCornerBackground(gd: Uint8ClampedArray, w: number, h: number) {
+  const pts = [
+    [4, 4],
+    [w - 5, 4],
+    [4, h - 5],
+    [w - 5, h - 5],
+    [(w / 2) | 0, 4],
+    [(w / 2) | 0, h - 5],
+  ];
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  for (const [x, y] of pts) {
+    const i = (y! * w + x!) * 4;
+    r += gd[i]!;
+    g += gd[i + 1]!;
+    b += gd[i + 2]!;
+  }
+  const n = pts.length;
+  return { r: r / n, g: g / n, b: b / n };
+}
+
+/**
+ * Fabric vs studio matte. Garnet (high red chroma) always counts; deep blacks that
+ * differ from the grey studio floor count when far enough in RGB space.
+ */
+function fabricMatte(
+  r: number,
+  g: number,
+  b: number,
+  bg: { r: number; g: number; b: number },
+) {
+  const dist = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
+  const garnet = smoothstep(12, 28, r - g) * smoothstep(12, 28, r - b);
+  const fromBg = smoothstep(18, 42, dist);
+  return Math.max(garnet, fromBg);
 }
 
 function smoothstep(edge0: number, edge1: number, x: number) {
