@@ -1,9 +1,8 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { KitMockup, exportMockupPng, type View } from "@/components/KitMockup";
 import {
-  DEMO_KIT,
   SIZES,
   SIZE_CHART,
   buildArtSpec,
@@ -16,11 +15,20 @@ import {
   type Item,
   type Size,
 } from "@/lib/kit";
+import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
+import {
+  cartAddAction,
+  itemSyncReady,
+  resolveKitShopify,
+  shopifySynced,
+  type ShopifySyncStatus,
+} from "@/lib/shopify";
 
 export const Route = createFileRoute("/team/$slug")({
-  loader: ({ params }) => {
-    if (params.slug !== DEMO_KIT.slug) throw notFound();
-    return { kit: DEMO_KIT };
+  loader: async ({ params }) => {
+    if (params.slug !== BAYONNE_BEES_KIT.slug) throw notFound();
+    const { kit, sync } = await resolveKitShopify(BAYONNE_BEES_KIT);
+    return { kit, sync };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -51,14 +59,19 @@ const ITEM_LABELS: Record<Item, string> = {
 };
 
 function TeamOrderPage() {
-  const { kit } = Route.useLoaderData();
+  const { kit, sync } = Route.useLoaderData();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [view, setView] = useState<View>("back");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [size, setSize] = useState<Size | "">("");
-  const [item, setItem] = useState<Item>("set");
+  const [item, setItem] = useState<Item>(() => {
+    if (sync.set) return "set";
+    if (sync.top) return "top";
+    if (sync.bottom) return "bottom";
+    return "set";
+  });
   const [confirmed, setConfirmed] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
   const [now, setNow] = useState(() => Date.now());
@@ -69,8 +82,15 @@ function TeamOrderPage() {
     return () => clearInterval(t);
   }, []);
 
+  // Clear size when switching to an item/size that has no synced variant.
+  useEffect(() => {
+    if (size && !variantIdFor(kit, item, size)) setSize("");
+  }, [kit, item, size]);
+
   const countdown = countdownParts(kit.closesAt, now);
   const closed = kit.status !== "live" || countdown === null;
+  const catalogReady = shopifySynced(sync);
+  const itemReady = itemSyncReady(sync, item);
 
   const itemOptions = useMemo<Item[]>(() => {
     if (kit.mode === "top_only") return ["top"];
@@ -78,12 +98,19 @@ function TeamOrderPage() {
     return ["top", "bottom", "set"];
   }, [kit.mode]);
 
-  const variantId = size ? variantIdFor(kit, item, size) : null;
-  const ready = Boolean(name && number !== "" && size && variantId && confirmed && !closed);
+  const numberValue = Number(number);
+  const numberValid =
+    number !== "" &&
+    Number.isFinite(numberValue) &&
+    numberValue >= kit.rules.numberMin &&
+    numberValue <= kit.rules.numberMax;
 
-  const artSpec = size
-    ? buildArtSpec({ kit, item, name, number, size })
-    : null;
+  const variantId = size ? variantIdFor(kit, item, size) : null;
+  const ready = Boolean(
+    name && numberValid && size && variantId && confirmed && !closed && itemReady,
+  );
+
+  const artSpec = size ? buildArtSpec({ kit, item, name, number, size }) : null;
 
   async function handleSave() {
     setExporting(true);
@@ -103,14 +130,17 @@ function TeamOrderPage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-[520px] bg-background pb-16">
       <header className="border-b border-border px-5 pb-5 pt-6">
-        <p className="label-caps text-muted-foreground">No Parade F.C. · Team Customs</p>
+        <Link
+          to="/team"
+          className="label-caps text-muted-foreground transition-colors hover:text-foreground"
+        >
+          No Parade F.C. · Team Customs
+        </Link>
         <h1 className="mt-2 text-4xl leading-none tracking-tight">{kit.teamName}</h1>
         <p className="label-caps mt-3 text-accent-foreground">
           {kit.family.label} {kit.family.version} · {kit.colorway.name}
         </p>
-        <p className="mt-1 font-display text-lg text-muted-foreground">
-          “{kit.family.doctrine}”
-        </p>
+        <p className="mt-1 font-display text-lg text-muted-foreground">“{kit.family.doctrine}”</p>
 
         <div className="mt-4 flex items-baseline gap-2 border-t border-border pt-4">
           {closed ? (
@@ -125,6 +155,14 @@ function TeamOrderPage() {
           )}
         </div>
       </header>
+
+      {!catalogReady && (
+        <div className="border-b border-border bg-secondary/60 px-5 py-3 text-sm leading-snug text-muted-foreground">
+          Checkout unlocks after Printful syncs Jersey / Shorts / Full Set to{" "}
+          <span className="text-foreground">noparade-store.com</span>. You can still preview your
+          name and number.
+        </div>
+      )}
 
       <section className="px-5 pt-5">
         <div className="mb-3 grid grid-cols-2 gap-px overflow-hidden border border-border">
@@ -238,22 +276,30 @@ function TeamOrderPage() {
         </Field>
 
         <Field label="Item">
-          <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${itemOptions.length}, minmax(0,1fr))` }}>
-            {itemOptions.map((opt) => (
-              <button
-                key={opt}
-                type="button"
-                onClick={() => setItem(opt)}
-                className={`border px-2 py-3 transition-colors ${
-                  item === opt
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card text-foreground hover:bg-secondary"
-                }`}
-              >
-                <span className="label-caps block">{ITEM_LABELS[opt]}</span>
-                <span className="mt-1 block font-kit text-xl">${priceFor(kit, opt)}</span>
-              </button>
-            ))}
+          <div
+            className="grid gap-2"
+            style={{ gridTemplateColumns: `repeat(${itemOptions.length}, minmax(0,1fr))` }}
+          >
+            {itemOptions.map((opt) => {
+              const synced = itemSyncReady(sync, opt);
+              return (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => setItem(opt)}
+                  className={`border px-2 py-3 transition-colors ${
+                    item === opt
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-card text-foreground hover:bg-secondary"
+                  }`}
+                >
+                  <span className="label-caps block">{ITEM_LABELS[opt]}</span>
+                  <span className="mt-1 block font-kit text-xl">
+                    {synced ? `$${priceFor(kit, opt)}` : "—"}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </Field>
       </section>
@@ -266,21 +312,23 @@ function TeamOrderPage() {
             onChange={(e) => setConfirmed(e.target.checked)}
             className="mt-1 size-5 shrink-0 accent-[var(--primary)]"
           />
-          <span>
-            I've checked my spelling, number, and size — custom kits are final sale.
-          </span>
+          <span>I've checked my spelling, number, and size — custom kits are final sale.</span>
         </label>
 
         <form
           ref={formRef}
           method="POST"
-          action={`${kit.shopify.domain}/cart/add`}
+          action={cartAddAction(kit.shopify.domain)}
           target="_top"
           className="hidden"
+          acceptCharset="UTF-8"
         >
           <input type="hidden" name="id" value={variantId ?? ""} />
           <input type="hidden" name="quantity" value="1" />
+          {/* Land in Shopify Checkout after ATC (verified 302 → /checkout). */}
+          <input type="hidden" name="return_to" value="/checkout" />
           <input type="hidden" name="properties[Team]" value={kit.teamName} />
+          <input type="hidden" name="properties[Collection]" value="Team Customs" />
           <input type="hidden" name="properties[Name]" value={name} />
           <input type="hidden" name="properties[Number]" value={number} />
           <input type="hidden" name="properties[Size]" value={size} />
@@ -298,14 +346,48 @@ function TeamOrderPage() {
           onClick={() => formRef.current?.submit()}
           className="label-caps mt-5 w-full bg-primary py-4 text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {closed ? "Store closed" : `Add to cart · $${priceFor(kit, item)}`}
+          {closed
+            ? "Store closed"
+            : !itemReady
+              ? "Waiting for Printful sync"
+              : `Checkout · $${priceFor(kit, item)}`}
         </button>
 
         <p className="mt-4 text-center text-sm text-muted-foreground">
-          Checkout is handled by the No Parade store.
+          Checkout is handled by{" "}
+          <a
+            href={kit.shopify.domain}
+            className="underline underline-offset-4"
+            target="_blank"
+            rel="noreferrer"
+          >
+            noparade-store.com
+          </a>
+          . Printful personalizes Name + Number after payment.
         </p>
+        <SyncHint sync={sync} />
       </section>
     </main>
+  );
+}
+
+function SyncHint({ sync }: { sync: ShopifySyncStatus }) {
+  if (shopifySynced(sync) && sync.top && sync.bottom && sync.set) return null;
+  const missing = (
+    [
+      ["Jersey", sync.top],
+      ["Shorts", sync.bottom],
+      ["Full Set", sync.set],
+    ] as const
+  )
+    .filter(([, ok]) => !ok)
+    .map(([label]) => label);
+
+  if (!missing.length) return null;
+  return (
+    <p className="mt-2 text-center text-xs text-muted-foreground">
+      Not synced yet: {missing.join(" · ")}
+    </p>
   );
 }
 

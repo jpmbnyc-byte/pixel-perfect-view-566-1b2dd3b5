@@ -20,7 +20,6 @@ export const LETTERING = {
   number: { y: 47, heightPct: 26 },
 } as const;
 
-
 export type KitConfig = {
   slug: string;
   teamName: string;
@@ -40,74 +39,12 @@ export type KitConfig = {
   mode: "both" | "top_only" | "bottom_only";
   shopify: {
     domain: string;
+    /** Expected Printful→Shopify handles used to auto-resolve size→variant IDs. */
+    productHandles?: Partial<Record<Item, string>>;
     topVariants: Partial<Record<Size, string>>;
     bottomVariants: Partial<Record<Size, string>>;
     setVariants: Partial<Record<Size, string>>;
   };
-};
-
-/**
- * Demo kit. Phase 2 replaces this with a Cloud read on `team_kits.slug`.
- * Note 3XL intentionally has no variant id — it must render as unavailable
- * rather than submitting a broken order (§10).
- */
-export const DEMO_KIT: KitConfig = {
-  slug: "bayonne-bees",
-  teamName: "Bayonne Bees",
-  sport: "soccer",
-  status: "live",
-  closesAt: new Date(Date.now() + 6 * 864e5).toISOString(),
-  family: {
-    id: "vespers",
-    label: "VESPERS",
-    version: 26,
-    doctrine: "One line, held.",
-  },
-  colorway: {
-    base: "#1F2A44",
-    gesture: "#C9A96A",
-    trim: "#EFE8DA",
-    name: "Navy / Gold",
-  },
-  font: {
-    id: "match_day",
-    label: "Match Day",
-    cssFamily: "'Bebas Neue', sans-serif",
-    name: { fill: "#EFE8DA", outline: "#C9A96A", outlineWidth: 2 },
-  },
-  rules: { nameMaxChars: 12, numberMin: 0, numberMax: 99 },
-  pricing: { top: 58, bottom: 34, set: 89, currency: "USD" },
-  mode: "both",
-  shopify: {
-    domain: "https://noparade-store.com",
-    topVariants: {
-      "2XS": "44100000000001",
-      XS: "44100000000002",
-      S: "44100000000003",
-      M: "44100000000004",
-      L: "44100000000005",
-      XL: "44100000000006",
-      "2XL": "44100000000007",
-    },
-    bottomVariants: {
-      "2XS": "44200000000001",
-      XS: "44200000000002",
-      S: "44200000000003",
-      M: "44200000000004",
-      L: "44200000000005",
-      XL: "44200000000006",
-      "2XL": "44200000000007",
-    },
-    setVariants: {
-      "2XS": "44300000000001",
-      XS: "44300000000002",
-      S: "44300000000003",
-      M: "44300000000004",
-      L: "44300000000005",
-      XL: "44300000000006",
-      "2XL": "44300000000007",
-    },
-  },
 };
 
 export const SIZE_CHART: { size: Size; chest: string; length: string }[] = [
@@ -142,7 +79,7 @@ export function priceFor(kit: KitConfig, item: Item) {
 export function sanitizeName(raw: string, maxChars: number) {
   return raw
     .toUpperCase()
-    .replace(/[^A-Z \-]/g, "")
+    .replace(/[^A-Z \-']/g, "")
     .slice(0, maxChars);
 }
 
