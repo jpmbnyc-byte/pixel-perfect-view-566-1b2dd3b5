@@ -11,15 +11,18 @@ Style bar: Adidas-quality heroes — **no Adidas trademarks / 3-stripe / wordmar
 ## Order path (Merchize)
 
 ```text
-Configurator (/team/bayonne-bees)
+Store (/team/bayonne-bees)
+  → Category (Core / Spirit / Warm-Up / Lifestyle)
+  → Listing (/team/bayonne-bees/{product})
+       customize: base maroon + motif + font + name/number + size
   → POST noparade-store.com/cart/add
        (Merchize-synced Shopify variant ID
-        + properties Name / Number / Size / _ArtSpec / _Confirmed)
+        + properties Name / Number / Size / Motif / Font / _ArtSpec / _Confirmed)
   → Shopify Checkout (payment)
   → Shopify Order (line properties stored)
   → Merchize app imports order
   → If product is Merchize-synced + personalization mapped:
-        ops / personalizer applies Name + Number
+        ops / personalizer applies Name + Number (+ motif/font from properties)
         confirm → print → ship → tracking to Shopify
      If product is Shopify-only (not Merchize):
         order sits in Shopify only — no fulfillment trigger
@@ -32,10 +35,21 @@ Configurator (/team/bayonne-bees)
 | `Name` | Back name bar |
 | `Number` | Back / chest number |
 | `Size` | Human-readable size |
-| `_ArtSpec` | Base64 JSON art payload for ops |
+| `Motif` | Chevron / Grid / Arc Panel |
+| `Font` | Match Day / Pro Condensed / Impact Block / Varsity |
+| `Product` | Listing display name |
+| `_ArtSpec` | Base64 JSON art payload for ops (includes motif + font) |
 | `_Confirmed` | Buyer confirmed final-sale custom |
 | `Team` | Bayonne Bees |
 | `Collection` | Team Customs |
+
+**In-app design controls**
+
+| Control | Options |
+|---|---|
+| Base layer | Single maroon field (always on) |
+| Geometric motif | Chevron · Grid · Arc Panel |
+| Lettering font | Match Day · Pro Condensed · Impact Block · Varsity |
 
 ---
 
@@ -60,7 +74,7 @@ Extra tag when customizable: `custom-name-number`
 
 **Launch set (ship first):** #1–3, then #7, #4. Rest wave 2.
 
-**PDP rule:** Hide blind add-to-cart on customizable products; route Name/Number SKUs through `/team/bayonne-bees`.
+**PDP rule:** Hide blind add-to-cart on Shopify PDPs; route customizable SKUs through `/team/bayonne-bees/{product}` (e.g. `/team/bayonne-bees/jersey`).
 
 ---
 
