@@ -23,9 +23,9 @@ type Props = {
 };
 
 /**
- * Photoreal live preview — product detail photo + motif panel + optional lettering.
- * Geometric motifs are canvas-composited as ink sublimation: pattern is lit by the
- * garment photo’s set lighting / mesh, then locked to the silhouette — not a sticker.
+ * Photoreal live preview — product detail photo + optional lettering.
+ * When a geometric motif is selected, the preview is a single baked bitmap:
+ * garment photo with ink sublimated into the panel pixels (not a floating layer).
  */
 export function ProductCanvas({
   view,
@@ -51,26 +51,28 @@ export function ProductCanvas({
   const numberShadow = blackout
     ? "0 0 3px #000, 0 2px 0 #000, 0 0 18px rgba(0,0,0,0.9)"
     : "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)";
+  const bakeMotif = motif !== "none";
 
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"
-      style={{ containerType: "size", isolation: "isolate" }}
+      style={{ containerType: "size" }}
     >
-      <img
-        src={src}
-        alt={`${productLabel}, ${view} view`}
-        className="absolute inset-0 h-full w-full object-cover object-center"
-        draggable={false}
-      />
-
-      {motif !== "none" && (
-        <MotifOverlay
+      {bakeMotif ? (
+        <SublimatedPreview
           key={`${motif}-${view}-${src}`}
           motif={motif}
           view={view}
           emphasize={emphasizeMotif}
           garmentSrc={src}
+          label={`${productLabel}, ${view} view`}
+        />
+      ) : (
+        <img
+          src={src}
+          alt={`${productLabel}, ${view} view`}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          draggable={false}
         />
       )}
 
@@ -121,20 +123,21 @@ export function ProductCanvas({
 }
 
 /**
- * Canvas ink-sublimation compositor.
- * Lights the geometric pattern with the garment photo so folds, speculars, and mesh
- * show through the print — instead of a flat CSS layer hovering over the jersey.
+ * Single opaque bitmap: product photo with geometric ink baked into panel pixels.
+ * No second stacked layer — the print is the fabric in the output image.
  */
-function MotifOverlay({
+function SublimatedPreview({
   motif,
   view,
   emphasize,
   garmentSrc,
+  label,
 }: {
   motif: MotifId;
   view: CanvasView;
   emphasize: boolean;
   garmentSrc: string;
+  label: string;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sideHeavy = emphasize || view === "side";
@@ -163,24 +166,23 @@ function MotifOverlay({
       const ctx = el.getContext("2d", { willReadFrequently: true });
       if (!ctx) return;
 
-      // Sample garment (cover-fit, same as <img object-cover>)
       const cover = coverRect(img.naturalWidth, img.naturalHeight, w, h);
       ctx.clearRect(0, 0, w, h);
       ctx.drawImage(img, cover.sx, cover.sy, cover.sw, cover.sh, 0, 0, w, h);
-      const garment = ctx.getImageData(0, 0, w, h);
+      const frame = ctx.getImageData(0, 0, w, h);
 
-      // Flat ink plate
-      ctx.clearRect(0, 0, w, h);
-      paintMotifPlate(ctx, motif, w, h);
-      const plate = ctx.getImageData(0, 0, w, h);
+      // Ink plate (offscreen)
+      const plateCanvas = document.createElement("canvas");
+      plateCanvas.width = w;
+      plateCanvas.height = h;
+      const pctx = plateCanvas.getContext("2d")!;
+      paintMotifPlate(pctx, motif, w, h);
+      const plate = pctx.getImageData(0, 0, w, h);
 
-      const out = ctx.createImageData(w, h);
-      const gd = garment.data;
+      const gd = frame.data;
       const pd = plate.data;
-      const od = out.data;
       const bg = sampleCornerBackground(gd, w, h);
 
-      // Contrast-stretch luminance inside the panel so set lighting reads on dark fabrics
       let lumMin = 1;
       let lumMax = 0;
       for (let i = 0; i < gd.length; i += 4) {
@@ -191,8 +193,8 @@ function MotifOverlay({
         const gr = gd[i]!;
         const gg = gd[i + 1]!;
         const gb = gd[i + 2]!;
-        if (fabricMatte(gr, gg, gb, bg, sideHeavy, zone, lum) < 0.35) continue;
         const lum = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / 255;
+        if (fabricMatte(gr, gg, gb, bg, sideHeavy, zone, lum) < 0.35) continue;
         if (lum < lumMin) lumMin = lum;
         if (lum > lumMax) lumMax = lum;
       }
@@ -210,19 +212,13 @@ function MotifOverlay({
         const lum = (0.2126 * gr + 0.7152 * gg + 0.0722 * gb) / 255;
 
         const zone = panelZone(nx, ny, sideHeavy);
-        // Cut studio via color-distance matte. Black side stripes are close to the
-        // charcoal floor, so the panel core also trusts the zone itself.
         const fabric = fabricMatte(gr, gg, gb, bg, sideHeavy, zone, lum);
         const mask = fabric * zone;
-        if (mask < 0.02) {
-          od[i + 3] = 0;
-          continue;
-        }
+        if (mask < 0.02) continue;
 
         const local = Math.min(1, Math.max(0, (lum - lumMin) / lumRange));
-        // Warp the plate with lighting so folds pull the print (cheap fabric wrap)
-        const wrapX = Math.round((0.5 - local) * (sideHeavy ? 7 : 4) * dpr);
-        const wrapY = Math.round((local - 0.5) * 2 * dpr);
+        const wrapX = Math.round((0.5 - local) * (sideHeavy ? 8 : 5) * dpr);
+        const wrapY = Math.round((local - 0.5) * 2.5 * dpr);
         const sx = Math.min(w - 1, Math.max(0, px + wrapX));
         const sy = Math.min(h - 1, Math.max(0, py + wrapY));
         const si = (sy * w + sx) * 4;
@@ -231,27 +227,20 @@ function MotifOverlay({
         const pg = pd[si + 1]!;
         const pb = pd[si + 2]!;
         const pa = pd[si + 3]! / 255;
-        if (pa < 0.01) {
-          od[i + 3] = 0;
-          continue;
-        }
+        if (pa < 0.01) continue;
 
-        // Strong light response: ink almost sleeps in shadow, wakes on speculars
-        const light = Math.pow(local, 0.55);
-        const dye = 0.2 + 0.95 * light;
-        const inkR = gr * (0.5 - 0.15 * light) + pr * dye * 0.72;
-        const inkG = gg * (0.5 - 0.15 * light) + pg * dye * 0.72;
-        const inkB = gb * (0.5 - 0.15 * light) + pb * dye * 0.72;
+        // Ink amount follows set light — shadow sleeps, highlight shows dye
+        const light = Math.pow(local, 0.5);
+        const mix = mask * pa * (sideHeavy ? 0.78 : 0.6) * (0.4 + 0.6 * light);
 
-        const strength = mask * pa * (sideHeavy ? 0.86 : 0.68) * (0.55 + 0.45 * light);
-
-        od[i] = clamp8(inkR);
-        od[i + 1] = clamp8(inkG);
-        od[i + 2] = clamp8(inkB);
-        od[i + 3] = clamp8(strength * 255);
+        // Soft-light-ish bake into the same pixels (preserves mesh in the photo)
+        gd[i] = clamp8(softLightBake(gr, pr, mix, light));
+        gd[i + 1] = clamp8(softLightBake(gg, pg, mix, light));
+        gd[i + 2] = clamp8(softLightBake(gb, pb, mix, light));
+        gd[i + 3] = 255;
       }
 
-      ctx.putImageData(out, 0, 0);
+      ctx.putImageData(frame, 0, 0);
     };
 
     const ro = new ResizeObserver(() => {
@@ -260,9 +249,6 @@ function MotifOverlay({
     ro.observe(canvas);
 
     img.onload = () => paint();
-    img.onerror = () => {
-      /* leave canvas empty — photo still shows underneath */
-    };
     img.src = garmentSrc;
     if (img.complete && img.naturalWidth) paint();
 
@@ -275,10 +261,21 @@ function MotifOverlay({
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      aria-hidden
+      role="img"
+      aria-label={label}
+      className="absolute inset-0 h-full w-full"
     />
   );
+}
+
+/** Soft-light dye into a base channel; `mix` is ink coverage 0–1 */
+function softLightBake(base: number, ink: number, mix: number, light: number) {
+  const a = base / 255;
+  const b = (ink / 255) * (0.35 + 0.65 * light);
+  const soft =
+    b < 0.5 ? 2 * a * b + a * a * (1 - 2 * b) : 2 * a * (1 - b) + Math.sqrt(Math.max(0, a)) * (2 * b - 1);
+  const dyed = soft * 255;
+  return base * (1 - mix) + dyed * mix;
 }
 
 function paintMotifPlate(
@@ -294,7 +291,7 @@ function paintMotifPlate(
       g.addColorStop(1, "#14060a");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = "rgba(200,185,180,0.35)";
+      ctx.strokeStyle = "rgba(200,185,180,0.4)";
       ctx.lineWidth = Math.max(1, w * 0.0015);
       const step = Math.max(9, w * 0.02);
       ctx.beginPath();
@@ -313,15 +310,16 @@ function paintMotifPlate(
       const cx = w * 0.5;
       const cy = h * 1.12;
       const maxR = Math.hypot(w, h);
-      for (let r = maxR; r > 0; r -= Math.max(10, w * 0.022)) {
-        const band = Math.floor(r / Math.max(10, w * 0.022)) % 3;
+      const bandW = Math.max(10, w * 0.022);
+      for (let r = maxR; r > 0; r -= bandW) {
+        const band = Math.floor(r / bandW) % 3;
         ctx.fillStyle = band === 0 ? "#0A0A0A" : band === 1 ? "#5A1626" : "#2a0a12";
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.arc(cx, cy, Math.max(0, r - Math.max(10, w * 0.022)), 0, Math.PI * 2, true);
+        ctx.arc(cx, cy, Math.max(0, r - bandW), 0, Math.PI * 2, true);
         ctx.fill();
       }
-      ctx.strokeStyle = "rgba(244,241,240,0.4)";
+      ctx.strokeStyle = "rgba(220,200,195,0.35)";
       ctx.lineWidth = Math.max(1, w * 0.002);
       for (let r = maxR; r > 0; r -= Math.max(28, w * 0.05)) {
         ctx.beginPath();
@@ -332,7 +330,6 @@ function paintMotifPlate(
     }
     case "chevron":
     default: {
-      // Tonal diagonal blocks — sublimation ink, not high-contrast sticker stripes
       const stripe = Math.max(12, w * 0.026);
       ctx.save();
       ctx.translate(w * 0.5, h * 0.5);
@@ -344,7 +341,7 @@ function paintMotifPlate(
         ctx.fillRect(x, 0, stripe, span);
         ctx.fillStyle = "#1a0a0e";
         ctx.fillRect(x + stripe, 0, stripe, span);
-        ctx.fillStyle = "rgba(220,200,195,0.45)";
+        ctx.fillStyle = "rgba(220,200,195,0.4)";
         ctx.fillRect(x + stripe * 2, 0, Math.max(2, stripe * 0.18), span);
       }
       ctx.restore();
@@ -366,7 +363,6 @@ function coverRect(iw: number, ih: number, cw: number, ch: number) {
 }
 
 function panelZone(nx: number, ny: number, sideHeavy: boolean) {
-  // Match the garment’s side stripe / sleeve panel — not the whole body field
   const yFeather = smoothstep(0.1, 0.2, ny) * (1 - smoothstep(0.8, 0.9, ny));
   if (sideHeavy) {
     const x = smoothstep(0.42, 0.455, nx) * (1 - smoothstep(0.545, 0.58, nx));
@@ -377,7 +373,6 @@ function panelZone(nx: number, ny: number, sideHeavy: boolean) {
   return Math.max(left, right) * yFeather;
 }
 
-/** Average corner / edge samples = studio backdrop color */
 function sampleCornerBackground(gd: Uint8ClampedArray, w: number, h: number) {
   const pts = [
     [4, 4],
@@ -400,13 +395,6 @@ function sampleCornerBackground(gd: Uint8ClampedArray, w: number, h: number) {
   return { r: r / n, g: g / n, b: b / n };
 }
 
-/**
- * Fabric vs studio matte.
- * - Garnet chroma always counts
- * - Pixels far from corner-sampled backdrop count
- * - On motif-first side views, the panel core also counts deep blacks (side stripe
- *   is often as dark as the charcoal floor, so distance alone fails)
- */
 function fabricMatte(
   r: number,
   g: number,
