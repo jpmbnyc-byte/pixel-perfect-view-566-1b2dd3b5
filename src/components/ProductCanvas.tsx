@@ -23,7 +23,8 @@ type Props = {
 
 /**
  * Photoreal live preview — product detail photo + optional name/number overlay.
- * Motif accent is stronger on side views so shorts/sweats show the selected geo.
+ * Name/number boxes follow reference print-zone % (Y / W / H) and scale with the
+ * preview container so live preview matches production scale.
  */
 export function ProductCanvas({
   view,
@@ -52,7 +53,10 @@ export function ProductCanvas({
     : "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)";
 
   return (
-    <figure className="relative aspect-[3/4] overflow-hidden bg-black">
+    <figure
+      className="relative aspect-[3/4] overflow-hidden bg-black"
+      style={{ containerType: "size" }}
+    >
       <img
         src={src}
         alt={`${productLabel}, ${view} view`}
@@ -93,31 +97,35 @@ export function ProductCanvas({
 
       {view === "back" && showLettering && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
+          {/* Name zone — reference: Y 18% · W 44% · H 8% · centered */}
           <p
-            className="absolute text-center tracking-[0.18em] text-white"
+            className="absolute flex items-center justify-center text-center uppercase tracking-[0.12em] text-white"
             style={{
               top: `${lettering.name.y}%`,
               left: `${lettering.centerX}%`,
               transform: "translateX(-50%)",
               width: `${lettering.name.maxWidthPct}%`,
+              height: `${lettering.name.heightPct}%`,
               fontFamily: font.cssFamily,
-              fontSize: "clamp(0.9rem, 3.8vw, 1.2rem)",
-              lineHeight: 1.05,
+              fontSize: `calc(${lettering.name.heightPct} * 0.72cqh)`,
+              lineHeight: 1,
               textShadow: nameShadow,
               WebkitTextStroke: blackout ? "0.4px rgba(0,0,0,0.55)" : undefined,
             }}
           >
             {displayName}
           </p>
+          {/* Number zone — reference: Y 32% · W 28% · H 22% · centered */}
           <p
-            className="absolute text-center leading-none text-white"
+            className="absolute flex items-center justify-center text-center leading-none text-white"
             style={{
               top: `${lettering.number.y}%`,
-              /* Italic kit faces optically bias right — nudge number left */
-              left: `${lettering.centerX - 1.1}%`,
+              left: `${lettering.centerX}%`,
               transform: "translateX(-50%)",
+              width: `${lettering.number.maxWidthPct}%`,
+              height: `${lettering.number.heightPct}%`,
               fontFamily: font.cssFamily,
-              fontSize: `clamp(4rem, ${lettering.number.heightPct * 0.9}vw, 6.75rem)`,
+              fontSize: `calc(${lettering.number.heightPct} * 0.78cqh)`,
               textShadow: numberShadow,
               WebkitTextStroke: blackout ? "0.6px rgba(0,0,0,0.65)" : undefined,
             }}
