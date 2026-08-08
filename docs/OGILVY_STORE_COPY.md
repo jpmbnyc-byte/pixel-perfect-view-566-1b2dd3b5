@@ -62,7 +62,7 @@ Prices from current catalog. Fabric weights cut until measured.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
 - **Jersey Dress** — $72. One-piece sideline cut. Color-block basketball crest. Name and number on the back.
 - **1936 Crewneck** — $64. Garnet body, black geo side panels (front + side). Motif only — no lettering.
-- **Blackout Sweatpants** — $58. All black. Tonal geometric side panel you pick (front + side). Motif only.
+- **Base Layer Sweats** — $58. Black base, garnet geometric side panel you pick (front + side). Motif only.
 - **Long-Sleeve Jersey** — $62. Name and number on the back. Year inside the collar.
 - **Quarter-Zip** — $68. Crest on the left chest. Nothing else on the front.
 - **Alumni Shorts** — $42. Same garnet as the match strip. Geometric side panel off the field (front + side).

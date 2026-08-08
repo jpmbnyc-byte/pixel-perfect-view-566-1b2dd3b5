@@ -70,7 +70,7 @@ Extra tag when customizable: `custom-name-number`
 | 7 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | No — motif on side panels | — |
 | 8 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
 | 9 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
-| 10 | `bayonne-bees-sweatpants` | Blackout panel sweatpants | Warm-up | No — motif on side only | — |
+| 10 | `bayonne-bees-sweatpants` | Black base + garnet side-panel sweats | Warm-up | No — motif on side only | — |
 | 11 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | No — motif on side only | — |
 
 **PDP preview pairs**
@@ -201,14 +201,14 @@ One-piece mid-thigh jersey dress. Color-block chest logo (not all-white).
 | Body | Tonal geo / marble distress in maroon-black-grey |
 | No back number | — |
 
-### 9. Blackout sweatpants (`bayonne-bees-sweatpants`)
+### 9. Base layer sweats (`bayonne-bees-sweatpants`)
 
-App preview: **front + side**. All-black body; tonal motif on outer leg panel; crest left thigh. No typography.
+App preview: **front + side**. Versatile black base with garnet accent side panel (collection-aligned). Motif on panel; crest left thigh. No typography.
 
 | Zone | Placement | Art |
 |---|---|---|
-| Body | Full | Solid black |
-| Side panels | Hip to ankle | Tonal black motif (chevron / grid / arc) |
+| Body | Full | Solid black (base layer) |
+| Side panels | Hip to ankle | Garnet field + customer motif (chevron / grid / arc) |
 | Soft brand | Left thigh | Small boxing-bee crest |
 | Waist / cuff | Black rib | Drawcord optional |
 
