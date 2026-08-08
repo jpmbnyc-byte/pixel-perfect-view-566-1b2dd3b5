@@ -142,8 +142,7 @@ function TeamStorePage() {
 
       {category === "sideline" && (
         <p className="mt-4 px-5 text-sm leading-relaxed text-muted-foreground">
-          Sideline is for November. Same garnet as the match strip. This is a Bayonne store —
-          not an official district store until the Board says so in writing.
+          Sideline is for November. Same garnet as the match strip — crop sets, hoops, hats.
         </p>
       )}
 

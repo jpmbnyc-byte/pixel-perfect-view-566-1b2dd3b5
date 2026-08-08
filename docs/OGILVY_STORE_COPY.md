@@ -2,8 +2,6 @@
 
 Ogilvy's rules: the headline does 80% of the work, it states a fact rather than an adjective, and the body is long because people who are actually interested read. Nothing uses "elevate," "premium," or "iconic."
 
-**Permission note:** Until Bayonne BOE signs off on Bees marks in writing, this runs as a **Bayonne** store / Team Customs — not a “school store.” The garnet argument, the 1936 line, and the crest work all hold without claiming the district.
-
 ---
 
 ## The headline
@@ -62,7 +60,7 @@ Prices from current catalog. Fabric weights cut until measured.
 - **AOP Hat** — $36. All-over geo on the crown. Crest up front. Front + side preview.
 - **Full Kit Set** — $89. Jersey and shorts, one order, one garnet.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
-- **Jersey Dress** — $72. Sideline cut. Crest first.
+- **Spirit Skirt Set** — $78. Crop jersey + pleated skirt. Crest on the chest. Name and number on the back.
 - **1936 Crewneck** — $64. Garnet body, black geo side panels (front + side). Motif only — no lettering.
 - **Long-Sleeve Jersey** — $62. Name and number on the back. Year inside the collar.
 - **Quarter-Zip** — $68. Crest on the left chest. Nothing else on the front.

@@ -162,10 +162,7 @@ function TeamLanding() {
             none of their parents, should have to settle for a shirt that is nearly the right
             red.
           </p>
-          <p className="text-sm text-bone/45">
-            This is a Bayonne store from No Parade F.C. — a resident studio. It is not an
-            official district store until the Board says so in writing.
-          </p>
+          <p className="text-sm text-bone/45">No Parade F.C. · Bayonne, NJ</p>
           <Link
             to="/team/$slug/$product"
             params={{ slug: kit.slug, product: "jersey" }}
