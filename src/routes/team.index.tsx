@@ -2,6 +2,8 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import landingHero from "@/assets/bayonne/bayonne-landing-hero.jpg";
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
+import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
+import { PRODUCTS } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
 export const Route = createFileRoute("/team/")({
@@ -9,7 +11,7 @@ export const Route = createFileRoute("/team/")({
     const title =
       "Bayonne has worn garnet and white since 1936. Most sweatshirts get the color wrong. | No Parade F.C.";
     const description =
-      "Every garment is specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Printed when you order. No Parade F.C., Bayonne, NJ.";
+      "Every garment is specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Match kit from $34. Personalize and checkout. No Parade F.C., Bayonne, NJ.";
     return {
       meta: [
         { title },
@@ -23,6 +25,8 @@ export const Route = createFileRoute("/team/")({
   },
   component: TeamLanding,
 });
+
+const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
 
 function TeamLanding() {
   const kit = BAYONNE_BEES_KIT;
@@ -51,24 +55,56 @@ function TeamLanding() {
             </h1>
             <p className="mt-5 max-w-[30rem] text-lg leading-snug text-bone/75">
               Every garment here is specified in Bayonne’s actual garnet — not maroon, not
-              burgundy, not cardinal.
+              burgundy, not cardinal. From ${LOWEST}.
             </p>
           </div>
 
           <div className="mt-auto space-y-3 pt-8 motion-safe:animate-team-rise [animation-delay:160ms]">
             <Link
-              to="/team/$slug"
-              params={{ slug: kit.slug }}
+              to="/team/$slug/$product"
+              params={{ slug: kit.slug, product: "jersey" }}
               className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
             >
-              Open the Bayonne store
+              Shop Match jersey · $58
             </Link>
-            <a
-              href="#why-garnet"
+            <Link
+              to="/team/$slug"
+              params={{ slug: kit.slug }}
               className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
             >
-              Read why the color matters
-            </a>
+              Browse the Bayonne store — from ${LOWEST}
+            </Link>
+            <StoreCloseCountdown closesAt={kit.closesAt} />
+          </div>
+        </div>
+      </section>
+
+      {/* Fast path — most families start here */}
+      <section className="border-t border-bone/10 bg-[#12090b] px-6 py-12">
+        <div className="mx-auto w-full max-w-[560px]">
+          <p className="label-caps text-bone/50">Start here</p>
+          <h2 className="mt-3 font-kit text-3xl tracking-wide text-bone">
+            Most families begin with the Match jersey.
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-bone/70">
+            Collar says BAYONNE. Name and number on the back — you type them; we print them.
+            Preview before you pay.
+          </p>
+          <div className="mt-6 flex flex-col gap-3">
+            <Link
+              to="/team/$slug/$product"
+              params={{ slug: kit.slug, product: "jersey" }}
+              className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
+            >
+              Personalize Match jersey · $58
+            </Link>
+            <Link
+              to="/team/$slug/$product"
+              params={{ slug: kit.slug, product: "set" }}
+              className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
+            >
+              Jersey + shorts · $89
+            </Link>
           </div>
         </div>
       </section>
@@ -95,24 +131,21 @@ function TeamLanding() {
           </h2>
           <ol className="list-decimal space-y-4 pl-5">
             <li>
-              Every garment is specified in one matched garnet and used across the whole
-              store. A crew bought in October matches a jersey ordered in April.
+              Live preview of your name and number on the jersey before you pay.
+            </li>
+            <li>
+              Every garment is specified in one matched garnet across the whole store. A crew
+              bought in October matches a jersey ordered in April.
             </li>
             <li>
               Nothing is printed until you order it. There is no back room of unsold XLs.
             </li>
             <li>
-              Sizes run from adult 2XS to 3XL. The size chart gives chest and body length in
-              inches — not “runs small.”
+              Adult sizes with a size chart in inches — chest and body length, not “runs
+              small.”
             </li>
             <li>
-              The girls soccer program that won the 2024 Hudson County championship has gone
-              by Queen Bees for years. The crest for that name was drawn by hand, in Bayonne,
-              and had never existed as a mark before.
-            </li>
-            <li>The year can sit inside the collar, where only the player sees it.</li>
-            <li>
-              Checkout is at{" "}
+              Checkout on a secure cart at{" "}
               <a
                 href="https://noparade-store.com"
                 className="text-bone underline underline-offset-4"
@@ -134,12 +167,13 @@ function TeamLanding() {
             official district store until the Board says so in writing.
           </p>
           <Link
-            to="/team/$slug"
-            params={{ slug: kit.slug }}
+            to="/team/$slug/$product"
+            params={{ slug: kit.slug, product: "jersey" }}
             className="label-caps mt-6 inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
           >
-            Open the Bayonne store
+            Start with the jersey · $58
           </Link>
+          <StoreCloseCountdown closesAt={kit.closesAt} className="mt-3 text-center" />
         </div>
       </section>
 
@@ -173,9 +207,10 @@ function TeamLanding() {
             <Link
               to="/team/$slug"
               params={{ slug: kit.slug }}
+              hash="match"
               className="label-caps inline-flex w-full items-center justify-center bg-bone px-6 py-4 text-black transition-opacity hover:opacity-90"
             >
-              Shop Match
+              Shop Match — from ${LOWEST}
             </Link>
             <Link
               to="/team/$slug"

@@ -49,6 +49,11 @@ export const Route = createFileRoute("/team/$slug/$product")({
   component: ProductListingPage,
 });
 
+type CtaState =
+  | { kind: "sync"; label: string }
+  | { kind: "step"; label: string }
+  | { kind: "ready"; label: string };
+
 function ProductListingPage() {
   const { kit, sync } = TeamSlugRoute.useLoaderData();
   const { product } = Route.useLoaderData();
@@ -70,6 +75,11 @@ function ProductListingPage() {
     if (size && shopifyItem && !variantIdFor(kit, shopifyItem, size)) setSize("");
   }, [kit, shopifyItem, size]);
 
+  // Flip to back when personalizing so parents see the name/number landing.
+  useEffect(() => {
+    if (product.nameNumber && (name || number)) setView("back");
+  }, [product.nameNumber, name, number]);
+
   const numberValue = Number(number);
   const numberValid =
     !product.nameNumber ||
@@ -80,9 +90,30 @@ function ProductListingPage() {
 
   const variantId = size && shopifyItem ? variantIdFor(kit, shopifyItem, size) : null;
 
-  const ready = Boolean(
-    (!product.nameNumber || (name && numberValid)) && size && variantId && confirmed && itemReady,
-  );
+  const nameReady = !product.nameNumber || Boolean(name && numberValid);
+  const ready = Boolean(nameReady && size && variantId && confirmed && itemReady);
+
+  const cta: CtaState = useMemo(() => {
+    if (!shopifyItem) {
+      return { kind: "sync", label: "Checkout opening soon" };
+    }
+    if (!itemReady) {
+      return { kind: "sync", label: "Checkout opening soon" };
+    }
+    if (product.nameNumber && !name) {
+      return { kind: "step", label: "Enter name on back" };
+    }
+    if (product.nameNumber && !numberValid) {
+      return { kind: "step", label: "Enter number" };
+    }
+    if (!size) {
+      return { kind: "step", label: "Choose a size" };
+    }
+    if (!confirmed) {
+      return { kind: "step", label: "Confirm spelling & size" };
+    }
+    return { kind: "ready", label: `Checkout · $${product.price}` };
+  }, [shopifyItem, itemReady, product.nameNumber, product.price, name, numberValid, size, confirmed]);
 
   const artSpec = useMemo(() => {
     if (!size || !shopifyItem) {
@@ -116,8 +147,25 @@ function ProductListingPage() {
 
   const font = fontById(fontId)!;
 
+  const goNext = () => {
+    if (ready) {
+      formRef.current?.submit();
+      return;
+    }
+    if (cta.kind !== "step") return;
+    const target =
+      product.nameNumber && !name
+        ? "field-name"
+        : product.nameNumber && !numberValid
+          ? "field-number"
+          : !size
+            ? "field-size"
+            : "field-confirm";
+    document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   return (
-    <main className="mx-auto min-h-screen w-full max-w-[560px] bg-background pb-20">
+    <main className="mx-auto min-h-screen w-full max-w-[560px] bg-background pb-28">
       <header className="border-b border-border px-5 pb-4 pt-5">
         <Link
           to="/team/$slug"
@@ -173,7 +221,6 @@ function ProductListingPage() {
         />
       </section>
 
-      {/* Motif: base layer always on; choose 1 of 3 geos */}
       <section className="mt-8 px-5">
         <Field label="Geometric motif" hint="Garnet field. One panel language.">
           <div className="grid grid-cols-3 gap-2">
@@ -202,7 +249,6 @@ function ProductListingPage() {
         </Field>
       </section>
 
-      {/* Fonts */}
       <section className="mt-7 px-5">
         <Field label="Lettering font" hint="4 faces">
           <div className="grid grid-cols-2 gap-2">
@@ -236,29 +282,33 @@ function ProductListingPage() {
 
       {product.nameNumber && (
         <section className="mt-7 space-y-6 px-5">
-          <Field label="Name on back" hint={`${kit.rules.nameMaxChars} max`}>
-            <input
-              value={name}
-              onChange={(e) => setName(sanitizeName(e.target.value, kit.rules.nameMaxChars))}
-              placeholder="SAINT-PIERRE"
-              className="w-full border-b border-input bg-transparent pb-2 text-3xl tracking-wide outline-none placeholder:text-muted-foreground/50 focus:border-ring"
-              style={{ fontFamily: font.cssFamily }}
-            />
-          </Field>
-          <Field label="Number" hint={`${kit.rules.numberMin}–${kit.rules.numberMax}`}>
-            <input
-              value={number}
-              onChange={(e) => setNumber(sanitizeNumber(e.target.value))}
-              placeholder="7"
-              inputMode="numeric"
-              className="w-full border-b border-input bg-transparent pb-2 text-3xl tracking-wide outline-none placeholder:text-muted-foreground/50 focus:border-ring"
-              style={{ fontFamily: font.cssFamily }}
-            />
-          </Field>
+          <div id="field-name">
+            <Field label="Name on back" hint={`${kit.rules.nameMaxChars} max`}>
+              <input
+                value={name}
+                onChange={(e) => setName(sanitizeName(e.target.value, kit.rules.nameMaxChars))}
+                placeholder="SAINT-PIERRE"
+                className="w-full border-b border-input bg-transparent pb-2 text-3xl tracking-wide outline-none placeholder:text-muted-foreground/50 focus:border-ring"
+                style={{ fontFamily: font.cssFamily }}
+              />
+            </Field>
+          </div>
+          <div id="field-number">
+            <Field label="Number" hint={`${kit.rules.numberMin}–${kit.rules.numberMax}`}>
+              <input
+                value={number}
+                onChange={(e) => setNumber(sanitizeNumber(e.target.value))}
+                placeholder="7"
+                inputMode="numeric"
+                className="w-full border-b border-input bg-transparent pb-2 text-3xl tracking-wide outline-none placeholder:text-muted-foreground/50 focus:border-ring"
+                style={{ fontFamily: font.cssFamily }}
+              />
+            </Field>
+          </div>
         </section>
       )}
 
-      <section className="mt-7 px-5">
+      <section id="field-size" className="mt-7 px-5">
         <Field
           label="Size"
           hint={
@@ -293,7 +343,7 @@ function ProductListingPage() {
           </div>
           {shopifyItem && SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
             <p className="mt-2 text-sm text-muted-foreground">
-              Dashed sizes await Merchize sync for this listing.
+              Dashed sizes are still syncing — pick an available size to checkout.
             </p>
           )}
           {chartOpen && (
@@ -319,7 +369,7 @@ function ProductListingPage() {
         </Field>
       </section>
 
-      <section className="mt-8 border-t border-border px-5 pt-6">
+      <section id="field-confirm" className="mt-8 border-t border-border px-5 pt-6 pb-4">
         <label className="flex items-start gap-3 text-base leading-snug">
           <input
             type="checkbox"
@@ -328,7 +378,8 @@ function ProductListingPage() {
             className="mt-1 size-5 shrink-0 accent-[var(--primary)]"
           />
           <span>
-            I've checked motif, font, spelling, number, and size — custom kits are final sale.
+            I’ve double-checked the spelling, number, and size. Custom kits can’t be edited
+            after checkout.
           </span>
         </label>
 
@@ -355,21 +406,29 @@ function ProductListingPage() {
           <input type="hidden" name="properties[_Confirmed]" value="yes" />
         </form>
 
-        <button
-          type="button"
-          disabled={!ready}
-          onClick={() => formRef.current?.submit()}
-          className="label-caps mt-5 w-full bg-primary py-4 text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {!shopifyItem
-            ? "Listing preview — sync in Merchize"
-            : !itemReady
-              ? "Waiting for Merchize sync"
-              : `Checkout · $${product.price}`}
-        </button>
-
         <SyncNote sync={sync} hasShopifyItem={Boolean(shopifyItem)} />
       </section>
+
+      {/* Sticky ATC — always one clear next step */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-[560px] flex-col gap-1.5 px-5 py-3">
+          <button
+            type="button"
+            disabled={cta.kind === "sync"}
+            onClick={goNext}
+            className="label-caps w-full bg-primary py-4 text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            {cta.label}
+          </button>
+          <p className="text-center text-xs leading-snug text-muted-foreground">
+            {cta.kind === "ready"
+              ? "Secure checkout on noparade-store.com · Nothing prints until you order"
+              : cta.kind === "sync"
+                ? "Design now — checkout unlocks when this listing finishes syncing"
+                : "Tap to jump to the next step · Preview updates as you type"}
+          </p>
+        </div>
+      </div>
     </main>
   );
 }
@@ -378,14 +437,14 @@ function SyncNote({ sync, hasShopifyItem }: { sync: ShopifySyncStatus; hasShopif
   if (!hasShopifyItem) {
     return (
       <p className="mt-4 text-center text-sm text-muted-foreground">
-        Design is ready. Publish this handle in Merchize to unlock checkout.
+        Design is ready. Checkout unlocks when this listing goes live on noparade-store.com.
       </p>
     );
   }
   if (sync.top || sync.bottom || sync.set) return null;
   return (
     <p className="mt-4 text-center text-sm text-muted-foreground">
-      Merchize sync pending for core kit variants on noparade-store.com.
+      Core kit sizes are still syncing to noparade-store.com. You can finish the design now.
     </p>
   );
 }

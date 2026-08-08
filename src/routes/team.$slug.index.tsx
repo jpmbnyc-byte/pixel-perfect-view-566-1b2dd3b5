@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
 import logo from "@/assets/bayonne/spirit/boxing-bee.png";
-import { CATEGORIES, productsInCategory, type CategoryId } from "@/lib/catalog";
+import { CATEGORIES, productById, productsInCategory, type CategoryId } from "@/lib/catalog";
 import { countdownParts } from "@/lib/kit";
 import { shopifySynced } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
@@ -19,6 +19,7 @@ function TeamStorePage() {
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
   const catalogReady = shopifySynced(sync);
+  const featuredJersey = productById("jersey");
 
   // Deep-link: /team/bayonne-bees#sideline
   useEffect(() => {
@@ -68,9 +69,31 @@ function TeamStorePage() {
 
       {!catalogReady && (
         <div className="border-b border-border bg-secondary/60 px-5 py-3 text-sm leading-snug text-muted-foreground">
-          You can design every piece now. Checkout opens when products finish syncing to{" "}
-          <span className="text-foreground">noparade-store.com</span>.
+          You can design every piece now. Secure checkout opens when listings finish syncing
+          to <span className="text-foreground">noparade-store.com</span>.
         </div>
+      )}
+
+      {/* Conversion path: skip category browse → jersey PDP */}
+      {featuredJersey && !closed && (
+        <section className="border-b border-border bg-card px-5 py-5">
+          <p className="label-caps text-muted-foreground">Most ordered</p>
+          <div className="mt-2 flex items-start justify-between gap-3">
+            <div>
+              <h2 className="font-kit text-2xl tracking-wide">{featuredJersey.name}</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Name + number on the back · Live preview · ${featuredJersey.price}
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/team/$slug/$product"
+            params={{ slug: kit.slug, product: featuredJersey.id }}
+            className="label-caps mt-4 inline-flex w-full items-center justify-center bg-primary py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Personalize Match jersey · ${featuredJersey.price}
+          </Link>
+        </section>
       )}
 
       <section className="px-5 pt-6">
@@ -151,8 +174,8 @@ function TeamStorePage() {
                     <span className="font-kit text-xl text-garnet">${p.price}</span>
                   </div>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{p.blurb}</p>
-                  <p className="label-caps mt-2 text-muted-foreground">
-                    {p.nameNumber ? "Name + number" : "Choose motif"} · Open →
+                  <p className="label-caps mt-2 text-garnet">
+                    {p.nameNumber ? "Personalize" : "Choose motif"} · ${p.price} →
                   </p>
                 </div>
               </Link>
