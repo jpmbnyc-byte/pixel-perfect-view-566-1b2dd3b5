@@ -10,7 +10,7 @@ Ghost mannequin / product still, studio lighting, full garment in frame.
 | Match Jersey | `jersey-front.jpg` | `jersey-back.jpg` |
 | Full Kit Set | `set-front.jpg` | `set-back.jpg` |
 | Hoops Jersey | `hoops-front.jpg` | `hoops-back.jpg` |
-| Spirit Skirt Set | `skirt-front.jpg` | `skirt-back.jpg` |
+| Jersey Dress | `dress-front.jpg` | `dress-back.jpg` |
 | Long-Sleeve Jersey | `ls-front.jpg` | `ls-back.jpg` |
 | Quarter-Zip | `qzip-front.jpg` | `qzip-back.jpg` |
 

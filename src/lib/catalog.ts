@@ -26,8 +26,8 @@ import setFront from "@/assets/bayonne/previews/set-front.jpg";
 import setBack from "@/assets/bayonne/previews/set-back.jpg";
 import hoopsFront from "@/assets/bayonne/previews/hoops-front.jpg";
 import hoopsBack from "@/assets/bayonne/previews/hoops-back.jpg";
-import skirtFront from "@/assets/bayonne/previews/skirt-front.jpg";
-import skirtBack from "@/assets/bayonne/previews/skirt-back.jpg";
+import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
+import dressBack from "@/assets/bayonne/previews/dress-back.jpg";
 import crewFront from "@/assets/bayonne/previews/crew-front.jpg";
 import crewSide from "@/assets/bayonne/previews/crew-side.jpg";
 import lsFront from "@/assets/bayonne/previews/ls-front.jpg";
@@ -267,26 +267,25 @@ export const PRODUCTS: CatalogProduct[] = [
     previews: { front: hoopsFront, secondary: hoopsBack },
   },
   {
-    id: "spirit-skirt-set",
-    handle: "bayonne-bees-spirit-skirt-set",
-    name: "Spirit Skirt Set",
-    blurb: "Crop jersey + pleated skirt. Crest on the chest. Name and number on the back.",
+    id: "jersey-dress",
+    handle: "bayonne-bees-jersey-dress",
+    name: "Jersey Dress",
+    blurb: "One-piece sideline cut. Color-block basketball crest on the chest. Name and number on the back.",
     category: "sideline",
-    price: 78,
+    price: 72,
     customizable: true,
     nameNumber: true,
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Crop top sits high in frame — keep lettering on the jersey panel only */
     lettering: {
       centerX: 49.5,
-      name: { y: 16, heightPct: 3.6, maxWidthPct: 34 },
-      number: { y: 26, heightPct: 16 },
+      name: { y: 21, heightPct: 4, maxWidthPct: 36 },
+      number: { y: 34, heightPct: 22 },
       surface: "garnet",
     },
-    thumb: skirtFront,
-    previews: { front: skirtFront, secondary: skirtBack },
+    thumb: dressFront,
+    previews: { front: dressFront, secondary: dressBack },
   },
   {
     id: "aop-hat",

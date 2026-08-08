@@ -65,7 +65,7 @@ Extra tag when customizable: `custom-name-number`
 | 2 | `bayonne-bees-shorts` | Matching athletic shorts | **Core** | No — motif on side only | `bottom` |
 | 3 | `bayonne-bees-full-set` | Jersey + shorts set (or bundle) | **Core** | Yes — jersey | `set` |
 | 4 | `bayonne-bees-hoops-jersey` | Basketball sleeveless jersey tank | Spirit | Yes — chest/back | — |
-| 5 | `bayonne-bees-spirit-skirt-set` | Cropped jersey + pleated skirt | Spirit | Yes — crop back | — |
+| 5 | `bayonne-bees-jersey-dress` | Basketball jersey dress (one-piece) | Spirit | Yes — back | — |
 | 6 | `bayonne-bees-aop-hat` | AOP baseball / dad hat | Spirit | No — motif + crest | — |
 | 7 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | No — motif on side panels | — |
 | 8 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
@@ -166,17 +166,15 @@ Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the tw
 | Binding | Neck + armholes | Garnet–bone–garnet stripe rib |
 | Side inserts | Optional | Subtle geo |
 
-### 5. Spirit skirt set (`bayonne-bees-spirit-skirt-set`)
+### 5. Jersey dress (`bayonne-bees-jersey-dress`)
 
-**Crop jersey**
+One-piece mid-thigh jersey dress. Color-block chest logo (not all-white).
+
 | Zone | Art |
 |---|---|
-| Chest wordmark | Arched `BAYONNE` |
-| Center crest | Boxing-bee hex |
-| Binding | Black–bone–black on neck + armholes |
-| Back | Name + number (shared lettering; crop framing) |
-
-**Skirt:** garnet knife pleats, black waistband, mid-thigh. Two-piece — not a one-piece jersey dress.
+| Chest lockup | Orange basketball + arched `BAYONNE` banner + net + boxing-bee hex |
+| Binding | Black–bone–black on V-neck + armholes |
+| Back | Name + number (shared lettering) |
 
 ### 6. Crewneck (`bayonne-bees-crewneck`)
 
@@ -231,7 +229,7 @@ Asset folder: `src/assets/bayonne/heroes/`
 |---|---|---|---|---|
 | H0 | `hero-landing.jpg` | Match jersey lifestyle | Floodlit pitch, cinematic | `/team` landing |
 | H1 | `hero-kit-studio.jpg` | Jersey + shorts, panel kit | Garnet studio + diagonal light | Core category / kit PDP |
-| H2 | `hero-spirit-gym.jpg` | Spirit skirt set / sideline | Indoor court | Spirit category |
+| H2 | `hero-spirit-gym.jpg` | Jersey dress / sideline | Indoor court | Spirit category |
 | H3 | `hero-crewneck-studio.jpg` | Geo crewneck | Neutral grey studio | Warm-up |
 | H4 | `hero-field-lifestyle.jpg` | Jersey lifestyle | Pitch / campaign | Lifestyle |
 | H5 | `hero-ls-rack.jpg` | LS jersey front + back | Minimal hanger rack | Name/Number education |
