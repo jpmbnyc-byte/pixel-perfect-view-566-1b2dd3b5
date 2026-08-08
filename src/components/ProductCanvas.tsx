@@ -81,17 +81,18 @@ export function ProductCanvas({
         {view === "front" && (
           <>
             <CrestBadge />
+            {/* Solid white wordmark on the black panel — never tonal / faded */}
             <text
               x="150"
-              y="214"
+              y="216"
               textAnchor="middle"
-              fill={BONE}
+              fill="#FFFFFF"
               stroke={BLACK}
-              strokeWidth="0.5"
+              strokeWidth="1.25"
               style={{
                 fontFamily: font.cssFamily,
-                fontSize: 18,
-                letterSpacing: "0.18em",
+                fontSize: 19,
+                letterSpacing: "0.2em",
                 paintOrder: "stroke fill",
               }}
             >
@@ -175,26 +176,40 @@ function GarmentPath({
   );
 }
 
-/** Bold torso band edged in bone — national-team panel language, unnamed. */
+/** Bold torso band edged in bone — high-contrast honeycomb, not tonal. */
 function ChestPanel() {
+  const hexes: { cx: number; cy: number }[] = [];
+  for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 7; col++) {
+      hexes.push({
+        cx: 90 + col * 18 + (row % 2) * 9,
+        cy: 198 + row * 10,
+      });
+    }
+  }
+  const hexPath = (cx: number, cy: number, r: number) => {
+    const pts = Array.from({ length: 6 }, (_, i) => {
+      const a = (Math.PI / 180) * (60 * i);
+      return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`;
+    });
+    return `M${pts.join("L")}Z`;
+  };
+
   return (
     <g>
-      <rect x="78" y="148" width="144" height="42" fill={BLACK} opacity="0.92" />
-      <rect x="78" y="148" width="144" height="2.2" fill={BONE} opacity="0.9" />
-      <rect x="78" y="188" width="144" height="2.2" fill={BONE} opacity="0.9" />
-      {/* Tonal honeycomb hint inside the panel */}
-      {Array.from({ length: 5 }).map((_, row) =>
-        Array.from({ length: 8 }).map((_, col) => (
-          <circle
-            key={`${row}-${col}`}
-            cx={88 + col * 16 + (row % 2) * 8}
-            cy={156 + row * 7}
-            r="2.2"
-            fill={BONE}
-            opacity="0.12"
-          />
-        )),
-      )}
+      <rect x="78" y="188" width="144" height="44" fill={BLACK} opacity="0.95" />
+      <rect x="78" y="188" width="144" height="2.4" fill={BONE} />
+      <rect x="78" y="229.6" width="144" height="2.4" fill={BONE} />
+      {hexes.map(({ cx, cy }) => (
+        <path
+          key={`${cx}-${cy}`}
+          d={hexPath(cx, cy, 7.5)}
+          fill="none"
+          stroke="#FFFFFF"
+          strokeOpacity="0.88"
+          strokeWidth="1.35"
+        />
+      ))}
     </g>
   );
 }
