@@ -64,13 +64,15 @@ export function ProductCanvas({
         draggable={false}
       />
 
-      <MotifOverlay
-        key={`${motif}-${view}`}
-        motif={motif}
-        view={view}
-        emphasize={emphasizeMotif}
-        garmentSrc={src}
-      />
+      {motif !== "none" && (
+        <MotifOverlay
+          key={`${motif}-${view}`}
+          motif={motif}
+          view={view}
+          emphasize={emphasizeMotif}
+          garmentSrc={src}
+        />
+      )}
 
       {view === "back" && showLettering && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -111,7 +113,7 @@ export function ProductCanvas({
       )}
 
       <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
-        {productLabel} · {view} · {motif}
+        {productLabel} · {view} · {motif === "none" ? "no motif" : motif}
         {blackout && view === "back" ? " · blackout" : ""} · live preview
       </figcaption>
     </figure>
@@ -168,6 +170,8 @@ function MotifOverlay({
 
 function motifPanelStyle(motif: MotifId): CSSProperties {
   switch (motif) {
+    case "none":
+      return { backgroundImage: "none", backgroundColor: "transparent" };
     case "grid":
       return {
         backgroundImage: [
