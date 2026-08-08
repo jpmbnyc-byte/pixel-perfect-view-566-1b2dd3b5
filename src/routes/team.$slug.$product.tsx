@@ -131,16 +131,15 @@ function ProductListingPage() {
           ${product.price} · {product.handle}
         </p>
         <p className="mt-2 text-base text-muted-foreground">{product.blurb}</p>
-        {/* Layer 5 — collar reveal / color truth. No official-claim language. */}
         <div className="mt-4 space-y-3 border-t border-border pt-4 text-base leading-relaxed text-foreground/85">
           <p>
-            Most mills will sell you maroon and call it close enough. It is not. Bayonne has
-            worn garnet since 1936 — a darker red that turns almost black under the lights
-            until the camera finds it.
+            Garnet is a dark, slightly brown-toned red. Maroon is purple-toned. Burgundy is
+            darker still. This piece is specified in Bayonne’s garnet — not the red the vendor
+            already had loaded.
           </p>
           <p className="text-muted-foreground">
-            Inside the collar, where only the player looks, we print the year. That is how a
-            kit remembers a season.
+            Inside the collar, where only the player looks, we can print the year. Nothing is
+            printed until you order it.
           </p>
         </div>
       </header>

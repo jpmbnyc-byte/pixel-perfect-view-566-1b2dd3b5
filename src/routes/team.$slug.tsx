@@ -16,8 +16,8 @@ export const Route = createFileRoute("/team/$slug")({
         meta: [{ title: "Team store unavailable" }, { name: "robots", content: "noindex" }],
       };
     }
-    const title = `Bayonne Team Customs — No Parade F.C.`;
-    const description = `Bayonne Team Customs — core kit, football spirit, warm-up, and lifestyle. Customize motif, font, name, and number.`;
+    const title = `Bayonne store — garnet, not maroon | No Parade F.C.`;
+    const description = `Bayonne has worn garnet and white since 1936. Match, sideline, warmups, and alumni — printed on demand in the actual garnet.`;
     return {
       meta: [
         { title },

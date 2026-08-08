@@ -7,7 +7,7 @@ import { countdownParts } from "@/lib/kit";
 import { shopifySynced } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
-const CATEGORY_IDS: CategoryId[] = ["core", "spirit", "warmup", "lifestyle"];
+const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
 
 export const Route = createFileRoute("/team/$slug/")({
   component: TeamStorePage,
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/team/$slug/")({
 
 function TeamStorePage() {
   const { kit, sync } = TeamSlugRoute.useLoaderData();
-  const [category, setCategory] = useState<CategoryId>("core");
+  const [category, setCategory] = useState<CategoryId>("match");
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
   const catalogReady = shopifySynced(sync);
@@ -42,13 +42,13 @@ function TeamStorePage() {
             >
               No Parade F.C. · Team Customs
             </Link>
-            <h1 className="mt-2 text-4xl leading-none tracking-tight">Bayonne Team Customs</h1>
+            <h1 className="mt-2 text-4xl leading-none tracking-tight">Bayonne store</h1>
             <p className="label-caps mt-1 text-muted-foreground">
-              {kit.teamName} · {kit.colorway.name}
+              No Parade F.C. · {kit.colorway.name}
             </p>
             <p className="mt-2 max-w-sm text-base leading-snug text-muted-foreground">
-              Core kit, spirit, warm-up, and lifestyle — one garnet language for Bayonne
-              programs.
+              Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Printed when
+              you order.
             </p>
           </div>
           <img src={logo} alt="" className="mt-1 h-14 w-14 shrink-0 object-contain" />
@@ -119,10 +119,10 @@ function TeamStorePage() {
         </div>
       </section>
 
-      {category === "spirit" && (
+      {category === "sideline" && (
         <p className="mt-4 px-5 text-sm leading-relaxed text-muted-foreground">
-          Spirit carries the boxing bee and football energy. No district marks. No claim of an
-          official school relationship — just Bayonne programs, dressed for the night.
+          Sideline is for November. Same garnet as the match strip. This is a Bayonne store —
+          not an official district store until the Board says so in writing.
         </p>
       )}
 
@@ -164,16 +164,15 @@ function TeamStorePage() {
       </section>
 
       <aside className="mx-5 mt-10 border-t border-border pt-6">
-        <p className="label-caps text-muted-foreground">Featured identity</p>
+        <p className="label-caps text-muted-foreground">Queen Bees</p>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Queen Bees crest — drawn free for one Bayonne program. Available inside this store;
-          not the whole of Team Customs.
+          The 2024 Hudson County champions have gone by Queen Bees for years. The crest was
+          drawn by hand in Bayonne and had never existed as a mark before.
         </p>
       </aside>
 
       <p className="mt-8 px-5 text-center text-sm text-muted-foreground">
-        Open any listing to choose the panel motif, the lettering face, and — where it
-        belongs — the name and number.
+        Size chart uses inches. Nothing prints until you order.
       </p>
     </main>
   );
