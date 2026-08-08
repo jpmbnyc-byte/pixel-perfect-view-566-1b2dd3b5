@@ -9,7 +9,7 @@
 | `../fonts/` | Local OTF kit lettering faces |
 
 Creative stack: [`docs/QUEEN_BEES_STACK.md`](../../../docs/QUEEN_BEES_STACK.md).  
-Placement + handles: [`docs/MERCHIZE_LISTING_MAP.md`](../../../docs/MERCHIZE_LISTING_MAP.md).
+Placement + handles: [`docs/LISTING_MAP.md`](../../../docs/LISTING_MAP.md).
 
 ## Kit graphic language
 

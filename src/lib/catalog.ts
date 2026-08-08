@@ -1,7 +1,7 @@
 /**
  * Bayonne Bees Team Customs catalog.
  * Categories → products → customizable listing (motif + optional typography).
- * Handles align with docs/MERCHIZE_LISTING_MAP.md
+ * Handles align with docs/LISTING_MAP.md
  *
  * Preview rule:
  * - Tops with lettering → front + back (typography UI)
@@ -65,7 +65,7 @@ export type CatalogProduct = {
   blurb: string;
   category: CategoryId;
   price: number;
-  /** Maps to Shopify configurator item when Merchize-synced */
+  /** Maps to Shopify configurator item when catalog-synced */
   shopifyItem?: Item;
   customizable: boolean;
   /** Name + number fields (implies typography) */

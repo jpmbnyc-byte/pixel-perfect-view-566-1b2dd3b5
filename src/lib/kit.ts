@@ -53,7 +53,7 @@ export type KitConfig = {
   mode: "both" | "top_only" | "bottom_only";
   shopify: {
     domain: string;
-    /** Expected Merchize→Shopify handles used to auto-resolve size→variant IDs. */
+    /** Expected Shopify product handles used to auto-resolve size→variant IDs. */
     productHandles?: Partial<Record<Item, string>>;
     topVariants: Partial<Record<Size, string>>;
     bottomVariants: Partial<Record<Size, string>>;

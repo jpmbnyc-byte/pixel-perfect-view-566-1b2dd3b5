@@ -1,6 +1,6 @@
-# Bayonne Bees × Merchize — Listing Map & Placement Guide
+# Bayonne Bees — Listing Map & Placement Guide
 
-Supplier: **Merchize** (Shopify app sync)  
+Fulfillment: print partner via Shopify sync  
 Brand: **Bayonne Bees** · No Parade F.C. Team Customs  
 Palette: Garnet `#5A1626` · Black `#0A0A0A` · Bone `#F4F1F0` · optional sting gold outline `#C9A96A`  
 Motif: School kit (crest + wordmark + number) + design-forward geometric accents  
@@ -8,7 +8,7 @@ Style bar: Behance kit-campaign heroes — **no manufacturer trademarks / 3-stri
 
 ---
 
-## Order path (Merchize)
+## Order path
 
 ```text
 Store (/team/bayonne-bees)
@@ -16,15 +16,15 @@ Store (/team/bayonne-bees)
   → Listing (/team/bayonne-bees/{product})
        customize: base maroon + motif + font + name/number + size
   → POST noparade-store.com/cart/add
-       (Merchize-synced Shopify variant ID
+       (fulfillment-synced Shopify variant ID
         + properties Name / Number / Size / Motif / Font / _ArtSpec / _Confirmed)
   → Shopify Checkout (payment)
   → Shopify Order (line properties stored)
-  → Merchize app imports order
-  → If product is Merchize-synced + personalization mapped:
+  → Fulfillment partner imports order
+  → If product is fulfillment-synced + personalization mapped:
         ops / personalizer applies Name + Number (+ motif/font from properties)
         confirm → print → ship → tracking to Shopify
-     If product is Shopify-only (not Merchize):
+     If product is Shopify-only (not fulfillment-synced):
         order sits in Shopify only — no fulfillment trigger
 ```
 
@@ -56,10 +56,10 @@ Store (/team/bayonne-bees)
 ## Listing map
 
 Collection: **Team Customs**  
-Tags (all): `team-customs`, `bayonne-bees`, `merchize`  
+Tags (all): `team-customs`, `bayonne-bees`  
 Extra tag when customizable: `custom-name-number`
 
-| # | Shopify handle | Merchize blank (from assortment) | Tier | Custom Name/Number | Configurator item |
+| # | Shopify handle | Blank (from assortment) | Tier | Custom Name/Number | Configurator item |
 |---|---|---|---|---|---|
 | 1 | `bayonne-bees-jersey` | AOP / soccer V-neck short-sleeve jersey | **Core** | Yes — back | `top` |
 | 2 | `bayonne-bees-shorts` | Matching athletic shorts | **Core** | No — motif on side only | `bottom` |
@@ -104,9 +104,9 @@ Extra tag when customizable: `custom-name-number`
 
 ## Placement instructions (reference)
 
-Coordinates are **% of print area** (Merchize template / flat). Origin = top-left of the printable front or back panel.  
+Coordinates are **% of print area** (print template / flat). Origin = top-left of the printable front or back panel.  
 Safe margin: keep critical art ≥ **5%** from all panel edges.  
-Bleed: follow Merchize AOP template bleed (typically extend geo fills to edge).
+Bleed: follow AOP template bleed (typically extend geo fills to edge).
 
 ### Shared lettering (back — customizable tops)
 
@@ -117,7 +117,7 @@ Print-zone reference scale (`src/lib/kit.ts` → `LETTERING`), as % of mockup / 
 | Name bar | **50%** | **18%** | **8%** | **44%** | ALL CAPS; max 12; auto-centered |
 | Number | **50%** | **32%** | **22%** | **28%** | 0–99; auto-centered; scales to box |
 
-Live preview sizes lettering from these H/W boxes (container query units). Full-set framing may nudge Y slightly; blackout uses stronger white stroke. Always re-check on Merchize/Printful flat before print.
+Live preview sizes lettering from these H/W boxes (container query units). Full-set framing may nudge Y slightly; blackout uses stronger white stroke. Always re-check on the print-partner flat before print.
 
 ### 1. Soccer / football jersey (`bayonne-bees-jersey`)
 
@@ -131,7 +131,7 @@ Live preview sizes lettering from these H/W boxes (container query units). Full-
 
 **Back** — name + number table above.
 
-**Files:** `front-aop.png`, `back-aop.png` (or placement PNGs per Merchize template), `crest.svg`
+**Files:** `front-aop.png`, `back-aop.png` (or placement PNGs per print template), `crest.svg`
 
 ### 2. Athletic shorts (`bayonne-bees-shorts`)
 
@@ -156,7 +156,7 @@ App preview: **front + side**. Motif on crown; crest front. Hat sizes S/M · L/X
 
 ### 3. Full set (`bayonne-bees-full-set`)
 
-Same art as #1 + #2. Listing can be Merchize set SKU or Shopify bundle of the two variants. Configurator `set` maps to this handle’s size variants.
+Same art as #1 + #2. Listing can be a set SKU or Shopify bundle of the two variants. Configurator `set` maps to this handle’s size variants.
 
 ### 4. Basketball jersey tank (`bayonne-bees-hoops-jersey`)
 
@@ -181,7 +181,7 @@ One-piece mid-thigh jersey dress. Color-block chest logo (not all-white).
 
 | Zone | Art |
 |---|---|
-| AOP body | Large-scale maroon/bone/black geometric blocks (from sage/white Merchize ref → recolored) |
+| AOP body | Large-scale maroon/bone/black geometric blocks (from sage/white reference → recolored) |
 | Chest | Optional small crest if AOP is quiet enough; else crest-free AOP |
 | Back | Optional name bar only (no huge number) |
 
@@ -217,19 +217,19 @@ App preview: **front + side**. Versatile black base with garnet accent side pane
 | Zone | Art |
 |---|---|
 | Panels | Polka / topo / chevron in maroon-black-bone |
-| Brand lockup | Lower leg: crest + `BEES` (not Merchize sample text) |
+| Brand lockup | Lower leg: crest + `BEES` (not sample/placeholder text) |
 
 ---
 
-## Merchize publish checklist (per SKU)
+## Publish checklist (per SKU)
 
-1. Create design on correct Merchize blank (AOP vs placement).
+1. Create design on the correct blank (AOP vs placement).
 2. Apply Bayonne base art; leave personalization layers/fields for Name + Number where needed.
 3. Push/sync to Shopify → collection **Team Customs**.
 4. Set handle to the table above (or paste variant IDs into `src/lib/kits/bayonne-bees.ts`).
 5. Confirm size option names match configurator (`2XS`…`3XL` or map aliases).
 6. PDP: disable blind ATC for customizable SKUs.
-7. Test order: paid → Merchize receives line properties → Name/Number applied → fulfill.
+7. Test order: paid → fulfillment receives line properties → Name/Number applied → fulfill.
 
 ---
 
@@ -265,7 +265,7 @@ Asset folder: `src/assets/bayonne/previews/` (photoreal front/back PDP shots)
 
 ## Configurator wiring
 
-After Merchize → Shopify sync, either:
+After fulfillment → Shopify sync, either:
 
 1. Publish with handles in `BAYONNE_BEES_KIT.shopify.productHandles` (auto-resolve), or  
 2. Paste size → variant IDs into `topVariants` / `bottomVariants` / `setVariants`.
