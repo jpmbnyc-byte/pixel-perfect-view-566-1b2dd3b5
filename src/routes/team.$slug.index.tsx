@@ -142,7 +142,7 @@ function TeamStorePage() {
 
       {category === "sideline" && (
         <p className="mt-4 px-5 text-sm leading-relaxed text-muted-foreground">
-          Sideline is for November. Same garnet as the match strip — crop sets, hoops, hats.
+          Sideline is for November. Same garnet as the match strip — dresses, hoops, hats.
         </p>
       )}
 
