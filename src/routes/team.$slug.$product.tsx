@@ -56,7 +56,7 @@ function ProductListingPage() {
 
   const [view, setView] = useState<CanvasView>(product.nameNumber ? "back" : "front");
   const [motif, setMotif] = useState<MotifId>("chevron");
-  const [fontId, setFontId] = useState<FontId>("matchday");
+  const [fontId, setFontId] = useState<FontId>("usa");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [size, setSize] = useState<Size | "">("");
@@ -205,7 +205,7 @@ function ProductListingPage() {
 
       {/* Fonts */}
       <section className="mt-7 px-5">
-        <Field label="Lettering font" hint="4 premium faces">
+        <Field label="Lettering font" hint="4 kit faces (local OTF)">
           <div className="grid grid-cols-2 gap-2">
             {FONTS.map((f) => {
               const on = fontId === f.id;

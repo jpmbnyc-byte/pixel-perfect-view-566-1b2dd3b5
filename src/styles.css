@@ -5,6 +5,39 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
+ * Kit lettering — local OTF faces (repo uploads).
+ * Family names must match src/lib/catalog.ts FONTS.cssFamily.
+ */
+@font-face {
+  font-family: "France Away";
+  src: url("./assets/fonts/france-away.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Haiti";
+  src: url("./assets/fonts/haiti.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Jamaica Away";
+  src: url("./assets/fonts/jamaica-away.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "USA Away";
+  src: url("./assets/fonts/usa-away.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
  * BAYONNE BEES × NO PARADE F.C.
  * Garnet / black / white — athletic, high-contrast.
  * All colors are oklch tokens. Never hardcode color utilities in components.
@@ -39,9 +72,9 @@
   --color-bone: var(--bone);
   --color-maroon: var(--maroon);
   --color-garnet: var(--garnet);
-  --font-display: "Bebas Neue", "Barlow Condensed", system-ui, sans-serif;
+  --font-display: "USA Away", "Barlow Condensed", system-ui, sans-serif;
   --font-sans: "Barlow Condensed", system-ui, sans-serif;
-  --font-kit: "Bebas Neue", "Barlow Condensed", sans-serif;
+  --font-kit: "USA Away", "Barlow Condensed", sans-serif;
 }
 
 :root {

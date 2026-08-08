@@ -21,7 +21,7 @@ export type CategoryId = "core" | "spirit" | "warmup" | "lifestyle";
 
 export type MotifId = "chevron" | "grid" | "arc";
 
-export type FontId = "matchday" | "procondensed" | "impact" | "varsity";
+export type FontId = "france" | "haiti" | "jamaica" | "usa";
 
 export type CatalogProduct = {
   id: string;
@@ -95,40 +95,43 @@ export const MOTIFS: {
   },
 ];
 
-/** Four premium lettering faces for name / number. */
+/**
+ * Four kit lettering faces — local OTFs in src/assets/fonts/.
+ * Loaded via @font-face in styles.css (not Google Fonts).
+ */
 export const FONTS: {
   id: FontId;
   label: string;
   cssFamily: string;
-  google: string;
+  file: string;
   sample: string;
 }[] = [
   {
-    id: "matchday",
-    label: "Match Day",
-    cssFamily: "'Bebas Neue', sans-serif",
-    google: "Bebas+Neue",
+    id: "france",
+    label: "France Away",
+    cssFamily: "'France Away', sans-serif",
+    file: "france-away.otf",
     sample: "BAYONNE",
   },
   {
-    id: "procondensed",
-    label: "Pro Condensed",
-    cssFamily: "'Oswald', sans-serif",
-    google: "Oswald:wght@500;600;700",
+    id: "haiti",
+    label: "Haiti",
+    cssFamily: "'Haiti', sans-serif",
+    file: "haiti.otf",
     sample: "BAYONNE",
   },
   {
-    id: "impact",
-    label: "Impact Block",
-    cssFamily: "'Anton', sans-serif",
-    google: "Anton",
+    id: "jamaica",
+    label: "Jamaica Away",
+    cssFamily: "'Jamaica Away', sans-serif",
+    file: "jamaica-away.otf",
     sample: "BAYONNE",
   },
   {
-    id: "varsity",
-    label: "Varsity",
-    cssFamily: "'Graduate', serif",
-    google: "Graduate",
+    id: "usa",
+    label: "USA Away",
+    cssFamily: "'USA Away', sans-serif",
+    file: "usa-away.otf",
     sample: "BAYONNE",
   },
 ];
@@ -267,7 +270,7 @@ export function motifById(id: MotifId) {
   return MOTIFS.find((m) => m.id === id) ?? MOTIFS[0]!;
 }
 
+/** @deprecated Kit faces are local OTFs via styles.css; keep UI chrome on Barlow. */
 export function fontsStylesheetHref() {
-  const families = FONTS.map((f) => f.google).join("&family=");
-  return `https://fonts.googleapis.com/css2?family=${families}&family=Barlow+Condensed:wght@400;500;600&display=swap`;
+  return "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap";
 }

@@ -36,7 +36,7 @@ Store (/team/bayonne-bees)
 | `Number` | Back / chest number |
 | `Size` | Human-readable size |
 | `Motif` | Chevron / Grid / Arc Panel |
-| `Font` | Match Day / Pro Condensed / Impact Block / Varsity |
+| `Font` | France Away / Haiti / Jamaica Away / USA Away |
 | `Product` | Listing display name |
 | `_ArtSpec` | Base64 JSON art payload for ops (includes motif + font) |
 | `_Confirmed` | Buyer confirmed final-sale custom |
@@ -49,7 +49,7 @@ Store (/team/bayonne-bees)
 |---|---|
 | Base layer | Single maroon field (always on) |
 | Geometric motif | Chevron · Grid · Arc Panel |
-| Lettering font | Match Day · Pro Condensed · Impact Block · Varsity |
+| Lettering font | France Away · Haiti · Jamaica Away · USA Away (local OTF) |
 
 ---
 

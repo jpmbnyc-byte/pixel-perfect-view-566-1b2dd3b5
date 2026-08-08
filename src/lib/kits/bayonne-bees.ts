@@ -28,9 +28,9 @@ export const BAYONNE_BEES_KIT: KitConfig = {
     name: "Garnet / Black",
   },
   font: {
-    id: "match_day",
-    label: "Match Day",
-    cssFamily: "'Bebas Neue', sans-serif",
+    id: "usa",
+    label: "USA Away",
+    cssFamily: "'USA Away', sans-serif",
     name: { fill: "#F4F1F0", outline: "#5A1626", outlineWidth: 2 },
   },
   rules: { nameMaxChars: 12, numberMin: 0, numberMax: 99 },
