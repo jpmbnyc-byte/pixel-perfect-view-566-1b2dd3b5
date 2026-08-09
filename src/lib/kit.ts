@@ -14,9 +14,11 @@ export const SIZES: Size[] = ["2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
 /**
  * Back-panel lettering zones, as % of the mockup / print template.
  * Name is always a single line (preview shrinks to fit width).
- *   name  — X 50% · Y 16% · W 56% · H 7%
- *   number — X 50% · Y 28% · W 46% · H 36%  (prominent)
+ * centerX is the garment *spine* (clear panel midline), not always 50% of the photo.
+ *   name  — X 47.5% · Y 16% · W 56% · H 7%
+ *   number — X 47.5% · Y 28% · W 46% · H 36%  (prominent)
  * Products with different framing override via catalog.lettering.
+ * Live preview also optically centers glyph ink (Forge and similar have right-biased bearings).
  */
 export type LetteringLayout = {
   centerX: number;
@@ -27,7 +29,8 @@ export type LetteringLayout = {
 };
 
 export const LETTERING: LetteringLayout = {
-  centerX: 50,
+  /** Match jersey back clear-panel midline (side panels make geometric 50% look right) */
+  centerX: 47.5,
   name: { y: 16, heightPct: 7, maxWidthPct: 56 },
   number: { y: 28, heightPct: 36, maxWidthPct: 46 },
   surface: "garnet",

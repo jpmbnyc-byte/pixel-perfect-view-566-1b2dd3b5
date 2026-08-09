@@ -237,9 +237,10 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Back uses black-collar jersey plate for lettering (matches set front) */
+    /** Back uses Match jersey plate — same spine center as jersey */
     lettering: {
       ...LETTERING,
+      centerX: 47.5,
       name: { ...LETTERING.name, y: 16 },
       number: { ...LETTERING.number, y: 28 },
     },
@@ -258,8 +259,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Blackout mesh — same reference scale, stronger white contrast */
-    lettering: { ...LETTERING, surface: "blackout" },
+    /** Blackout mesh — full torso; geometric center is the spine */
+    lettering: { ...LETTERING, centerX: 50, surface: "blackout" },
     thumb: hoopsFront,
     previews: { front: hoopsFront, secondary: hoopsBack },
   },
@@ -275,7 +276,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: LETTERING,
+    lettering: { ...LETTERING, centerX: 48.5 },
     thumb: dressFront,
     previews: { front: dressFront, secondary: dressBack },
   },
@@ -336,7 +337,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: LETTERING,
+    lettering: { ...LETTERING, centerX: 46.5 },
     thumb: lsFront,
     previews: { front: lsFront, secondary: lsBack },
   },

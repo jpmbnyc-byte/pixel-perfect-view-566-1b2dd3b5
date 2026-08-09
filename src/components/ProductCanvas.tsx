@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FontId, MotifId } from "@/lib/catalog";
 import { fontById } from "@/lib/catalog";
 import { LETTERING, type LetteringLayout } from "@/lib/kit";
@@ -21,6 +21,69 @@ type Props = {
   /** Per-product back lettering geometry (defaults to kit LETTERING) */
   lettering?: LetteringLayout;
 };
+
+/**
+ * How far glyph *ink* sits to the right of the CSS layout box center, in em.
+ * Positive → shift left with translateX so the painted strokes hit the jersey spine.
+ * Kit OTFs (Forge especially) ship with right-biased side bearings.
+ */
+function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
+  const [biasEm, setBiasEm] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const measure = () => {
+      if (cancelled || typeof document === "undefined" || !text) {
+        if (!cancelled) setBiasEm(0);
+        return;
+      }
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const fontSize = 200;
+      ctx.font = `${fontSize}px ${fontFamily}`;
+      // letter-spacing isn't on canvas font — approximate via char advances + spacing
+      const spacingEm = Number.parseFloat(letterSpacing) || 0;
+      const spacingPx = spacingEm * fontSize;
+      let layoutW = 0;
+      let inkLeft = Infinity;
+      let inkRight = -Infinity;
+      let x = 0;
+      const chars = [...text];
+      chars.forEach((ch, i) => {
+        const m = ctx.measureText(ch);
+        const adv = m.width;
+        const left = x - (m.actualBoundingBoxLeft ?? 0);
+        const right = x + (m.actualBoundingBoxRight ?? adv);
+        inkLeft = Math.min(inkLeft, left);
+        inkRight = Math.max(inkRight, right);
+        x += adv + (i < chars.length - 1 ? spacingPx : 0);
+        layoutW = x;
+      });
+      if (!Number.isFinite(inkLeft) || layoutW <= 0) {
+        setBiasEm(0);
+        return;
+      }
+      const inkMid = (inkLeft + inkRight) / 2;
+      const layoutMid = layoutW / 2;
+      setBiasEm((inkMid - layoutMid) / fontSize);
+    };
+
+    const run = () => {
+      if (typeof document !== "undefined" && document.fonts?.ready) {
+        void document.fonts.ready.then(measure);
+      } else {
+        measure();
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [text, fontFamily, letterSpacing]);
+
+  return biasEm;
+}
 
 /**
  * Photoreal live preview — product detail photo + optional lettering.
@@ -55,6 +118,9 @@ export function ProductCanvas({
   const nameChars = Math.max(displayName.replace(/\s/g, "").length, 1);
   const nameFit = Math.min(1, 6.5 / nameChars);
   const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
+  // Kit OTFs (esp. Forge) have right-biased ink vs advance — nudge so glyph ink hits the spine
+  const nameInkBiasEm = useInkBiasEm(displayName, font.cssFamily, nameTracking);
+  const numberInkBiasEm = useInkBiasEm(displayNumber, font.cssFamily, "0");
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"
@@ -76,7 +142,7 @@ export function ProductCanvas({
             style={{
               top: `${lettering.name.y}%`,
               left: `${lettering.centerX}%`,
-              transform: `translateX(-50%) scale(${nameFit})`,
+              transform: `translateX(calc(-50% - ${nameInkBiasEm}em)) scale(${nameFit})`,
               transformOrigin: "center center",
               width: `${lettering.name.maxWidthPct}%`,
               height: `${lettering.name.heightPct}%`,
@@ -96,7 +162,7 @@ export function ProductCanvas({
             style={{
               top: `${lettering.number.y}%`,
               left: `${lettering.centerX}%`,
-              transform: "translateX(-50%)",
+              transform: `translateX(calc(-50% - ${numberInkBiasEm}em))`,
               width: `${lettering.number.maxWidthPct}%`,
               height: `${lettering.number.heightPct}%`,
               fontFamily: font.cssFamily,
