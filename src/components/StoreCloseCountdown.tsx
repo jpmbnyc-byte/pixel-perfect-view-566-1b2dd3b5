@@ -27,13 +27,15 @@ export function StoreCloseCountdown({ closesAt, className = "" }: Props) {
 
   if (!label) {
     return (
-      <p className={`label-caps text-bone/45 ${className}`}>Order window closed</p>
+      <p className={`label-caps text-bone/45 ${className}`}>
+        Match roster window closed · Faithful stays open
+      </p>
     );
   }
 
   return (
     <p className={`label-caps text-bone/55 ${className}`}>
-      Order window closes · <span className="text-bone">{label}</span> left
+      Match roster window · <span className="text-bone">{label}</span> left
     </p>
   );
 }

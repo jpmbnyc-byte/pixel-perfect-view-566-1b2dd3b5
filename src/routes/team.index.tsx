@@ -251,16 +251,14 @@ function TeamLanding() {
                   blows
                 </li>
                 <li>
-                  <span className="text-bone">Sideline</span> — for standing outside in
-                  November
+                  <span className="text-bone">Training</span> — before kickoff
                 </li>
                 <li>
-                  <span className="text-bone">Warmups</span> — what the team wears before the
-                  whistle
+                  <span className="text-bone">Sideline</span> — coach, travel, November
                 </li>
                 <li>
-                  <span className="text-bone">Alumni</span> — the years are on the sleeve, or
-                  the collar
+                  <span className="text-bone">Faithful</span> — parents, alumni, boosters; the
+                  year is the product
                 </li>
               </ul>
             </div>

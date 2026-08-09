@@ -46,9 +46,9 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 | Id | Label | Line |
 |---|---|---|
 | `match` | Match | What they wear when the whistle blows |
-| `sideline` | Sideline | For standing outside in November |
-| `warmups` | Warmups | What the team wears before the whistle |
-| `alumni` | Alumni | The years are on the sleeve, or the collar |
+| `training` | Training | What the program wears before the whistle |
+| `sideline` | Sideline | Coach, travel, November on the rail |
+| `faithful` | Faithful | Parents, alumni, boosters — the year is the product |
 
 ---
 

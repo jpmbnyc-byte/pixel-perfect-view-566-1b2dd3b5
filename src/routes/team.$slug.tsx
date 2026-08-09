@@ -17,7 +17,7 @@ export const Route = createFileRoute("/team/$slug")({
       };
     }
     const title = `Bayonne store — garnet, not maroon | No Parade F.C.`;
-    const description = `Bayonne has worn garnet and white since 1936. Match, sideline, warmups, and alumni — printed on demand in the actual garnet.`;
+    const description = `Bayonne has worn garnet and white since 1936. Match, Training, Sideline, and Faithful — printed on demand in the actual garnet.`;
     return {
       meta: [
         { title },

@@ -14,13 +14,19 @@ import { countdownParts } from "@/lib/kit";
 import { shopifySynced } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
-const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
+const CATEGORY_IDS: CategoryId[] = ["match", "training", "sideline", "faithful"];
+
+/** Old hashes from earlier store builds */
+const LEGACY_CATEGORY: Record<string, CategoryId> = {
+  warmups: "training",
+  alumni: "faithful",
+};
 
 const CATEGORY_LINE: Record<CategoryId, string> = {
   match: "Whistle to final horn — the strip they wear on the field.",
-  sideline: "November bleachers. Same garnet as the Match kit.",
-  warmups: "Before kickoff — crew, long sleeve, quarter-zip, sweats.",
-  alumni: "1936 on the collar. Off the field, still Bee Country.",
+  training: "Before kickoff — long sleeve, quarter-zip, sweats.",
+  sideline: "Coach, travel, November on the rail. Same garnet.",
+  faithful: "Parents, alumni, boosters. The year is the product.",
 };
 
 export const Route = createFileRoute("/team/$slug/")({
@@ -38,7 +44,9 @@ function TeamStorePage() {
   const { kit, sync } = TeamSlugRoute.useLoaderData();
   const [category, setCategory] = useState<CategoryId>("match");
   const countdown = countdownParts(kit.closesAt, Date.now());
-  const closed = kit.status !== "live" || countdown === null;
+  /** Program store stays open (Faithful is year-round). Match roster window is separate. */
+  const storeLive = kit.status === "live";
+  const matchWindowOpen = storeLive && countdown !== null;
   const catalogReady = shopifySynced(sync);
   const featuredJersey = productById("jersey");
 
@@ -46,7 +54,10 @@ function TeamStorePage() {
     const raw = window.location.hash.replace(/^#/, "");
     if (CATEGORY_IDS.includes(raw as CategoryId)) {
       setCategory(raw as CategoryId);
+      return;
     }
+    const mapped = LEGACY_CATEGORY[raw];
+    if (mapped) setCategory(mapped);
   }, []);
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
@@ -87,15 +98,17 @@ function TeamStorePage() {
           </p>
 
           <div className="mt-5 flex items-baseline gap-2 border-t border-bone/15 pt-4">
-            {closed ? (
-              <span className="label-caps text-destructive">Store closed</span>
-            ) : (
+            {!storeLive ? (
+              <span className="label-caps text-destructive">Program paused</span>
+            ) : matchWindowOpen && countdown ? (
               <>
-                <span className="place-line">Order window</span>
+                <span className="place-line">Match roster window</span>
                 <span className="font-kit text-2xl leading-none text-bone">
                   {countdown.days}d {countdown.hours}h {countdown.minutes}m
                 </span>
               </>
+            ) : (
+              <span className="place-line">Program store open · Faithful year-round</span>
             )}
           </div>
         </header>
@@ -108,7 +121,7 @@ function TeamStorePage() {
         )}
 
         {/* Featured Match Jersey — lookbook plate */}
-        {featuredJersey && !closed && (
+        {featuredJersey && storeLive && (
           <section className="border-b border-bone/10">
             <Link
               to="/team/$slug/$product"

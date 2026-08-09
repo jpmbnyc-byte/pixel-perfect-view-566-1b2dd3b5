@@ -245,7 +245,14 @@ function ProductListingPage() {
           ← Bayonne store · Avenue A
         </Link>
         <p className="label-caps mt-4 text-muted-foreground">
-          Bayonne Bees · {product.category === "match" ? "Match strip" : product.category}
+          Bayonne Bees ·{" "}
+          {product.category === "match"
+            ? "Match"
+            : product.category === "training"
+              ? "Training"
+              : product.category === "sideline"
+                ? "Sideline"
+                : "Faithful"}
         </p>
         <h1 className="mt-2 font-kit text-[clamp(1.85rem,7vw,2.5rem)] leading-none tracking-wide">
           {product.name}
@@ -342,6 +349,9 @@ function ProductListingPage() {
             lettering={lettering}
           />
         </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Studio mockup of the Merchize blank · not a photograph of a finished garment
+        </p>
       </section>
 
       {usesTypography && (
