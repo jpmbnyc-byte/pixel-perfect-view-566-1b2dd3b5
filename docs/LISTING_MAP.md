@@ -48,8 +48,9 @@ Store (/team/bayonne-bees)
 | Control | Options |
 |---|---|
 | Base layer | Single maroon field (always on) |
-| Geometric motif | Chevron · Grid · Arc Panel |
 | Lettering font | Rail Cut · Beacon · Whistle · Forge (local OTF) |
+
+Kit geometric accent is fixed (Chevron) — not a customer control on the PDP.
 
 ---
 
