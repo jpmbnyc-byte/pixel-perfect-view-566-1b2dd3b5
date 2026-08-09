@@ -7,8 +7,8 @@ Ghost mannequin / product still, studio lighting, full garment in frame.
 
 | Product | Front | Back |
 |---|---|---|
-| Match Jersey | `jersey-front.jpg` | `jersey-back.jpg` |
-| Full Kit Set | `set-front.jpg` | `set-back.jpg` |
+| Match Jersey | `jersey-front.jpg` (black V-neck kit) | `jersey-back.jpg` |
+| Full Kit Set | `set-front.jpg` (canonical black-collar kit) | `jersey-back.jpg` (lettering plate) |
 | Hoops Jersey | `hoops-front.jpg` | `hoops-back.jpg` |
 | Jersey Dress | `dress-front.jpg` | `dress-back.jpg` |
 | Long-Sleeve Jersey | `ls-front.jpg` | `ls-back.jpg` |

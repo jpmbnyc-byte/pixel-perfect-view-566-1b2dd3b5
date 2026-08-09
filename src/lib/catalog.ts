@@ -23,7 +23,6 @@ import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
 import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
 import shortsSide from "@/assets/bayonne/previews/shorts-side.jpg";
 import setFront from "@/assets/bayonne/previews/set-front.jpg";
-import setBack from "@/assets/bayonne/previews/set-back.jpg";
 import hoopsFront from "@/assets/bayonne/previews/hoops-front.jpg";
 import hoopsBack from "@/assets/bayonne/previews/hoops-back.jpg";
 import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
@@ -43,7 +42,7 @@ import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
 
 export type CategoryId = "match" | "sideline" | "warmups" | "alumni";
 
-export type MotifId = "none" | "chevron" | "grid" | "arc";
+export type MotifId = "chevron" | "grid" | "arc";
 
 export type FontId = "rail" | "beacon" | "whistle" | "forge";
 
@@ -117,17 +116,12 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
-/** No overlay + three geometric motifs (kit-campaign heritage, no trademarks). */
+/** Three geometric motifs (kit-campaign heritage, no trademarks). */
 export const MOTIFS: {
   id: MotifId;
   label: string;
   description: string;
 }[] = [
-  {
-    id: "none",
-    label: "No overlay",
-    description: "Clean field — no geometric print on the panels.",
-  },
   {
     id: "chevron",
     label: "Chevron",
@@ -199,7 +193,8 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey",
     handle: "bayonne-bees-jersey",
     name: "Match Jersey",
-    blurb: "Garnet field. Black chest panel edged in white. Crest left. Name and number on the back.",
+    blurb:
+      "Black V-neck and cuffs. Garnet field. Black chest panel with BAYONNE. Crest left. Name and number on the back.",
     category: "match",
     price: 58,
     shopifyItem: "top",
@@ -216,7 +211,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "shorts",
     handle: "bayonne-bees-shorts",
     name: "Match Shorts",
-    blurb: "Garnet. Geometric side panel you pick. Crest on the left leg. No name or number.",
+    blurb: "Same garnet as the jersey. Geometric side panel you pick. Bee on the left leg. No name or number.",
     category: "match",
     price: 34,
     shopifyItem: "bottom",
@@ -232,7 +227,8 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "full-set",
     handle: "bayonne-bees-full-set",
     name: "Full Kit Set",
-    blurb: "Jersey and shorts in one order. One garnet. One crest. Name and number on the jersey.",
+    blurb:
+      "Black-collar jersey and matching shorts. One garnet. One crest. Name and number on the jersey.",
     category: "match",
     price: 89,
     shopifyItem: "set",
@@ -241,14 +237,14 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Full kit back includes shorts — keep reference scale on jersey panel */
+    /** Back uses black-collar jersey plate for lettering (matches set front) */
     lettering: {
       ...LETTERING,
       name: { ...LETTERING.name, y: 16 },
       number: { ...LETTERING.number, y: 28 },
     },
     thumb: setFront,
-    previews: { front: setFront, secondary: setBack },
+    previews: { front: setFront, secondary: jerseyBack },
   },
   {
     id: "hoops-jersey",
