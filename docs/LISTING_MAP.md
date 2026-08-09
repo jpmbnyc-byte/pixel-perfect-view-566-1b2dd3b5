@@ -115,10 +115,10 @@ Print-zone reference scale (`src/lib/kit.ts` → `LETTERING`), as % of mockup / 
 
 | Element | Center X | Top Y | Height | Max width | Notes |
 |---|---|---|---|---|---|
-| Name bar | **50%** | **16%** | **7%** | **56%** | ALL CAPS; max 12; single line (shrink-to-fit); auto-centered |
-| Number | **50%** | **28%** | **36%** | **46%** | 0–99; prominent; auto-centered; scales to box |
+| Name bar | **48%** (spine) | **16%** | **7%** | **56%** | ALL CAPS; max 12; single line; ink-centered |
+| Number | **48%** (spine) | **28%** | **36%** | **46%** | 0–99; prominent; ink-centered to clear-panel midline |
 
-Live preview sizes lettering from these H/W boxes (container query units). Full-set framing may nudge Y slightly; blackout uses stronger white stroke. Always re-check on the print-partner flat before print.
+`centerX` is the garment spine / clear-panel midline (not always photo 50% — side panels shift the field). Live preview also corrects OTF ink bias (Forge). Overrides: hoops `50%`, dress `49.5%`, long-sleeve `50%`. Full-set shares jersey back. Always re-check on the print-partner flat before print.
 
 ### 1. Soccer / football jersey (`bayonne-bees-jersey`)
 

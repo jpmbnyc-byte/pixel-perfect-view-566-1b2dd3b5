@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FontId, MotifId } from "@/lib/catalog";
 import { fontById } from "@/lib/catalog";
 import { LETTERING, type LetteringLayout } from "@/lib/kit";
@@ -21,6 +21,101 @@ type Props = {
   /** Per-product back lettering geometry (defaults to kit LETTERING) */
   lettering?: LetteringLayout;
 };
+
+/** Fallback right-ink bias (em) if canvas sampling fails — Forge has the worst bearings. */
+const FONT_INK_BIAS_EM: Record<string, number> = {
+  Forge: 0.06,
+  "Rail Cut": 0.02,
+  Beacon: 0.02,
+  Whistle: 0.02,
+};
+
+function fontBiasFallback(fontFamily: string) {
+  for (const [name, bias] of Object.entries(FONT_INK_BIAS_EM)) {
+    if (fontFamily.includes(name)) return bias;
+  }
+  return 0.04;
+}
+
+/**
+ * How far glyph *ink* sits to the right of the CSS layout box center, in em.
+ * Positive → shift left so painted strokes hit the jersey spine.
+ * Uses pixel sampling (reliable for outlined kit OTFs) with a per-font fallback.
+ */
+function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
+  const [biasEm, setBiasEm] = useState(() => fontBiasFallback(fontFamily));
+
+  useEffect(() => {
+    let cancelled = false;
+    const fallback = fontBiasFallback(fontFamily);
+
+    const measure = () => {
+      if (cancelled || typeof document === "undefined" || !text) {
+        if (!cancelled) setBiasEm(fallback);
+        return;
+      }
+      const fontSize = 180;
+      const pad = 24;
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (!ctx) {
+        setBiasEm(fallback);
+        return;
+      }
+      ctx.font = `${fontSize}px ${fontFamily}`;
+      const spacingEm = Number.parseFloat(letterSpacing) || 0;
+      ctx.letterSpacing = `${spacingEm}em`;
+      const layoutW = Math.ceil(ctx.measureText(text).width);
+      if (layoutW < 2) {
+        setBiasEm(fallback);
+        return;
+      }
+      canvas.width = layoutW + pad * 2;
+      canvas.height = fontSize * 1.4;
+      ctx.font = `${fontSize}px ${fontFamily}`;
+      ctx.letterSpacing = `${spacingEm}em`;
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(text, pad, fontSize);
+      const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let inkLeft = width;
+      let inkRight = 0;
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          if (data[(y * width + x) * 4]! > 40) {
+            if (x < inkLeft) inkLeft = x;
+            if (x > inkRight) inkRight = x;
+          }
+        }
+      }
+      if (inkRight <= inkLeft) {
+        setBiasEm(fallback);
+        return;
+      }
+      const inkMid = (inkLeft + inkRight) / 2;
+      const layoutMid = pad + layoutW / 2;
+      const measured = (inkMid - layoutMid) / fontSize;
+      // Use measured ink bias; only fall back when sampling failed upstream
+      setBiasEm(Number.isFinite(measured) ? measured : fallback);
+    };
+
+    const run = () => {
+      if (typeof document !== "undefined" && document.fonts?.ready) {
+        void document.fonts.ready.then(measure);
+      } else {
+        measure();
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [text, fontFamily, letterSpacing]);
+
+  return biasEm;
+}
 
 /**
  * Photoreal live preview — product detail photo + optional lettering.
@@ -55,6 +150,12 @@ export function ProductCanvas({
   const nameChars = Math.max(displayName.replace(/\s/g, "").length, 1);
   const nameFit = Math.min(1, 6.5 / nameChars);
   const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
+  // Kit OTFs (esp. Forge) have right-biased ink vs advance — nudge so glyph ink hits the spine
+  const nameInkBiasEm = useInkBiasEm(displayName, font.cssFamily, nameTracking);
+  const numberInkBiasEm =
+    useInkBiasEm(displayNumber, font.cssFamily, "0") +
+    // Narrow single digits (1, 7) still read right-heavy after ink correction
+    (displayNumber.length === 1 ? 0.05 : 0);
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"
@@ -76,7 +177,7 @@ export function ProductCanvas({
             style={{
               top: `${lettering.name.y}%`,
               left: `${lettering.centerX}%`,
-              transform: `translateX(-50%) scale(${nameFit})`,
+              transform: `translateX(calc(-50% - ${nameInkBiasEm}em)) scale(${nameFit})`,
               transformOrigin: "center center",
               width: `${lettering.name.maxWidthPct}%`,
               height: `${lettering.name.heightPct}%`,
@@ -96,8 +197,10 @@ export function ProductCanvas({
             style={{
               top: `${lettering.number.y}%`,
               left: `${lettering.centerX}%`,
-              transform: "translateX(-50%)",
-              width: `${lettering.number.maxWidthPct}%`,
+              // Fit box to glyphs (not a wide % slot) so -50% lands on the digit cluster
+              transform: `translateX(calc(-50% - ${numberInkBiasEm}em))`,
+              width: "max-content",
+              maxWidth: `${lettering.number.maxWidthPct}%`,
               height: `${lettering.number.heightPct}%`,
               fontFamily: font.cssFamily,
               fontSize: `calc(${lettering.number.heightPct} * 0.88cqh)`,
