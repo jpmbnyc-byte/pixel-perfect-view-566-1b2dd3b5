@@ -22,51 +22,83 @@ type Props = {
   lettering?: LetteringLayout;
 };
 
+/** Known right-ink bias (em) from OTF bearings — Forge is the worst offender. */
+const FONT_INK_BIAS_EM: Record<string, number> = {
+  Forge: 0.1,
+  "Rail Cut": 0.02,
+  Beacon: 0.02,
+  Whistle: 0.02,
+};
+
+function fontBiasFallback(fontFamily: string) {
+  for (const [name, bias] of Object.entries(FONT_INK_BIAS_EM)) {
+    if (fontFamily.includes(name)) return bias;
+  }
+  return 0.04;
+}
+
 /**
  * How far glyph *ink* sits to the right of the CSS layout box center, in em.
- * Positive → shift left with translateX so the painted strokes hit the jersey spine.
- * Kit OTFs (Forge especially) ship with right-biased side bearings.
+ * Positive → shift left so painted strokes hit the jersey spine.
+ * Uses pixel sampling (reliable for outlined kit OTFs) with a per-font fallback.
  */
 function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
-  const [biasEm, setBiasEm] = useState(0);
+  const [biasEm, setBiasEm] = useState(() => fontBiasFallback(fontFamily));
 
   useEffect(() => {
     let cancelled = false;
+    const fallback = fontBiasFallback(fontFamily);
+
     const measure = () => {
       if (cancelled || typeof document === "undefined" || !text) {
-        if (!cancelled) setBiasEm(0);
+        if (!cancelled) setBiasEm(fallback);
         return;
       }
+      const fontSize = 180;
+      const pad = 24;
       const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      const fontSize = 200;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (!ctx) {
+        setBiasEm(fallback);
+        return;
+      }
       ctx.font = `${fontSize}px ${fontFamily}`;
-      // letter-spacing isn't on canvas font — approximate via char advances + spacing
       const spacingEm = Number.parseFloat(letterSpacing) || 0;
-      const spacingPx = spacingEm * fontSize;
-      let layoutW = 0;
-      let inkLeft = Infinity;
-      let inkRight = -Infinity;
-      let x = 0;
-      const chars = [...text];
-      chars.forEach((ch, i) => {
-        const m = ctx.measureText(ch);
-        const adv = m.width;
-        const left = x - (m.actualBoundingBoxLeft ?? 0);
-        const right = x + (m.actualBoundingBoxRight ?? adv);
-        inkLeft = Math.min(inkLeft, left);
-        inkRight = Math.max(inkRight, right);
-        x += adv + (i < chars.length - 1 ? spacingPx : 0);
-        layoutW = x;
-      });
-      if (!Number.isFinite(inkLeft) || layoutW <= 0) {
-        setBiasEm(0);
+      ctx.letterSpacing = `${spacingEm}em`;
+      const layoutW = Math.ceil(ctx.measureText(text).width);
+      if (layoutW < 2) {
+        setBiasEm(fallback);
+        return;
+      }
+      canvas.width = layoutW + pad * 2;
+      canvas.height = fontSize * 1.4;
+      ctx.font = `${fontSize}px ${fontFamily}`;
+      ctx.letterSpacing = `${spacingEm}em`;
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(text, pad, fontSize);
+      const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let inkLeft = width;
+      let inkRight = 0;
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          if (data[(y * width + x) * 4]! > 40) {
+            if (x < inkLeft) inkLeft = x;
+            if (x > inkRight) inkRight = x;
+          }
+        }
+      }
+      if (inkRight <= inkLeft) {
+        setBiasEm(fallback);
         return;
       }
       const inkMid = (inkLeft + inkRight) / 2;
-      const layoutMid = layoutW / 2;
-      setBiasEm((inkMid - layoutMid) / fontSize);
+      const layoutMid = pad + layoutW / 2;
+      const measured = (inkMid - layoutMid) / fontSize;
+      // Blend with fallback so tiny measurement noise can't push numbers the wrong way
+      setBiasEm(Math.max(fallback * 0.5, measured));
     };
 
     const run = () => {
@@ -162,8 +194,10 @@ export function ProductCanvas({
             style={{
               top: `${lettering.number.y}%`,
               left: `${lettering.centerX}%`,
+              // Fit box to glyphs (not a wide % slot) so -50% lands on the digit cluster
               transform: `translateX(calc(-50% - ${numberInkBiasEm}em))`,
-              width: `${lettering.number.maxWidthPct}%`,
+              width: "max-content",
+              maxWidth: `${lettering.number.maxWidthPct}%`,
               height: `${lettering.number.heightPct}%`,
               fontFamily: font.cssFamily,
               fontSize: `calc(${lettering.number.heightPct} * 0.88cqh)`,
