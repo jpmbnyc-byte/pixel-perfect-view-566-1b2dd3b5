@@ -92,7 +92,7 @@ function TeamLanding() {
           Match jersey ${jersey.price} · Shorts ${shorts.price} · Full kit ${fullSet.price} ·
           From ${LOWEST}
         </p>
-        <StoreCloseCountdown closesAt={kit.closesAt} className="mt-3 text-center !text-muted-foreground" />
+        <StoreCloseCountdown closesAt={kit.closesAt} className="mt-3 text-center" />
       </div>
 
       {/* 3 — The electric clock */}

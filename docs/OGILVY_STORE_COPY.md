@@ -1,6 +1,13 @@
 # Bayonne store — Ogilvy format (filled)
 
-Ogilvy's rules: the headline does 80% of the work, it states a fact rather than an adjective, and the body is long because people who are actually interested read. Nothing uses "elevate," "premium," or "iconic."
+Full discipline: [`OGILVY_DISCIPLINE.md`](./OGILVY_DISCIPLINE.md).
+
+**Positioning (fixed):** No Parade Team Customs makes custom sublimated kits for clubs,
+leagues, schools and organizations that want a designed identity rather than a logo on a
+blank — delivered with a proof in 48 hours by the person who designs it.
+
+Selling pages: light ground, dark type, image then headline then long body. Brand world
+stays dark and short.
 
 ---
 
@@ -8,8 +15,9 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 
 > **Garnet since 1936. Most spirit wear gets the color wrong.**
 
-*Brand lockup (hero-level):* BAYONNE BEES · No Parade F.C. Team Customs  
-*Subhead:* Specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal.
+*Brand lockup:* BAYONNE BEES · No Parade F.C. Team Customs · 669 Avenue A  
+*Support:* Specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal.
+Drawn by a person in Bayonne.
 
 ---
 
