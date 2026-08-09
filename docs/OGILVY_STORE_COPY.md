@@ -58,7 +58,7 @@ Prices from current catalog. Fabric weights cut until measured.
 
 - **Match Jersey** — $58. Black V-neck. Garnet field. Black chest panel with BAYONNE. Crest left. Name and number on the back.
 - **Match Shorts** — $34. Same garnet as the jersey. Geometric side panel you pick (front + side preview). No name or number.
-- **AOP Hat** — $36. All-over geo on the crown. Crest up front. Front + side preview.
+- **Crest Cap** — $36. Garnet geo on the crown. Crest up front. No personalization.
 - **Full Kit Set** — $89. Black-collar jersey and matching shorts. One garnet. One crest.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
 - **Jersey Dress** — $72. One-piece sideline cut. Color-block basketball crest. Name and number on the back.

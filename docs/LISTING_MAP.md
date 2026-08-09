@@ -66,7 +66,7 @@ Extra tag when customizable: `custom-name-number`
 | 3 | `bayonne-bees-full-set` | Jersey + shorts set (or bundle) | **Core** | Yes — jersey | `set` |
 | 4 | `bayonne-bees-hoops-jersey` | Basketball sleeveless jersey tank | Spirit | Yes — chest/back | — |
 | 5 | `bayonne-bees-jersey-dress` | Basketball jersey dress (one-piece) | Spirit | Yes — back | — |
-| 6 | `bayonne-bees-aop-hat` | AOP baseball / dad hat | Spirit | No — motif + crest | — |
+| 6 | `bayonne-bees-aop-hat` | Baseball / dad hat (Crest Cap) | Spirit | No — fixed art, no personalization | — |
 | 7 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | No — motif on side panels | — |
 | 8 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
 | 9 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
@@ -75,7 +75,7 @@ Extra tag when customizable: `custom-name-number`
 
 **PDP preview pairs**
 - Lettered tops → **front + back** (font + name/number UI)
-- Shorts / sweats / AOP hat → **front + side** (motif UI only; no typography)
+- Shorts / sweats / Crest Cap → **front + side** (no typography; hat has fixed art)
 
 **Launch set (ship first):** #1–3, then #7, #4. Rest wave 2.
 
@@ -144,13 +144,13 @@ App preview: **front + side** (not back). Customer picks geometric motif; no nam
 | Soft brand | Lower left leg, H ~6% | Small crest or `BEES` wordmark |
 | Waistband | Solid black or maroon | No critical logos on elastic |
 
-### 2b. AOP hat (`bayonne-bees-aop-hat`)
+### 2b. Crest Cap (`bayonne-bees-aop-hat`)
 
-App preview: **front + side**. Motif on crown; crest front. Hat sizes S/M · L/XL. No typography.
+App preview: **front + side**. Fixed crown geo + crest. Hat sizes S/M · L/XL. No personalization — no motif picker, no lettering.
 
 | Zone | Placement | Art |
 |---|---|---|
-| Crown AOP | Full panels | Selected geo (chevron / grid / arc) in garnet/black/bone |
+| Crown | Full panels | Fixed geo in garnet/black/bone |
 | Front | Center panels | Boxing-bee crest patch |
 | Brim | Top / undervisor | Matching garnet or black undervisor |
 
