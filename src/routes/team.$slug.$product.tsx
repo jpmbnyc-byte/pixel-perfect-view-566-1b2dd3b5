@@ -87,12 +87,11 @@ function ProductListingPage() {
   }, [views, view]);
 
   useEffect(() => {
-    if (
-      size &&
-      shopifyItem &&
-      !isHat &&
-      !variantIdFor(kit, shopifyItem, size as Size)
-    ) {
+    if (!size || !shopifyItem || isHat) return;
+    const anySynced = SIZES.some((s) => Boolean(variantIdFor(kit, shopifyItem, s)));
+    // Only clear a selection once variants have synced and this size is missing.
+    // While the map is empty, keep the shopper's size pick (checkout stays locked).
+    if (anySynced && !variantIdFor(kit, shopifyItem, size as Size)) {
       setSize("");
     }
   }, [kit, shopifyItem, size, isHat]);
@@ -374,10 +373,11 @@ function ProductListingPage() {
                 key={s}
                 type="button"
                 onClick={() => setSize(s)}
+                aria-pressed={size === s}
                 className={`border py-3.5 text-sm font-semibold transition-colors ${
                   size === s
-                    ? "border-foreground bg-secondary"
-                    : "border-transparent bg-secondary/70 hover:bg-secondary"
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border bg-background hover:bg-secondary"
                 }`}
               >
                 {s}
@@ -388,16 +388,22 @@ function ProductListingPage() {
           <div className="mt-4 grid grid-cols-4 gap-2">
             {SIZES.map((s) => {
               const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
+              // Only grey out missing sizes once some variants have synced.
+              // If the whole map is empty, keep every size selectable (checkout stays locked).
+              const anySynced =
+                Boolean(shopifyItem) && SIZES.some((x) => Boolean(variantIdFor(kit, shopifyItem, x)));
+              const lockedOut = Boolean(shopifyItem) && anySynced && !available;
               return (
                 <button
                   key={s}
                   type="button"
-                  disabled={!available && Boolean(shopifyItem)}
+                  disabled={lockedOut}
                   onClick={() => setSize(s)}
+                  aria-pressed={size === s}
                   className={`border py-3.5 text-sm font-semibold transition-colors ${
                     size === s
-                      ? "border-foreground bg-secondary"
-                      : "border-transparent bg-secondary/70 hover:bg-secondary"
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border bg-background hover:bg-secondary"
                   } disabled:cursor-not-allowed disabled:opacity-35`}
                 >
                   {s}
@@ -408,9 +414,17 @@ function ProductListingPage() {
         )}
         {!isHat &&
           shopifyItem &&
+          SIZES.some((s) => Boolean(variantIdFor(kit, shopifyItem, s))) &&
           SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
             <p className="mt-2 text-sm text-muted-foreground">
               Greyed sizes are still syncing — pick an available size to checkout.
+            </p>
+          )}
+        {!isHat &&
+          shopifyItem &&
+          !SIZES.some((s) => Boolean(variantIdFor(kit, shopifyItem, s))) && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              Pick a size now. Checkout unlocks when this listing finishes syncing.
             </p>
           )}
         <button
