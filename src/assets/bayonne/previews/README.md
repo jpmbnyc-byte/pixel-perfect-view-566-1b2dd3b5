@@ -22,6 +22,6 @@ Ghost mannequin / product still, studio lighting, full garment in frame.
 | Alumni Shorts | `geo-shorts-front.jpg` | `geo-shorts-side.jpg` |
 | 1936 Crewneck | `crew-front.jpg` | `crew-side.jpg` |
 | Base Layer Sweats | `sweats-front.jpg` | `sweats-side.jpg` |
-| AOP Hat | `hat-front.jpg` | `hat-side.jpg` |
+| Crest Cap | `hat-front.jpg` | `hat-side.jpg` |
 
 Category campaign heroes live in `../heroes/` and are separate — do not overwrite them from this folder.

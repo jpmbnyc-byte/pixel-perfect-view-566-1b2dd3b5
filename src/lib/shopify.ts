@@ -11,10 +11,12 @@
  * Listing map: docs/LISTING_MAP.md
  */
 
+import { PRODUCTS } from "./catalog";
 import type { Item, KitConfig, Size } from "./kit";
 import { SIZES } from "./kit";
 
 const SIZE_SET = new Set<string>(SIZES);
+const HAT_SIZE_SET = new Set(["S/M", "L/XL"]);
 
 /** Prefer personalization-capable style options when a product has Style + Size. */
 const PERSONALIZATION_STYLE_HINTS = [
@@ -53,8 +55,31 @@ export type ShopifySyncStatus = {
   set: boolean;
 };
 
+/** Size label → Shopify variant id (apparel + hat labels). */
+export type ListingVariantMap = Record<string, string>;
+
+export type CatalogListingSync = {
+  handle: string;
+  ready: boolean;
+  variants: ListingVariantMap;
+  price: number | null;
+};
+
+export type CatalogListings = Record<string, CatalogListingSync>;
+
+/** Launch-critical handles — store banner / go-live gate. */
+export const LAUNCH_HANDLES = [
+  "bayonne-bees-jersey",
+  "bayonne-bees-shorts",
+  "bayonne-bees-full-set",
+] as const;
+
 export function shopifySynced(status: ShopifySyncStatus) {
   return status.top || status.bottom || status.set;
+}
+
+export function launchCatalogReady(listings: CatalogListings) {
+  return LAUNCH_HANDLES.every((h) => listings[h]?.ready);
 }
 
 function normalizeSize(raw: string | null | undefined): Size | null {
@@ -69,6 +94,18 @@ function normalizeSize(raw: string | null | undefined): Size | null {
     "3X": "3XL",
   };
   return aliases[cleaned] ?? null;
+}
+
+/** Apparel sizes + Crest Cap S/M · L/XL. */
+function normalizeSizeLabel(raw: string | null | undefined): string | null {
+  const apparel = normalizeSize(raw);
+  if (apparel) return apparel;
+  if (!raw) return null;
+  const cleaned = raw.trim().toUpperCase().replace(/\s+/g, "");
+  if (cleaned === "S/M" || cleaned === "SM" || cleaned === "S-M") return "S/M";
+  if (cleaned === "L/XL" || cleaned === "LXL" || cleaned === "L-XL") return "L/XL";
+  if (HAT_SIZE_SET.has(cleaned)) return cleaned;
+  return null;
 }
 
 function looksPersonalized(style: string | null | undefined) {
@@ -116,10 +153,10 @@ function optionAt(v: ShopifyJsVariant, idx: 1 | 2 | 3) {
 }
 
 /**
- * Map Shopify product variants → size → variant id string.
+ * Map Shopify product variants → size label → variant id string.
  * Prefers personalization-capable styles; skips blank/non-custom styles when alternatives exist.
  */
-export function variantMapFromProduct(product: ShopifyJsProduct): Partial<Record<Size, string>> {
+export function variantMapFromProduct(product: ShopifyJsProduct): ListingVariantMap {
   const sizeIdx = sizeOptionIndex(product);
   const styleIdx = styleOptionIndex(product, sizeIdx);
 
@@ -138,13 +175,21 @@ export function variantMapFromProduct(product: ShopifyJsProduct): Partial<Record
           return !looksNonPersonalized(optionAt(v, styleIdx));
         });
 
-  const map: Partial<Record<Size, string>> = {};
+  const map: ListingVariantMap = {};
   for (const v of pool.length ? pool : product.variants) {
-    const size = normalizeSize(optionAt(v, sizeIdx));
+    const size = normalizeSizeLabel(optionAt(v, sizeIdx));
     if (!size) continue;
     if (!map[size] || v.available) map[size] = String(v.id);
   }
   return map;
+}
+
+function apparelMapFromListing(map: ListingVariantMap): Partial<Record<Size, string>> {
+  const out: Partial<Record<Size, string>> = {};
+  for (const s of SIZES) {
+    if (map[s]) out[s] = map[s];
+  }
+  return out;
 }
 
 export async function fetchShopifyProduct(
@@ -165,7 +210,7 @@ export async function fetchShopifyProduct(
   }
 }
 
-function hasAnyVariants(map: Partial<Record<Size, string>> | undefined) {
+function hasAnyVariants(map: ListingVariantMap | Partial<Record<Size, string>> | undefined) {
   return Boolean(map && Object.keys(map).length > 0);
 }
 
@@ -177,39 +222,65 @@ function dollarsFromProduct(product: ShopifyJsProduct | null) {
 }
 
 /**
- * Resolve size→variant maps for a kit.
- * Static maps in kit config win; otherwise fetch synced products by handle.
+ * Resolve size→variant maps for the kit + every catalog listing handle.
+ * Static kit maps win for core items; catalog handles resolve independently for checkout.
  */
 export async function resolveKitShopify(kit: KitConfig): Promise<{
   kit: KitConfig;
   sync: ShopifySyncStatus;
+  listings: CatalogListings;
 }> {
   const { domain, productHandles, topVariants, bottomVariants, setVariants } = kit.shopify;
 
-  async function resolveItem(
-    hardcoded: Partial<Record<Size, string>>,
-    handle: string | undefined,
-  ): Promise<{ map: Partial<Record<Size, string>>; product: ShopifyJsProduct | null }> {
-    if (hasAnyVariants(hardcoded)) return { map: hardcoded, product: null };
-    if (!handle) return { map: {}, product: null };
+  async function resolveHandle(
+    handle: string,
+    hardcoded?: Partial<Record<Size, string>>,
+  ): Promise<CatalogListingSync> {
+    if (hardcoded && hasAnyVariants(hardcoded)) {
+      const variants: ListingVariantMap = { ...hardcoded };
+      return { handle, ready: true, variants, price: null };
+    }
     const product = await fetchShopifyProduct(domain, handle);
-    if (!product) return { map: {}, product: null };
-    return { map: variantMapFromProduct(product), product };
+    if (!product) {
+      return { handle, ready: false, variants: {}, price: null };
+    }
+    const variants = variantMapFromProduct(product);
+    return {
+      handle,
+      ready: hasAnyVariants(variants),
+      variants,
+      price: dollarsFromProduct(product),
+    };
   }
 
-  const [topRes, bottomRes, setRes] = await Promise.all([
-    resolveItem(topVariants, productHandles?.top),
-    resolveItem(bottomVariants, productHandles?.bottom),
-    resolveItem(setVariants, productHandles?.set),
-  ]);
+  const catalogHandles = [...new Set(PRODUCTS.map((p) => p.handle))];
+  const resolved = await Promise.all(catalogHandles.map((h) => {
+    if (h === productHandles?.top) return resolveHandle(h, topVariants);
+    if (h === productHandles?.bottom) return resolveHandle(h, bottomVariants);
+    if (h === productHandles?.set) return resolveHandle(h, setVariants);
+    return resolveHandle(h);
+  }));
+
+  const listings: CatalogListings = {};
+  for (const row of resolved) listings[row.handle] = row;
+
+  const topListing = productHandles?.top ? listings[productHandles.top] : undefined;
+  const bottomListing = productHandles?.bottom ? listings[productHandles.bottom] : undefined;
+  const setListing = productHandles?.set ? listings[productHandles.set] : undefined;
+
+  const topMap =
+    hasAnyVariants(topVariants) ? topVariants : apparelMapFromListing(topListing?.variants ?? {});
+  const bottomMap =
+    hasAnyVariants(bottomVariants)
+      ? bottomVariants
+      : apparelMapFromListing(bottomListing?.variants ?? {});
+  const setMap =
+    hasAnyVariants(setVariants) ? setVariants : apparelMapFromListing(setListing?.variants ?? {});
 
   const pricing = { ...kit.pricing };
-  const topPrice = dollarsFromProduct(topRes.product);
-  const bottomPrice = dollarsFromProduct(bottomRes.product);
-  const setPrice = dollarsFromProduct(setRes.product);
-  if (topPrice != null) pricing.top = topPrice;
-  if (bottomPrice != null) pricing.bottom = bottomPrice;
-  if (setPrice != null) pricing.set = setPrice;
+  if (topListing?.price != null) pricing.top = topListing.price;
+  if (bottomListing?.price != null) pricing.bottom = bottomListing.price;
+  if (setListing?.price != null) pricing.set = setListing.price;
 
   return {
     kit: {
@@ -217,16 +288,17 @@ export async function resolveKitShopify(kit: KitConfig): Promise<{
       pricing,
       shopify: {
         ...kit.shopify,
-        topVariants: topRes.map,
-        bottomVariants: bottomRes.map,
-        setVariants: setRes.map,
+        topVariants: topMap,
+        bottomVariants: bottomMap,
+        setVariants: setMap,
       },
     },
     sync: {
-      top: hasAnyVariants(topRes.map),
-      bottom: hasAnyVariants(bottomRes.map),
-      set: hasAnyVariants(setRes.map),
+      top: hasAnyVariants(topMap),
+      bottom: hasAnyVariants(bottomMap),
+      set: hasAnyVariants(setMap),
     },
+    listings,
   };
 }
 
@@ -239,4 +311,12 @@ export function itemSyncReady(sync: ShopifySyncStatus, item: Item): boolean {
   if (item === "top") return sync.top;
   if (item === "bottom") return sync.bottom;
   return sync.set;
+}
+
+export function listingVariantId(
+  listings: CatalogListings,
+  handle: string,
+  size: string,
+): string | null {
+  return listings[handle]?.variants[size] ?? null;
 }
