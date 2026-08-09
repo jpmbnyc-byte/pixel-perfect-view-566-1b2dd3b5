@@ -51,6 +51,10 @@ export function ProductCanvas({
   const numberShadow = blackout
     ? "0 0 3px #000, 0 2px 0 #000, 0 0 18px rgba(0,0,0,0.9)"
     : "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)";
+  // Single-line name bar: shrink long names to fit width (never wrap to two rows)
+  const nameChars = Math.max(displayName.replace(/\s/g, "").length, 1);
+  const nameFit = Math.min(1, 6.5 / nameChars);
+  const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"
@@ -68,16 +72,19 @@ export function ProductCanvas({
       {view === "back" && showLettering && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <p
-            className="absolute flex items-center justify-center text-center uppercase tracking-[0.12em] text-white"
+            className="absolute flex items-center justify-center whitespace-nowrap text-center uppercase text-white"
             style={{
               top: `${lettering.name.y}%`,
               left: `${lettering.centerX}%`,
-              transform: "translateX(-50%)",
+              transform: `translateX(-50%) scale(${nameFit})`,
+              transformOrigin: "center center",
               width: `${lettering.name.maxWidthPct}%`,
               height: `${lettering.name.heightPct}%`,
               fontFamily: font.cssFamily,
-              fontSize: `calc(${lettering.name.heightPct} * 0.72cqh)`,
+              fontSize: `calc(${lettering.name.heightPct} * 0.9cqh)`,
+              letterSpacing: nameTracking,
               lineHeight: 1,
+              overflow: "hidden",
               textShadow: nameShadow,
               WebkitTextStroke: blackout ? "0.4px rgba(0,0,0,0.55)" : undefined,
             }}
@@ -85,7 +92,7 @@ export function ProductCanvas({
             {displayName}
           </p>
           <p
-            className="absolute flex items-center justify-center text-center leading-none text-white"
+            className="absolute flex items-center justify-center whitespace-nowrap text-center leading-none text-white"
             style={{
               top: `${lettering.number.y}%`,
               left: `${lettering.centerX}%`,
@@ -93,7 +100,7 @@ export function ProductCanvas({
               width: `${lettering.number.maxWidthPct}%`,
               height: `${lettering.number.heightPct}%`,
               fontFamily: font.cssFamily,
-              fontSize: `calc(${lettering.number.heightPct} * 0.78cqh)`,
+              fontSize: `calc(${lettering.number.heightPct} * 0.88cqh)`,
               textShadow: numberShadow,
               WebkitTextStroke: blackout ? "0.6px rgba(0,0,0,0.65)" : undefined,
             }}

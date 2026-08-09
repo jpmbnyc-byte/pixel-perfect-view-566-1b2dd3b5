@@ -114,8 +114,8 @@ Print-zone reference scale (`src/lib/kit.ts` → `LETTERING`), as % of mockup / 
 
 | Element | Center X | Top Y | Height | Max width | Notes |
 |---|---|---|---|---|---|
-| Name bar | **50%** | **18%** | **8%** | **44%** | ALL CAPS; max 12; auto-centered |
-| Number | **50%** | **32%** | **22%** | **28%** | 0–99; auto-centered; scales to box |
+| Name bar | **50%** | **16%** | **7%** | **56%** | ALL CAPS; max 12; single line (shrink-to-fit); auto-centered |
+| Number | **50%** | **28%** | **36%** | **46%** | 0–99; prominent; auto-centered; scales to box |
 
 Live preview sizes lettering from these H/W boxes (container query units). Full-set framing may nudge Y slightly; blackout uses stronger white stroke. Always re-check on the print-partner flat before print.
 
