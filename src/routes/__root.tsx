@@ -77,18 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "No Parade F.C. — Team Order Engine" },
+      { title: "No Parade F.C. — Bayonne Team Customs" },
       {
         name: "description",
         content:
-          "Order your team's custom No Parade F.C. kit — name, number and size in under a minute.",
+          "Bayonne’s actual garnet — not maroon. Type a name and number, see them on the jersey, then checkout. No Parade F.C., Bayonne, NJ.",
       },
       { name: "author", content: "No Parade F.C." },
-      { property: "og:title", content: "No Parade F.C. — Team Order Engine" },
+      { property: "og:title", content: "No Parade F.C. — Bayonne Team Customs" },
       {
         property: "og:description",
         content:
-          "Order your team's custom No Parade F.C. kit — name, number and size in under a minute.",
+          "Bayonne’s actual garnet — not maroon. Type a name and number, see them on the jersey, then checkout. No Parade F.C., Bayonne, NJ.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -254,7 +254,8 @@ function ProductListingPage() {
         <section id="field-personalize" className="mt-6 px-5">
           <h2 className="text-xl font-bold tracking-tight">Add Personalization</h2>
           <p className="mt-2 text-sm leading-snug text-muted-foreground">
-            Personalized items cannot be returned or exchanged. Nothing prints until you order.
+            Type the name and number. Watch the back update. Personalized pieces cannot be
+            returned — nothing prints until you order.
           </p>
 
           <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
@@ -341,7 +342,9 @@ function ProductListingPage() {
       {usesTypography && (
         <section className="mt-8 px-5">
           <h2 className="text-xl font-bold tracking-tight">Lettering font</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Tops only · 4 faces</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Four faces for the name and number on the back
+          </p>
           <div className="mt-4 grid grid-cols-2 gap-2">
             {FONTS.map((f) => {
               const on = fontId === f.id;
