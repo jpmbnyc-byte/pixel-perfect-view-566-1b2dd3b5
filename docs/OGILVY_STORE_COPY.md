@@ -57,13 +57,13 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 Prices from current catalog. Fabric weights cut until measured.
 
 - **Match Jersey** — $58. Black V-neck. Garnet field. Black chest panel with BAYONNE. Crest left. Name and number on the back.
-- **Match Shorts** — $34. Same garnet as the jersey. Geometric side panel you pick (front + side preview). No name or number.
+- **Match Shorts** — $34. Same garnet as the jersey. Geometric side panel (front + side preview). No name or number.
 - **Crest Cap** — $36. Garnet geo on the crown. Crest up front. No personalization.
 - **Full Kit Set** — $89. Black-collar jersey and matching shorts. One garnet. One crest.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
 - **Jersey Dress** — $72. One-piece sideline cut. Color-block basketball crest. Name and number on the back.
 - **1936 Crewneck** — $64. Garnet body, black geo side panels (front + side). Motif only — no lettering.
-- **Base Layer Sweats** — $58. Black base, garnet geometric side panel you pick (front + side). Motif only.
+- **Base Layer Sweats** — $58. Black base, garnet geometric side panel (front + side). Motif only.
 - **Long-Sleeve Jersey** — $62. Name and number on the back. Year inside the collar.
 - **Quarter-Zip** — $68. Crest on the left chest. Nothing else on the front.
 - **Alumni Shorts** — $42. Same garnet as the match strip. Geometric side panel off the field (front + side).

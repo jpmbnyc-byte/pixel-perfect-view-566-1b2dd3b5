@@ -7,8 +7,8 @@ import { resolveKitShopify } from "@/lib/shopify";
 export const Route = createFileRoute("/team/$slug")({
   loader: async ({ params }) => {
     if (params.slug !== BAYONNE_BEES_KIT.slug) throw notFound();
-    const { kit, sync } = await resolveKitShopify(BAYONNE_BEES_KIT);
-    return { kit, sync };
+    const { kit, sync, listings } = await resolveKitShopify(BAYONNE_BEES_KIT);
+    return { kit, sync, listings };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {

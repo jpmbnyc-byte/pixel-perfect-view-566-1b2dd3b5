@@ -21,10 +21,9 @@ import {
   encodeArtSpec,
   sanitizeName,
   sanitizeNumber,
-  variantIdFor,
   type Size,
 } from "@/lib/kit";
-import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
+import { cartAddAction, listingVariantId } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
 export const Route = createFileRoute("/team/$slug/$product")({
@@ -58,7 +57,7 @@ type CtaState =
   | { kind: "ready"; label: string };
 
 function ProductListingPage() {
-  const { kit, sync } = TeamSlugRoute.useLoaderData();
+  const { kit, listings } = TeamSlugRoute.useLoaderData();
   const { product } = Route.useLoaderData();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -80,21 +79,24 @@ function ProductListingPage() {
   const [chartOpen, setChartOpen] = useState(false);
 
   const shopifyItem = product.shopifyItem;
-  const itemReady = shopifyItem ? itemSyncReady(sync, shopifyItem) : false;
+  const listing = listings[product.handle];
+  const listingReady = Boolean(listing?.ready);
+  const listingVariants = listing?.variants;
+  const anyVariantsSynced = Boolean(listingVariants && Object.keys(listingVariants).length > 0);
+  const displayPrice = listing?.price ?? product.price;
 
   useEffect(() => {
     if (!views.includes(view)) setView("front");
   }, [views, view]);
 
   useEffect(() => {
-    if (!size || !shopifyItem || isHat) return;
-    const anySynced = SIZES.some((s) => Boolean(variantIdFor(kit, shopifyItem, s)));
+    if (!size || !listingVariants) return;
     // Only clear a selection once variants have synced and this size is missing.
     // While the map is empty, keep the shopper's size pick (checkout stays locked).
-    if (anySynced && !variantIdFor(kit, shopifyItem, size as Size)) {
+    if (Object.keys(listingVariants).length > 0 && !listingVariants[size]) {
       setSize("");
     }
-  }, [kit, shopifyItem, size, isHat]);
+  }, [size, listingVariants]);
 
   // Flip to back when personalizing lettered tops.
   useEffect(() => {
@@ -115,52 +117,34 @@ function ProductListingPage() {
       numberValue <= kit.rules.numberMax);
 
   const apparelSize = !isHat && size ? (size as Size) : "";
-  const variantId =
-    apparelSize && shopifyItem ? variantIdFor(kit, shopifyItem, apparelSize) : null;
+  const variantId = size ? listingVariantId(listings, product.handle, size) : null;
 
   const nameReady = !product.nameNumber || Boolean(name && numberValid);
-  const checkoutReady = Boolean(
-    nameReady && size && confirmed && (shopifyItem ? variantId && itemReady : false),
-  );
+  const checkoutReady = Boolean(nameReady && size && confirmed && variantId && listingReady);
 
   const cta: CtaState = useMemo(() => {
-    if (!shopifyItem || (shopifyItem && !itemReady)) {
-      if (product.nameNumber && !name) {
-        return { kind: "step", label: "Enter name on back" };
-      }
-      if (product.nameNumber && !numberValid) {
-        return { kind: "step", label: "Enter number" };
-      }
-      if (!size) return { kind: "step", label: "Choose a size" };
-      if (!confirmed) {
-        return {
-          kind: "step",
-          label: usesTypography ? "Confirm spelling & size" : "Confirm size",
-        };
-      }
-      return { kind: "sync", label: "Checkout opening soon" };
-    }
     if (product.nameNumber && !name) {
       return { kind: "step", label: "Enter name on back" };
     }
     if (product.nameNumber && !numberValid) {
       return { kind: "step", label: "Enter number" };
     }
-    if (!size) {
-      return { kind: "step", label: "Choose a size" };
-    }
+    if (!size) return { kind: "step", label: "Choose a size" };
     if (!confirmed) {
       return {
         kind: "step",
         label: usesTypography ? "Confirm spelling & size" : "Confirm size",
       };
     }
-    return { kind: "ready", label: `Checkout · $${product.price}` };
+    if (!listingReady || !variantId) {
+      return { kind: "sync", label: "Checkout opening soon" };
+    }
+    return { kind: "ready", label: `Checkout · $${displayPrice}` };
   }, [
-    shopifyItem,
-    itemReady,
+    listingReady,
+    variantId,
     product.nameNumber,
-    product.price,
+    displayPrice,
     name,
     numberValid,
     size,
@@ -239,7 +223,7 @@ function ProductListingPage() {
           ← Bayonne store
         </Link>
         <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight">{product.name}</h1>
-        <p className="mt-1 text-base font-semibold tabular-nums">${product.price}</p>
+        <p className="mt-1 text-base font-semibold tabular-nums">${displayPrice}</p>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{product.blurb}</p>
       </header>
 
@@ -387,12 +371,10 @@ function ProductListingPage() {
         ) : (
           <div className="mt-4 grid grid-cols-4 gap-2">
             {SIZES.map((s) => {
-              const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
+              const available = anyVariantsSynced ? Boolean(listingVariants?.[s]) : true;
               // Only grey out missing sizes once some variants have synced.
               // If the whole map is empty, keep every size selectable (checkout stays locked).
-              const anySynced =
-                Boolean(shopifyItem) && SIZES.some((x) => Boolean(variantIdFor(kit, shopifyItem, x)));
-              const lockedOut = Boolean(shopifyItem) && anySynced && !available;
+              const lockedOut = anyVariantsSynced && !available;
               return (
                 <button
                   key={s}
@@ -412,21 +394,17 @@ function ProductListingPage() {
             })}
           </div>
         )}
-        {!isHat &&
-          shopifyItem &&
-          SIZES.some((s) => Boolean(variantIdFor(kit, shopifyItem, s))) &&
-          SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
+        {anyVariantsSynced &&
+          sizeOptionsMissing(listingVariants, isHat) && (
             <p className="mt-2 text-sm text-muted-foreground">
               Greyed sizes are still syncing — pick an available size to checkout.
             </p>
           )}
-        {!isHat &&
-          shopifyItem &&
-          !SIZES.some((s) => Boolean(variantIdFor(kit, shopifyItem, s))) && (
-            <p className="mt-2 text-sm text-muted-foreground">
-              Pick a size now. Checkout unlocks when this listing finishes syncing.
-            </p>
-          )}
+        {!anyVariantsSynced && (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Pick a size now. Checkout unlocks when this listing finishes syncing.
+          </p>
+        )}
         <button
           type="button"
           onClick={() => setChartOpen((o) => !o)}
@@ -511,7 +489,7 @@ function ProductListingPage() {
           <input type="hidden" name="properties[_Confirmed]" value="yes" />
         </form>
 
-        <SyncNote sync={sync} hasShopifyItem={Boolean(shopifyItem)} />
+        <SyncNote listingReady={listingReady} />
       </section>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">
@@ -583,18 +561,21 @@ function OutlinedField({
   );
 }
 
-function SyncNote({ sync, hasShopifyItem }: { sync: ShopifySyncStatus; hasShopifyItem: boolean }) {
-  if (!hasShopifyItem) {
-    return (
-      <p className="mt-4 text-center text-sm text-muted-foreground">
-        Design is ready. Checkout unlocks when this listing goes live on noparade-store.com.
-      </p>
-    );
-  }
-  if (sync.top || sync.bottom || sync.set) return null;
+function sizeOptionsMissing(
+  variants: Record<string, string> | undefined,
+  isHat: boolean,
+): boolean {
+  if (!variants) return false;
+  const options = isHat ? HAT_SIZES : SIZES;
+  return options.some((s) => !variants[s]);
+}
+
+function SyncNote({ listingReady }: { listingReady: boolean }) {
+  if (listingReady) return null;
   return (
     <p className="mt-4 text-center text-sm text-muted-foreground">
-      Core kit sizes are still syncing to noparade-store.com. You can finish the design now.
+      This listing is still syncing to noparade-store.com. You can finish the design now —
+      checkout unlocks when the Shopify product is live.
     </p>
   );
 }

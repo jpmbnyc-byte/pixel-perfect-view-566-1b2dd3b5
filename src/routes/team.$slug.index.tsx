@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import logo from "@/assets/bayonne/spirit/boxing-bee.png";
 import { CATEGORIES, productById, productsInCategory, type CategoryId } from "@/lib/catalog";
 import { countdownParts } from "@/lib/kit";
-import { shopifySynced } from "@/lib/shopify";
+import { launchCatalogReady } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
 const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
@@ -14,11 +14,11 @@ export const Route = createFileRoute("/team/$slug/")({
 });
 
 function TeamStorePage() {
-  const { kit, sync } = TeamSlugRoute.useLoaderData();
+  const { kit, listings } = TeamSlugRoute.useLoaderData();
   const [category, setCategory] = useState<CategoryId>("match");
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
-  const catalogReady = shopifySynced(sync);
+  const catalogReady = launchCatalogReady(listings);
   const featuredJersey = productById("jersey");
 
   // Deep-link: /team/bayonne-bees#sideline
