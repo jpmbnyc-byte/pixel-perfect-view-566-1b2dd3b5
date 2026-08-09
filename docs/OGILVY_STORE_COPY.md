@@ -55,10 +55,10 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 
 Prices from current catalog. Fabric weights cut until measured.
 
-- **Match Jersey** — $58. Solid garnet sleeves and crew. Honeycomb chest band with BAYONNE below. Crest left. Name and number on the back.
+- **Match Jersey** — $58. Black V-neck. Solid garnet sleeves — no cuff bands. Black chest panel with BAYONNE. Crest left. Name and number on the back.
 - **Match Shorts** — $34. Same garnet as the jersey. Geometric side panel you pick (front + side preview). No name or number.
 - **AOP Hat** — $36. All-over geo on the crown. Crest up front. Front + side preview.
-- **Full Kit Set** — $89. Garnet jersey and matching shorts. One crest.
+- **Full Kit Set** — $89. Black-collar jersey, solid garnet sleeves, matching shorts. One crest.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
 - **Jersey Dress** — $72. One-piece sideline cut. Color-block basketball crest. Name and number on the back.
 - **1936 Crewneck** — $64. Garnet body, black geo side panels (front + side). Motif only — no lettering.
