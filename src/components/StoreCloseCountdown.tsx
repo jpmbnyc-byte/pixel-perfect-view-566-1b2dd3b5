@@ -14,7 +14,7 @@ function labelFrom(closesAt: string, now: number) {
   return `${parts.minutes}m`;
 }
 
-/** Soft urgency from kit.closesAt — no false scarcity. */
+/** Soft urgency from kit.closesAt — Match roster window, not the whole program store. */
 export function StoreCloseCountdown({ closesAt, className = "" }: Props) {
   const [label, setLabel] = useState(() => labelFrom(closesAt, Date.now()));
 
@@ -27,15 +27,15 @@ export function StoreCloseCountdown({ closesAt, className = "" }: Props) {
 
   if (!label) {
     return (
-      <p className={`label-caps text-bone/45 ${className}`}>
+      <p className={`label-caps text-muted-foreground ${className}`}>
         Match roster window closed · Faithful stays open
       </p>
     );
   }
 
   return (
-    <p className={`label-caps text-bone/55 ${className}`}>
-      Match roster window · <span className="text-bone">{label}</span> left
+    <p className={`label-caps text-muted-foreground ${className}`}>
+      Match roster window · <span className="text-foreground">{label}</span> left
     </p>
   );
 }

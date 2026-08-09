@@ -2,22 +2,20 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
-import { LiquidBackdrop } from "@/components/LiquidBackdrop";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
-/** Landing hero + kit plate = Full Kit / Match Jersey live plates (identical match). */
-const landingHero = productById("full-set")!.thumb;
+/** Selling-page plates — mockups labelled as such until real garment photos exist. */
+const kitPlate = productById("full-set")!.thumb;
 const jerseyFront = productById("jersey")!.thumb;
-const fieldHero = productById("geo-shorts")!.thumb;
 
 export const Route = createFileRoute("/team/")({
   head: () => {
     const title =
       "Bayonne Bees Team Customs — garnet specified right since 1936 | No Parade F.C.";
     const description =
-      "Bayonne Bees team customs in the school’s actual garnet — not maroon, not burgundy, not cardinal. Match kit from $34. Personalize and checkout. No Parade F.C., Bayonne, NJ.";
+      "Custom sublimated Bayonne Bees kits designed in Bayonne. Garnet since 1936 — not maroon, not burgundy, not cardinal. Match jersey $58. Names and numbers included.";
     return {
       meta: [
         { title },
@@ -37,258 +35,262 @@ const jersey = productById("jersey")!;
 const fullSet = productById("full-set")!;
 const shorts = productById("shorts")!;
 
+const CTA = `Personalize Match jersey · $${jersey.price}`;
+
 /**
- * Bayonne peninsula landing: brand-first hero over liquid harbor field,
- * then place proof, Queen Bees reveal, and a clear Match-first offering.
+ * Team Customs selling page — Ogilvy long-copy register.
+ * Light ground, dark type, image then headline then body. Not brand-world dark.
  */
 function TeamLanding() {
   const kit = BAYONNE_BEES_KIT;
 
   return (
-    <main className="bg-black text-bone">
-      {/* —— Hero: one composition —— */}
-      <section className="relative isolate min-h-dvh overflow-hidden">
-        <LiquidBackdrop intensity="full" />
-        <div className="absolute inset-0" aria-hidden>
-          {/* Full kit plate — contain, not cover-crop (Merchize blank must stay readable) */}
+    <main className="bg-[var(--bone)] text-foreground">
+      <header className="mx-auto flex w-full max-w-[640px] items-center gap-3 px-6 pt-8 pb-4">
+        <img src={boxingBee} alt="" className="h-10 w-10 object-contain" />
+        <div className="min-w-0">
+          <p className="font-kit text-xl tracking-[0.04em] text-foreground">BAYONNE BEES</p>
+          <p className="label-caps mt-0.5 text-muted-foreground">
+            No Parade F.C. · Team Customs · 669 Avenue A
+          </p>
+        </div>
+      </header>
+
+      {/* 1 — Photograph (mockup) on top */}
+      <figure className="mx-auto w-full max-w-[640px] px-6">
+        <div className="overflow-hidden bg-[#e8e4e0]">
           <img
-            src={landingHero}
-            alt="Bayonne Bees Match kit in school garnet"
-            className="absolute inset-0 h-full w-full object-contain object-center opacity-[0.78] motion-safe:animate-team-hero-drift"
+            src={kitPlate}
+            alt="Bayonne Bees Match kit — garnet jersey and shorts, studio mockup of the Merchize blank"
+            className="mx-auto h-auto w-full object-contain"
           />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(8,6,8,0.05)_0%,rgba(8,6,8,0.45)_50%,rgba(5,4,6,0.92)_100%)]" />
-          <div className="absolute inset-x-0 top-0 h-[32%] bg-gradient-to-b from-black/80 via-black/25 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-black via-black/80 to-transparent" />
         </div>
+        <figcaption className="mt-3 text-sm leading-snug text-muted-foreground">
+          Bayonne Bees Match kit in school garnet (#5A1626). Studio mockup of the Merchize
+          sublimation blank — not a photograph of a finished garment. No Parade Team Customs,
+          Bayonne, NJ.
+        </figcaption>
+      </figure>
 
-        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[560px] flex-col px-6 pb-12 pt-8">
-          <header className="motion-safe:animate-team-logo-in">
-            <p className="place-line">669 Avenue A · Bayonne, NJ · Est. 1936</p>
-            <div className="mt-4 flex items-center gap-3">
-              <img
-                src={boxingBee}
-                alt=""
-                className="h-14 w-14 shrink-0 object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] motion-safe:animate-team-bee-pulse sm:h-16 sm:w-16"
-              />
-              <div className="min-w-0">
-                <p className="font-kit text-[clamp(2rem,10vw,3.4rem)] leading-none tracking-[0.04em] text-bone">
-                  BAYONNE BEES
-                </p>
-                <p className="label-caps mt-1.5 text-bone/55">No Parade F.C. · Team Customs</p>
-              </div>
-            </div>
-          </header>
-
-          <div className="mt-auto space-y-5 pt-10 motion-safe:animate-team-rise [animation-delay:120ms]">
-            <h1 className="max-w-[22rem] font-kit text-[clamp(1.55rem,6.2vw,2.15rem)] leading-[1.12] tracking-[0.02em] text-bone">
-              Garnet since 1936. Most spirit wear gets the color wrong.
-            </h1>
-            <p className="max-w-[26rem] text-base leading-snug text-bone/72">
-              Specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal.
-              From ${LOWEST}.
-            </p>
-
-            <div className="space-y-3 pt-1">
-              <Link
-                to="/team/$slug/$product"
-                params={{ slug: kit.slug, product: jersey.id }}
-                className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
-              >
-                Shop Match jersey · ${jersey.price}
-              </Link>
-              <Link
-                to="/team/$slug"
-                params={{ slug: kit.slug }}
-                className="label-caps inline-flex w-full items-center justify-center border border-bone/30 px-6 py-4 text-bone/90 transition-colors hover:border-bone hover:text-bone"
-              >
-                Browse the Bayonne store
-              </Link>
-              <StoreCloseCountdown closesAt={kit.closesAt} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* —— Queen Bees — one crest, one story (no slideshow) —— */}
-      <section className="relative overflow-hidden border-t border-bone/10">
-        <LiquidBackdrop intensity="soft" />
-        <div className="relative z-10 mx-auto w-full max-w-[560px] px-6 py-14">
-          <p className="place-line">Hudson County · Queen Bees</p>
-          <h2 className="mt-3 font-kit text-[clamp(1.7rem,6.5vw,2.35rem)] tracking-wide text-bone">
-            They’ve been calling themselves this for years. Nobody ever drew it.
-          </h2>
-          <figure className="mt-8 overflow-hidden bg-[var(--garnet)]">
-            <img
-              src={queenCrest}
-              alt="Queen Bees crest — boxing bee with crown, drawn for Bayonne"
-              className="mx-auto h-auto w-full max-w-md object-contain"
-            />
-          </figure>
-          <p className="mt-6 text-base leading-relaxed text-bone/75">
-            In 2024 the Hudson County champions answered to a name that lived only in speech.
-            There was no mark. No embroidery. Nothing a mother could point to on a jacket and
-            say, that is ours. So we drew the crest. The files are theirs if they want them.
-          </p>
-        </div>
-      </section>
-
-      {/* —— Match-first offering —— */}
-      <section className="relative overflow-hidden border-t border-bone/10">
-        <LiquidBackdrop intensity="soft" />
-        <div className="relative z-10 mx-auto w-full max-w-[560px] px-6 py-14">
-          <p className="place-line">The offering</p>
-          <h2 className="mt-3 font-kit text-[clamp(1.85rem,7vw,2.6rem)] tracking-wide text-bone">
-            Most families begin with the Match jersey.
-          </h2>
-          <p className="mt-3 max-w-md text-base leading-relaxed text-bone/70">
-            Black V-neck. Name and number on the back — you type them; we print them. Live
-            preview before you pay. Same garnet across every piece in the store.
-          </p>
-        </div>
-
-        {/* Full-bleed product plate — not a card */}
+      {/* 2 — Headline beneath the photograph */}
+      <div className="mx-auto w-full max-w-[640px] px-6 pt-8">
+        <h1 className="font-serif text-[clamp(1.75rem,5.5vw,2.35rem)] font-normal leading-[1.2] tracking-tight text-foreground normal-case">
+          Garnet since 1936. Most spirit wear gets the color wrong.
+        </h1>
+        <p className="mt-4 text-lg leading-relaxed text-foreground/85">
+          Specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Your
+          kit is drawn by a person in Bayonne, not selected from a catalogue of layouts.
+        </p>
         <Link
           to="/team/$slug/$product"
           params={{ slug: kit.slug, product: jersey.id }}
-          className="group relative z-10 block"
+          className="label-caps mt-6 inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
         >
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-black sm:aspect-[5/4]">
-            <img
-              src={jerseyFront}
-              alt="Match Jersey front in Bayonne garnet"
-              className="h-full w-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.03]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 px-6 pb-8">
-              <p className="label-caps text-bone/55">Match · Personalize</p>
-              <div className="mt-2 flex items-end justify-between gap-4">
-                <h3 className="font-kit text-3xl tracking-wide text-bone">Match Jersey</h3>
-                <span className="font-sans text-2xl tabular-nums text-bone">${jersey.price}</span>
-              </div>
-              <p className="label-caps mt-3 text-garnet">
-                Put your name on the back · ${jersey.price} →
-              </p>
-            </div>
-          </div>
+          {CTA}
         </Link>
+        <p className="mt-2 text-center text-sm text-muted-foreground">
+          Match jersey ${jersey.price} · Shorts ${shorts.price} · Full kit ${fullSet.price} ·
+          From ${LOWEST}
+        </p>
+        <StoreCloseCountdown closesAt={kit.closesAt} className="mt-3 text-center !text-muted-foreground" />
+      </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-[560px] grid-cols-2 gap-px bg-bone/10">
-          <Link
-            to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: shorts.id }}
-            className="bg-black px-5 py-6 transition-colors hover:bg-[#12090b]"
-          >
-            <p className="label-caps text-bone/45">Match</p>
-            <p className="mt-2 font-kit text-xl tracking-wide text-bone">Shorts</p>
-            <p className="mt-1 font-sans text-lg tabular-nums text-bone/80">${shorts.price}</p>
-          </Link>
-          <Link
-            to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: fullSet.id }}
-            className="bg-black px-5 py-6 transition-colors hover:bg-[#12090b]"
-          >
-            <p className="label-caps text-bone/45">Match</p>
-            <p className="mt-2 font-kit text-xl tracking-wide text-bone">Full Kit</p>
-            <p className="mt-1 font-sans text-lg tabular-nums text-bone/80">${fullSet.price}</p>
-          </Link>
-        </div>
+      {/* 3 — The electric clock */}
+      <section className="mx-auto w-full max-w-[640px] px-6 pt-14">
+        <h2 className="font-serif text-2xl font-normal normal-case tracking-tight text-foreground">
+          Garnet is not maroon
+        </h2>
+        <p className="mt-4 text-base leading-relaxed text-foreground/85">
+          Garnet is a dark, slightly brown-toned red. Maroon is purple-toned. Burgundy is
+          darker still. Put them side by side in a gym and you can see it from the top row.
+          Most spirit wear is printed in whatever red the vendor already had loaded. It
+          looks close on a screen and wrong in person, and it fades a shade further with
+          every wash.
+        </p>
+        <p className="mt-4 text-base leading-relaxed text-foreground/85">
+          The color on these kits is dyed into the fibre on a Merchize sublimation blank —
+          not printed on top as a transfer that can crack or peel. One matched garnet
+          (#5A1626) across the whole Bayonne store. A crew bought in October matches a
+          jersey ordered in April.
+        </p>
       </section>
 
-      {/* —— Place —— */}
-      <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0" aria-hidden>
+      {/* 4 — What it is */}
+      <section className="mx-auto w-full max-w-[640px] px-6 pt-12">
+        <h2 className="font-serif text-2xl font-normal normal-case tracking-tight text-foreground">
+          What you are ordering
+        </h2>
+        <p className="mt-4 text-base leading-relaxed text-foreground/85">
+          No Parade Team Customs makes custom sublimated kits for schools and clubs that
+          want a designed identity rather than a logo on a blank. This store is the Bayonne
+          Bees program store: Match kits with name and number, Training and Sideline pieces,
+          and Faithful wear for parents, alumni, and boosters — open year-round. The person
+          who designs the kit works from Bayonne and answers the phone.
+        </p>
+      </section>
+
+      {/* Product plate with caption */}
+      <figure className="mx-auto mt-10 w-full max-w-[640px] px-6">
+        <div className="overflow-hidden bg-[#e8e4e0]">
           <img
-            src={fieldHero}
-            alt=""
-            className="h-full w-full object-cover opacity-40"
+            src={jerseyFront}
+            alt="Match Jersey front — black V-neck, garnet field, BAYONNE chest band, bee crest"
+            className="mx-auto h-auto w-full object-contain"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
         </div>
-        <div className="relative z-10 mx-auto w-full max-w-[560px] px-6 py-16">
-          <p className="place-line">Bee Country</p>
-          <h2 className="mt-3 font-kit text-3xl tracking-wide text-bone">
-            The school has been on Avenue A since 1936.
-          </h2>
-          <div className="mt-6 space-y-4 text-base leading-relaxed text-bone/75">
-            <p>
-              Garnet is a dark, slightly brown-toned red. Maroon is purple-toned. Burgundy is
-              darker still. Put them side by side in a gym and you can see it from the top
-              row.
-            </p>
-            <p>
-              Most spirit wear is printed in whatever red the vendor already had loaded. It
-              looks close on a screen and wrong in person. We built this store so Bayonne
-              families stop settling for nearly-right.
-            </p>
-          </div>
-          <dl className="mt-10 grid grid-cols-3 gap-3 border-t border-bone/15 pt-8">
-            <div>
-              <dt className="place-line">Opened</dt>
-              <dd className="mt-2 font-kit text-2xl text-bone">1936</dd>
-            </div>
-            <div>
-              <dt className="place-line">Colors</dt>
-              <dd className="mt-2 font-kit text-2xl text-bone">Garnet</dd>
-            </div>
-            <div>
-              <dt className="place-line">County</dt>
-              <dd className="mt-2 font-kit text-2xl text-bone">Hudson</dd>
-            </div>
-          </dl>
-        </div>
+        <figcaption className="mt-3 text-sm leading-snug text-muted-foreground">
+          Match Jersey, ${jersey.price}. Name and number on the back — printed with the
+          garment, not heat-pressed after. Sizes adult 2XS–3XL. Studio mockup of the Merchize
+          V-neck blank.
+        </figcaption>
+      </figure>
+
+      {/* 5 — Process */}
+      <section className="mx-auto w-full max-w-[640px] px-6 pt-14">
+        <h2 className="font-serif text-2xl font-normal normal-case tracking-tight text-foreground">
+          How an order works
+        </h2>
+        <ol className="mt-6 list-decimal space-y-5 pl-5 text-base leading-relaxed text-foreground/85">
+          <li>
+            <span className="font-semibold text-foreground">Design here.</span> Pick the
+            piece, type the name and number, choose a size. The live preview updates as you
+            type — about two minutes for a Match jersey.
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Confirm spelling.</span> You
+            check a box that the name, number, and size are final. Custom kits are not
+            edited after checkout. That confirmation rides on the order.
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Checkout on Shopify.</span>{" "}
+            Payment runs on noparade-store.com. Nothing prints until the order is paid.
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Print and ship.</span> Art
+            follows the line properties on the order (name, number, size, font). Kits
+            typically ship about three weeks from approval once the listing is live on
+            Shopify.
+          </li>
+        </ol>
+        <p className="mt-6 text-base leading-relaxed text-foreground/85">
+          For new team programs outside this Bayonne store, a design proof is in your inbox
+          within 48 hours from the person who draws it.
+        </p>
       </section>
 
-      {/* —— Categories —— */}
-      <section className="relative overflow-hidden border-t border-bone/10 px-6 py-16">
-        <LiquidBackdrop intensity="soft" />
-        <div className="relative z-10 mx-auto w-full max-w-[560px]">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="place-line">How the store is built</p>
-              <ul className="mt-5 space-y-4 text-base text-bone/75">
-                <li>
-                  <span className="text-bone">Match</span> — what they wear when the whistle
-                  blows
-                </li>
-                <li>
-                  <span className="text-bone">Training</span> — before kickoff
-                </li>
-                <li>
-                  <span className="text-bone">Sideline</span> — coach, travel, November
-                </li>
-                <li>
-                  <span className="text-bone">Faithful</span> — parents, alumni, boosters; the
-                  year is the product
-                </li>
-              </ul>
-            </div>
-            <img
-              src={boxingBee}
-              alt=""
-              className="h-20 w-20 shrink-0 object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
-            />
-          </div>
-          <div className="mt-10 flex flex-col gap-3">
-            <Link
-              to="/team/$slug"
-              params={{ slug: kit.slug }}
-              hash="match"
-              className="label-caps inline-flex w-full items-center justify-center bg-bone px-6 py-4 text-black transition-opacity hover:opacity-90"
-            >
-              Shop Match — from ${LOWEST}
-            </Link>
-            <Link
-              to="/team/$slug"
-              params={{ slug: kit.slug }}
-              hash="sideline"
-              className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
-            >
-              Shop Sideline
-            </Link>
-          </div>
-          <p className="mt-8 text-center text-sm text-bone/45">No Parade F.C. · Bayonne, NJ</p>
-          <StoreCloseCountdown closesAt={kit.closesAt} className="mt-3 text-center" />
-        </div>
+      {/* 6 — Prices */}
+      <section className="mx-auto w-full max-w-[640px] px-6 pt-14">
+        <h2 className="font-serif text-2xl font-normal normal-case tracking-tight text-foreground">
+          Prices — stated openly
+        </h2>
+        <ul className="mt-6 space-y-2 text-base text-foreground/85">
+          <li>Match Jersey — ${jersey.price} (name and number included)</li>
+          <li>Match Shorts — ${shorts.price}</li>
+          <li>Full Kit Set — ${fullSet.price}</li>
+          <li>Other pieces from ${LOWEST} — listed on each product</li>
+        </ul>
+        <p className="mt-4 text-base leading-relaxed text-foreground/85">
+          Adult sizes 2XS to 3XL. Size chart gives chest and body length in inches. No
+          “contact us for a quote” on this store — the price you see is the price.
+        </p>
+        <Link
+          to="/team/$slug/$product"
+          params={{ slug: kit.slug, product: jersey.id }}
+          className="label-caps mt-6 inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
+        >
+          {CTA}
+        </Link>
+      </section>
+
+      {/* 7 — Objections as body copy, not accordion */}
+      <section className="mx-auto w-full max-w-[640px] px-6 pt-14">
+        <h2 className="font-serif text-2xl font-normal normal-case tracking-tight text-foreground">
+          Questions people ask before they spend the booster money
+        </h2>
+
+        <h3 className="mt-8 font-serif text-xl font-normal normal-case text-foreground">
+          What if a name is misspelled?
+        </h3>
+        <p className="mt-3 text-base leading-relaxed text-foreground/85">
+          You confirm spelling before checkout. Personalized items cannot be returned or
+          exchanged. If we print what you confirmed, that is the order. If we print something
+          other than what you confirmed, we make it right.
+        </p>
+
+        <h3 className="mt-8 font-serif text-xl font-normal normal-case text-foreground">
+          When does the store close?
+        </h3>
+        <p className="mt-3 text-base leading-relaxed text-foreground/85">
+          The Match roster window has a closing date so a team order actually finishes. The
+          Faithful tier — parents, alumni, boosters — stays open year-round. Closing the
+          whole program store when an alumnus finally clicks the link is the most expensive
+          kind of tidiness.
+        </p>
+
+        <h3 className="mt-8 font-serif text-xl font-normal normal-case text-foreground">
+          Is the preview a photograph of the finished shirt?
+        </h3>
+        <p className="mt-3 text-base leading-relaxed text-foreground/85">
+          No. You are looking at a studio mockup of the Merchize blank with Bayonne art
+          applied. Once real delivered kits are photographed in Bayonne, those photographs
+          replace the mockups on this page.
+        </p>
+
+        <h3 className="mt-8 font-serif text-xl font-normal normal-case text-foreground">
+          Who am I dealing with?
+        </h3>
+        <p className="mt-3 text-base leading-relaxed text-foreground/85">
+          A person in Bayonne who designs the kit and answers a text at nine at night —
+          not a national catalogue desk. That is the part a warehouse cannot copy.
+        </p>
+      </section>
+
+      {/* 8 — Founding season + Queen Bees (no invented testimonials) */}
+      <section className="mx-auto w-full max-w-[640px] px-6 pt-14 pb-4">
+        <h2 className="font-serif text-2xl font-normal normal-case tracking-tight text-foreground">
+          Founding season
+        </h2>
+        <p className="mt-4 text-base leading-relaxed text-foreground/85">
+          This is the founding season of the Bayonne Bees Team Customs store. There are no
+          invented testimonials. When coaches send real names and towns, those go here.
+        </p>
+        <p className="mt-4 text-base leading-relaxed text-foreground/85">
+          In 2024 the Hudson County champions answered to a name that lived only in speech.
+          Queen Bees. There was no mark. So we drew the crest. The files are theirs if they
+          want them.
+        </p>
+        <figure className="mt-8 overflow-hidden bg-[var(--garnet)]">
+          <img
+            src={queenCrest}
+            alt="Queen Bees crest drawn for Bayonne — boxing bee with crown"
+            className="mx-auto h-auto w-full max-w-sm object-contain"
+          />
+          <figcaption className="bg-[var(--bone)] px-1 pt-3 text-sm leading-snug text-muted-foreground">
+            Queen Bees crest, drawn in Bayonne for a name that already existed in speech.
+            No Parade F.C.
+          </figcaption>
+        </figure>
+      </section>
+
+      {/* 9 — Single CTA, same words */}
+      <section className="mx-auto w-full max-w-[640px] px-6 py-14">
+        <Link
+          to="/team/$slug/$product"
+          params={{ slug: kit.slug, product: jersey.id }}
+          className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-opacity hover:opacity-90"
+        >
+          {CTA}
+        </Link>
+        <Link
+          to="/team/$slug"
+          params={{ slug: kit.slug }}
+          className="label-caps mt-3 inline-flex w-full items-center justify-center border border-foreground/25 px-6 py-4 text-foreground transition-colors hover:border-foreground"
+        >
+          Browse the Bayonne store
+        </Link>
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          No Parade F.C. · Bayonne, NJ · 669 Avenue A since 1936
+        </p>
       </section>
     </main>
   );

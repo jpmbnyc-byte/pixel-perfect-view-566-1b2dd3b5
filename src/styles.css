@@ -76,6 +76,8 @@
   --font-display: "Forge", "Barlow Condensed", system-ui, sans-serif;
   --font-sans: "Barlow Condensed", system-ui, sans-serif;
   --font-kit: "Forge", "Barlow Condensed", sans-serif;
+  /* Selling pages — Ogilvy legibility (serif body) */
+  --font-serif: "Source Serif 4", "Georgia", "Times New Roman", serif;
 }
 
 :root {
@@ -167,6 +169,10 @@
   letter-spacing: 0.18em;
   font-size: 0.6875rem;
   line-height: 1.2;
+}
+
+@utility font-serif {
+  font-family: var(--font-serif);
 }
 
 @utility rule-gold {

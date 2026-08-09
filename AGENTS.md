@@ -15,3 +15,10 @@ Before any design, copy, commerce, or engine decision, follow
 [`docs/THE_SYSTEM.md`](docs/THE_SYSTEM.md) (also always-applied as
 `.cursor/rules/no-parade-fc-system.mdc`). When a specific instruction is missing,
 decide from those principles rather than asking.
+
+## Selling copy and layout
+
+Customer-facing Team Customs copy, headlines, and selling-page layout follow
+[`docs/OGILVY_DISCIPLINE.md`](docs/OGILVY_DISCIPLINE.md)
+(`.cursor/rules/ogilvy-discipline.mdc`). Selling pages are light and long; brand
+world stays dark and short.
