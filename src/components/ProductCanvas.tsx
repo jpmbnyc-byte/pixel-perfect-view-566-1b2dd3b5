@@ -42,7 +42,7 @@ export function ProductCanvas({
 }: Props) {
   const font = fontById(fontId)!;
   const src = view === "front" ? frontSrc : secondarySrc;
-  const displayName = (name || "NAME").slice(0, 12).toUpperCase();
+  const displayName = (name || "MOREAU").slice(0, 12).toUpperCase();
   const displayNumber = number || "00";
   const blackout = lettering.surface === "blackout";
   const nameShadow = blackout
@@ -111,7 +111,7 @@ export function ProductCanvas({
       )}
 
       <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
-        {productLabel} · {view} · {motif}
+        {productLabel} · {view}
         {blackout && view === "back" ? " · blackout" : ""} · live preview
       </figcaption>
     </figure>

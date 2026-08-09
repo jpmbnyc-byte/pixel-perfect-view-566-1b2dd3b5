@@ -6,7 +6,6 @@ import {
   FONTS,
   HAT_SIZE_CHART,
   HAT_SIZES,
-  MOTIFS,
   fontsStylesheetHref,
   fontById,
   letteringFor,
@@ -16,6 +15,9 @@ import {
   type HatSize,
   type MotifId,
 } from "@/lib/catalog";
+
+/** Kit default — motif is not customer-selectable on the PDP */
+const KIT_MOTIF: MotifId = "chevron";
 import {
   SIZES,
   SIZE_CHART,
@@ -73,7 +75,6 @@ function ProductListingPage() {
   const [view, setView] = useState<CanvasView>(
     product.previewPair === "front-side" ? "side" : product.nameNumber ? "back" : "front",
   );
-  const [motif, setMotif] = useState<MotifId>("chevron");
   const [fontId, setFontId] = useState<FontId>("forge");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -104,10 +105,10 @@ function ProductListingPage() {
     if (product.nameNumber && (name || number)) setView("back");
   }, [product.nameNumber, name, number]);
 
-  // Flip to side when choosing motif on shorts / sweats / hat.
+  // Motif pieces open on the side view (print lives on the panel).
   useEffect(() => {
     if (product.previewPair === "front-side") setView("side");
-  }, [product.previewPair, motif]);
+  }, [product.previewPair]);
 
   const numberValue = Number(number);
   const numberValid =
@@ -133,7 +134,7 @@ function ProductListingPage() {
       if (!confirmed) {
         return {
           kind: "step",
-          label: usesTypography ? "Confirm spelling & size" : "Confirm motif & size",
+          label: usesTypography ? "Confirm spelling & size" : "Confirm size",
         };
       }
       return { kind: "sync", label: "Checkout opening soon" };
@@ -150,7 +151,7 @@ function ProductListingPage() {
     if (!confirmed) {
       return {
         kind: "step",
-        label: usesTypography ? "Confirm spelling & size" : "Confirm motif & size",
+        label: usesTypography ? "Confirm spelling & size" : "Confirm size",
       };
     }
     return { kind: "ready", label: `Checkout · $${product.price}` };
@@ -172,7 +173,7 @@ function ProductListingPage() {
       kit: kit.slug,
       product: product.id,
       handle: product.handle,
-      motif,
+      motif: KIT_MOTIF,
       font: usesTypography ? fontId : null,
       name: usesTypography ? name : "",
       number: usesTypography ? number : "",
@@ -194,7 +195,6 @@ function ProductListingPage() {
     kit,
     product,
     shopifyItem,
-    motif,
     fontId,
     name,
     number,
@@ -253,8 +253,8 @@ function ProductListingPage() {
           ) : (
             <>
               <p>
-                The geometric language lives on the side — switch to the side view to see the
-                motif you pick. No name, number, or lettering on this piece.
+                The geometric language lives on the side panel. No name, number, or lettering
+                on this piece.
               </p>
               <p className="text-muted-foreground">
                 Same Bayonne garnet as the match strip. Nothing prints until you order.
@@ -286,7 +286,7 @@ function ProductListingPage() {
           view={view}
           frontSrc={product.previews.front}
           secondarySrc={product.previews.secondary}
-          motif={motif}
+          motif={KIT_MOTIF}
           fontId={fontId}
           name={name}
           number={number}
@@ -295,42 +295,6 @@ function ProductListingPage() {
           emphasizeMotif={product.previewPair === "front-side"}
           lettering={lettering}
         />
-        {product.previewPair === "front-side" && (
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            Side view: geometric print inked into the panel (sublimated, not a sticker).
-          </p>
-        )}
-      </section>
-
-      <section className="mt-8 px-5">
-        <Field
-          label="Geometric motif"
-          hint="Live preview updates when you pick one"
-        >
-          <div className="grid grid-cols-3 gap-2">
-            {MOTIFS.map((m) => {
-              const on = motif === m.id;
-              return (
-                <button
-                  key={m.id}
-                  type="button"
-                  onClick={() => setMotif(m.id)}
-                  className={`border p-2 text-left transition-colors ${
-                    on
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-card hover:bg-secondary"
-                  }`}
-                >
-                  <MotifSwatch id={m.id} active={on} />
-                  <span className="label-caps mt-2 block">{m.label}</span>
-                </button>
-              );
-            })}
-          </div>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {MOTIFS.find((m) => m.id === motif)?.description}
-          </p>
-        </Field>
       </section>
 
       {usesTypography && (
@@ -373,7 +337,7 @@ function ProductListingPage() {
               <input
                 value={name}
                 onChange={(e) => setName(sanitizeName(e.target.value, kit.rules.nameMaxChars))}
-                placeholder="SAINT-PIERRE"
+                placeholder="MOREAU"
                 className="w-full border-b border-input bg-transparent pb-2 text-3xl tracking-wide outline-none placeholder:text-muted-foreground/50 focus:border-ring"
                 style={{ fontFamily: font.cssFamily }}
               />
@@ -505,7 +469,7 @@ function ProductListingPage() {
           <span>
             {usesTypography
               ? "I’ve double-checked the spelling, number, and size. Custom kits can’t be edited after checkout."
-              : "I’ve double-checked the motif and size. Custom pieces can’t be edited after checkout."}
+              : "I’ve double-checked the size. Custom pieces can’t be edited after checkout."}
           </span>
         </label>
 
@@ -523,11 +487,7 @@ function ProductListingPage() {
           <input type="hidden" name="properties[Team]" value={kit.teamName} />
           <input type="hidden" name="properties[Collection]" value="Team Customs" />
           <input type="hidden" name="properties[Product]" value={product.name} />
-          <input
-            type="hidden"
-            name="properties[Motif]"
-            value={MOTIFS.find((m) => m.id === motif)?.label ?? motif}
-          />
+          <input type="hidden" name="properties[Motif]" value="Chevron" />
           {usesTypography && <input type="hidden" name="properties[Font]" value={font.label} />}
           {usesTypography && <input type="hidden" name="properties[Name]" value={name} />}
           {usesTypography && <input type="hidden" name="properties[Number]" value={number} />}
@@ -575,24 +535,6 @@ function SyncNote({ sync, hasShopifyItem }: { sync: ShopifySyncStatus; hasShopif
     <p className="mt-4 text-center text-sm text-muted-foreground">
       Core kit sizes are still syncing to noparade-store.com. You can finish the design now.
     </p>
-  );
-}
-
-function MotifSwatch({ id, active }: { id: MotifId; active: boolean }) {
-  const fill =
-    id === "chevron"
-      ? "repeating-linear-gradient(-28deg,#5A1626 0 10px,#0A0A0A 10px 20px,#F4F1F0 20px 22px,#5A1626 22px 32px)"
-      : id === "grid"
-        ? "linear-gradient(#F4F1F022 1px,transparent 1px),linear-gradient(90deg,#F4F1F022 1px,transparent 1px),#5A1626"
-        : "radial-gradient(120% 80% at 0% 100%,#0A0A0A 0%,transparent 55%),#5A1626";
-  return (
-    <div
-      className={`h-12 w-full border ${active ? "border-bone/40" : "border-border"}`}
-      style={{
-        backgroundImage: fill,
-        backgroundSize: id === "grid" ? "8px 8px, 8px 8px, auto" : undefined,
-      }}
-    />
   );
 }
 

@@ -182,8 +182,8 @@ function TeamStorePage() {
                         ? "Personalize"
                         : "Choose font"
                       : p.previewPair === "front-side"
-                        ? "Front + side · motif"
-                        : "Choose motif"}{" "}
+                        ? "Front + side"
+                        : "Customize"}{" "}
                     · ${p.price} →
                   </p>
                 </div>
