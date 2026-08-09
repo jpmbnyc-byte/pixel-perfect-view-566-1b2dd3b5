@@ -59,19 +59,21 @@ Collection: **Team Customs**
 Tags (all): `team-customs`, `bayonne-bees`  
 Extra tag when customizable: `custom-name-number`
 
-| # | Shopify handle | Blank (from assortment) | Tier | Custom Name/Number | Configurator item |
+| # | Shopify handle | Merchize blank (printable) | Tier | Custom Name/Number | Configurator item |
 |---|---|---|---|---|---|
-| 1 | `bayonne-bees-jersey` | AOP / soccer V-neck short-sleeve jersey | **Core** | Yes — back | `top` |
-| 2 | `bayonne-bees-shorts` | Matching athletic shorts | **Core** | No — motif on side only | `bottom` |
-| 3 | `bayonne-bees-full-set` | Jersey + shorts set (or bundle) | **Core** | Yes — jersey | `set` |
-| 4 | `bayonne-bees-hoops-jersey` | Basketball sleeveless jersey tank | Spirit | Yes — chest/back | — |
-| 5 | `bayonne-bees-jersey-dress` | Basketball jersey dress (one-piece) | Spirit | Yes — back | — |
-| 6 | `bayonne-bees-aop-hat` | AOP baseball / dad hat | Spirit | No — motif + crest | — |
-| 7 | `bayonne-bees-crewneck` | AOP crewneck sweatshirt | Warm-up | No — motif on side panels | — |
-| 8 | `bayonne-bees-ls-jersey` | Long-sleeve V-neck athletic jersey | Warm-up | Script front + Name/# back | — |
-| 9 | `bayonne-bees-quarter-zip` | Quarter-zip pullover | Warm-up | Chest crest only | — |
-| 10 | `bayonne-bees-sweatpants` | Black base + garnet side-panel sweats | Warm-up | No — motif on side only | — |
-| 11 | `bayonne-bees-geo-shorts` | AOP geometric lifestyle shorts | Separate | No — motif on side only | — |
+| 1 | `bayonne-bees-jersey` | AOP V-neck Short Sleeve Jersey (`VSSJVN`) — dye-sub + DTF crest | **Core** | Yes — back | `top` |
+| 2 | `bayonne-bees-shorts` | AOP Soccer Jersey Shorts — dye-sub | **Core** | No — side geo | `bottom` |
+| 3 | `bayonne-bees-full-set` | AOP Soccer Jersey Set (`SJSEVN`) — dye-sub + DTF crest | **Core** | Yes — jersey | `set` |
+| 4 | `bayonne-bees-hoops-jersey` | AOP Sleeveless Jersey Tank — dye-sub + DTF crest | Spirit | Yes — back | — |
+| 5 | `bayonne-bees-jersey-dress` | AOP Hoodie Dress (closest dress blank) — dye-sub | Spirit | Yes — back | — |
+| 6 | `bayonne-bees-aop-hat` | AOP Baseball Cap — crown dye-sub + DTF crest | Spirit | No — fixed art | — |
+| 7 | `bayonne-bees-crewneck` | AOP crew / sweatshirt blank — dye-sub + DTF crest | Warm-up | No — side geo | — |
+| 8 | `bayonne-bees-ls-jersey` | AOP long-sleeve jersey blank — dye-sub + DTF | Warm-up | Yes — back | — |
+| 9 | `bayonne-bees-quarter-zip` | AOP Long Sleeve 1/4 Zip Jersey — dye-sub + DTF crest | Warm-up | Chest crest only | — |
+| 10 | `bayonne-bees-sweatpants` | AOP Sweatpants — dye-sub | Warm-up | No — side geo | — |
+| 11 | `bayonne-bees-geo-shorts` | AOP Sports / Jersey Shorts — dye-sub | Alumni | No — side geo | — |
+
+**Image rule:** Category heroes and PDP live views share the same preview file per garment. See `docs/MERCHIZE_BLANKS.md`.
 
 **PDP preview pairs**
 - Lettered tops → **front + back** (font + name/number UI)
