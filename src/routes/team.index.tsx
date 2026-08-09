@@ -11,7 +11,7 @@ export const Route = createFileRoute("/team/")({
     const title =
       "Bayonne has worn garnet and white since 1936. Most sweatshirts get the color wrong. | No Parade F.C.";
     const description =
-      "Every garment is specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Match kit from $34. Personalize and checkout. No Parade F.C., Bayonne, NJ.";
+      "Every garment is specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Type a name and number. See it before you pay. No Parade F.C., Bayonne, NJ.";
     return {
       meta: [
         { title },
@@ -67,30 +67,29 @@ function TeamLanding() {
               params={{ slug: kit.slug, product: jersey.id }}
               className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
             >
-              Shop Match jersey · ${jersey.price}
+              Put a name on the Match jersey · ${jersey.price}
             </Link>
             <Link
               to="/team/$slug"
               params={{ slug: kit.slug }}
               className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
             >
-              Browse the Bayonne store — from ${LOWEST}
+              Open the Bayonne store — from ${LOWEST}
             </Link>
             <StoreCloseCountdown closesAt={kit.closesAt} />
           </div>
         </div>
       </section>
 
-      {/* Fast path — most families start here */}
       <section className="border-t border-bone/10 bg-[#12090b] px-6 py-12">
         <div className="mx-auto w-full max-w-[560px]">
-          <p className="label-caps text-bone/50">Start here</p>
+          <p className="label-caps text-bone/50">The usual order</p>
           <h2 className="mt-3 font-kit text-3xl tracking-wide text-bone">
-            Most families begin with the Match jersey.
+            Type the name. Type the number. See both on the back before you pay.
           </h2>
           <p className="mt-3 text-base leading-relaxed text-bone/70">
-            Collar says BAYONNE. Name and number on the back — you type them; we print them.
-            Preview before you pay.
+            The Match jersey is where most families start. Black V-neck. Garnet field. BAYONNE
+            across the chest. Your lettering on the back — live preview, then checkout.
           </p>
           <div className="mt-6 flex flex-col gap-3">
             <Link
@@ -105,13 +104,12 @@ function TeamLanding() {
               params={{ slug: kit.slug, product: fullSet.id }}
               className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
             >
-              Jersey + shorts · ${fullSet.price}
+              Jersey + shorts together · ${fullSet.price}
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Long body — interested people read */}
       <section id="why-garnet" className="border-t border-bone/10 bg-[#0c0809] px-6 py-16">
         <div className="mx-auto w-full max-w-[560px] space-y-5 text-base leading-relaxed text-bone/75">
           <p>
@@ -124,8 +122,7 @@ function TeamLanding() {
             every wash.
           </p>
           <p>
-            We built this store to fix a small problem that has annoyed Bayonne parents for a
-            long time.
+            We built this store so Bayonne parents stop settling for nearly the right red.
           </p>
 
           <h2 className="pt-4 font-kit text-3xl tracking-wide text-bone">
@@ -133,11 +130,12 @@ function TeamLanding() {
           </h2>
           <ol className="list-decimal space-y-4 pl-5">
             <li>
-              Live preview of your name and number on the jersey before you pay.
+              You see the name and number on the jersey before you pay. If the spelling is
+              wrong, you catch it here — not in a box three weeks later.
             </li>
             <li>
-              Every garment is specified in one matched garnet across the whole store. A crew
-              bought in October matches a jersey ordered in April.
+              One matched garnet across the whole store. A crew bought in October matches a
+              jersey ordered in April.
             </li>
             <li>
               Nothing is printed until you order it. There is no back room of unsold XLs.
@@ -147,7 +145,7 @@ function TeamLanding() {
               small.”
             </li>
             <li>
-              Checkout on a secure cart at{" "}
+              You design the piece here. Checkout finishes on a secure cart at{" "}
               <a
                 href="https://noparade-store.com"
                 className="text-bone underline underline-offset-4"
@@ -156,7 +154,7 @@ function TeamLanding() {
               >
                 noparade-store.com
               </a>
-              . You design the piece here first.
+              .
             </li>
           </ol>
           <p className="pt-2">
@@ -180,23 +178,21 @@ function TeamLanding() {
         <div className="mx-auto w-full max-w-[560px]">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="label-caps text-bone/50">Categories</p>
+              <p className="label-caps text-bone/50">Four shelves</p>
               <ul className="mt-4 space-y-3 text-base text-bone/75">
                 <li>
-                  <span className="text-bone">Match</span> — what they wear when the whistle
-                  blows
+                  <span className="text-bone">Match</span> — jersey, shorts, full kit
                 </li>
                 <li>
-                  <span className="text-bone">Sideline</span> — for standing outside in
+                  <span className="text-bone">Sideline</span> — dresses, hoops, hats for
                   November
                 </li>
                 <li>
-                  <span className="text-bone">Warmups</span> — what the team wears before the
-                  whistle
+                  <span className="text-bone">Warmups</span> — long sleeve, quarter-zip,
+                  sweats
                 </li>
                 <li>
-                  <span className="text-bone">Alumni</span> — the years are on the sleeve, or
-                  the collar
+                  <span className="text-bone">Alumni</span> — 1936 crew and off-field shorts
                 </li>
               </ul>
             </div>

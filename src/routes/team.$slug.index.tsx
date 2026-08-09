@@ -46,8 +46,8 @@ function TeamStorePage() {
             <h1 className="mt-2 text-4xl leading-none tracking-tight">Bayonne store</h1>
             <p className="label-caps mt-1 text-muted-foreground">{kit.colorway.name}</p>
             <p className="mt-2 max-w-sm text-base leading-snug text-muted-foreground">
-              Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Printed when
-              you order.
+              Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Nothing prints
+              until you order it.
             </p>
           </div>
           <img src={logo} alt="" className="mt-1 h-14 w-14 shrink-0 object-contain" />
@@ -69,20 +69,20 @@ function TeamStorePage() {
 
       {!catalogReady && (
         <div className="border-b border-border bg-secondary/60 px-5 py-3 text-sm leading-snug text-muted-foreground">
-          You can design every piece now. Secure checkout opens when listings finish syncing
-          to <span className="text-foreground">noparade-store.com</span>.
+          Design every piece now. Secure checkout opens when listings finish syncing to{" "}
+          <span className="text-foreground">noparade-store.com</span>.
         </div>
       )}
 
       {/* Conversion path: skip category browse → jersey PDP */}
       {featuredJersey && !closed && (
         <section className="border-b border-border bg-card px-5 py-5">
-          <p className="label-caps text-muted-foreground">Most ordered</p>
+          <p className="label-caps text-muted-foreground">Where most orders start</p>
           <div className="mt-2 flex items-start justify-between gap-3">
             <div>
               <h2 className="font-kit text-2xl tracking-wide">{featuredJersey.name}</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Name + number on the back · Live preview · ${featuredJersey.price}
+                Name and number on the back. See them before you pay. ${featuredJersey.price}
               </p>
             </div>
           </div>
@@ -91,7 +91,7 @@ function TeamStorePage() {
             params={{ slug: kit.slug, product: featuredJersey.id }}
             className="label-caps mt-4 inline-flex w-full items-center justify-center bg-primary py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
           >
-            Personalize Match jersey · ${featuredJersey.price}
+            Put a name on the jersey · ${featuredJersey.price}
           </Link>
         </section>
       )}
@@ -142,7 +142,8 @@ function TeamStorePage() {
 
       {category === "sideline" && (
         <p className="mt-4 px-5 text-sm leading-relaxed text-muted-foreground">
-          Sideline is for November. Same garnet as the match strip — dresses, hoops, hats.
+          Sideline is for November nights. Same garnet as the match strip — dresses, hoops,
+          hats.
         </p>
       )}
 
@@ -179,11 +180,11 @@ function TeamStorePage() {
                   <p className="label-caps mt-2 text-garnet">
                     {p.typography
                       ? p.nameNumber
-                        ? "Personalize"
+                        ? "Name + number"
                         : "Choose font"
                       : p.previewPair === "front-side"
                         ? "Front + side"
-                        : "Customize"}{" "}
+                        : "View"}{" "}
                     · ${p.price} →
                   </p>
                 </div>
@@ -196,13 +197,13 @@ function TeamStorePage() {
       <aside className="mx-5 mt-10 border-t border-border pt-6">
         <p className="label-caps text-muted-foreground">Queen Bees</p>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          The 2024 Hudson County champions have gone by Queen Bees for years. The crest was
-          drawn by hand in Bayonne and had never existed as a mark before.
+          The 2024 Hudson County champions have gone by Queen Bees for years. The crest for
+          that name was drawn by hand in Bayonne — it had never existed as a mark before.
         </p>
       </aside>
 
       <p className="mt-8 px-5 text-center text-sm text-muted-foreground">
-        Size chart uses inches. Nothing prints until you order.
+        Size chart in inches. Nothing prints until you order.
       </p>
     </main>
   );
