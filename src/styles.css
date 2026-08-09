@@ -72,6 +72,7 @@
   --color-bone: var(--bone);
   --color-maroon: var(--maroon);
   --color-garnet: var(--garnet);
+  --color-harbor: var(--harbor);
   --font-display: "Forge", "Barlow Condensed", system-ui, sans-serif;
   --font-sans: "Barlow Condensed", system-ui, sans-serif;
   --font-kit: "Forge", "Barlow Condensed", sans-serif;
@@ -106,6 +107,8 @@
   --bone: oklch(0.97 0.006 30);
   --garnet: oklch(0.34 0.12 18);
   --maroon: var(--garnet); /* alias — prefer garnet in new copy */
+  /* Kill van Kull / peninsula water — steel, not sky-blue */
+  --harbor: oklch(0.42 0.04 230);
 }
 
 .dark {
@@ -133,6 +136,7 @@
   --bone: oklch(0.97 0.006 30);
   --garnet: oklch(0.45 0.14 18);
   --maroon: var(--garnet);
+  --harbor: oklch(0.48 0.045 230);
 }
 
 @layer base {
@@ -226,4 +230,99 @@
 
 @utility animate-team-bee-pulse {
   animation: team-bee-pulse 4.5s ease-in-out infinite;
+}
+
+/* —— Liquid harbor field (Bayonne peninsula water) —— */
+.liquid-blob-a {
+  background: radial-gradient(
+    circle at 35% 40%,
+    color-mix(in oklab, var(--garnet) 85%, black) 0%,
+    color-mix(in oklab, var(--garnet) 40%, transparent) 55%,
+    transparent 72%
+  );
+}
+.liquid-blob-b {
+  background: radial-gradient(
+    circle at 60% 45%,
+    color-mix(in oklab, var(--harbor) 70%, black) 0%,
+    color-mix(in oklab, var(--harbor) 28%, transparent) 50%,
+    transparent 70%
+  );
+}
+.liquid-blob-c {
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in oklab, var(--garnet) 55%, var(--harbor)) 0%,
+    transparent 65%
+  );
+}
+
+@keyframes liquid-drift-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 4%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-3%, 7%, 0) scale(0.96);
+  }
+}
+
+@keyframes liquid-drift-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-8%, -3%, 0) scale(0.94);
+  }
+  100% {
+    transform: translate3d(4%, 5%, 0) scale(1.1);
+  }
+}
+
+@keyframes liquid-drift-c {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.98);
+  }
+  50% {
+    transform: translate3d(5%, -6%, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-6%, 2%, 0) scale(1);
+  }
+}
+
+@keyframes liquid-sheen {
+  0% {
+    background-position: 0% 40%;
+  }
+  100% {
+    background-position: 100% 60%;
+  }
+}
+
+@utility animate-liquid-drift-a {
+  animation: liquid-drift-a 18s ease-in-out infinite alternate;
+}
+
+@utility animate-liquid-drift-b {
+  animation: liquid-drift-b 22s ease-in-out infinite alternate;
+}
+
+@utility animate-liquid-drift-c {
+  animation: liquid-drift-c 26s ease-in-out infinite alternate;
+}
+
+@utility animate-liquid-sheen {
+  animation: liquid-sheen 14s ease-in-out infinite alternate;
+}
+
+@utility place-line {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.625rem;
+  line-height: 1.3;
+  color: color-mix(in oklab, var(--bone) 55%, transparent);
 }

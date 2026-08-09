@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type HTMLAttributes } from "react";
 
+import { LiquidBackdrop } from "@/components/LiquidBackdrop";
 import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
   FONTS,
@@ -230,20 +231,32 @@ function ProductListingPage() {
   };
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-[560px] bg-background pb-28 font-sans">
-      <header className="px-5 pb-2 pt-5">
+    <main className="relative mx-auto min-h-screen w-full max-w-[560px] overflow-hidden bg-background pb-28 font-sans">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] opacity-[0.55]" aria-hidden>
+        <LiquidBackdrop intensity="soft" />
+      </div>
+
+      <header className="relative z-10 px-5 pb-2 pt-5">
         <Link
           to="/team/$slug"
           params={{ slug: kit.slug }}
-          className="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+          className="place-line text-muted-foreground transition-colors hover:text-foreground"
         >
-          ← Bayonne store
+          ← Bayonne store · Avenue A
         </Link>
-        <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight">{product.name}</h1>
-        <p className="mt-1 text-base font-semibold tabular-nums">${product.price}</p>
+        <p className="label-caps mt-4 text-muted-foreground">
+          Bayonne Bees · {product.category === "match" ? "Match strip" : product.category}
+        </p>
+        <h1 className="mt-2 font-kit text-[clamp(1.85rem,7vw,2.5rem)] leading-none tracking-wide">
+          {product.name}
+        </h1>
+        <p className="mt-2 font-sans text-lg font-semibold tabular-nums text-garnet">
+          ${product.price}
+        </p>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{product.blurb}</p>
       </header>
 
+      <div className="relative z-10">
       {/* adiClub-style personalization — name + number only (no player presets) */}
       {product.nameNumber && (
         <section id="field-personalize" className="mt-6 px-5">
@@ -499,6 +512,7 @@ function ProductListingPage() {
 
         <SyncNote sync={sync} hasShopifyItem={Boolean(shopifyItem)} />
       </section>
+      </div>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-[560px] flex-col gap-1.5 px-5 py-3">
