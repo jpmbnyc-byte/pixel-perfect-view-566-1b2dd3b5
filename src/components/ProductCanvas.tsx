@@ -22,12 +22,12 @@ type Props = {
   lettering?: LetteringLayout;
 };
 
-/** Known right-ink bias (em) from OTF bearings — Forge is the worst offender. */
+/** Fallback right-ink bias (em) if canvas sampling fails — Forge has the worst bearings. */
 const FONT_INK_BIAS_EM: Record<string, number> = {
-  Forge: 0.14,
-  "Rail Cut": 0.03,
-  Beacon: 0.03,
-  Whistle: 0.03,
+  Forge: 0.06,
+  "Rail Cut": 0.02,
+  Beacon: 0.02,
+  Whistle: 0.02,
 };
 
 function fontBiasFallback(fontFamily: string) {
@@ -97,8 +97,8 @@ function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
       const inkMid = (inkLeft + inkRight) / 2;
       const layoutMid = pad + layoutW / 2;
       const measured = (inkMid - layoutMid) / fontSize;
-      // Blend with fallback so tiny measurement noise can't push numbers the wrong way
-      setBiasEm(Math.max(fallback * 0.5, measured));
+      // Use measured ink bias; only fall back when sampling failed upstream
+      setBiasEm(Number.isFinite(measured) ? measured : fallback);
     };
 
     const run = () => {

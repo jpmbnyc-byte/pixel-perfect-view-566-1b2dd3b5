@@ -240,7 +240,7 @@ export const PRODUCTS: CatalogProduct[] = [
     /** Back uses Match jersey plate — same spine center as jersey */
     lettering: {
       ...LETTERING,
-      centerX: 46.5,
+      centerX: 47,
       name: { ...LETTERING.name, y: 16 },
       number: { ...LETTERING.number, y: 28 },
     },
@@ -276,7 +276,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: { ...LETTERING, centerX: 47 },
+    lettering: { ...LETTERING, centerX: 49.5 },
     thumb: dressFront,
     previews: { front: dressFront, secondary: dressBack },
   },
@@ -337,7 +337,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: { ...LETTERING, centerX: 45 },
+    lettering: { ...LETTERING, centerX: 50 },
     thumb: lsFront,
     previews: { front: lsFront, secondary: lsBack },
   },
