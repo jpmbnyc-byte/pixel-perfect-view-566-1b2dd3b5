@@ -140,22 +140,26 @@ export function ProductCanvas({
   const displayName = (name || "CARTER").slice(0, 12).toUpperCase();
   const displayNumber = number || "00";
   const blackout = lettering.surface === "blackout";
+  // Dark rim for contrast on fabric; white stroke (below) adds weight/girth to single-weight OTFs
   const nameShadow = blackout
-    ? "0 0 2px #000, 0 1px 0 #000, 0 0 12px rgba(0,0,0,0.85)"
-    : "0 1px 0 #0a0a0a, 0 0 8px rgba(0,0,0,0.45)";
+    ? "0 0 2px #000, 0 1px 0 #000, 0 0 14px rgba(0,0,0,0.9)"
+    : "0 1px 0 #0a0a0a, 0 0 10px rgba(0,0,0,0.55)";
   const numberShadow = blackout
-    ? "0 0 3px #000, 0 2px 0 #000, 0 0 18px rgba(0,0,0,0.9)"
-    : "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)";
+    ? "0 0 3px #000, 0 2px 0 #000, 0 0 20px rgba(0,0,0,0.95)"
+    : "0 2px 0 #0a0a0a, 0 0 16px rgba(0,0,0,0.5)";
   // Single-line name bar: shrink long names to fit width (never wrap to two rows)
   const nameChars = Math.max(displayName.replace(/\s/g, "").length, 1);
   const nameFit = Math.min(1, 6.5 / nameChars);
-  const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
+  const nameTracking = nameChars >= 10 ? "0.03em" : nameChars >= 7 ? "0.06em" : "0.1em";
   // Kit OTFs (esp. Forge) have right-biased ink vs advance — nudge so glyph ink hits the spine
   const nameInkBiasEm = useInkBiasEm(displayName, font.cssFamily, nameTracking);
   const numberInkBiasEm =
     useInkBiasEm(displayNumber, font.cssFamily, "0") +
     // Narrow single digits (1, 7) still read right-heavy after ink correction
     (displayNumber.length === 1 ? 0.05 : 0);
+  // Fake-bold: same-color stroke fattens glyph stems (OTFs are single weight)
+  const nameStroke = blackout ? "0.055em #fff" : "0.05em #fff";
+  const numberStroke = blackout ? "0.07em #fff" : "0.065em #fff";
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"
@@ -177,17 +181,19 @@ export function ProductCanvas({
             style={{
               top: `${lettering.name.y}%`,
               left: `${lettering.centerX}%`,
-              transform: `translateX(calc(-50% - ${nameInkBiasEm}em)) scale(${nameFit})`,
+              transform: `translateX(calc(-50% - ${nameInkBiasEm}em)) scale(${nameFit}) scaleX(1.06)`,
               transformOrigin: "center center",
               width: `${lettering.name.maxWidthPct}%`,
               height: `${lettering.name.heightPct}%`,
               fontFamily: font.cssFamily,
-              fontSize: `calc(${lettering.name.heightPct} * 0.9cqh)`,
+              fontSize: `calc(${lettering.name.heightPct} * 0.95cqh)`,
+              fontWeight: 700,
               letterSpacing: nameTracking,
               lineHeight: 1,
               overflow: "hidden",
               textShadow: nameShadow,
-              WebkitTextStroke: blackout ? "0.4px rgba(0,0,0,0.55)" : undefined,
+              WebkitTextStroke: nameStroke,
+              paintOrder: "stroke fill",
             }}
           >
             {displayName}
@@ -198,14 +204,16 @@ export function ProductCanvas({
               top: `${lettering.number.y}%`,
               left: `${lettering.centerX}%`,
               // Fit box to glyphs (not a wide % slot) so -50% lands on the digit cluster
-              transform: `translateX(calc(-50% - ${numberInkBiasEm}em))`,
+              transform: `translateX(calc(-50% - ${numberInkBiasEm}em)) scaleX(1.08)`,
               width: "max-content",
               maxWidth: `${lettering.number.maxWidthPct}%`,
               height: `${lettering.number.heightPct}%`,
               fontFamily: font.cssFamily,
-              fontSize: `calc(${lettering.number.heightPct} * 0.88cqh)`,
+              fontSize: `calc(${lettering.number.heightPct} * 0.94cqh)`,
+              fontWeight: 700,
               textShadow: numberShadow,
-              WebkitTextStroke: blackout ? "0.6px rgba(0,0,0,0.65)" : undefined,
+              WebkitTextStroke: numberStroke,
+              paintOrder: "stroke fill",
             }}
           >
             {displayNumber}

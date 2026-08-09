@@ -361,7 +361,14 @@ function ProductListingPage() {
                   </span>
                   <span
                     className="mt-1 block text-2xl tracking-wide"
-                    style={{ fontFamily: f.cssFamily }}
+                    style={{
+                      fontFamily: f.cssFamily,
+                      fontWeight: 700,
+                      WebkitTextStroke: on ? "0.04em currentColor" : "0.035em currentColor",
+                      paintOrder: "stroke fill",
+                      transform: "scaleX(1.06)",
+                      transformOrigin: "left center",
+                    }}
                   >
                     {f.sample}
                   </span>
@@ -567,8 +574,12 @@ function OutlinedField({
         inputMode={inputMode}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full flex-1 bg-transparent text-2xl font-semibold uppercase tracking-wide outline-none placeholder:text-muted-foreground/45"
-        style={{ fontFamily }}
+        className="w-full flex-1 bg-transparent text-2xl font-bold uppercase tracking-wide outline-none placeholder:text-muted-foreground/45"
+        style={{
+          fontFamily,
+          WebkitTextStroke: fontFamily ? "0.03em currentColor" : undefined,
+          paintOrder: fontFamily ? "stroke fill" : undefined,
+        }}
         autoComplete="off"
         spellCheck={false}
       />
