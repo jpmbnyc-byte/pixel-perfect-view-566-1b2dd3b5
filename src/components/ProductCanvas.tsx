@@ -42,7 +42,7 @@ export function ProductCanvas({
 }: Props) {
   const font = fontById(fontId)!;
   const src = view === "front" ? frontSrc : secondarySrc;
-  const displayName = (name || "MOREAU").slice(0, 12).toUpperCase();
+  const displayName = (name || "CARTER").slice(0, 12).toUpperCase();
   const displayNumber = number || "00";
   const blackout = lettering.surface === "blackout";
   const nameShadow = blackout
