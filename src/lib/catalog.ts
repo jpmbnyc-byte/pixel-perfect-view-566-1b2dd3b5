@@ -11,13 +11,11 @@
 import type { Item, LetteringLayout } from "./kit";
 import { LETTERING } from "./kit";
 
-/* Category heroes — do not regenerate; campaign stills only */
-import heroKit from "@/assets/bayonne/heroes/hero-kit-studio.jpg";
-import heroSpirit from "@/assets/bayonne/heroes/hero-spirit-football.jpg";
-import heroCrew from "@/assets/bayonne/heroes/hero-crewneck-studio.jpg";
-import heroField from "@/assets/bayonne/heroes/hero-field-lifestyle.jpg";
-
-/* Photoreal PDP detail shots */
+/*
+ * Merchize-printable plates (dye-sublimation AOP + flat DTF crests).
+ * Heroes and live PDP views MUST share the same module — identical match.
+ * Blank map: docs/MERCHIZE_BLANKS.md
+ */
 import jerseyFront from "@/assets/bayonne/previews/jersey-front.jpg";
 import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
 import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
@@ -94,25 +92,29 @@ export const CATEGORIES: Category[] = [
     id: "match",
     label: "Match",
     description: "What they wear when the whistle blows.",
-    hero: heroKit,
+    /** Identical to Match Jersey live preview */
+    hero: jerseyFront,
   },
   {
     id: "sideline",
     label: "Sideline",
     description: "For standing outside in November.",
-    hero: heroSpirit,
+    /** Identical to Hoops Jersey live preview */
+    hero: hoopsFront,
   },
   {
     id: "warmups",
     label: "Warmups",
     description: "What the team wears before the whistle.",
-    hero: heroCrew,
+    /** Identical to 1936 Crewneck live preview */
+    hero: crewFront,
   },
   {
     id: "alumni",
     label: "Alumni",
     description: "The years are on the sleeve, or the collar.",
-    hero: heroField,
+    /** Identical to Alumni Shorts live preview */
+    hero: geoShortsFront,
   },
 ];
 

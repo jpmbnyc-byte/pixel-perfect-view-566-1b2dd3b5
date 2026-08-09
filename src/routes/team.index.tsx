@@ -1,14 +1,16 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import landingHero from "@/assets/bayonne/heroes/hero-landing.jpg";
-import fieldHero from "@/assets/bayonne/heroes/hero-field-lifestyle.jpg";
-import jerseyFront from "@/assets/bayonne/previews/jersey-front.jpg";
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import { LiquidBackdrop } from "@/components/LiquidBackdrop";
 import { RevealCarousel } from "@/components/RevealCarousel";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
+
+/** Landing hero + kit plate = Full Kit / Match Jersey live plates (identical match). */
+const landingHero = productById("full-set")!.thumb;
+const jerseyFront = productById("jersey")!.thumb;
+const fieldHero = productById("geo-shorts")!.thumb;
 
 export const Route = createFileRoute("/team/")({
   head: () => {
