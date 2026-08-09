@@ -48,7 +48,7 @@ Store (/team/bayonne-bees)
 | Control | Options |
 |---|---|
 | Base layer | Single maroon field (always on) |
-| Geometric motif | No overlay · Chevron · Grid · Arc Panel |
+| Geometric motif | Chevron · Grid · Arc Panel |
 | Lettering font | Rail Cut · Beacon · Whistle · Forge (local OTF) |
 
 ---

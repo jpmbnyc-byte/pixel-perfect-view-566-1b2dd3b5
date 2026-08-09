@@ -51,30 +51,19 @@ export function ProductCanvas({
   const numberShadow = blackout
     ? "0 0 3px #000, 0 2px 0 #000, 0 0 18px rgba(0,0,0,0.9)"
     : "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)";
-  const bakeMotif = motif !== "none";
-
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"
       style={{ containerType: "size" }}
     >
-      {bakeMotif ? (
-        <SublimatedPreview
-          key={`${motif}-${view}-${src}`}
-          motif={motif}
-          view={view}
-          emphasize={emphasizeMotif}
-          garmentSrc={src}
-          label={`${productLabel}, ${view} view`}
-        />
-      ) : (
-        <img
-          src={src}
-          alt={`${productLabel}, ${view} view`}
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          draggable={false}
-        />
-      )}
+      <SublimatedPreview
+        key={`${motif}-${view}-${src}`}
+        motif={motif}
+        view={view}
+        emphasize={emphasizeMotif}
+        garmentSrc={src}
+        label={`${productLabel}, ${view} view`}
+      />
 
       {view === "back" && showLettering && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -115,7 +104,7 @@ export function ProductCanvas({
       )}
 
       <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
-        {productLabel} · {view} · {motif === "none" ? "no motif" : motif}
+        {productLabel} · {view} · {motif}
         {blackout && view === "back" ? " · blackout" : ""} · live preview
       </figcaption>
     </figure>
