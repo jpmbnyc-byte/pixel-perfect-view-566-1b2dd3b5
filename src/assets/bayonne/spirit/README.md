@@ -4,7 +4,8 @@ Football / sideline energy for Bayonne Team Customs — not the whole site story
 
 | Asset | Use |
 |---|---|
-| `boxing-bee.png` | Boxing bee mark (store header, landing Spirit) |
+| `boxing-bee.png` | Boxing bee mark — high-res (landing + store headers) |
+| `boxing-bee-mark.png` | Compact 512px mark for tight UI slots |
 | `../heroes/hero-spirit-football.jpg` | Spirit category hero |
 | `../heroes/hero-spirit-stadium.jpg` | Alternate stadium spirit still |
 | `../heroes/hero-landing.jpg` | Universal Team Customs landing hero (current kit) |

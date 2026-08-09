@@ -194,7 +194,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-jersey",
     name: "Match Jersey",
     blurb:
-      "Black V-neck. Solid garnet sleeves — no cuff bands. Black chest panel with BAYONNE. Crest left. Name and number on the back.",
+      "Black V-neck. Garnet field. Black chest panel with BAYONNE. Crest left. Name and number on the back.",
     category: "match",
     price: 58,
     shopifyItem: "top",
@@ -228,7 +228,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-full-set",
     name: "Full Kit Set",
     blurb:
-      "Black-collar jersey, solid garnet sleeves, matching shorts. One crest. Name and number on the jersey.",
+      "Black-collar jersey and matching shorts. One garnet. One crest. Name and number on the jersey.",
     category: "match",
     price: 89,
     shopifyItem: "set",

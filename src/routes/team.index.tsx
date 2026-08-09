@@ -9,9 +9,9 @@ import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 export const Route = createFileRoute("/team/")({
   head: () => {
     const title =
-      "Bayonne has worn garnet and white since 1936. Most sweatshirts get the color wrong. | No Parade F.C.";
+      "Bayonne Bees Team Customs — garnet specified right since 1936 | No Parade F.C.";
     const description =
-      "Every garment is specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Match kit from $34. Personalize and checkout. No Parade F.C., Bayonne, NJ.";
+      "Bayonne Bees team customs in the school’s actual garnet — not maroon, not burgundy, not cardinal. Match kit from $34. Personalize and checkout. No Parade F.C., Bayonne, NJ.";
     return {
       meta: [
         { title },
@@ -30,6 +30,11 @@ const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
 const jersey = productById("jersey")!;
 const fullSet = productById("full-set")!;
 
+/**
+ * Ogilvy landing: product is the proof.
+ * Brand (BAYONNE BEES) leads the first viewport; the kit is the full-bleed evidence;
+ * one fact headline, one line of support, one CTA group.
+ */
 function TeamLanding() {
   const kit = BAYONNE_BEES_KIT;
 
@@ -39,49 +44,63 @@ function TeamLanding() {
         <div className="absolute inset-0" aria-hidden>
           <img
             src={landingHero}
-            alt=""
-            className="h-full w-full object-cover object-center motion-safe:animate-team-hero-drift"
+            alt="Bayonne Bees Match kit in school garnet"
+            className="h-full w-full object-cover object-[center_28%] motion-safe:animate-team-hero-drift"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,6,8,0.4)_0%,rgba(8,6,8,0.25)_38%,rgba(8,6,8,0.82)_70%,rgba(8,6,8,0.96)_100%)]" />
+          {/* Editorial grade — keep the garment readable, type legible */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(8,6,8,0.15)_0%,rgba(8,6,8,0.55)_55%,rgba(8,6,8,0.92)_100%)]" />
+          <div className="absolute inset-x-0 top-0 h-[42%] bg-gradient-to-b from-black/70 via-black/25 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-black via-black/70 to-transparent" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[560px] flex-col px-6 pb-14 pt-10">
-          <p className="label-caps text-bone/60 motion-safe:animate-team-rise">
-            No Parade F.C. · Bayonne, NJ
-          </p>
+        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[560px] flex-col px-6 pb-12 pt-8">
+          {/* Brand lockup — hero-level signal */}
+          <header className="motion-safe:animate-team-logo-in">
+            <div className="flex items-center gap-3">
+              <img
+                src={boxingBee}
+                alt=""
+                className="h-14 w-14 shrink-0 object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] motion-safe:animate-team-bee-pulse sm:h-16 sm:w-16"
+              />
+              <div className="min-w-0">
+                <p className="font-kit text-[clamp(2rem,10vw,3.4rem)] leading-none tracking-[0.04em] text-bone">
+                  BAYONNE BEES
+                </p>
+                <p className="label-caps mt-1.5 text-bone/55">No Parade F.C. · Team Customs</p>
+              </div>
+            </div>
+          </header>
 
-          <div className="mt-8 flex flex-1 flex-col justify-center motion-safe:animate-team-logo-in">
-            <h1 className="font-kit text-[clamp(2.1rem,9vw,3.25rem)] leading-[1.02] tracking-[0.02em] text-bone">
-              Bayonne has worn garnet and white since 1936. Most sweatshirts get the color
-              wrong.
+          <div className="mt-auto space-y-5 pt-10 motion-safe:animate-team-rise [animation-delay:120ms]">
+            <h1 className="max-w-[22rem] font-kit text-[clamp(1.55rem,6.2vw,2.15rem)] leading-[1.12] tracking-[0.02em] text-bone">
+              Garnet since 1936. Most spirit wear gets the color wrong.
             </h1>
-            <p className="mt-5 max-w-[30rem] text-lg leading-snug text-bone/75">
-              Every garment here is specified in Bayonne’s actual garnet — not maroon, not
-              burgundy, not cardinal. From ${LOWEST}.
+            <p className="max-w-[26rem] text-base leading-snug text-bone/72">
+              Specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal.
+              From ${LOWEST}.
             </p>
-          </div>
 
-          <div className="mt-auto space-y-3 pt-8 motion-safe:animate-team-rise [animation-delay:160ms]">
-            <Link
-              to="/team/$slug/$product"
-              params={{ slug: kit.slug, product: jersey.id }}
-              className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
-            >
-              Shop Match jersey · ${jersey.price}
-            </Link>
-            <Link
-              to="/team/$slug"
-              params={{ slug: kit.slug }}
-              className="label-caps inline-flex w-full items-center justify-center border border-bone/25 px-6 py-4 text-bone/85 transition-colors hover:border-bone hover:text-bone"
-            >
-              Browse the Bayonne store — from ${LOWEST}
-            </Link>
-            <StoreCloseCountdown closesAt={kit.closesAt} />
+            <div className="space-y-3 pt-1">
+              <Link
+                to="/team/$slug/$product"
+                params={{ slug: kit.slug, product: jersey.id }}
+                className="label-caps inline-flex w-full items-center justify-center bg-garnet px-6 py-4 text-bone transition-[transform,opacity] duration-300 hover:opacity-90 motion-safe:active:scale-[0.99]"
+              >
+                Shop Match jersey · ${jersey.price}
+              </Link>
+              <Link
+                to="/team/$slug"
+                params={{ slug: kit.slug }}
+                className="label-caps inline-flex w-full items-center justify-center border border-bone/30 px-6 py-4 text-bone/90 transition-colors hover:border-bone hover:text-bone"
+              >
+                Browse the Bayonne store
+              </Link>
+              <StoreCloseCountdown closesAt={kit.closesAt} />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Fast path — most families start here */}
       <section className="border-t border-bone/10 bg-[#12090b] px-6 py-12">
         <div className="mx-auto w-full max-w-[560px]">
           <p className="label-caps text-bone/50">Start here</p>
@@ -89,8 +108,8 @@ function TeamLanding() {
             Most families begin with the Match jersey.
           </h2>
           <p className="mt-3 text-base leading-relaxed text-bone/70">
-            Collar says BAYONNE. Name and number on the back — you type them; we print them.
-            Preview before you pay.
+            Black V-neck. Name and number on the back — you type them; we print them. Preview
+            before you pay.
           </p>
           <div className="mt-6 flex flex-col gap-3">
             <Link
@@ -111,7 +130,6 @@ function TeamLanding() {
         </div>
       </section>
 
-      {/* Long body — interested people read */}
       <section id="why-garnet" className="border-t border-bone/10 bg-[#0c0809] px-6 py-16">
         <div className="mx-auto w-full max-w-[560px] space-y-5 text-base leading-relaxed text-bone/75">
           <p>
@@ -132,9 +150,7 @@ function TeamLanding() {
             Things worth knowing before you order
           </h2>
           <ol className="list-decimal space-y-4 pl-5">
-            <li>
-              Live preview of your name and number on the jersey before you pay.
-            </li>
+            <li>Live preview of your name and number on the jersey before you pay.</li>
             <li>
               Every garment is specified in one matched garnet across the whole store. A crew
               bought in October matches a jersey ordered in April.
@@ -200,7 +216,11 @@ function TeamLanding() {
                 </li>
               </ul>
             </div>
-            <img src={boxingBee} alt="" className="h-14 w-14 shrink-0 object-contain" />
+            <img
+              src={boxingBee}
+              alt=""
+              className="h-20 w-20 shrink-0 object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
+            />
           </div>
           <div className="mt-10 flex flex-col gap-3">
             <Link

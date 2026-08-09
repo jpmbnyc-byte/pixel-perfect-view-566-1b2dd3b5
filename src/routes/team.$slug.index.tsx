@@ -35,23 +35,33 @@ function TeamStorePage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-[560px] bg-background pb-20">
       <header className="border-b border-border px-5 pb-5 pt-6">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <Link
-              to="/team"
-              className="label-caps text-muted-foreground transition-colors hover:text-foreground"
-            >
-              ← No Parade F.C.
-            </Link>
-            <h1 className="mt-2 text-4xl leading-none tracking-tight">Bayonne store</h1>
-            <p className="label-caps mt-1 text-muted-foreground">{kit.colorway.name}</p>
-            <p className="mt-2 max-w-sm text-base leading-snug text-muted-foreground">
-              Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Printed when
-              you order.
+        <Link
+          to="/team"
+          className="label-caps text-muted-foreground transition-colors hover:text-foreground"
+        >
+          ← No Parade F.C.
+        </Link>
+
+        <div className="mt-4 flex items-center gap-3">
+          <img
+            src={logo}
+            alt=""
+            className="h-16 w-16 shrink-0 object-contain sm:h-[4.5rem] sm:w-[4.5rem]"
+          />
+          <div className="min-w-0">
+            <h1 className="font-kit text-[clamp(2.1rem,9vw,3rem)] leading-none tracking-[0.04em]">
+              BAYONNE BEES
+            </h1>
+            <p className="label-caps mt-1.5 text-muted-foreground">
+              Team Customs · {kit.colorway.name}
             </p>
           </div>
-          <img src={logo} alt="" className="mt-1 h-14 w-14 shrink-0 object-contain" />
         </div>
+
+        <p className="mt-4 max-w-sm text-base leading-snug text-muted-foreground">
+          Bayonne’s actual garnet — not maroon, not burgundy, not cardinal. Printed when you
+          order.
+        </p>
 
         <div className="mt-4 flex items-baseline gap-2 border-t border-border pt-4">
           {closed ? (
