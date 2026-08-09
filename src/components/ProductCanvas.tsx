@@ -152,7 +152,10 @@ export function ProductCanvas({
   const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
   // Kit OTFs (esp. Forge) have right-biased ink vs advance — nudge so glyph ink hits the spine
   const nameInkBiasEm = useInkBiasEm(displayName, font.cssFamily, nameTracking);
-  const numberInkBiasEm = useInkBiasEm(displayNumber, font.cssFamily, "0");
+  const numberInkBiasEm =
+    useInkBiasEm(displayNumber, font.cssFamily, "0") +
+    // Narrow single digits (1, 7) still read right-heavy after ink correction
+    (displayNumber.length === 1 ? 0.05 : 0);
   return (
     <figure
       className="relative aspect-[3/4] overflow-hidden bg-black"

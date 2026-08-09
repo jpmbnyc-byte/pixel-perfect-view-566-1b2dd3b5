@@ -240,7 +240,7 @@ export const PRODUCTS: CatalogProduct[] = [
     /** Back uses Match jersey plate — same spine center as jersey */
     lettering: {
       ...LETTERING,
-      centerX: 47,
+      centerX: 48,
       name: { ...LETTERING.name, y: 16 },
       number: { ...LETTERING.number, y: 28 },
     },

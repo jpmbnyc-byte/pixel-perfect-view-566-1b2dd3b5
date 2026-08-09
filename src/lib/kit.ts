@@ -30,7 +30,7 @@ export type LetteringLayout = {
 
 export const LETTERING: LetteringLayout = {
   /** Match jersey back clear-panel midline (side panels make geometric 50% look right) */
-  centerX: 47,
+  centerX: 48,
   name: { y: 16, heightPct: 7, maxWidthPct: 56 },
   number: { y: 28, heightPct: 36, maxWidthPct: 46 },
   surface: "garnet",
