@@ -24,10 +24,10 @@ type Props = {
 
 /** Known right-ink bias (em) from OTF bearings — Forge is the worst offender. */
 const FONT_INK_BIAS_EM: Record<string, number> = {
-  Forge: 0.1,
-  "Rail Cut": 0.02,
-  Beacon: 0.02,
-  Whistle: 0.02,
+  Forge: 0.14,
+  "Rail Cut": 0.03,
+  Beacon: 0.03,
+  Whistle: 0.03,
 };
 
 function fontBiasFallback(fontFamily: string) {
