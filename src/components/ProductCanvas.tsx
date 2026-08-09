@@ -162,9 +162,12 @@ function SublimatedPreview({
       const ctx = el.getContext("2d", { willReadFrequently: true });
       if (!ctx) return;
 
-      const cover = coverRect(img.naturalWidth, img.naturalHeight, w, h);
+      // Contain-fit so full garment length stays visible (no bust/waist crop)
+      const fit = containRect(img.naturalWidth, img.naturalHeight, w, h);
       ctx.clearRect(0, 0, w, h);
-      ctx.drawImage(img, cover.sx, cover.sy, cover.sw, cover.sh, 0, 0, w, h);
+      ctx.fillStyle = "#0a0a0a";
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, fit.dx, fit.dy, fit.dw, fit.dh);
       const frame = ctx.getImageData(0, 0, w, h);
 
       // Ink plate (offscreen)
@@ -346,16 +349,12 @@ function paintMotifPlate(
   }
 }
 
-/** Cover-fit source crop matching CSS object-fit: cover; object-position: center */
-function coverRect(iw: number, ih: number, cw: number, ch: number) {
-  const ir = iw / ih;
-  const cr = cw / ch;
-  if (ir > cr) {
-    const sw = ih * cr;
-    return { sx: (iw - sw) / 2, sy: 0, sw, sh: ih };
-  }
-  const sh = iw / cr;
-  return { sx: 0, sy: (ih - sh) / 2, sw: iw, sh };
+/** Contain-fit destination rect matching CSS object-fit: contain; object-position: center */
+function containRect(iw: number, ih: number, cw: number, ch: number) {
+  const scale = Math.min(cw / iw, ch / ih);
+  const dw = iw * scale;
+  const dh = ih * scale;
+  return { dx: (cw - dw) / 2, dy: (ch - dh) / 2, dw, dh };
 }
 
 function panelZone(nx: number, ny: number, sideHeavy: boolean) {

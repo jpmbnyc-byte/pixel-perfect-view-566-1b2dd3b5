@@ -164,7 +164,7 @@ function TeamStorePage() {
                   <img
                     src={p.thumb}
                     alt=""
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.04]"
                   />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col justify-center py-3 pr-3">
