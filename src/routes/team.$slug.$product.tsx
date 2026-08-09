@@ -13,7 +13,6 @@ import {
   productById,
   type FontId,
   type HatSize,
-  type MotifId,
 } from "@/lib/catalog";
 import {
   SIZES,
@@ -27,9 +26,6 @@ import {
 } from "@/lib/kit";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
-
-/** Kit default — motif is not customer-selectable on the PDP */
-const KIT_MOTIF: MotifId = "chevron";
 
 export const Route = createFileRoute("/team/$slug/$product")({
   loader: ({ params }) => {
@@ -179,7 +175,6 @@ function ProductListingPage() {
       kit: kit.slug,
       product: product.id,
       handle: product.handle,
-      motif: KIT_MOTIF,
       font: usesTypography ? fontId : null,
       name: usesTypography ? name : "",
       number: usesTypography ? number : "",
@@ -326,13 +321,11 @@ function ProductListingPage() {
             view={view}
             frontSrc={product.previews.front}
             secondarySrc={product.previews.secondary}
-            motif={KIT_MOTIF}
             fontId={fontId}
             name={name}
             number={number}
             productLabel={product.name}
             showLettering={usesTypography && product.nameNumber}
-            emphasizeMotif={product.previewPair === "front-side"}
             lettering={lettering}
           />
         </div>
@@ -496,7 +489,6 @@ function ProductListingPage() {
           <input type="hidden" name="properties[Team]" value={kit.teamName} />
           <input type="hidden" name="properties[Collection]" value="Team Customs" />
           <input type="hidden" name="properties[Product]" value={product.name} />
-          <input type="hidden" name="properties[Motif]" value="Chevron" />
           {usesTypography && <input type="hidden" name="properties[Font]" value={font.label} />}
           {usesTypography && <input type="hidden" name="properties[Name]" value={name} />}
           {usesTypography && <input type="hidden" name="properties[Number]" value={number} />}

@@ -35,10 +35,9 @@ Store (/team/bayonne-bees)
 | `Name` | Back name bar |
 | `Number` | Back / chest number |
 | `Size` | Human-readable size |
-| `Motif` | Chevron / Grid / Arc Panel |
 | `Font` | Rail Cut / Beacon / Whistle / Forge |
 | `Product` | Listing display name |
-| `_ArtSpec` | Base64 JSON art payload for ops (includes motif + font) |
+| `_ArtSpec` | Base64 JSON art payload for ops (includes font) |
 | `_Confirmed` | Buyer confirmed final-sale custom |
 | `Team` | Bayonne Bees |
 | `Collection` | Team Customs |
@@ -50,7 +49,7 @@ Store (/team/bayonne-bees)
 | Base layer | Single maroon field (always on) |
 | Lettering font | Rail Cut · Beacon · Whistle · Forge (local OTF) |
 
-Kit geometric accent is fixed (Chevron) — not a customer control on the PDP.
+Live PDP preview shows the garment photo only — no geometric motif overlay. Name/number lettering is personalization on the back view.
 
 ---
 

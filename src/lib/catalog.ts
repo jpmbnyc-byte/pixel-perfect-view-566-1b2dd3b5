@@ -23,6 +23,7 @@ import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
 import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
 import shortsSide from "@/assets/bayonne/previews/shorts-side.jpg";
 import setFront from "@/assets/bayonne/previews/set-front.jpg";
+import setBack from "@/assets/bayonne/previews/set-back.jpg";
 import hoopsFront from "@/assets/bayonne/previews/hoops-front.jpg";
 import hoopsBack from "@/assets/bayonne/previews/hoops-back.jpg";
 import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
@@ -194,7 +195,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-jersey",
     name: "Match Jersey",
     blurb:
-      "Black V-neck and cuffs. Garnet field. Black chest panel with BAYONNE. Crest left. Name and number on the back.",
+      "Solid garnet sleeves and crew. Honeycomb chest band with BAYONNE below. Crest left. Name and number on the back.",
     category: "match",
     price: 58,
     shopifyItem: "top",
@@ -203,7 +204,13 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: LETTERING,
+    /** Solid-garnet back plate (shared framing with full-kit back) */
+    lettering: {
+      ...LETTERING,
+      centerX: 50,
+      name: { ...LETTERING.name, y: 14 },
+      number: { ...LETTERING.number, y: 26 },
+    },
     thumb: jerseyFront,
     previews: { front: jerseyFront, secondary: jerseyBack },
   },
@@ -228,7 +235,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-full-set",
     name: "Full Kit Set",
     blurb:
-      "Black-collar jersey and matching shorts. One garnet. One crest. Name and number on the jersey.",
+      "Garnet jersey and matching shorts. One crest. Name and number on the jersey.",
     category: "match",
     price: 89,
     shopifyItem: "set",
@@ -237,15 +244,15 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Back uses Match jersey plate — same spine center as jersey */
+    /** Full-kit back plate — solid garnet, photo-centered spine */
     lettering: {
       ...LETTERING,
-      centerX: 48,
-      name: { ...LETTERING.name, y: 16 },
-      number: { ...LETTERING.number, y: 28 },
+      centerX: 50,
+      name: { ...LETTERING.name, y: 14 },
+      number: { ...LETTERING.number, y: 26 },
     },
     thumb: setFront,
-    previews: { front: setFront, secondary: jerseyBack },
+    previews: { front: setFront, secondary: setBack },
   },
   {
     id: "hoops-jersey",
