@@ -23,7 +23,6 @@ import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
 import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
 import shortsSide from "@/assets/bayonne/previews/shorts-side.jpg";
 import setFront from "@/assets/bayonne/previews/set-front.jpg";
-import setBack from "@/assets/bayonne/previews/set-back.jpg";
 import hoopsFront from "@/assets/bayonne/previews/hoops-front.jpg";
 import hoopsBack from "@/assets/bayonne/previews/hoops-back.jpg";
 import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
