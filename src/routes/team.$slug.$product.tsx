@@ -274,7 +274,7 @@ function ProductListingPage() {
               label="Name"
               value={name}
               maxLength={nameMax}
-              placeholder="MOREAU"
+              placeholder="CARTER"
               onChange={(v) => setName(sanitizeName(v, nameMax))}
               counter={`${name.length} / ${nameMax}`}
               fontFamily={font.cssFamily}
