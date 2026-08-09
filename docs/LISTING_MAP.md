@@ -17,7 +17,7 @@ Store (/team/bayonne-bees)
        customize: base maroon + motif + font + name/number + size
   → POST noparade-store.com/cart/add
        (fulfillment-synced Shopify variant ID
-        + properties Name / Number / Size / Motif / Font / _ArtSpec / _Confirmed)
+        + properties Name / Number / Size / Font / _ArtSpec / _Confirmed)
   → Shopify Checkout (payment)
   → Shopify Order (line properties stored)
   → Fulfillment partner imports order
