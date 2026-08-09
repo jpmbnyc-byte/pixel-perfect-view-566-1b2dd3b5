@@ -1,8 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
+import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import { LiquidBackdrop } from "@/components/LiquidBackdrop";
-import { RevealCarousel } from "@/components/RevealCarousel";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
@@ -50,14 +50,15 @@ function TeamLanding() {
       <section className="relative isolate min-h-dvh overflow-hidden">
         <LiquidBackdrop intensity="full" />
         <div className="absolute inset-0" aria-hidden>
+          {/* Full kit plate — contain, not cover-crop (Merchize blank must stay readable) */}
           <img
             src={landingHero}
             alt="Bayonne Bees Match kit in school garnet"
-            className="h-full w-full object-cover object-[center_28%] opacity-[0.72] motion-safe:animate-team-hero-drift"
+            className="absolute inset-0 h-full w-full object-contain object-center opacity-[0.78] motion-safe:animate-team-hero-drift"
           />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(8,6,8,0.12)_0%,rgba(8,6,8,0.52)_55%,rgba(5,4,6,0.94)_100%)]" />
-          <div className="absolute inset-x-0 top-0 h-[38%] bg-gradient-to-b from-black/75 via-black/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-black via-black/75 to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(8,6,8,0.05)_0%,rgba(8,6,8,0.45)_50%,rgba(5,4,6,0.92)_100%)]" />
+          <div className="absolute inset-x-0 top-0 h-[32%] bg-gradient-to-b from-black/80 via-black/25 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-black via-black/80 to-transparent" />
         </div>
 
         <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[560px] flex-col px-6 pb-12 pt-8">
@@ -108,25 +109,28 @@ function TeamLanding() {
         </div>
       </section>
 
-      {/* —— Queen Bees caption — no CTA —— */}
-      <section className="relative overflow-hidden border-t border-bone/10 px-6 py-14">
+      {/* —— Queen Bees — one crest, one story (no slideshow) —— */}
+      <section className="relative overflow-hidden border-t border-bone/10">
         <LiquidBackdrop intensity="soft" />
-        <div className="relative z-10 mx-auto w-full max-w-[560px]">
+        <div className="relative z-10 mx-auto w-full max-w-[560px] px-6 py-14">
           <p className="place-line">Hudson County · Queen Bees</p>
-          <p className="mt-5 text-lg leading-relaxed text-bone/80">
+          <h2 className="mt-3 font-kit text-[clamp(1.7rem,6.5vw,2.35rem)] tracking-wide text-bone">
+            They’ve been calling themselves this for years. Nobody ever drew it.
+          </h2>
+          <figure className="mt-8 overflow-hidden bg-[var(--garnet)]">
+            <img
+              src={queenCrest}
+              alt="Queen Bees crest — boxing bee with crown, drawn for Bayonne"
+              className="mx-auto h-auto w-full max-w-md object-contain"
+            />
+          </figure>
+          <p className="mt-6 text-base leading-relaxed text-bone/75">
             In 2024 the Hudson County champions answered to a name that lived only in speech.
-            Queen Bees. There was no mark. No embroidery. Nothing a mother could point to on a
-            jacket and say, that is ours.
-          </p>
-          <p className="mt-4 text-lg leading-relaxed text-bone/80">
-            So we drew the crest. There is no invoice. There is no pitch. The files are theirs
-            if they want them.
+            There was no mark. No embroidery. Nothing a mother could point to on a jacket and
+            say, that is ours. So we drew the crest. The files are theirs if they want them.
           </p>
         </div>
       </section>
-
-      {/* Silent reveal — community proof */}
-      <RevealCarousel />
 
       {/* —— Match-first offering —— */}
       <section className="relative overflow-hidden border-t border-bone/10">
