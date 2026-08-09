@@ -284,7 +284,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "aop-hat",
     handle: "bayonne-bees-aop-hat",
     name: "Crest Cap",
-    blurb: "Garnet geo on the crown. Crest up front. No name, number, or side panel to pick.",
+    blurb: "Garnet geo on the crown. Crest up front.",
     category: "sideline",
     price: 36,
     customizable: false,
