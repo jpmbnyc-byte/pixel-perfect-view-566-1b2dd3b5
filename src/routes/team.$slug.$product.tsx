@@ -1,5 +1,5 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type HTMLAttributes } from "react";
 
 import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
@@ -15,9 +15,6 @@ import {
   type HatSize,
   type MotifId,
 } from "@/lib/catalog";
-
-/** Kit default — motif is not customer-selectable on the PDP */
-const KIT_MOTIF: MotifId = "chevron";
 import {
   SIZES,
   SIZE_CHART,
@@ -30,6 +27,9 @@ import {
 } from "@/lib/kit";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
+
+/** Kit default — motif is not customer-selectable on the PDP */
+const KIT_MOTIF: MotifId = "chevron";
 
 export const Route = createFileRoute("/team/$slug/$product")({
   loader: ({ params }) => {
@@ -67,10 +67,11 @@ function ProductListingPage() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const views = previewViewsFor(product);
-  const secondaryView = views[1]!;
   const isHat = product.sizeChart === "hat";
   const usesTypography = product.typography;
   const lettering = letteringFor(product);
+  const nameMax = kit.rules.nameMaxChars;
+  const numberMaxDigits = 2;
 
   const [view, setView] = useState<CanvasView>(
     product.previewPair === "front-side" ? "side" : product.nameNumber ? "back" : "front",
@@ -123,13 +124,18 @@ function ProductListingPage() {
     apparelSize && shopifyItem ? variantIdFor(kit, shopifyItem, apparelSize) : null;
 
   const nameReady = !product.nameNumber || Boolean(name && numberValid);
-  // Hat / motif-only listings without Shopify item stay design-only until sync.
   const checkoutReady = Boolean(
     nameReady && size && confirmed && (shopifyItem ? variantId && itemReady : false),
   );
 
   const cta: CtaState = useMemo(() => {
     if (!shopifyItem || (shopifyItem && !itemReady)) {
+      if (product.nameNumber && !name) {
+        return { kind: "step", label: "Enter name on back" };
+      }
+      if (product.nameNumber && !numberValid) {
+        return { kind: "step", label: "Enter number" };
+      }
       if (!size) return { kind: "step", label: "Choose a size" };
       if (!confirmed) {
         return {
@@ -204,6 +210,12 @@ function ProductListingPage() {
   ]);
 
   const font = fontById(fontId)!;
+  const hasPersonalization = Boolean(name || number);
+
+  const clearPersonalization = () => {
+    setName("");
+    setNumber("");
+  };
 
   const goNext = () => {
     if (checkoutReady) {
@@ -213,9 +225,9 @@ function ProductListingPage() {
     if (cta.kind !== "step") return;
     const target =
       product.nameNumber && !name
-        ? "field-name"
+        ? "field-personalize"
         : product.nameNumber && !numberValid
-          ? "field-number"
+          ? "field-personalize"
           : !size
             ? "field-size"
             : "field-confirm";
@@ -223,58 +235,85 @@ function ProductListingPage() {
   };
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-[560px] bg-background pb-28">
-      <header className="border-b border-border px-5 pb-4 pt-5">
+    <main className="mx-auto min-h-screen w-full max-w-[560px] bg-background pb-28 font-sans">
+      <header className="px-5 pb-2 pt-5">
         <Link
           to="/team/$slug"
           params={{ slug: kit.slug }}
-          className="label-caps text-muted-foreground transition-colors hover:text-foreground"
+          className="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
         >
           ← Bayonne store
         </Link>
-        <h1 className="mt-3 text-4xl leading-none tracking-tight">{product.name}</h1>
-        <p className="mt-2 font-sans text-sm font-semibold tabular-nums tracking-[0.08em] text-garnet">
-          ${product.price}
-        </p>
-        <p className="mt-2 text-base text-muted-foreground">{product.blurb}</p>
-        <div className="mt-4 space-y-3 border-t border-border pt-4 text-base leading-relaxed text-foreground/85">
-          {usesTypography ? (
-            <>
-              <p>
-                Garnet is a dark, slightly brown-toned red. Maroon is purple-toned. Burgundy is
-                darker still. This piece is specified in Bayonne’s garnet — not the red the
-                vendor already had loaded.
-              </p>
-              <p className="text-muted-foreground">
-                Inside the collar, where only the player looks, we can print the year. Nothing
-                is printed until you order it.
-              </p>
-            </>
-          ) : (
-            <>
-              <p>
-                The geometric language lives on the side panel. No name, number, or lettering
-                on this piece.
-              </p>
-              <p className="text-muted-foreground">
-                Same Bayonne garnet as the match strip. Nothing prints until you order.
-              </p>
-            </>
-          )}
-        </div>
+        <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight">{product.name}</h1>
+        <p className="mt-1 text-base font-semibold tabular-nums">${product.price}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{product.blurb}</p>
       </header>
 
-      <section className="px-5 pt-5">
-        <div className="mb-3 grid grid-cols-2 gap-px overflow-hidden border border-border">
+      {/* adiClub-style personalization — name + number only (no player presets) */}
+      {product.nameNumber && (
+        <section id="field-personalize" className="mt-6 px-5">
+          <h2 className="text-xl font-bold tracking-tight">Add Personalization</h2>
+          <p className="mt-2 text-sm leading-snug text-muted-foreground">
+            Personalized items cannot be returned or exchanged. Nothing prints until you order.
+          </p>
+
+          <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
+            <OutlinedField
+              id="field-number"
+              label="00"
+              value={number}
+              maxLength={numberMaxDigits}
+              inputMode="numeric"
+              placeholder="00"
+              onChange={(v) => setNumber(sanitizeNumber(v).slice(0, numberMaxDigits))}
+              counter={`${number.length} / ${numberMaxDigits}`}
+              fontFamily={font.cssFamily}
+            />
+            <OutlinedField
+              id="field-name"
+              label="Name"
+              value={name}
+              maxLength={nameMax}
+              placeholder="MOREAU"
+              onChange={(v) => setName(sanitizeName(v, nameMax))}
+              counter={`${name.length} / ${nameMax}`}
+              fontFamily={font.cssFamily}
+            />
+          </div>
+
+          <div className="mt-3 flex items-center justify-between gap-3 text-sm">
+            <p className="tabular-nums text-muted-foreground">
+              {hasPersonalization ? (
+                <>
+                  In total: <span className="font-semibold text-foreground">${product.price}</span>
+                </>
+              ) : (
+                <>Personalization included</>
+              )}
+            </p>
+            <button
+              type="button"
+              onClick={clearPersonalization}
+              disabled={!hasPersonalization}
+              className="underline underline-offset-4 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Clear all
+            </button>
+          </div>
+        </section>
+      )}
+
+      <section className="mt-6 px-5">
+        <div className="mb-3 grid grid-cols-2 gap-2">
           {views.map((v) => (
             <button
               key={v}
               type="button"
               onClick={() => setView(v)}
-              className={`label-caps py-2.5 transition-colors ${
+              className={`border px-3 py-2.5 text-center text-sm font-semibold capitalize transition-colors ${
                 view === v
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card text-muted-foreground hover:bg-secondary"
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border bg-background text-foreground hover:bg-secondary"
               }`}
             >
               {v}
@@ -282,189 +321,159 @@ function ProductListingPage() {
           ))}
         </div>
 
-        <ProductCanvas
-          view={view}
-          frontSrc={product.previews.front}
-          secondarySrc={product.previews.secondary}
-          motif={KIT_MOTIF}
-          fontId={fontId}
-          name={name}
-          number={number}
-          productLabel={product.name}
-          showLettering={usesTypography && product.nameNumber}
-          emphasizeMotif={product.previewPair === "front-side"}
-          lettering={lettering}
-        />
+        <div className="overflow-hidden border border-border bg-secondary/40">
+          <ProductCanvas
+            view={view}
+            frontSrc={product.previews.front}
+            secondarySrc={product.previews.secondary}
+            motif={KIT_MOTIF}
+            fontId={fontId}
+            name={name}
+            number={number}
+            productLabel={product.name}
+            showLettering={usesTypography && product.nameNumber}
+            emphasizeMotif={product.previewPair === "front-side"}
+            lettering={lettering}
+          />
+        </div>
       </section>
 
       {usesTypography && (
-        <section className="mt-7 px-5">
-          <Field label="Lettering font" hint="Tops only · 4 faces">
-            <div className="grid grid-cols-2 gap-2">
-              {FONTS.map((f) => {
-                const on = fontId === f.id;
-                return (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => setFontId(f.id)}
-                    className={`border px-3 py-3 text-left transition-colors ${
-                      on
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-card hover:bg-secondary"
-                    }`}
+        <section className="mt-8 px-5">
+          <h2 className="text-xl font-bold tracking-tight">Lettering font</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Tops only · 4 faces</p>
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            {FONTS.map((f) => {
+              const on = fontId === f.id;
+              return (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => setFontId(f.id)}
+                  className={`border px-3 py-3 text-left transition-colors ${
+                    on
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border bg-background hover:bg-secondary"
+                  }`}
+                >
+                  <span className="block text-xs font-semibold uppercase tracking-wide opacity-70">
+                    {f.label}
+                  </span>
+                  <span
+                    className="mt-1 block text-2xl tracking-wide"
+                    style={{ fontFamily: f.cssFamily }}
                   >
-                    <span className="label-caps block opacity-70">{f.label}</span>
-                    <span
-                      className="mt-1 block text-2xl tracking-wide"
-                      style={{ fontFamily: f.cssFamily }}
-                    >
-                      {f.sample}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-            <p className="mt-2 text-sm text-muted-foreground">Active: {font.label}</p>
-          </Field>
-        </section>
-      )}
-
-      {product.nameNumber && (
-        <section className="mt-7 space-y-6 px-5">
-          <div id="field-name">
-            <Field label="Name on back" hint={`${kit.rules.nameMaxChars} max`}>
-              <input
-                value={name}
-                onChange={(e) => setName(sanitizeName(e.target.value, kit.rules.nameMaxChars))}
-                placeholder="MOREAU"
-                className="w-full border-b border-input bg-transparent pb-2 text-3xl tracking-wide outline-none placeholder:text-muted-foreground/50 focus:border-ring"
-                style={{ fontFamily: font.cssFamily }}
-              />
-            </Field>
-          </div>
-          <div id="field-number">
-            <Field label="Number" hint={`${kit.rules.numberMin}–${kit.rules.numberMax}`}>
-              <input
-                value={number}
-                onChange={(e) => setNumber(sanitizeNumber(e.target.value))}
-                placeholder="7"
-                inputMode="numeric"
-                className="w-full border-b border-input bg-transparent pb-2 text-3xl tracking-wide outline-none placeholder:text-muted-foreground/50 focus:border-ring"
-                style={{ fontFamily: font.cssFamily }}
-              />
-            </Field>
+                    {f.sample}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </section>
       )}
 
-      <section id="field-size" className="mt-7 px-5">
-        <Field
-          label="Size"
-          hint={
-            <button
-              type="button"
-              onClick={() => setChartOpen((o) => !o)}
-              className="label-caps underline underline-offset-4"
-            >
-              {chartOpen ? "Hide chart" : "Size chart"}
-            </button>
-          }
-        >
-          {isHat ? (
-            <div className="grid grid-cols-2 gap-2">
-              {HAT_SIZES.map((s) => (
+      <section id="field-size" className="mt-8 px-5">
+        <h2 className="text-xl font-bold tracking-tight">Sizes</h2>
+        {isHat ? (
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            {HAT_SIZES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setSize(s)}
+                className={`border py-3.5 text-sm font-semibold transition-colors ${
+                  size === s
+                    ? "border-foreground bg-secondary"
+                    : "border-transparent bg-secondary/70 hover:bg-secondary"
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 grid grid-cols-4 gap-2">
+            {SIZES.map((s) => {
+              const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
+              return (
                 <button
                   key={s}
                   type="button"
+                  disabled={!available && Boolean(shopifyItem)}
                   onClick={() => setSize(s)}
-                  className={`label-caps border py-3 transition-colors ${
+                  className={`border py-3.5 text-sm font-semibold transition-colors ${
                     size === s
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-card hover:bg-secondary"
-                  }`}
+                      ? "border-foreground bg-secondary"
+                      : "border-transparent bg-secondary/70 hover:bg-secondary"
+                  } disabled:cursor-not-allowed disabled:opacity-35`}
                 >
                   {s}
                 </button>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-4 gap-2">
-              {SIZES.map((s) => {
-                const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    disabled={!available && Boolean(shopifyItem)}
-                    onClick={() => setSize(s)}
-                    className={`label-caps border py-3 transition-colors ${
-                      size === s
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-card hover:bg-secondary"
-                    } disabled:cursor-not-allowed disabled:border-dashed disabled:bg-transparent disabled:text-muted-foreground/50`}
-                  >
-                    {s}
-                  </button>
-                );
-              })}
-            </div>
+              );
+            })}
+          </div>
+        )}
+        {!isHat &&
+          shopifyItem &&
+          SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              Greyed sizes are still syncing — pick an available size to checkout.
+            </p>
           )}
-          {!isHat &&
-            shopifyItem &&
-            SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
-              <p className="mt-2 text-sm text-muted-foreground">
-                Dashed sizes are still syncing — pick an available size to checkout.
-              </p>
-            )}
-          {chartOpen &&
-            (isHat ? (
-              <table className="mt-4 w-full border border-border text-sm">
-                <thead>
-                  <tr className="bg-secondary">
-                    <th className="label-caps px-3 py-2 text-left">Size</th>
-                    <th className="label-caps px-3 py-2 text-left">Fit</th>
+        <button
+          type="button"
+          onClick={() => setChartOpen((o) => !o)}
+          className="mt-3 text-sm underline underline-offset-4"
+        >
+          {chartOpen ? "Hide size guide" : "Size guide"}
+        </button>
+        {chartOpen &&
+          (isHat ? (
+            <table className="mt-3 w-full border border-border text-sm">
+              <thead>
+                <tr className="bg-secondary">
+                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Size</th>
+                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Fit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {HAT_SIZE_CHART.map((row) => (
+                  <tr key={row.size} className="border-t border-border">
+                    <td className="px-3 py-2 font-semibold">{row.size}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{row.note}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {HAT_SIZE_CHART.map((row) => (
-                    <tr key={row.size} className="border-t border-border">
-                      <td className="px-3 py-2 font-kit text-base">{row.size}</td>
-                      <td className="px-3 py-2 text-muted-foreground">{row.note}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <table className="mt-4 w-full border border-border text-sm">
-                <thead>
-                  <tr className="bg-secondary">
-                    <th className="label-caps px-3 py-2 text-left">Size</th>
-                    <th className="label-caps px-3 py-2 text-left">Chest</th>
-                    <th className="label-caps px-3 py-2 text-left">Length</th>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <table className="mt-3 w-full border border-border text-sm">
+              <thead>
+                <tr className="bg-secondary">
+                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Size</th>
+                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Chest</th>
+                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Length</th>
+                </tr>
+              </thead>
+              <tbody>
+                {SIZE_CHART.map((row) => (
+                  <tr key={row.size} className="border-t border-border">
+                    <td className="px-3 py-2 font-semibold">{row.size}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{row.chest}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{row.length}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {SIZE_CHART.map((row) => (
-                    <tr key={row.size} className="border-t border-border">
-                      <td className="px-3 py-2 font-kit text-base">{row.size}</td>
-                      <td className="px-3 py-2 text-muted-foreground">{row.chest}</td>
-                      <td className="px-3 py-2 text-muted-foreground">{row.length}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ))}
-        </Field>
+                ))}
+              </tbody>
+            </table>
+          ))}
       </section>
 
       <section id="field-confirm" className="mt-8 border-t border-border px-5 pt-6 pb-4">
-        <label className="flex items-start gap-3 text-base leading-snug">
+        <label className="flex items-start gap-3 text-sm leading-snug">
           <input
             type="checkbox"
             checked={confirmed}
             onChange={(e) => setConfirmed(e.target.checked)}
-            className="mt-1 size-5 shrink-0 accent-[var(--primary)]"
+            className="mt-0.5 size-5 shrink-0 accent-[var(--primary)]"
           />
           <span>
             {usesTypography
@@ -505,7 +514,7 @@ function ProductListingPage() {
             type="button"
             disabled={cta.kind === "sync"}
             onClick={goNext}
-            className="label-caps w-full bg-primary py-4 text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45"
+            className="w-full bg-foreground py-4 text-sm font-bold uppercase tracking-wide text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45"
           >
             {cta.label}
           </button>
@@ -514,11 +523,57 @@ function ProductListingPage() {
               ? "Secure checkout on noparade-store.com · Nothing prints until you order"
               : cta.kind === "sync"
                 ? "Design now — checkout unlocks when this listing finishes syncing"
-                : "Tap to jump to the next step · Preview updates as you choose"}
+                : "Tap to jump to the next step · Preview updates as you type"}
           </p>
         </div>
       </div>
     </main>
+  );
+}
+
+function OutlinedField({
+  id,
+  label,
+  value,
+  onChange,
+  placeholder,
+  maxLength,
+  counter,
+  inputMode,
+  fontFamily,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  maxLength: number;
+  counter: string;
+  inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
+  fontFamily?: string;
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="relative flex min-h-[4.5rem] flex-col border border-foreground/80 bg-background px-3 pb-2 pt-3 focus-within:border-foreground focus-within:ring-1 focus-within:ring-foreground"
+    >
+      <span className="absolute -top-2 left-2 bg-background px-1 text-xs font-medium text-muted-foreground">
+        {label}
+      </span>
+      <input
+        id={id}
+        value={value}
+        maxLength={maxLength}
+        inputMode={inputMode}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full flex-1 bg-transparent text-2xl font-semibold uppercase tracking-wide outline-none placeholder:text-muted-foreground/45"
+        style={{ fontFamily }}
+        autoComplete="off"
+        spellCheck={false}
+      />
+      <span className="self-end text-[0.7rem] tabular-nums text-muted-foreground">{counter}</span>
+    </label>
   );
 }
 
@@ -535,25 +590,5 @@ function SyncNote({ sync, hasShopifyItem }: { sync: ShopifySyncStatus; hasShopif
     <p className="mt-4 text-center text-sm text-muted-foreground">
       Core kit sizes are still syncing to noparade-store.com. You can finish the design now.
     </p>
-  );
-}
-
-function Field({
-  label,
-  hint,
-  children,
-}: {
-  label: string;
-  hint?: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <div className="mb-2 flex items-baseline justify-between gap-3">
-        <span className="label-caps text-muted-foreground">{label}</span>
-        {hint && <span className="label-caps text-muted-foreground">{hint}</span>}
-      </div>
-      {children}
-    </div>
   );
 }
