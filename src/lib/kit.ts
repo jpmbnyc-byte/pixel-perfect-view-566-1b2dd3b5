@@ -13,9 +13,9 @@ export const SIZES: Size[] = ["2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
 /**
  * Back-panel lettering zones, as % of the mockup / print template.
- * Matches crest-options reference scale:
- *   name  — X 50% · Y 18% · W 44% · H 8%
- *   number — X 50% · Y 32% · W 28% · H 22%
+ * Name is always a single line (preview shrinks to fit width).
+ *   name  — X 50% · Y 16% · W 56% · H 7%
+ *   number — X 50% · Y 28% · W 46% · H 36%  (prominent)
  * Products with different framing override via catalog.lettering.
  */
 export type LetteringLayout = {
@@ -28,8 +28,8 @@ export type LetteringLayout = {
 
 export const LETTERING: LetteringLayout = {
   centerX: 50,
-  name: { y: 18, heightPct: 8, maxWidthPct: 44 },
-  number: { y: 32, heightPct: 22, maxWidthPct: 28 },
+  name: { y: 16, heightPct: 7, maxWidthPct: 56 },
+  number: { y: 28, heightPct: 36, maxWidthPct: 46 },
   surface: "garnet",
 };
 
