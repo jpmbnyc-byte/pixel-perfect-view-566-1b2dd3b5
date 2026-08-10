@@ -7,10 +7,9 @@ import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
 export const Route = createFileRoute("/team/")({
   head: () => {
-    const title =
-      "Bayonne Bees Team Customs — garnet specified right since 1936 | No Parade F.C.";
+    const title = "Bayonne Team Customs — garnet since 1936 | No Parade F.C.";
     const description =
-      "Bayonne Bees team customs in the school’s actual garnet — not maroon, not burgundy, not cardinal. Match kit from $34. Personalize and checkout. No Parade F.C., Bayonne, NJ.";
+      "Team customs in Bayonne’s actual garnet. Put your name on a jersey. From $34. No Parade F.C., Avenue A.";
     return {
       meta: [
         { title },
@@ -56,7 +55,7 @@ function TeamLanding() {
         <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[720px] flex-col px-6 pb-14 pt-8 sm:px-10">
           <header className="flex items-start justify-between gap-6 motion-safe:animate-team-logo-in">
             <div className="min-w-0">
-              <p className="place-line text-bone">No Parade F.C. · Est. 1936</p>
+              <p className="place-line text-bone">No Parade F.C. · Avenue A</p>
               <div className="mt-6 flex items-end gap-4">
                 <img
                   src={CRESTS.primary}
@@ -65,8 +64,6 @@ function TeamLanding() {
                 />
                 <p className="type-campaign-tight text-[clamp(2.4rem,12vw,4rem)] text-bone">
                   BAYONNE
-                  <br />
-                  BEES
                 </p>
               </div>
               <div className="tip-asymmetric mt-6 motion-safe:animate-team-bar-in">
@@ -85,17 +82,17 @@ function TeamLanding() {
 
           <div className="mt-auto max-w-md space-y-6 pt-16 motion-safe:animate-team-rise [animation-delay:140ms]">
             <h1 className="type-editorial text-[clamp(1.65rem,5.5vw,2.15rem)] text-bone">
-              Garnet, specified. Not nearly right.
+              The right red. Finally.
             </h1>
             <p className="max-w-sm text-[0.95rem] leading-relaxed text-bone/70">
-              Team customs in Bayonne’s actual color — from ${LOWEST}.
+              Team customs for Bayonne — made in the color you actually wear. From ${LOWEST}.
             </p>
             <Link
               to="/team/$slug/$product"
               params={{ slug: kit.slug, product: jersey.id }}
               className="place-line inline-flex items-center gap-3 border-b border-bone/40 pb-2 text-bone transition-colors hover:border-bone"
             >
-              Match jersey · ${jersey.price}
+              Put your name on it · ${jersey.price}
               <span aria-hidden>→</span>
             </Link>
           </div>
@@ -105,17 +102,17 @@ function TeamLanding() {
       {/* —— Paper manifesto —— */}
       <section className="studio-field">
         <div className="mx-auto w-full max-w-[720px] px-6 py-20 sm:px-10 sm:py-28">
-          <p className="place-line">The house</p>
+          <p className="place-line">Why this store</p>
           <h2 className="type-editorial mt-6 max-w-lg text-[clamp(1.75rem,5vw,2.4rem)] text-ink">
-            A customs atelier for Bee Country — quiet on the outside, exact on the color.
+            Because “close enough” isn’t a color.
           </h2>
           <div className="tip-asymmetric mt-8">
             <span className="tip-asymmetric-a" />
             <span className="tip-asymmetric-b" />
           </div>
           <p className="mt-8 max-w-md text-[0.95rem] leading-relaxed text-ink/70">
-            Most spirit wear is printed in whatever red the vendor already had loaded. We built
-            this store so families stop settling for nearly-right.
+            Most spirit wear shows up in whatever red the printer already had loaded. You notice in
+            the gym. We matched Bayonne’s garnet once — and kept it.
           </p>
           <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-ink/10 pt-8">
             <div>
@@ -145,16 +142,16 @@ function TeamLanding() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
         </div>
         <div className="relative z-10 mx-auto flex min-h-[88dvh] w-full max-w-[720px] flex-col justify-end px-6 py-16 sm:px-10">
-          <p className="place-line text-bone">Queen Bees · Hudson County</p>
+          <p className="place-line text-bone">A story · Hudson County</p>
           <h2 className="type-editorial mt-4 max-w-md text-[clamp(1.8rem,5.5vw,2.5rem)] text-bone">
-            They’ve been calling themselves this for years. Nobody ever drew it.
+            They already had the name. They just needed the mark.
           </h2>
           <div className="tip-asymmetric mt-7">
             <span className="tip-asymmetric-a" />
             <span className="tip-asymmetric-bone" />
           </div>
           <p className="mt-6 max-w-sm text-[0.95rem] leading-relaxed text-bone/75">
-            So we drew the crest. The files are theirs if they want them.
+            We drew the crest as a gift. The files are theirs — this chapter isn’t for sale.
           </p>
           <img
             src={CRESTS.queen}

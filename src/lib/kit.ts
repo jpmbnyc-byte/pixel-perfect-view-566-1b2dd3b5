@@ -13,26 +13,39 @@ export const SIZES: Size[] = ["2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
 /**
  * Back-panel lettering zones, as % of the mockup / print template.
- * Name is always a single line (preview shrinks to fit width).
- * centerX is the garment *spine* (clear panel midline), not always 50% of the photo.
- *   name  — X 47.5% · Y 16% · W 56% · H 7%
- *   number — X 47.5% · Y 28% · W 46% · H 36%  (prominent)
+ * Locked to the AVENUE A · 36 on-body reference:
+ *   name — slight upward arch, shoulder-blade span
+ *   number — large, centered below, ~central third of the torso
  * Products with different framing override via catalog.lettering.
  * Live preview also optically centers glyph ink (Forge and similar have right-biased bearings).
  */
 export type LetteringLayout = {
   centerX: number;
-  name: { y: number; heightPct: number; maxWidthPct: number };
+  name: {
+    y: number;
+    heightPct: number;
+    maxWidthPct: number;
+    /** Degrees of end-to-end upward arch (0 = flat). Ref ≈ 10°. */
+    archDeg?: number;
+  };
   number: { y: number; heightPct: number; maxWidthPct: number };
   /** Black mesh / dark field — stronger white lettering contrast */
   surface: "garnet" | "blackout";
 };
 
+/** Match jersey / full kit — ref print area. */
 export const LETTERING: LetteringLayout = {
-  /** Match jersey back clear-panel midline (black side panels pull geometric 50% right) */
-  centerX: 48,
-  name: { y: 16, heightPct: 7, maxWidthPct: 56 },
-  number: { y: 28, heightPct: 36, maxWidthPct: 46 },
+  centerX: 50,
+  name: { y: 15, heightPct: 6, maxWidthPct: 50, archDeg: 10 },
+  number: { y: 25, heightPct: 38, maxWidthPct: 50 },
+  surface: "garnet",
+};
+
+/** Jersey dress — same system; slightly tighter for the longer silhouette. */
+export const LETTERING_DRESS: LetteringLayout = {
+  centerX: 50,
+  name: { y: 14, heightPct: 5.5, maxWidthPct: 48, archDeg: 10 },
+  number: { y: 23, heightPct: 34, maxWidthPct: 46 },
   surface: "garnet",
 };
 

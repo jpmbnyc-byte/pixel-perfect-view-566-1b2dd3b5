@@ -18,10 +18,10 @@ import { Route as TeamSlugRoute } from "./team.$slug";
 const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
 
 const CATEGORY_LINE: Record<CategoryId, string> = {
-  match: "What they wear when the whistle blows.",
-  sideline: "November bleachers. Same garnet as the Match kit.",
-  warmups: "Before kickoff — crew, long sleeve, quarter-zip, sweats.",
-  alumni: "1936 on the collar. Off the field, still Bee Country.",
+  match: "For the whistle.",
+  sideline: "For November on the bleachers.",
+  warmups: "Before kickoff.",
+  alumni: "1936 — kept close.",
 };
 
 export const Route = createFileRoute("/team/$slug/")({
@@ -66,7 +66,7 @@ function TeamStorePage() {
       <header className="px-6 pb-8 pt-8 sm:px-10">
         <div className="flex items-center justify-between gap-4">
           <Link to="/team" className="place-line transition-opacity hover:opacity-55">
-            ← House
+            ← Back
           </Link>
           <p className="place-line">
             {closed ? (
@@ -86,11 +86,7 @@ function TeamStorePage() {
             className="h-14 w-14 shrink-0 object-contain sm:h-16 sm:w-16"
           />
           <div className="min-w-0">
-            <h1 className="type-campaign-tight text-[clamp(2rem,9vw,3.2rem)] text-ink">
-              BAYONNE
-              <br />
-              BEES
-            </h1>
+            <h1 className="type-campaign-tight text-[clamp(2rem,9vw,3.2rem)] text-ink">BAYONNE</h1>
             <p className="place-line mt-3">Team Customs · {kit.colorway.name}</p>
           </div>
         </div>
@@ -101,7 +97,7 @@ function TeamStorePage() {
         </div>
 
         <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">
-          Bayonne’s actual garnet — not maroon, not burgundy, not cardinal.
+          Garnet that looks right in the gym — not almost.
         </p>
       </header>
 
@@ -234,12 +230,12 @@ function TeamStorePage() {
       </section>
 
       <aside className="px-6 pt-14 sm:px-10">
-        <p className="place-line">Queen Bees · 2024 Hudson County</p>
+        <p className="place-line">A note · Hudson County</p>
         <p className="type-editorial mt-4 max-w-md text-lg text-ink/70">
-          The crest was drawn by hand in Bayonne and had never existed as a mark before.
+          Some stories stay off the hangers. The crest we drew for the girls is one of them.
         </p>
         <p className="mt-6 text-sm leading-relaxed text-ink/45">
-          669 Avenue A · Bayonne High School · Garnet & white since 1936.
+          Avenue A · Bayonne · Garnet since 1936.
         </p>
       </aside>
     </main>

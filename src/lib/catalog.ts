@@ -9,7 +9,7 @@
  */
 
 import type { Item, LetteringLayout } from "./kit";
-import { LETTERING } from "./kit";
+import { LETTERING, LETTERING_DRESS } from "./kit";
 import { PLATES, SURFACES } from "./brandAssets";
 import { CAMPAIGN_SHOTS } from "./campaignAssets";
 
@@ -177,8 +177,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey",
     handle: "bayonne-bees-jersey",
     name: "Match Jersey",
-    blurb:
-      "Black V-neck. Garnet field. Black chest panel with BAYONNE. Crest left. Name and number on the back.",
+    blurb: "Garnet field, black chest band, crest on the left. Your name on the back.",
     category: "match",
     price: 58,
     shopifyItem: "top",
@@ -195,8 +194,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "shorts",
     handle: "bayonne-bees-shorts",
     name: "Match Shorts",
-    blurb:
-      "Same garnet as the jersey. Double white ink pinstripes on the side — sublimated, not embroidered. Bee on the left leg. No name or number.",
+    blurb: "Same garnet. Double white ink pinstripes down the side. No name, no number.",
     category: "match",
     price: 34,
     shopifyItem: "bottom",
@@ -212,8 +210,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "full-set",
     handle: "bayonne-bees-full-set",
     name: "Full Kit Set",
-    blurb:
-      "Black-collar jersey and matching shorts with double white ink pinstripes. One garnet. One crest. Name and number on the jersey.",
+    blurb: "Jersey and shorts, one garnet. Name and number on the jersey.",
     category: "match",
     price: 89,
     shopifyItem: "set",
@@ -222,13 +219,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Own set-back plate — do not borrow jersey-back */
-    lettering: {
-      ...LETTERING,
-      centerX: 48,
-      name: { ...LETTERING.name, y: 16 },
-      number: { ...LETTERING.number, y: 28 },
-    },
+    /** Same print area as Match Jersey — do not borrow jersey-back plate */
+    lettering: LETTERING,
     thumb: thumbFor("full-set"),
     previews: { ...PLATES["full-set"] },
   },
@@ -236,7 +228,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "hoops-jersey",
     handle: "bayonne-bees-hoops-jersey",
     name: "Hoops Jersey",
-    blurb: "Blackout mesh. Garnet trim. Crest left. Name and number on the back.",
+    blurb: "Blackout mesh, garnet trim, crest left. Name and number on the back.",
     category: "sideline",
     price: 52,
     customizable: true,
@@ -245,7 +237,7 @@ export const PRODUCTS: CatalogProduct[] = [
     previewPair: "front-back",
     sizeChart: "apparel",
     /** Blackout mesh — full torso; geometric center is the spine */
-    lettering: { ...LETTERING, centerX: 50, surface: "blackout" },
+    lettering: { ...LETTERING, surface: "blackout" },
     thumb: thumbFor("hoops-jersey"),
     previews: { ...PLATES["hoops-jersey"] },
   },
@@ -253,8 +245,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey-dress",
     handle: "bayonne-bees-jersey-dress",
     name: "Jersey Dress",
-    blurb:
-      "One-piece sideline cut. Color-block basketball crest on the chest. Name and number on the back.",
+    blurb: "One piece. Same back print as the Match jersey — your name, your number.",
     category: "sideline",
     price: 72,
     customizable: true,
@@ -262,7 +253,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: { ...LETTERING, centerX: 49.5 },
+    lettering: LETTERING_DRESS,
     thumb: thumbFor("jersey-dress"),
     previews: { ...PLATES["jersey-dress"] },
   },
@@ -270,7 +261,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "aop-hat",
     handle: "bayonne-bees-aop-hat",
     name: "AOP Hat",
-    blurb: "All-over geo on the crown. Crest up front. Pick the side-panel language.",
+    blurb: "All-over print on the crown. Crest up front. S/M or L/XL.",
     category: "sideline",
     price: 36,
     customizable: true,
@@ -278,15 +269,14 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "hat",
-    thumb: PLATES["aop-hat"].front,
+    thumb: thumbFor("aop-hat"),
     previews: { ...PLATES["aop-hat"] },
   },
   {
     id: "crewneck",
     handle: "bayonne-bees-crewneck",
     name: "1936 Crewneck",
-    blurb:
-      "Garnet body, black geo side panels. The year the school opened — motif only, no lettering.",
+    blurb: "Garnet crew. The year on the sleeve. Soft, no lettering.",
     category: "alumni",
     price: 64,
     customizable: true,
@@ -309,7 +299,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: PLATES.sweatpants.front,
+    thumb: thumbFor("sweatpants"),
     previews: { ...PLATES.sweatpants },
   },
   {

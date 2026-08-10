@@ -2,6 +2,8 @@
 
 Ogilvy's rules: the headline does 80% of the work, it states a fact rather than an adjective, and the body is long because people who are actually interested read. Nothing uses "elevate," "premium," or "iconic."
 
+**Legal (purchasable):** Until BOE permission is on file, commerce copy is **Bayonne** — garnet, 1936, Avenue A — not “Bees” / school marks. See `docs/LEGAL_GATE.md`. Pop-up buy: `docs/POPUP_BUY.md`.
+
 ---
 
 ## The headline

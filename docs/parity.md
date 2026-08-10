@@ -62,6 +62,10 @@ Tier 2: `src/render/probes.ts`. Tier 1: `src/media/campaignGate.ts`.
 - [ ] Pattern meaning documented in PDP copy
 - [ ] Deviation register unchanged, or a new row with justification (max 5)
 
+## Legal (blocks school-mark launch)
+
+See `docs/LEGAL_GATE.md` and `src/catalog/legal.ts`. Pop-up buy plan: `docs/POPUP_BUY.md`.
+
 ## Build order (insert)
 
 … → catalog → **7.6 PDP photo/render toggle** → personalization → site chrome → CI.
