@@ -1,14 +1,9 @@
-# Spirit
+# Spirit — Match crest master
 
-Football / sideline energy for Bayonne Team Customs — not the whole site story.
-
-| Asset | Use |
+| Asset | Role |
 |---|---|
-| `boxing-bee.png` | Boxing bee mark — high-res (landing + store headers) |
-| `boxing-bee-mark.png` | Compact 512px mark for tight UI slots |
-| `../heroes/hero-spirit-football.jpg` | Spirit category hero |
-| `../heroes/hero-spirit-stadium.jpg` | Alternate stadium spirit still |
-| `../heroes/hero-landing.jpg` | Universal Team Customs landing hero (current kit) |
-| `../bayonne-landing-hero.jpg` | Archive — football spirit still (not the landing) |
+| `boxing-bee.png` | **Only** Match crest + site chrome logo (`CRESTS.primary` in `src/lib/brandAssets.ts`) |
 
-Commercial rules still apply: no student names on-site, no manufacturer logos, no “official kit of” claims. Queen Bees identity stays a featured crest build, not the primary flow.
+Do not add alternate bee PNGs (`*-mark`, `*-logo`, `*-final`). Size variants belong next to this file only if the manifest exports them from the same artwork.
+
+Queen Bees identity stays in `../reveal/` — not this folder.
