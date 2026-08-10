@@ -132,11 +132,13 @@ const DRAFTS: Draft[] = [
     block: "match-short-v1",
     mode: "motif",
     motifDefault: "chevron",
-    blurb: "135gsm micro-poly. Bone hairline piping. Garnet→inkBlack gradient side panel.",
+    blurb:
+      "135gsm micro-poly. Double bone/white ink pinstripes on the side — sublimated, not embroidered.",
     plateFront: "shorts",
     plateSecondary: "shorts",
     strikeOffApproved: true,
-    patternCopy: MOTIF_MEANING.chevron,
+    patternCopy:
+      "Double white ink pinstripes — match-day side language, two lines only (never three).",
   },
   {
     sku: "BB-SOCK",
@@ -332,11 +334,13 @@ const DRAFTS: Draft[] = [
     block: "alumni-short-v1",
     mode: "motif",
     motifDefault: "chevron",
-    blurb: "Same garnet as the Match strip. Off-field cut.",
+    blurb:
+      "Same garnet as the Match strip. Double black ink pinstripes on the side — sublimated, not embroidered. Off-field cut.",
     plateFront: "geo-shorts",
     plateSecondary: "geo-shorts",
     strikeOffApproved: true,
-    patternCopy: MOTIF_MEANING.chevron,
+    patternCopy:
+      "Double black ink pinstripes — alumni/sideline side language, two lines only (never three).",
   },
   {
     sku: "BB-CLASS",
