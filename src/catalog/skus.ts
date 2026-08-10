@@ -1,6 +1,7 @@
 /**
- * Build-map catalog — 17 SKUs.
+ * Build-map catalog (+ pop-up buy SKUs).
  * Gate: validateSublimation + parity before publish. Do not ship without both.
+ * Legal: no Bees / school marks on purchasable units until BOE permission — see legal.ts.
  */
 
 import { COLOR } from "@/tokens/brand";
@@ -133,7 +134,7 @@ const DRAFTS: Draft[] = [
     mode: "motif",
     motifDefault: "chevron",
     blurb:
-      "135gsm micro-poly. Double bone/white ink pinstripes on the side — sublimated, not embroidered.",
+      "135gsm micro-poly. Double bone/white ink pinstripes on the side — sublimated, not embroidered. Pop-up: do not carry loose stock — sell inside sets or at $44+.",
     plateFront: "shorts",
     plateSecondary: "shorts",
     strikeOffApproved: true,
@@ -239,6 +240,54 @@ const DRAFTS: Draft[] = [
     plateSecondary: "quarter-zip",
     strikeOffApproved: true,
     patternCopy: MOTIF_MEANING.arc,
+  },
+  {
+    sku: "BB-F36",
+    name: "Founding 36 Jacket",
+    price: 165,
+    category: "sideline",
+    process: "sublimation-cutsew",
+    fabric: "bonded-double-knit",
+    gsm: 250,
+    block: "founding-36-v1",
+    mode: "motif",
+    motifDefault: "arc",
+    blurb:
+      "Anthem silhouette, numbered 1/36–36/36 inside the collar. Pop-up anchor — BAYONNE, garnet, Avenue A. Six units only.",
+    plateFront: "quarter-zip",
+    plateSecondary: "quarter-zip",
+    strikeOffApproved: true,
+    patternCopy: MOTIF_MEANING.arc,
+  },
+  {
+    sku: "BB-BEANIE",
+    name: "Garnet Beanie",
+    price: 34,
+    category: "sideline",
+    process: "knit",
+    fabric: "knit-jacquard",
+    gsm: 0,
+    block: "beanie-knit",
+    mode: "none",
+    blurb: "One size. Garnet knit. September velocity item — no size risk.",
+    plateFront: "aop-hat",
+    plateSecondary: "aop-hat",
+  },
+  {
+    sku: "BB-TEE",
+    name: "Bayonne Tee",
+    price: 38,
+    category: "alumni",
+    process: "sublimation-cutsew",
+    fabric: "poly-interlock-matte",
+    gsm: 145,
+    block: "bayonne-tee-v1",
+    mode: "none",
+    blurb: "BAYONNE · 1936 · Avenue A. No school marks. No nickname until BOE permission.",
+    plateFront: "jersey",
+    plateSecondary: "jersey",
+    strikeOffApproved: true,
+    patternCopy: MOTIF_MEANING.grid,
   },
   {
     sku: "BB-PANT",
