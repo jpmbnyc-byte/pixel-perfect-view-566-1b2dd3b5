@@ -71,7 +71,7 @@ Extra tag when customizable: `custom-name-number`
 | 8 | `bayonne-bees-ls-jersey` | AOP long-sleeve jersey blank — dye-sub + DTF | Warm-up | Yes — back | — |
 | 9 | `bayonne-bees-quarter-zip` | AOP Long Sleeve 1/4 Zip Jersey — dye-sub + DTF crest | Warm-up | Chest crest only | — |
 | 10 | `bayonne-bees-sweatpants` | AOP Sweatpants — dye-sub | Warm-up | No — side geo | — |
-| 11 | `bayonne-bees-geo-shorts` | AOP Sports / Jersey Shorts — dye-sub | Alumni | No — side geo | — |
+| 11 | `bayonne-bees-geo-shorts` | AOP Sports / Jersey Shorts — dye-sub | Faithful | No — side geo | — |
 
 **Image rule:** Category heroes and PDP live views share the same preview file per garment. See `docs/MERCHIZE_BLANKS.md`.
 

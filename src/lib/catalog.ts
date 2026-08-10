@@ -38,7 +38,8 @@ import hatSide from "@/assets/bayonne/previews/hat-side.jpg";
 import sweatsFront from "@/assets/bayonne/previews/sweats-front.jpg";
 import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
 
-export type CategoryId = "match" | "sideline" | "warmups" | "alumni";
+/** Four tiers — named consistently with docs/THE_SYSTEM.md */
+export type CategoryId = "match" | "training" | "sideline" | "faithful";
 
 export type MotifId = "chevron" | "grid" | "arc";
 
@@ -96,25 +97,25 @@ export const CATEGORIES: Category[] = [
     hero: jerseyFront,
   },
   {
+    id: "training",
+    label: "Training",
+    description: "What the program wears before the whistle.",
+    /** Identical to Long-Sleeve Jersey live preview */
+    hero: lsFront,
+  },
+  {
     id: "sideline",
     label: "Sideline",
-    description: "For standing outside in November.",
+    description: "Coach, travel, November on the rail.",
     /** Identical to Hoops Jersey live preview */
     hero: hoopsFront,
   },
   {
-    id: "warmups",
-    label: "Warmups",
-    description: "What the team wears before the whistle.",
+    id: "faithful",
+    label: "Faithful",
+    description: "Parents, alumni, boosters — the year is the product.",
     /** Identical to 1936 Crewneck live preview */
     hero: crewFront,
-  },
-  {
-    id: "alumni",
-    label: "Alumni",
-    description: "The years are on the sleeve, or the collar.",
-    /** Identical to Alumni Shorts live preview */
-    hero: geoShortsFront,
   },
 ];
 
@@ -301,8 +302,8 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "crewneck",
     handle: "bayonne-bees-crewneck",
     name: "1936 Crewneck",
-    blurb: "Garnet body, black geo side panels. The year the school opened — motif only, no lettering.",
-    category: "alumni",
+    blurb: "Garnet body, black geo side panels. 1936 — the year the school opened. The year is the product.",
+    category: "faithful",
     price: 64,
     customizable: true,
     nameNumber: false,
@@ -317,7 +318,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-sweatpants",
     name: "Base Layer Sweats",
     blurb: "Black base. Garnet geometric side panel. Crest on the left thigh. Motif only.",
-    category: "warmups",
+    category: "training",
     price: 58,
     customizable: true,
     nameNumber: false,
@@ -332,7 +333,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-ls-jersey",
     name: "Long-Sleeve Jersey",
     blurb: "Name and number on the back. Year inside the collar.",
-    category: "warmups",
+    category: "training",
     price: 62,
     customizable: true,
     nameNumber: true,
@@ -348,7 +349,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-quarter-zip",
     name: "Quarter-Zip",
     blurb: "Crest on the left chest. Nothing else on the front.",
-    category: "warmups",
+    category: "training",
     price: 68,
     customizable: true,
     nameNumber: false,
@@ -362,8 +363,8 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "geo-shorts",
     handle: "bayonne-bees-geo-shorts",
     name: "Alumni Shorts",
-    blurb: "Same garnet as the match strip. Geometric side panel off the field.",
-    category: "alumni",
+    blurb: "Same garnet as the match strip. Geometric side panel. Off the field, still Bee Country.",
+    category: "faithful",
     price: 42,
     customizable: true,
     nameNumber: false,
