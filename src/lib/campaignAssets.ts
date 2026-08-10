@@ -16,6 +16,7 @@ import dressFront from "@/assets/bayonne/campaign/dress-front.jpg";
 import dressTq from "@/assets/bayonne/campaign/dress-three-quarter.jpg";
 import dressBack from "@/assets/bayonne/campaign/dress-back.jpg";
 import shortsFront from "@/assets/bayonne/campaign/shorts-front.jpg";
+import geoShortsFront from "@/assets/bayonne/campaign/geo-shorts-front.jpg";
 import crewFront from "@/assets/bayonne/campaign/crew-front.jpg";
 import qzipFront from "@/assets/bayonne/campaign/qzip-front.jpg";
 
@@ -54,6 +55,7 @@ export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
     back: dressBack,
   },
   shorts: { front: shortsFront },
+  "geo-shorts": { front: geoShortsFront },
   crewneck: { front: crewFront },
   "quarter-zip": { front: qzipFront },
 };

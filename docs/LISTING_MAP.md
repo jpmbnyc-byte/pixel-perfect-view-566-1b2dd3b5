@@ -137,14 +137,16 @@ Print-zone reference scale (`src/lib/kit.ts` → `LETTERING`), as % of mockup / 
 
 ### 2. Athletic shorts (`bayonne-bees-shorts`)
 
-App preview: **front + side** (not back). Customer picks geometric motif; no name/number/font.
+App preview: **front + side** (not back). No name/number/font.
+
+**Side language (all shorts):** exactly **two** sublimated ink pinstripes — never embroidered, never three (manufacturer exclusion).  
+**Match day:** white/bone pinstripes · **Alumni / sideline / other:** black pinstripes.
 
 | Zone | Placement | Art |
 |---|---|---|
-| Side panels | Outer thigh, full height | None / chevron / grid / arc (customer motif) |
-| Hem accent | Bottom 8–12% | Thin bone/maroon rule or micro-geo |
-| Soft brand | Lower left leg, H ~6% | Small crest or `BEES` wordmark |
-| Waistband | Solid black or maroon | No critical logos on elastic |
+| Side pinstripes | Outer thigh, full height | Double white/bone ink lines (match) |
+| Soft brand | Lower left leg, H ~6% | Boxing-bee crest |
+| Waistband | Solid black | No critical logos on elastic |
 
 ### 2b. AOP hat (`bayonne-bees-aop-hat`)
 
@@ -214,12 +216,14 @@ App preview: **front + side**. Versatile black base with garnet accent side pane
 | Soft brand | Left thigh | Small boxing-bee crest |
 | Waist / cuff | Black rib | Drawcord optional |
 
-### 10. Geo lifestyle shorts (`bayonne-bees-geo-shorts`)
+### 10. Alumni shorts (`bayonne-bees-geo-shorts`)
+
+Same double-pinstripe system as Match Shorts; ink is **black** (not white).
 
 | Zone | Art |
 |---|---|
-| Panels | Polka / topo / chevron in maroon-black-bone |
-| Brand lockup | Lower leg: crest + `BEES` (not sample/placeholder text) |
+| Side pinstripes | Double black ink lines, waist to hem |
+| Brand lockup | Lower leg: boxing-bee crest |
 
 ---
 

@@ -188,7 +188,7 @@ export const PRODUCTS: CatalogProduct[] = [
     previewPair: "front-back",
     sizeChart: "apparel",
     lettering: LETTERING,
-    thumb: PLATES.jersey.front,
+    thumb: thumbFor("jersey"),
     previews: { ...PLATES.jersey },
   },
   {
@@ -196,7 +196,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-shorts",
     name: "Match Shorts",
     blurb:
-      "Same garnet as the jersey. Geometric side panel. Bee on the left leg. No name or number.",
+      "Same garnet as the jersey. Double white ink pinstripes on the side — sublimated, not embroidered. Bee on the left leg. No name or number.",
     category: "match",
     price: 34,
     shopifyItem: "bottom",
@@ -205,7 +205,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: PLATES.shorts.front,
+    thumb: thumbFor("shorts"),
     previews: { ...PLATES.shorts },
   },
   {
@@ -213,7 +213,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-full-set",
     name: "Full Kit Set",
     blurb:
-      "Black-collar jersey and matching shorts. One garnet. One crest. Name and number on the jersey.",
+      "Black-collar jersey and matching shorts with double white ink pinstripes. One garnet. One crest. Name and number on the jersey.",
     category: "match",
     price: 89,
     shopifyItem: "set",
@@ -229,7 +229,7 @@ export const PRODUCTS: CatalogProduct[] = [
       name: { ...LETTERING.name, y: 16 },
       number: { ...LETTERING.number, y: 28 },
     },
-    thumb: PLATES["full-set"].front,
+    thumb: thumbFor("full-set"),
     previews: { ...PLATES["full-set"] },
   },
   {
@@ -246,7 +246,7 @@ export const PRODUCTS: CatalogProduct[] = [
     sizeChart: "apparel",
     /** Blackout mesh — full torso; geometric center is the spine */
     lettering: { ...LETTERING, centerX: 50, surface: "blackout" },
-    thumb: PLATES["hoops-jersey"].front,
+    thumb: thumbFor("hoops-jersey"),
     previews: { ...PLATES["hoops-jersey"] },
   },
   {
@@ -263,7 +263,7 @@ export const PRODUCTS: CatalogProduct[] = [
     previewPair: "front-back",
     sizeChart: "apparel",
     lettering: { ...LETTERING, centerX: 49.5 },
-    thumb: PLATES["jersey-dress"].front,
+    thumb: thumbFor("jersey-dress"),
     previews: { ...PLATES["jersey-dress"] },
   },
   {
@@ -294,7 +294,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: PLATES.crewneck.front,
+    thumb: thumbFor("crewneck"),
     previews: { ...PLATES.crewneck },
   },
   {
@@ -325,7 +325,7 @@ export const PRODUCTS: CatalogProduct[] = [
     previewPair: "front-back",
     sizeChart: "apparel",
     lettering: { ...LETTERING, centerX: 50 },
-    thumb: PLATES["ls-jersey"].front,
+    thumb: thumbFor("ls-jersey"),
     previews: { ...PLATES["ls-jersey"] },
   },
   {
@@ -340,14 +340,15 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-back",
     sizeChart: "apparel",
-    thumb: PLATES["quarter-zip"].front,
+    thumb: thumbFor("quarter-zip"),
     previews: { ...PLATES["quarter-zip"] },
   },
   {
     id: "geo-shorts",
     handle: "bayonne-bees-geo-shorts",
     name: "Alumni Shorts",
-    blurb: "Same garnet as the match strip. Geometric side panel off the field.",
+    blurb:
+      "Same garnet as the match strip. Double black ink pinstripes on the side — sublimated, not embroidered. Off the field.",
     category: "alumni",
     price: 42,
     customizable: true,
@@ -355,7 +356,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: PLATES["geo-shorts"].front,
+    thumb: thumbFor("geo-shorts"),
     previews: { ...PLATES["geo-shorts"] },
   },
 ];
