@@ -235,33 +235,16 @@ App preview: **front + side**. Versatile black base with garnet accent side pane
 
 ---
 
-## Hero images (Behance kit-campaign bar)
+## Brand imagery (single source of truth)
 
-Asset folder: `src/assets/bayonne/heroes/`
+All shop surfaces resolve through [`src/lib/brandAssets.ts`](../src/lib/brandAssets.ts) — see [`docs/BRAND_ASSETS.md`](./BRAND_ASSETS.md).
 
-| ID | File | Outfit | Setting | Use |
-|---|---|---|---|---|
-| H0 | `hero-landing.jpg` | Match jersey lifestyle | Floodlit pitch, cinematic | `/team` landing |
-| H1 | `hero-kit-studio.jpg` | Jersey + shorts, panel kit | Garnet studio + diagonal light | Core category / kit PDP |
-| H2 | `hero-spirit-gym.jpg` | Jersey dress / sideline | Indoor court | Spirit category |
-| H3 | `hero-crewneck-studio.jpg` | Geo crewneck | Neutral grey studio | Warm-up |
-| H4 | `hero-field-lifestyle.jpg` | Jersey lifestyle | Pitch / campaign | Lifestyle |
-| H5 | `hero-ls-rack.jpg` | LS jersey front + back | Minimal hanger rack | Name/Number education |
+- Crest / chrome: `CRESTS.primary` (`spirit/boxing-bee.png`)
+- Queen Bees story: `CRESTS.queen` (`reveal/reveal-01-crest.jpg`)
+- Garment plates: `PLATES[productId]` under `src/assets/bayonne/previews/`
+- Landing hero / OG / category heroes: `SURFACES.*` (same modules as Match Jersey / category lead fronts)
 
-No manufacturer logos or 3-stripe marks on finals.
-
-### Base product previews
-
-Asset folder: `src/assets/bayonne/previews/` (photoreal front/back PDP shots)
-
-| File | Purpose |
-|---|---|
-| `mock-jersey-front.jpg` | Front placement review |
-| `mock-jersey-back.jpg` | Name/number review |
-| `mock-shorts.jpg` | Shorts geo + brand |
-| `mock-crewneck.jpg` | AOP geo sweatshirt |
-| `mock-hoops-jersey.jpg` | Basketball tank |
-| `mock-quarter-zip.jpg` | Warm-up layer |
+Do not maintain a parallel `heroes/` directory — it drifts from PDP plates.
 
 ---
 

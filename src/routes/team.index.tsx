@@ -1,16 +1,10 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
-import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import { LiquidBackdrop } from "@/components/LiquidBackdrop";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
+import { CRESTS, SURFACES } from "@/lib/brandAssets";
 import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
-
-/** Landing hero + kit plate = Full Kit / Match Jersey live plates (identical match). */
-const landingHero = productById("full-set")!.thumb;
-const jerseyFront = productById("jersey")!.thumb;
-const fieldHero = productById("geo-shorts")!.thumb;
 
 export const Route = createFileRoute("/team/")({
   head: () => {
@@ -25,7 +19,9 @@ export const Route = createFileRoute("/team/")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: SURFACES.ogImage },
         { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:image", content: SURFACES.ogImage },
       ],
     };
   },
@@ -52,10 +48,11 @@ function TeamLanding() {
         <div className="absolute inset-0" aria-hidden>
           {/* Full kit plate — contain, not cover-crop (Merchize blank must stay readable) */}
           <img
-            src={landingHero}
-            alt="Bayonne Bees Match kit in school garnet"
+            src={SURFACES.landingHero}
+            alt="Bayonne Bees Match jersey in school garnet"
             className="absolute inset-0 h-full w-full object-contain object-center opacity-[0.78] motion-safe:animate-team-hero-drift"
           />
+
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(8,6,8,0.05)_0%,rgba(8,6,8,0.45)_50%,rgba(5,4,6,0.92)_100%)]" />
           <div className="absolute inset-x-0 top-0 h-[32%] bg-gradient-to-b from-black/80 via-black/25 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-black via-black/80 to-transparent" />
@@ -66,10 +63,11 @@ function TeamLanding() {
             <p className="place-line">669 Avenue A · Bayonne, NJ · Est. 1936</p>
             <div className="mt-4 flex items-center gap-3">
               <img
-                src={boxingBee}
+                src={CRESTS.primary}
                 alt=""
                 className="h-14 w-14 shrink-0 object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] motion-safe:animate-team-bee-pulse sm:h-16 sm:w-16"
               />
+
               <div className="min-w-0">
                 <p className="font-kit text-[clamp(2rem,10vw,3.4rem)] leading-none tracking-[0.04em] text-bone">
                   BAYONNE BEES
@@ -119,10 +117,11 @@ function TeamLanding() {
           </h2>
           <figure className="mt-8 overflow-hidden bg-[var(--garnet)]">
             <img
-              src={queenCrest}
+              src={CRESTS.queen}
               alt="Queen Bees crest — boxing bee with crown, drawn for Bayonne"
               className="mx-auto h-auto w-full max-w-md object-contain"
             />
+
           </figure>
           <p className="mt-6 text-base leading-relaxed text-bone/75">
             In 2024 the Hudson County champions answered to a name that lived only in speech.
@@ -154,10 +153,11 @@ function TeamLanding() {
         >
           <div className="relative aspect-[4/5] w-full overflow-hidden bg-black sm:aspect-[5/4]">
             <img
-              src={jerseyFront}
+              src={SURFACES.landingMatchJersey}
               alt="Match Jersey front in Bayonne garnet"
               className="h-full w-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.03]"
             />
+
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 px-6 pb-8">
               <p className="label-caps text-bone/55">Match · Personalize</p>
@@ -198,10 +198,11 @@ function TeamLanding() {
       <section className="relative isolate overflow-hidden">
         <div className="absolute inset-0" aria-hidden>
           <img
-            src={fieldHero}
+            src={SURFACES.landingPlace}
             alt=""
             className="h-full w-full object-cover opacity-40"
           />
+
           <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-[560px] px-6 py-16">
@@ -265,10 +266,11 @@ function TeamLanding() {
               </ul>
             </div>
             <img
-              src={boxingBee}
+              src={CRESTS.primary}
               alt=""
               className="h-20 w-20 shrink-0 object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
             />
+
           </div>
           <div className="mt-10 flex flex-col gap-3">
             <Link

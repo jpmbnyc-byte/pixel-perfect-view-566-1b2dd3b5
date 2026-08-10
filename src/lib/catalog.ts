@@ -10,33 +10,13 @@
 
 import type { Item, LetteringLayout } from "./kit";
 import { LETTERING } from "./kit";
+import { PLATES, SURFACES } from "./brandAssets";
 
 /*
- * Merchize-printable plates (dye-sublimation AOP + flat DTF crests).
- * Heroes and live PDP views MUST share the same module — identical match.
+ * Merchize-printable plates — resolved only via brandAssets (SSOT).
+ * Thumbs, category heroes, landing, OG, and PDP share those modules.
  * Blank map: docs/MERCHIZE_BLANKS.md
  */
-import jerseyFront from "@/assets/bayonne/previews/jersey-front.jpg";
-import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
-import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
-import shortsSide from "@/assets/bayonne/previews/shorts-side.jpg";
-import setFront from "@/assets/bayonne/previews/set-front.jpg";
-import hoopsFront from "@/assets/bayonne/previews/hoops-front.jpg";
-import hoopsBack from "@/assets/bayonne/previews/hoops-back.jpg";
-import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
-import dressBack from "@/assets/bayonne/previews/dress-back.jpg";
-import crewFront from "@/assets/bayonne/previews/crew-front.jpg";
-import crewSide from "@/assets/bayonne/previews/crew-side.jpg";
-import lsFront from "@/assets/bayonne/previews/ls-front.jpg";
-import lsBack from "@/assets/bayonne/previews/ls-back.jpg";
-import qzipFront from "@/assets/bayonne/previews/qzip-front.jpg";
-import qzipBack from "@/assets/bayonne/previews/qzip-back.jpg";
-import geoShortsFront from "@/assets/bayonne/previews/geo-shorts-front.jpg";
-import geoShortsSide from "@/assets/bayonne/previews/geo-shorts-side.jpg";
-import hatFront from "@/assets/bayonne/previews/hat-front.jpg";
-import hatSide from "@/assets/bayonne/previews/hat-side.jpg";
-import sweatsFront from "@/assets/bayonne/previews/sweats-front.jpg";
-import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
 
 export type CategoryId = "match" | "sideline" | "warmups" | "alumni";
 
@@ -92,29 +72,25 @@ export const CATEGORIES: Category[] = [
     id: "match",
     label: "Match",
     description: "What they wear when the whistle blows.",
-    /** Identical to Match Jersey live preview */
-    hero: jerseyFront,
+    hero: SURFACES.categoryHero.match,
   },
   {
     id: "sideline",
     label: "Sideline",
     description: "For standing outside in November.",
-    /** Identical to Hoops Jersey live preview */
-    hero: hoopsFront,
+    hero: SURFACES.categoryHero.sideline,
   },
   {
     id: "warmups",
     label: "Warmups",
     description: "What the team wears before the whistle.",
-    /** Identical to 1936 Crewneck live preview */
-    hero: crewFront,
+    hero: SURFACES.categoryHero.warmups,
   },
   {
     id: "alumni",
     label: "Alumni",
     description: "The years are on the sleeve, or the collar.",
-    /** Identical to Alumni Shorts live preview */
-    hero: geoShortsFront,
+    hero: SURFACES.categoryHero.alumni,
   },
 ];
 
@@ -206,8 +182,8 @@ export const PRODUCTS: CatalogProduct[] = [
     previewPair: "front-back",
     sizeChart: "apparel",
     lettering: LETTERING,
-    thumb: jerseyFront,
-    previews: { front: jerseyFront, secondary: jerseyBack },
+    thumb: PLATES.jersey.front,
+    previews: { ...PLATES.jersey },
   },
   {
     id: "shorts",
@@ -222,8 +198,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: shortsFront,
-    previews: { front: shortsFront, secondary: shortsSide },
+    thumb: PLATES.shorts.front,
+    previews: { ...PLATES.shorts },
   },
   {
     id: "full-set",
@@ -239,15 +215,15 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Back uses Match jersey plate — same spine as jersey */
+    /** Own set-back plate — do not borrow jersey-back */
     lettering: {
       ...LETTERING,
       centerX: 48,
       name: { ...LETTERING.name, y: 16 },
       number: { ...LETTERING.number, y: 28 },
     },
-    thumb: setFront,
-    previews: { front: setFront, secondary: jerseyBack },
+    thumb: PLATES["full-set"].front,
+    previews: { ...PLATES["full-set"] },
   },
   {
     id: "hoops-jersey",
@@ -263,8 +239,8 @@ export const PRODUCTS: CatalogProduct[] = [
     sizeChart: "apparel",
     /** Blackout mesh — full torso; geometric center is the spine */
     lettering: { ...LETTERING, centerX: 50, surface: "blackout" },
-    thumb: hoopsFront,
-    previews: { front: hoopsFront, secondary: hoopsBack },
+    thumb: PLATES["hoops-jersey"].front,
+    previews: { ...PLATES["hoops-jersey"] },
   },
   {
     id: "jersey-dress",
@@ -279,8 +255,8 @@ export const PRODUCTS: CatalogProduct[] = [
     previewPair: "front-back",
     sizeChart: "apparel",
     lettering: { ...LETTERING, centerX: 49.5 },
-    thumb: dressFront,
-    previews: { front: dressFront, secondary: dressBack },
+    thumb: PLATES["jersey-dress"].front,
+    previews: { ...PLATES["jersey-dress"] },
   },
   {
     id: "aop-hat",
@@ -294,8 +270,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "hat",
-    thumb: hatFront,
-    previews: { front: hatFront, secondary: hatSide },
+    thumb: PLATES["aop-hat"].front,
+    previews: { ...PLATES["aop-hat"] },
   },
   {
     id: "crewneck",
@@ -309,8 +285,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: crewFront,
-    previews: { front: crewFront, secondary: crewSide },
+    thumb: PLATES.crewneck.front,
+    previews: { ...PLATES.crewneck },
   },
   {
     id: "sweatpants",
@@ -324,8 +300,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: sweatsFront,
-    previews: { front: sweatsFront, secondary: sweatsSide },
+    thumb: PLATES.sweatpants.front,
+    previews: { ...PLATES.sweatpants },
   },
   {
     id: "ls-jersey",
@@ -340,8 +316,8 @@ export const PRODUCTS: CatalogProduct[] = [
     previewPair: "front-back",
     sizeChart: "apparel",
     lettering: { ...LETTERING, centerX: 50 },
-    thumb: lsFront,
-    previews: { front: lsFront, secondary: lsBack },
+    thumb: PLATES["ls-jersey"].front,
+    previews: { ...PLATES["ls-jersey"] },
   },
   {
     id: "quarter-zip",
@@ -355,8 +331,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-back",
     sizeChart: "apparel",
-    thumb: qzipFront,
-    previews: { front: qzipFront, secondary: qzipBack },
+    thumb: PLATES["quarter-zip"].front,
+    previews: { ...PLATES["quarter-zip"] },
   },
   {
     id: "geo-shorts",
@@ -370,8 +346,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: false,
     previewPair: "front-side",
     sizeChart: "apparel",
-    thumb: geoShortsFront,
-    previews: { front: geoShortsFront, secondary: geoShortsSide },
+    thumb: PLATES["geo-shorts"].front,
+    previews: { ...PLATES["geo-shorts"] },
   },
 ];
 

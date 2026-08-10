@@ -16,7 +16,7 @@ Blank map: [`docs/MERCHIZE_BLANKS.md`](../../../../docs/MERCHIZE_BLANKS.md)
 | Product | Front | Back | Merchize blank |
 |---|---|---|---|
 | Match Jersey | `jersey-front.jpg` | `jersey-back.jpg` | V-neck Short Sleeve Jersey `VSSJVN` |
-| Full Kit Set | `set-front.jpg` | `jersey-back.jpg` | Soccer Jersey Set `SJSEVN` |
+| Full Kit Set | `set-front.jpg` | `set-back.jpg` | Soccer Jersey Set `SJSEVN` |
 | Hoops Jersey | `hoops-front.jpg` | `hoops-back.jpg` | Sleeveless Jersey Tank |
 | Jersey Dress | `dress-front.jpg` | `dress-back.jpg` | Hoodie Dress (closest) |
 | Long-Sleeve Jersey | `ls-front.jpg` | `ls-back.jpg` | Long-sleeve AOP jersey |

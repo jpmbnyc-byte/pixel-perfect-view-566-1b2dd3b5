@@ -6,30 +6,23 @@ Write as Ogilvy would: specific facts, respect for the reader, no clever fog. Pr
 
 ---
 
-## Layer 1 — Reveal carousel (silent, no music)
+## Layer 1 — Crest proof (static)
 
-Shipped on `/team` as a full-viewport, silent five-frame carousel. No CTA in the reveal.
+Shipped on `/team` as a Queen Bees section: one crest, one story. No slideshow. No CTA in the crest figure.
 
-| Frame | Content |
-| --- | --- |
-| 1 | Crest alone, garnet field |
-| 2 | QUEEN BEES wordmark, white on garnet |
-| 3 | Crest on the kit, chest left |
-| 4 | Copy (only frame with words until credit) |
-| 5 | `No Parade F.C. — Bayonne, NJ` |
+Asset (via `CRESTS.queen` in [`src/lib/brandAssets.ts`](../src/lib/brandAssets.ts)):
 
-**Frame 4 copy:**
+`src/assets/bayonne/reveal/reveal-01-crest.jpg`
 
-> They've been calling themselves this for years.
-> Nobody ever drew it.
+Headline on-page:
 
-Assets: `src/assets/bayonne/reveal/reveal-0{1–5}-*.jpg`
+> They’ve been calling themselves this for years. Nobody ever drew it.
 
 ---
 
 ## Layer 2 — Caption
 
-Live under the landing hero. **No CTA. No link.** The absence is the credibility.
+Under the crest. **No CTA. No link.** The absence is the credibility.
 
 > In 2024 the Hudson County champions answered to a name that lived only in speech. Queen Bees. There was no mark. No embroidery. Nothing a mother could point to on a jacket and say, that is ours.
 >

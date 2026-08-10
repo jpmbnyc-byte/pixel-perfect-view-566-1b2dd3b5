@@ -1,29 +1,26 @@
 # Bayonne Bees brand assets
 
+**Single source of truth for what the app loads:** [`src/lib/brandAssets.ts`](../../lib/brandAssets.ts).
+
+Do not import jpg/png paths from routes or components except through that manifest (or catalog fields built from it).
+
 | Folder | Contents |
 |---|---|
-| `./` | Logo + archive composites |
-| `heroes/` | Category campaign stills — do not overwrite from PDP work |
-| `previews/` | Photoreal front/back PDP detail shots for live customizer |
-| `reveal/` | Silent Queen Bees crest reveal — 5 frames, no CTA |
+| `spirit/` | `boxing-bee.png` — Match crest + site chrome (`CRESTS.primary`) |
+| `reveal/` | `reveal-01-crest.jpg` — Queen Bees story only (`CRESTS.queen`) |
+| `previews/` | Merchize printable plates — one front + secondary per SKU (`PLATES`) |
 | `../fonts/` | Local OTF kit lettering faces |
 
-Creative stack: [`docs/QUEEN_BEES_STACK.md`](../../../docs/QUEEN_BEES_STACK.md).  
-Placement + handles: [`docs/LISTING_MAP.md`](../../../docs/LISTING_MAP.md).
+## Rules
 
-## Kit graphic language
+1. **One Match crest file** — `spirit/boxing-bee.png`. No parallel logo PNGs.
+2. **One plate module per SKU view** — thumbs, category heroes, landing hero, OG, and PDP all resolve the same import.
+3. **No `heroes/` fork** — campaign stills that duplicate plates are forbidden (they drift).
+4. **Own front/back pair** — never borrow another SKU’s secondary when a dedicated plate exists.
+5. **Queen Bees crest** is Faithful/story only — not the Match kit crest.
 
-Bold torso panel, white edge line, tonal honeycomb inside the panel, **single crest left chest**, garnet field. Commercial creative: no student faces, names, or numbers; no manufacturer logos; no “official kit of” claims.
+Creative: bold torso panel, white edge line, single crest left chest, garnet field. No student faces, manufacturer logos, or “official kit of” claims.
 
-## Heroes (`heroes/`) — campaign only
-
-- `hero-landing.jpg`
-- `hero-kit-studio.jpg` — Core
-- `hero-spirit-gym.jpg` — Spirit
-- `hero-crewneck-studio.jpg` — Warm-up
-- `hero-field-lifestyle.jpg` — Lifestyle
-- `hero-ls-rack.jpg` — Collar-year education
-
-## Previews (`previews/`) — live PDP
-
-Front + back photoreal detail shots per SKU. See [`previews/README.md`](./previews/README.md).
+Placement + handles: [`docs/LISTING_MAP.md`](../../../docs/LISTING_MAP.md).  
+Blank map: [`docs/MERCHIZE_BLANKS.md`](../../../docs/MERCHIZE_BLANKS.md).  
+Queen Bees: [`docs/QUEEN_BEES_STACK.md`](../../../docs/QUEEN_BEES_STACK.md).

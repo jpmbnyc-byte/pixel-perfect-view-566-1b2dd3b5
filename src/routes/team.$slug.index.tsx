@@ -1,8 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
-import logo from "@/assets/bayonne/spirit/boxing-bee.png";
 import { LiquidBackdrop } from "@/components/LiquidBackdrop";
+import { CRESTS } from "@/lib/brandAssets";
 import {
   CATEGORIES,
   productById,
@@ -67,10 +67,11 @@ function TeamStorePage() {
 
           <div className="mt-5 flex items-center gap-3">
             <img
-              src={logo}
+              src={CRESTS.primary}
               alt=""
               className="h-16 w-16 shrink-0 object-contain drop-shadow-[0_2px_14px_rgba(90,22,38,0.45)] sm:h-[4.5rem] sm:w-[4.5rem]"
             />
+
             <div className="min-w-0">
               <h1 className="font-kit text-[clamp(2.1rem,9vw,3rem)] leading-none tracking-[0.04em]">
                 BAYONNE BEES
