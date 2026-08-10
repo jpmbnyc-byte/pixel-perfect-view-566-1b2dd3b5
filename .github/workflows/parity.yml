@@ -1,0 +1,21 @@
+name: Parity
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run lint:render
+      - run: npm run render:catalog
+      - run: npm run test:parity
+      - run: npm run test:matrix

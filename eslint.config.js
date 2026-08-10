@@ -36,5 +36,18 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    files: ["src/render/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "MemberExpression[object.name='Math'][property.name='random']",
+          message:
+            "Math.random() is banned in src/render/. Consume renderSeed(spec, view) for every stochastic step.",
+        },
+      ],
+    },
+  },
   eslintPluginPrettier,
 );

@@ -9,7 +9,13 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "lint:render": "eslint src/render",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:parity": "vitest run tests/parity.test.ts tests/sublimation.test.ts",
+    "test:matrix": "vitest run tests/matrix.test.ts",
+    "test:sublimation": "vitest run tests/sublimation.test.ts",
+    "render:catalog": "tsx scripts/render-catalog.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -80,8 +86,10 @@
     "globals": "^15.15.0",
     "nitro": "3.0.260603-beta",
     "prettier": "^3.7.3",
+    "tsx": "^4.23.12",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
-    "vite": "^8.1.5"
+    "vite": "^8.1.5",
+    "vitest": "^3.2.7"
   }
 }
