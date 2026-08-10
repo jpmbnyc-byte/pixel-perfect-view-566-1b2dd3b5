@@ -29,7 +29,6 @@ import {
 import { campaignForProduct } from "@/media/campaignAssets";
 import { lineItemImageTier } from "@/media/tiers";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
-import { CAMPAIGN_DEMO_LETTERING } from "@/tokens/campaign";
 import { EASTER_EGGS } from "@/tokens/fun";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
@@ -87,11 +86,20 @@ function ProductListingPage() {
 
   const campaign = campaignForProduct(product);
   const truthViews = previewViewsFor(product);
-  const campaignViews: CanvasView[] = product.nameNumber
-    ? ["front", "three-quarter", "back"]
-    : truthViews;
+  const campaignViews: CanvasView[] = (() => {
+    if (!campaign) return truthViews;
+    const has = (v: CanvasView) => Boolean(campaign.views[v as keyof typeof campaign.views]);
+    if (product.nameNumber) {
+      return (["front", "three-quarter", "back"] as CanvasView[]).filter(has);
+    }
+    const single: CanvasView[] = [];
+    if (has("front")) single.push("front");
+    if (has("three-quarter")) single.push("three-quarter");
+    if (has("back")) single.push("back");
+    return single.length ? single : truthViews;
+  })();
   const activeViews = galleryMode === "photos" ? campaignViews : truthViews;
-  const imageTier = galleryMode === "photos" ? "campaign" : "truth";
+  const imageTier = galleryMode === "photos" && campaign ? "campaign" : "truth";
   const cartImageTier = lineItemImageTier({ name, number });
 
   const shopifyItem = product.shopifyItem;
@@ -321,28 +329,23 @@ function ProductListingPage() {
                   ? campaign.views.front
                   : product.previews.front
               }
+              {...(galleryMode === "photos" && campaign?.views["three-quarter"]
+                ? { threeQuarterSrc: campaign.views["three-quarter"] }
+                : {})}
               secondarySrc={
                 galleryMode === "photos" && campaign?.views.back
                   ? campaign.views.back
-                  : product.previews.secondary
+                  : galleryMode === "photos" && campaign?.views.front && !campaign.views.back
+                    ? campaign.views.front
+                    : product.previews.secondary
               }
               fontId={fontId}
-              name={
-                galleryMode === "photos" && product.nameNumber
-                  ? (campaign?.demoLettering?.name ?? CAMPAIGN_DEMO_LETTERING.name)
-                  : name
-              }
-              number={
-                galleryMode === "photos" && product.nameNumber
-                  ? (campaign?.demoLettering?.number ?? CAMPAIGN_DEMO_LETTERING.number)
-                  : number
-              }
+              name={name}
+              number={number}
               productLabel={product.name}
               showLettering={
-                usesTypography &&
-                product.nameNumber &&
-                (galleryMode === "name-it" ||
-                  (galleryMode === "photos" && Boolean(campaign?.status === "placeholder")))
+                // Campaign backs already carry AVENUE A / 36 — do not double-letter.
+                galleryMode === "name-it" && usesTypography && product.nameNumber
               }
               lettering={lettering}
               tier={imageTier}

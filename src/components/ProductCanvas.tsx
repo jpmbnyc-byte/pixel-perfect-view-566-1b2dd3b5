@@ -12,6 +12,8 @@ type Props = {
   frontSrc: string;
   /** Back (tops) or side (shorts/sweats/hat) companion shot */
   secondarySrc: string;
+  /** Tier 1 three-quarter campaign angle */
+  threeQuarterSrc?: string;
   fontId: FontId;
   name: string;
   number: string;
@@ -127,6 +129,7 @@ export function ProductCanvas({
   view,
   frontSrc,
   secondarySrc,
+  threeQuarterSrc,
   fontId,
   name,
   number,
@@ -137,7 +140,12 @@ export function ProductCanvas({
   showNameBadge = false,
 }: Props) {
   const font = fontById(fontId)!;
-  const src = view === "front" || view === "three-quarter" ? frontSrc : secondarySrc;
+  const src =
+    view === "front"
+      ? frontSrc
+      : view === "three-quarter"
+        ? (threeQuarterSrc ?? frontSrc)
+        : secondarySrc;
   const displayName = (name || "CARTER").slice(0, 12).toUpperCase();
   const displayNumber = number || "00";
   const blackout = lettering.surface === "blackout";

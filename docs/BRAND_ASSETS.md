@@ -30,7 +30,7 @@ All Bayonne Bees imagery that the shop loads is declared in:
 
 Lifestyle stills carry the site story. Product plates stay for **Tier 2 TRUTH** (configurator / live preview). **Tier 1 CAMPAIGN** on-body model shots are a separate registry (`src/media/campaignAssets.ts`) — see `docs/CAMPAIGN_SHOOT.md` and `docs/parity.md`. Do not weaken the Tier 2 parity gate to match photography.
 
-Until the campaign shoot lands, lettered SKUs bind campaign views to plate placeholders with status `placeholder` and demo lettering `AVENUE A` / `36` plus the “Your name goes here” badge.
+On-body campaign stills live in `src/assets/bayonne/campaign/` and are registered in `src/lib/campaignAssets.ts` (`status: shot`). Lettered backs carry `AVENUE A` / `36`; PDP overlays the “Your name goes here” badge. Truth plates stay in `previews/` for the configurator.
 
 ## Adding a SKU image
 

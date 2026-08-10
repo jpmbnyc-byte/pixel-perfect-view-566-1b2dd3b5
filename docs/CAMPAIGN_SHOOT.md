@@ -45,3 +45,7 @@ Shoot Match Jersey first. Grade against the Tier 2 render / `#5A1626`. Approve t
 ## Risk
 
 Model photography is expensive and irreversible. Color drift on `#5A1626` cannot be regenerated like a render. One hour of caution on the first frame protects the catalog.
+
+## Current assets
+
+Photoreal AI stand-ins (pre-release shoot) are checked into `src/assets/bayonne/campaign/`. Status is `shot`, not `approved` — flip to `approved` only with a signed model release on file.

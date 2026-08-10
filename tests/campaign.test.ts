@@ -48,16 +48,22 @@ describe("image tiers", () => {
 });
 
 describe("campaign surfacing", () => {
-  it("requires named back + badge data on every lettered storefront SKU", () => {
+  it("requires named back + real on-body shots on every lettered storefront SKU", () => {
     const lettered = PRODUCTS.filter((p) => p.nameNumber);
     expect(lettered.length).toBeGreaterThan(0);
     for (const p of lettered) {
       const violations = validateCampaignSurfacing(p);
       expect(violations, p.id).toEqual([]);
       const set = campaignForProduct(p)!;
+      expect(set.status).toBe("shot");
+      expect(set.status).not.toBe("placeholder");
       expect(set.demoLettering?.number).toBe("36");
       expect(set.demoLettering?.name).toBe(CAMPAIGN_DEMO_LETTERING.name);
+      expect(set.views.front).toBeTruthy();
+      expect(set.views["three-quarter"]).toBeTruthy();
       expect(set.views.back).toBeTruthy();
+      // Must not fall back to truth plate modules
+      expect(set.views.front).not.toBe(p.previews.front);
       expect(isNameable(p)).toBe(true);
     }
   });

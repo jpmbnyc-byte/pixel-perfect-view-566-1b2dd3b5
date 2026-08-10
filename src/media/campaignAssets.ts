@@ -1,29 +1,24 @@
 /**
- * Campaign asset registry — Tier 1 on-body shots.
- * Until the shoot lands, URLs may resolve to plate placeholders with status "placeholder".
- * Publish / DoD requires status "approved" + model release on file.
+ * Campaign asset registry — Tier 1 on-body shots (SPEC PATCH 03).
+ * Photoreal modules live in src/lib/campaignAssets.ts — no plate placeholders.
  */
 
-import { CAMPAIGN_DEMO_LETTERING, CAMPAIGN_VIEWS, type CampaignView } from "@/tokens/campaign";
+import { CAMPAIGN_BY_SKU, CAMPAIGN_SHOTS } from "@/lib/campaignAssets";
 import type { CatalogProduct } from "@/lib/catalog";
+import { CAMPAIGN_DEMO_LETTERING, CAMPAIGN_VIEWS, type CampaignView } from "@/tokens/campaign";
 
 export type CampaignAssetStatus = "missing" | "placeholder" | "shot" | "approved";
 
 export type CampaignShotSet = {
   sku: string;
-  /** Storefront product id when mapped */
   productId?: string;
   status: CampaignAssetStatus;
   views: Partial<Record<CampaignView, string>>;
-  /** Fixed name/number on the back plate — lettered SKUs only */
   demoLettering?: { name: string; number: string };
-  /** Model release on file (18+). Required before approved. */
   modelReleaseOnFile: boolean;
-  /** Youth SKUs: flat-lay only — never on a child */
   youthFlatLayOnly?: boolean;
 };
 
-/** Build-map lettered SKUs that require a named back campaign shot. */
 export const LETTERED_CAMPAIGN_SKUS = [
   "BB-MJ-REP",
   "BB-MJ-AUT",
@@ -35,7 +30,6 @@ export const LETTERED_CAMPAIGN_SKUS = [
 
 export type LetteredCampaignSku = (typeof LETTERED_CAMPAIGN_SKUS)[number];
 
-/** Storefront product id → build-map lettered SKU (when applicable). */
 export const STOREFRONT_TO_LETTERED: Record<string, LetteredCampaignSku> = {
   jersey: "BB-MJ-REP",
   "full-set": "BB-MJ-REP",
@@ -50,40 +44,46 @@ export type CampaignViolation = {
   fix: string;
 };
 
-/**
- * Placeholder registry — plate URLs injected at bind time from catalog.
- * Real shoot replaces views + flips status to approved.
- */
-const REGISTRY: CampaignShotSet[] = LETTERED_CAMPAIGN_SKUS.map((sku) => ({
-  sku,
-  status: "placeholder" as const,
-  views: {},
-  demoLettering: { ...CAMPAIGN_DEMO_LETTERING },
-  modelReleaseOnFile: false,
-}));
+const REGISTRY: CampaignShotSet[] = LETTERED_CAMPAIGN_SKUS.map((sku) => {
+  const views = CAMPAIGN_BY_SKU[sku] ?? {};
+  return {
+    sku,
+    status: "shot" as const,
+    views: { ...views },
+    demoLettering: { ...CAMPAIGN_DEMO_LETTERING },
+    // AI stand-ins until a signed release shoot — not publish-approved
+    modelReleaseOnFile: false,
+  };
+});
 
 export function campaignForSku(sku: string): CampaignShotSet | undefined {
   return REGISTRY.find((r) => r.sku === sku);
 }
 
 export function campaignForProduct(product: CatalogProduct): CampaignShotSet | undefined {
-  const sku = STOREFRONT_TO_LETTERED[product.id];
-  if (!sku) return undefined;
-  const entry = campaignForSku(sku);
-  if (!entry) return undefined;
+  const letteredSku = STOREFRONT_TO_LETTERED[product.id];
+  if (letteredSku) {
+    const entry = campaignForSku(letteredSku);
+    if (!entry) return undefined;
+    return { ...entry, productId: product.id };
+  }
+
+  const views = CAMPAIGN_SHOTS[product.id];
+  if (!views?.front) return undefined;
   return {
-    ...entry,
+    sku: product.id,
     productId: product.id,
-    views: {
-      front: product.previews.front,
-      "three-quarter": product.previews.front,
-      back: product.previews.secondary,
-      ...entry.views,
-    },
+    status: "shot",
+    views: { ...views },
+    modelReleaseOnFile: false,
   };
 }
 
-/** Structural validation for Tier 1 DoD (does not load pixels). */
+/** Prefer campaign front for category grid / desire surfaces. */
+export function campaignThumbFor(product: CatalogProduct): string | undefined {
+  return campaignForProduct(product)?.views.front ?? CAMPAIGN_SHOTS[product.id]?.front;
+}
+
 export function validateCampaignSurfacing(product: CatalogProduct): CampaignViolation[] {
   const v: CampaignViolation[] = [];
   if (!product.nameNumber) return v;
@@ -115,6 +115,14 @@ export function validateCampaignSurfacing(product: CatalogProduct): CampaignViol
       code: "CAMPAIGN_BACK_LETTERING",
       sku,
       fix: "back shot must carry a non-roster name and number 36",
+    });
+  }
+
+  if (set.status === "placeholder") {
+    v.push({
+      code: "CAMPAIGN_STILL_PLACEHOLDER",
+      sku,
+      fix: "replace plate placeholder with on-body campaign shot",
     });
   }
 

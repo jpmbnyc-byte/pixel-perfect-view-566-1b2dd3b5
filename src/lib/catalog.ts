@@ -11,6 +11,12 @@
 import type { Item, LetteringLayout } from "./kit";
 import { LETTERING } from "./kit";
 import { PLATES, SURFACES } from "./brandAssets";
+import { CAMPAIGN_SHOTS } from "./campaignAssets";
+
+/** Grid / desire thumb — campaign front when shot exists, else truth plate. */
+function thumbFor(plateId: keyof typeof PLATES): string {
+  return CAMPAIGN_SHOTS[plateId]?.front ?? PLATES[plateId].front;
+}
 
 /*
  * Merchize-printable plates — resolved only via brandAssets (SSOT).
@@ -54,9 +60,9 @@ export type CatalogProduct = {
   sizeChart: SizeChartKind;
   /** Per-product back lettering (photoreal framing differs by SKU) */
   lettering?: LetteringLayout;
-  /** Store grid thumb — always the photoreal front */
+  /** Category grid / desire thumb — Tier 1 campaign when available */
   thumb: string;
-  /** Photoreal front + secondary for live PDP preview */
+  /** Tier 2 truth plates for live configurator preview */
   previews: ProductPreviews;
 };
 
@@ -189,7 +195,8 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "shorts",
     handle: "bayonne-bees-shorts",
     name: "Match Shorts",
-    blurb: "Same garnet as the jersey. Geometric side panel. Bee on the left leg. No name or number.",
+    blurb:
+      "Same garnet as the jersey. Geometric side panel. Bee on the left leg. No name or number.",
     category: "match",
     price: 34,
     shopifyItem: "bottom",
@@ -246,7 +253,8 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey-dress",
     handle: "bayonne-bees-jersey-dress",
     name: "Jersey Dress",
-    blurb: "One-piece sideline cut. Color-block basketball crest on the chest. Name and number on the back.",
+    blurb:
+      "One-piece sideline cut. Color-block basketball crest on the chest. Name and number on the back.",
     category: "sideline",
     price: 72,
     customizable: true,
@@ -277,7 +285,8 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "crewneck",
     handle: "bayonne-bees-crewneck",
     name: "1936 Crewneck",
-    blurb: "Garnet body, black geo side panels. The year the school opened — motif only, no lettering.",
+    blurb:
+      "Garnet body, black geo side panels. The year the school opened — motif only, no lettering.",
     category: "alumni",
     price: 64,
     customizable: true,
