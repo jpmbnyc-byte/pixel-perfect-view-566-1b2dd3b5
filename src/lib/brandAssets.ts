@@ -38,12 +38,26 @@ import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
 
+import lifestyleFocus from "@/assets/bayonne/lifestyle/lifestyle-focus.jpg";
+import lifestyleSideline from "@/assets/bayonne/lifestyle/lifestyle-sideline.jpg";
+import lifestyleQueen from "@/assets/bayonne/lifestyle/lifestyle-queen.jpg";
+
 /** Crest / logo masters — never swap in alternate bee PNGs. */
 export const CRESTS = {
   /** Match kit + site chrome (landing header, store header, category aside). */
   primary: boxingBee,
-  /** Queen Bees story block only — not Match garment art. */
+  /** Queen Bees crest mark — story proof, not Match garment art. */
   queen: queenCrest,
+} as const;
+
+/**
+ * Lifestyle campaign stills for the /team story — Adidas visual language,
+ * zero manufacturer logos (no Adidas mark, no three-stripe trademark).
+ */
+export const LIFESTYLE = {
+  focus: lifestyleFocus,
+  sideline: lifestyleSideline,
+  queen: lifestyleQueen,
 } as const;
 
 export type PlatePair = {
@@ -73,18 +87,22 @@ export const PLATES = {
 export type PlateProductId = keyof typeof PLATES;
 
 /**
- * Named surfaces — each points at a plate or crest from this manifest.
- * Landing hero = Match Jersey front so hero crest matches the primary CTA PDP.
+ * Named surfaces — each points at a plate, crest, or lifestyle still.
+ * Story surfaces use LIFESTYLE; product commerce uses PLATES.
  */
 export const SURFACES = {
-  /** First-viewport garment plate on /team */
-  landingHero: PLATES.jersey.front,
-  /** Match lookbook / offering block on landing */
+  /** First-viewport lifestyle — full-bleed athlete story */
+  landingHero: LIFESTYLE.focus,
+  /** Match lookbook / offering block — same module as Match Jersey PDP */
   landingMatchJersey: PLATES.jersey.front,
-  /** Place / Bee Country atmospheric plate */
-  landingPlace: PLATES["geo-shorts"].front,
+  /** Queen Bees / All-State lifestyle story */
+  landingQueenStory: LIFESTYLE.queen,
+  /** Sideline energy lifestyle */
+  landingSideline: LIFESTYLE.sideline,
+  /** Place / Bee Country atmospheric */
+  landingPlace: LIFESTYLE.sideline,
   /** Open Graph / Twitter large image */
-  ogImage: PLATES.jersey.front,
+  ogImage: LIFESTYLE.focus,
   /** Category campaign heroes — same module as that category’s lead front */
   categoryHero: {
     match: PLATES.jersey.front,
