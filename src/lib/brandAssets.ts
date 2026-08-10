@@ -51,8 +51,9 @@ export const CRESTS = {
 } as const;
 
 /**
- * Lifestyle campaign stills for the /team story — Adidas visual language,
- * zero manufacturer logos (no Adidas mark, no three-stripe trademark).
+ * Lifestyle campaign stills for the /team story.
+ * Product commerce uses Venezia-studio PLATES (high-key luxury) — not these.
+ * Zero manufacturer logos (no Adidas / Nike / NOCTA marks).
  */
 export const LIFESTYLE = {
   focus: lifestyleFocus,
