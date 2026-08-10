@@ -28,11 +28,14 @@ All Bayonne Bees imagery that the shop loads is declared in:
 | Product cards / PDP | `PLATES[id]` via catalog | Per-SKU pair |
 | Open Graph | `SURFACES.ogImage` | `LIFESTYLE.focus` |
 
-Lifestyle stills carry the site story (Adidas visual language, no logos). Product plates stay for commerce / PDP identical match.
+Lifestyle stills carry the site story. Product plates stay for **Tier 2 TRUTH** (configurator / live preview). **Tier 1 CAMPAIGN** on-body model shots are a separate registry (`src/media/campaignAssets.ts`) — see `docs/CAMPAIGN_SHOOT.md` and `docs/parity.md`. Do not weaken the Tier 2 parity gate to match photography.
+
+On-body campaign stills live in `src/assets/bayonne/campaign/` and are registered in `src/lib/campaignAssets.ts` (`status: shot`). Lettered backs carry `AVENUE A` / `36`; PDP overlays the “Your name goes here” badge. Truth plates stay in `previews/` for the configurator.
 
 ## Adding a SKU image
 
-1. Add files under `src/assets/bayonne/previews/`.
+1. Add files under `src/assets/bayonne/previews/` (truth plates).
 2. Register the pair in `PLATES`.
 3. Point the catalog product `thumb` / `previews` at `PLATES[id]`.
 4. If it becomes a category lead, update `SURFACES.categoryHero`.
+5. For campaign (Tier 1): front / three-quarter / back per `CAMPAIGN_SHOOT.md`; lettered backs carry name + `36`; grade ΔE00 ≤ 4.0 to `#5A1626`.

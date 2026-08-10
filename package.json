@@ -14,6 +14,7 @@
     "test": "vitest run",
     "test:parity": "vitest run tests/parity.test.ts tests/sublimation.test.ts",
     "test:matrix": "vitest run tests/matrix.test.ts",
+    "test:campaign": "vitest run tests/campaign.test.ts",
     "test:sublimation": "vitest run tests/sublimation.test.ts",
     "render:catalog": "tsx scripts/render-catalog.ts"
   },

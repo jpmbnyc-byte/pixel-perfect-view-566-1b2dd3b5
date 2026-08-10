@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type HTMLAttributes } from "react";
 
+import { ImageTierToggle, type GalleryMode } from "@/components/ImageTierToggle";
 import { LiquidBackdrop } from "@/components/LiquidBackdrop";
 import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
@@ -25,7 +26,10 @@ import {
   variantIdFor,
   type Size,
 } from "@/lib/kit";
+import { campaignForProduct } from "@/media/campaignAssets";
+import { lineItemImageTier } from "@/media/tiers";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
+import { EASTER_EGGS } from "@/tokens/fun";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
 export const Route = createFileRoute("/team/$slug/$product")({
@@ -63,50 +67,89 @@ function ProductListingPage() {
   const { product } = Route.useLoaderData();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const views = previewViewsFor(product);
   const isHat = product.sizeChart === "hat";
   const usesTypography = product.typography;
   const lettering = letteringFor(product);
   const nameMax = kit.rules.nameMaxChars;
   const numberMaxDigits = 2;
 
-  const [view, setView] = useState<CanvasView>(
-    product.previewPair === "front-side" ? "side" : product.nameNumber ? "back" : "front",
-  );
+  const [galleryMode, setGalleryMode] = useState<GalleryMode>("photos");
+  const [view, setView] = useState<CanvasView>("front");
   const [fontId, setFontId] = useState<FontId>("forge");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [size, setSize] = useState<Size | HatSize | "">("");
   const [confirmed, setConfirmed] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
+  const [yearEgg, setYearEgg] = useState(false);
+  const yearBuffer = useRef("");
+
+  const campaign = campaignForProduct(product);
+  const truthViews = previewViewsFor(product);
+  const campaignViews: CanvasView[] = (() => {
+    if (!campaign) return truthViews;
+    const has = (v: CanvasView) => Boolean(campaign.views[v as keyof typeof campaign.views]);
+    if (product.nameNumber) {
+      return (["front", "three-quarter", "back"] as CanvasView[]).filter(has);
+    }
+    const single: CanvasView[] = [];
+    if (has("front")) single.push("front");
+    if (has("three-quarter")) single.push("three-quarter");
+    if (has("back")) single.push("back");
+    return single.length ? single : truthViews;
+  })();
+  const activeViews = galleryMode === "photos" ? campaignViews : truthViews;
+  const imageTier = galleryMode === "photos" && campaign ? "campaign" : "truth";
+  const cartImageTier = lineItemImageTier({ name, number });
 
   const shopifyItem = product.shopifyItem;
   const itemReady = shopifyItem ? itemSyncReady(sync, shopifyItem) : false;
 
   useEffect(() => {
-    if (!views.includes(view)) setView("front");
-  }, [views, view]);
+    if (!activeViews.includes(view)) setView(activeViews[0] ?? "front");
+  }, [activeViews, view]);
 
   useEffect(() => {
-    if (
-      size &&
-      shopifyItem &&
-      !isHat &&
-      !variantIdFor(kit, shopifyItem, size as Size)
-    ) {
+    if (size && shopifyItem && !isHat && !variantIdFor(kit, shopifyItem, size as Size)) {
       setSize("");
     }
   }, [kit, shopifyItem, size, isHat]);
 
-  // Flip to back when personalizing lettered tops.
+  // Truth mode: flip to back when personalizing lettered tops.
   useEffect(() => {
-    if (product.nameNumber && (name || number)) setView("back");
-  }, [product.nameNumber, name, number]);
+    if (galleryMode === "name-it" && product.nameNumber && (name || number)) setView("back");
+  }, [galleryMode, product.nameNumber, name, number]);
 
-  // Motif pieces open on the side view (print lives on the panel).
-  useEffect(() => {
-    if (product.previewPair === "front-side") setView("side");
-  }, [product.previewPair]);
+  const onNumberChange = (raw: string) => {
+    const digits = raw.replace(/\D/g, "");
+    const prev = number;
+    // Append only newly typed digits (field max 2 — buffer spans clears/retypes).
+    if (digits.length > prev.length) {
+      const added = digits.slice(prev.length);
+      for (const ch of added) {
+        yearBuffer.current = (yearBuffer.current + ch).slice(-4);
+        if (yearBuffer.current === "1936") {
+          setYearEgg(true);
+          void EASTER_EGGS.number1936;
+        }
+      }
+    } else if (digits.length === 0 && prev.length > 0) {
+      // keep buffer across clear so 19 → clear → 36 still completes 1936
+    }
+    setNumber(sanitizeNumber(raw).slice(0, numberMaxDigits));
+  };
+
+  const onGalleryMode = (mode: GalleryMode) => {
+    setGalleryMode(mode);
+    if (mode === "name-it") {
+      setView(product.nameNumber ? "back" : (truthViews[0] ?? "front"));
+      requestAnimationFrame(() => {
+        document.getElementById("field-personalize")?.scrollIntoView({ block: "nearest" });
+      });
+    } else {
+      setView("front");
+    }
+  };
 
   const numberValue = Number(number);
   const numberValid =
@@ -117,8 +160,7 @@ function ProductListingPage() {
       numberValue <= kit.rules.numberMax);
 
   const apparelSize = !isHat && size ? (size as Size) : "";
-  const variantId =
-    apparelSize && shopifyItem ? variantIdFor(kit, shopifyItem, apparelSize) : null;
+  const variantId = apparelSize && shopifyItem ? variantIdFor(kit, shopifyItem, apparelSize) : null;
 
   const nameReady = !product.nameNumber || Boolean(name && numberValid);
   const checkoutReady = Boolean(
@@ -193,17 +235,7 @@ function ProductListingPage() {
       }),
       ...base,
     };
-  }, [
-    kit,
-    product,
-    shopifyItem,
-    fontId,
-    name,
-    number,
-    size,
-    apparelSize,
-    usesTypography,
-  ]);
+  }, [kit, product, shopifyItem, fontId, name, number, size, apparelSize, usesTypography]);
 
   const font = fontById(fontId)!;
   const hasPersonalization = Boolean(name || number);
@@ -219,6 +251,10 @@ function ProductListingPage() {
       return;
     }
     if (cta.kind !== "step") return;
+    if (product.nameNumber && (!name || !numberValid) && galleryMode !== "name-it") {
+      onGalleryMode("name-it");
+      return;
+    }
     const target =
       product.nameNumber && !name
         ? "field-personalize"
@@ -232,7 +268,10 @@ function ProductListingPage() {
 
   return (
     <main className="relative mx-auto min-h-screen w-full max-w-[560px] overflow-hidden bg-background pb-28 font-sans">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] opacity-[0.55]" aria-hidden>
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] opacity-[0.55]"
+        aria-hidden
+      >
         <LiquidBackdrop intensity="soft" />
       </div>
 
@@ -257,261 +296,294 @@ function ProductListingPage() {
       </header>
 
       <div className="relative z-10">
-      {/* adiClub-style personalization — name + number only (no player presets) */}
-      {product.nameNumber && (
-        <section id="field-personalize" className="mt-6 px-5">
-          <h2 className="text-xl font-bold tracking-tight">Add Personalization</h2>
-          <p className="mt-2 text-sm leading-snug text-muted-foreground">
-            Personalized items cannot be returned or exchanged. Nothing prints until you order.
-          </p>
-
-          <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
-            <OutlinedField
-              id="field-number"
-              label="00"
-              value={number}
-              maxLength={numberMaxDigits}
-              inputMode="numeric"
-              placeholder="00"
-              onChange={(v) => setNumber(sanitizeNumber(v).slice(0, numberMaxDigits))}
-              counter={`${number.length} / ${numberMaxDigits}`}
-              fontFamily={font.cssFamily}
-            />
-            <OutlinedField
-              id="field-name"
-              label="Name"
-              value={name}
-              maxLength={nameMax}
-              placeholder="CARTER"
-              onChange={(v) => setName(sanitizeName(v, nameMax))}
-              counter={`${name.length} / ${nameMax}`}
-              fontFamily={font.cssFamily}
-            />
-          </div>
-
-          <div className="mt-3 flex items-center justify-between gap-3 text-sm">
-            <p className="tabular-nums text-muted-foreground">
-              {hasPersonalization ? (
-                <>
-                  In total: <span className="font-semibold text-foreground">${product.price}</span>
-                </>
-              ) : (
-                <>Personalization included</>
-              )}
-            </p>
-            <button
-              type="button"
-              onClick={clearPersonalization}
-              disabled={!hasPersonalization}
-              className="underline underline-offset-4 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Clear all
-            </button>
-          </div>
-        </section>
-      )}
-
-      <section className="mt-6 px-5">
-        <div className="mb-3 grid grid-cols-2 gap-2">
-          {views.map((v) => (
-            <button
-              key={v}
-              type="button"
-              onClick={() => setView(v)}
-              className={`border px-3 py-2.5 text-center text-sm font-semibold capitalize transition-colors ${
-                view === v
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border bg-background text-foreground hover:bg-secondary"
-              }`}
-            >
-              {v}
-            </button>
-          ))}
-        </div>
-
-        <div className="overflow-hidden border border-border bg-secondary/40">
-          <ProductCanvas
-            view={view}
-            frontSrc={product.previews.front}
-            secondarySrc={product.previews.secondary}
-            fontId={fontId}
-            name={name}
-            number={number}
-            productLabel={product.name}
-            showLettering={usesTypography && product.nameNumber}
-            lettering={lettering}
-          />
-        </div>
-      </section>
-
-      {usesTypography && (
-        <section className="mt-8 px-5">
-          <h2 className="text-xl font-bold tracking-tight">Lettering font</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Tops only · 4 faces</p>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            {FONTS.map((f) => {
-              const on = fontId === f.id;
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => setFontId(f.id)}
-                  className={`border px-3 py-3 text-left transition-colors ${
-                    on
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-border bg-background hover:bg-secondary"
-                  }`}
-                >
-                  <span className="block text-xs font-semibold uppercase tracking-wide opacity-70">
-                    {f.label}
-                  </span>
-                  <span
-                    className="mt-1 block text-2xl tracking-wide"
-                    style={{ fontFamily: f.cssFamily }}
-                  >
-                    {f.sample}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      <section id="field-size" className="mt-8 px-5">
-        <h2 className="text-xl font-bold tracking-tight">Sizes</h2>
-        {isHat ? (
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            {HAT_SIZES.map((s) => (
+        {/* Gallery first — toggle is the seam between Tier 1 photos and Tier 2 truth */}
+        <section className="mt-6 px-5">
+          <div
+            className={`mb-3 grid gap-2 ${activeViews.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}
+          >
+            {activeViews.map((v) => (
               <button
-                key={s}
+                key={v}
                 type="button"
-                onClick={() => setSize(s)}
-                className={`border py-3.5 text-sm font-semibold transition-colors ${
-                  size === s
-                    ? "border-foreground bg-secondary"
-                    : "border-transparent bg-secondary/70 hover:bg-secondary"
+                onClick={() => setView(v)}
+                className={`border px-2 py-2.5 text-center text-sm font-semibold capitalize transition-colors ${
+                  view === v
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border bg-background text-foreground hover:bg-secondary"
                 }`}
               >
-                {s}
+                {v === "three-quarter" ? "¾" : v}
               </button>
             ))}
           </div>
-        ) : (
-          <div className="mt-4 grid grid-cols-4 gap-2">
-            {SIZES.map((s) => {
-              const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
-              return (
+
+          <div
+            className={`overflow-hidden border border-border bg-secondary/40 ${
+              yearEgg ? "ring-1 ring-garnet/40" : ""
+            }`}
+          >
+            <ProductCanvas
+              view={view}
+              frontSrc={
+                galleryMode === "photos" && campaign?.views.front
+                  ? campaign.views.front
+                  : product.previews.front
+              }
+              {...(galleryMode === "photos" && campaign?.views["three-quarter"]
+                ? { threeQuarterSrc: campaign.views["three-quarter"] }
+                : {})}
+              secondarySrc={
+                galleryMode === "photos" && campaign?.views.back
+                  ? campaign.views.back
+                  : galleryMode === "photos" && campaign?.views.front && !campaign.views.back
+                    ? campaign.views.front
+                    : product.previews.secondary
+              }
+              fontId={fontId}
+              name={name}
+              number={number}
+              productLabel={product.name}
+              showLettering={
+                // Campaign backs already carry AVENUE A / 36 — do not double-letter.
+                galleryMode === "name-it" && usesTypography && product.nameNumber
+              }
+              lettering={lettering}
+              tier={imageTier}
+              showNameBadge={galleryMode === "photos" && product.nameNumber}
+            />
+          </div>
+
+          <div className="mt-3">
+            <ImageTierToggle
+              mode={galleryMode}
+              onChange={onGalleryMode}
+              nameable={product.nameNumber}
+            />
+          </div>
+        </section>
+
+        {/* Inline under toggle when "Put your name on it" — no modal, no new page */}
+        {product.nameNumber && galleryMode === "name-it" && (
+          <section id="field-personalize" className="mt-6 px-5">
+            <h2 className="text-xl font-bold tracking-tight">Put your name on it</h2>
+            <p className="mt-2 text-sm leading-snug text-muted-foreground">
+              Live preview — the exact back that prints. Personalized items cannot be returned.
+            </p>
+
+            <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
+              <OutlinedField
+                id="field-number"
+                label="00"
+                value={number}
+                maxLength={numberMaxDigits}
+                inputMode="numeric"
+                placeholder="00"
+                onChange={onNumberChange}
+                counter={`${number.length} / ${numberMaxDigits}`}
+                fontFamily={font.cssFamily}
+              />
+              <OutlinedField
+                id="field-name"
+                label="Name"
+                value={name}
+                maxLength={nameMax}
+                placeholder="CARTER"
+                onChange={(v) => setName(sanitizeName(v, nameMax))}
+                counter={`${name.length} / ${nameMax}`}
+                fontFamily={font.cssFamily}
+              />
+            </div>
+
+            <div className="mt-3 flex items-center justify-between gap-3 text-sm">
+              <p className="tabular-nums text-muted-foreground">
+                {hasPersonalization ? (
+                  <>
+                    In total:{" "}
+                    <span className="font-semibold text-foreground">${product.price}</span>
+                  </>
+                ) : (
+                  <>Name and number included</>
+                )}
+              </p>
+              <button
+                type="button"
+                onClick={clearPersonalization}
+                disabled={!hasPersonalization}
+                className="underline underline-offset-4 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Clear all
+              </button>
+            </div>
+
+            {usesTypography && (
+              <div className="mt-8">
+                <h3 className="text-lg font-bold tracking-tight">Lettering font</h3>
+                <p className="mt-1 text-sm text-muted-foreground">Tops only · 4 faces</p>
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  {FONTS.map((f) => {
+                    const on = fontId === f.id;
+                    return (
+                      <button
+                        key={f.id}
+                        type="button"
+                        onClick={() => setFontId(f.id)}
+                        className={`border px-3 py-3 text-left transition-colors ${
+                          on
+                            ? "border-foreground bg-foreground text-background"
+                            : "border-border bg-background hover:bg-secondary"
+                        }`}
+                      >
+                        <span className="block text-xs font-semibold uppercase tracking-wide opacity-70">
+                          {f.label}
+                        </span>
+                        <span
+                          className="mt-1 block text-2xl tracking-wide"
+                          style={{ fontFamily: f.cssFamily }}
+                        >
+                          {f.sample}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        <section id="field-size" className="mt-8 px-5">
+          <h2 className="text-xl font-bold tracking-tight">Sizes</h2>
+          {isHat ? (
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {HAT_SIZES.map((s) => (
                 <button
                   key={s}
                   type="button"
-                  disabled={!available && Boolean(shopifyItem)}
                   onClick={() => setSize(s)}
                   className={`border py-3.5 text-sm font-semibold transition-colors ${
                     size === s
                       ? "border-foreground bg-secondary"
                       : "border-transparent bg-secondary/70 hover:bg-secondary"
-                  } disabled:cursor-not-allowed disabled:opacity-35`}
+                  }`}
                 >
                   {s}
                 </button>
-              );
-            })}
-          </div>
-        )}
-        {!isHat &&
-          shopifyItem &&
-          SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
+              ))}
+            </div>
+          ) : (
+            <div className="mt-4 grid grid-cols-4 gap-2">
+              {SIZES.map((s) => {
+                const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    disabled={!available && Boolean(shopifyItem)}
+                    onClick={() => setSize(s)}
+                    className={`border py-3.5 text-sm font-semibold transition-colors ${
+                      size === s
+                        ? "border-foreground bg-secondary"
+                        : "border-transparent bg-secondary/70 hover:bg-secondary"
+                    } disabled:cursor-not-allowed disabled:opacity-35`}
+                  >
+                    {s}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          {!isHat && shopifyItem && SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
             <p className="mt-2 text-sm text-muted-foreground">
               Greyed sizes are still syncing — pick an available size to checkout.
             </p>
           )}
-        <button
-          type="button"
-          onClick={() => setChartOpen((o) => !o)}
-          className="mt-3 text-sm underline underline-offset-4"
-        >
-          {chartOpen ? "Hide size guide" : "Size guide"}
-        </button>
-        {chartOpen &&
-          (isHat ? (
-            <table className="mt-3 w-full border border-border text-sm">
-              <thead>
-                <tr className="bg-secondary">
-                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Size</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Fit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {HAT_SIZE_CHART.map((row) => (
-                  <tr key={row.size} className="border-t border-border">
-                    <td className="px-3 py-2 font-semibold">{row.size}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{row.note}</td>
+          <button
+            type="button"
+            onClick={() => setChartOpen((o) => !o)}
+            className="mt-3 text-sm underline underline-offset-4"
+          >
+            {chartOpen ? "Hide size guide" : "Size guide"}
+          </button>
+          {chartOpen &&
+            (isHat ? (
+              <table className="mt-3 w-full border border-border text-sm">
+                <thead>
+                  <tr className="bg-secondary">
+                    <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Size</th>
+                    <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Fit</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <table className="mt-3 w-full border border-border text-sm">
-              <thead>
-                <tr className="bg-secondary">
-                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Size</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Chest</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Length</th>
-                </tr>
-              </thead>
-              <tbody>
-                {SIZE_CHART.map((row) => (
-                  <tr key={row.size} className="border-t border-border">
-                    <td className="px-3 py-2 font-semibold">{row.size}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{row.chest}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{row.length}</td>
+                </thead>
+                <tbody>
+                  {HAT_SIZE_CHART.map((row) => (
+                    <tr key={row.size} className="border-t border-border">
+                      <td className="px-3 py-2 font-semibold">{row.size}</td>
+                      <td className="px-3 py-2 text-muted-foreground">{row.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <table className="mt-3 w-full border border-border text-sm">
+                <thead>
+                  <tr className="bg-secondary">
+                    <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Size</th>
+                    <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Chest</th>
+                    <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Length</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ))}
-      </section>
+                </thead>
+                <tbody>
+                  {SIZE_CHART.map((row) => (
+                    <tr key={row.size} className="border-t border-border">
+                      <td className="px-3 py-2 font-semibold">{row.size}</td>
+                      <td className="px-3 py-2 text-muted-foreground">{row.chest}</td>
+                      <td className="px-3 py-2 text-muted-foreground">{row.length}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ))}
+        </section>
 
-      <section id="field-confirm" className="mt-8 border-t border-border px-5 pt-6 pb-4">
-        <label className="flex items-start gap-3 text-sm leading-snug">
-          <input
-            type="checkbox"
-            checked={confirmed}
-            onChange={(e) => setConfirmed(e.target.checked)}
-            className="mt-0.5 size-5 shrink-0 accent-[var(--primary)]"
-          />
-          <span>
-            {usesTypography
-              ? "I’ve double-checked the spelling, number, and size. Custom kits can’t be edited after checkout."
-              : "I’ve double-checked the size. Custom pieces can’t be edited after checkout."}
-          </span>
-        </label>
+        <section id="field-confirm" className="mt-8 border-t border-border px-5 pt-6 pb-4">
+          <label className="flex items-start gap-3 text-sm leading-snug">
+            <input
+              type="checkbox"
+              checked={confirmed}
+              onChange={(e) => setConfirmed(e.target.checked)}
+              className="mt-0.5 size-5 shrink-0 accent-[var(--primary)]"
+            />
+            <span>
+              {usesTypography
+                ? "I’ve double-checked the spelling, number, and size. Custom kits can’t be edited after checkout."
+                : "I’ve double-checked the size. Custom pieces can’t be edited after checkout."}
+            </span>
+          </label>
 
-        <form
-          ref={formRef}
-          method="POST"
-          action={cartAddAction(kit.shopify.domain)}
-          target="_top"
-          className="hidden"
-          acceptCharset="UTF-8"
-        >
-          <input type="hidden" name="id" value={variantId ?? ""} />
-          <input type="hidden" name="quantity" value="1" />
-          <input type="hidden" name="return_to" value="/checkout" />
-          <input type="hidden" name="properties[Team]" value={kit.teamName} />
-          <input type="hidden" name="properties[Collection]" value="Team Customs" />
-          <input type="hidden" name="properties[Product]" value={product.name} />
-          {usesTypography && <input type="hidden" name="properties[Font]" value={font.label} />}
-          {usesTypography && <input type="hidden" name="properties[Name]" value={name} />}
-          {usesTypography && <input type="hidden" name="properties[Number]" value={number} />}
-          <input type="hidden" name="properties[Size]" value={size} />
-          <input type="hidden" name="properties[_ArtSpec]" value={encodeArtSpec(artSpec)} />
-          <input type="hidden" name="properties[_Confirmed]" value="yes" />
-        </form>
+          <form
+            ref={formRef}
+            method="POST"
+            action={cartAddAction(kit.shopify.domain)}
+            target="_top"
+            className="hidden"
+            acceptCharset="UTF-8"
+          >
+            <input type="hidden" name="id" value={variantId ?? ""} />
+            <input type="hidden" name="quantity" value="1" />
+            <input type="hidden" name="return_to" value="/checkout" />
+            <input type="hidden" name="properties[Team]" value={kit.teamName} />
+            <input type="hidden" name="properties[Collection]" value="Team Customs" />
+            <input type="hidden" name="properties[Product]" value={product.name} />
+            {usesTypography && <input type="hidden" name="properties[Font]" value={font.label} />}
+            {usesTypography && <input type="hidden" name="properties[Name]" value={name} />}
+            {usesTypography && <input type="hidden" name="properties[Number]" value={number} />}
+            <input type="hidden" name="properties[Size]" value={size} />
+            <input type="hidden" name="properties[_ArtSpec]" value={encodeArtSpec(artSpec)} />
+            <input type="hidden" name="properties[_ImageTier]" value={cartImageTier} />
+            <input type="hidden" name="properties[_Confirmed]" value="yes" />
+          </form>
 
-        <SyncNote sync={sync} hasShopifyItem={Boolean(shopifyItem)} />
-      </section>
+          <SyncNote sync={sync} hasShopifyItem={Boolean(shopifyItem)} />
+        </section>
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">

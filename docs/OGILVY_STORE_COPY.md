@@ -69,3 +69,19 @@ Prices from current catalog. Fabric weights cut until measured.
 - **Alumni Shorts** — $42. Same garnet as the match strip. Geometric side panel off the field (front + side).
 
 **Queen Bees Tee** (when listed): Made for the girls soccer program. The crest was drawn for them and had never existed before. Price TBD when the SKU ships.
+
+---
+
+## Editorial imagery (Voice §8 — SPEC PATCH 03)
+
+| Surface | Treatment | Alt text |
+|---|---|---|
+| Lifestyle / story | Location OK when story-led | Place + moment — not a product SKU |
+| Truth plates (Tier 2) | Ghost mannequin, high-key studio | Garment + view (`front` / `side` / `back`) |
+| **Campaign (Tier 1)** | **Studio, not location. Garment is the subject; a person wears it.** | **Names the garment and the view — not the person** |
+
+Campaign shot protocol: `docs/CAMPAIGN_SHOOT.md`. Presentation reference only — no NOCTA/Nike marks, no Venezia orange/green.
+
+**PDP toggle copy (R1):** `Put your name on it` — not Customize, not Personalize, not Configure.
+
+**Fun budget:** spend idiom / one pun per hub at R1–R3; never at checkout, size guide, shipping, errors, or R4. Constants: `src/tokens/fun.ts`.
