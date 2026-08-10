@@ -284,7 +284,7 @@ function ProductListingPage() {
           ← Bayonne store · Avenue A
         </Link>
         <p className="label-caps mt-4 text-muted-foreground">
-          Bayonne Bees · {product.category === "match" ? "Match strip" : product.category}
+          Bayonne · {product.category === "match" ? "Match" : product.category}
         </p>
         <h1 className="mt-2 font-kit text-[clamp(1.85rem,7vw,2.5rem)] leading-none tracking-wide">
           {product.name}

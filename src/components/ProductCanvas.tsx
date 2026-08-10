@@ -120,6 +120,34 @@ function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
   return biasEm;
 }
 
+/** Slight upward arch across the name — matches AVENUE A · 36 ref. */
+function ArchedName({ text, archDeg }: { text: string; archDeg: number }) {
+  if (!archDeg || text.length < 2) return <>{text}</>;
+  const chars = [...text];
+  const mid = (chars.length - 1) / 2;
+  return (
+    <span className="inline-flex items-end justify-center">
+      {chars.map((ch, i) => {
+        const t = mid === 0 ? 0 : (i - mid) / mid;
+        const rot = t * archDeg;
+        const lift = -Math.abs(t) * 0.22;
+        return (
+          <span
+            key={`${ch}-${i}`}
+            className="inline-block"
+            style={{
+              transform: `rotate(${rot}deg) translateY(${lift}em)`,
+              transformOrigin: "center bottom",
+            }}
+          >
+            {ch === " " ? "\u00A0" : ch}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 /**
  * Photoreal live preview — garment photo only.
  * No geometric motif bake / overlay on front, back, or side.
@@ -196,12 +224,12 @@ export function ProductCanvas({
               fontSize: `calc(${lettering.name.heightPct} * 0.9cqh)`,
               letterSpacing: nameTracking,
               lineHeight: 1,
-              overflow: "hidden",
+              overflow: "visible",
               textShadow: nameShadow,
               WebkitTextStroke: blackout ? "0.4px rgba(0,0,0,0.55)" : undefined,
             }}
           >
-            {displayName}
+            <ArchedName text={displayName} archDeg={lettering.name.archDeg ?? 0} />
           </p>
           <p
             className="absolute flex items-center justify-center whitespace-nowrap text-center leading-none text-white"
