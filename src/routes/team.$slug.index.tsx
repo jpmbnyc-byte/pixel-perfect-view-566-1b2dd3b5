@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
+import { NameableFlag } from "@/components/NameableFlag";
 import { CRESTS } from "@/lib/brandAssets";
 import {
   CATEGORIES,
@@ -10,6 +11,7 @@ import {
   type CategoryId,
 } from "@/lib/catalog";
 import { countdownParts } from "@/lib/kit";
+import { isNameable } from "@/media/campaignAssets";
 import { shopifySynced } from "@/lib/shopify";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
@@ -27,7 +29,7 @@ export const Route = createFileRoute("/team/$slug/")({
 });
 
 function productAction(p: CatalogProduct) {
-  if (p.typography && p.nameNumber) return "Personalize";
+  if (p.typography && p.nameNumber) return "Put your name on it";
   if (p.sizeChart === "hat") return "Choose size";
   if (p.previewPair === "front-side") return "See front + side";
   return "View";
@@ -40,6 +42,7 @@ function productAction(p: CatalogProduct) {
 function TeamStorePage() {
   const { kit, sync } = TeamSlugRoute.useLoaderData();
   const [category, setCategory] = useState<CategoryId>("match");
+  const [nameableOnly, setNameableOnly] = useState(false);
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
   const catalogReady = shopifySynced(sync);
@@ -53,7 +56,10 @@ function TeamStorePage() {
   }, []);
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
-  const products = useMemo(() => productsInCategory(category), [category]);
+  const products = useMemo(() => {
+    const list = productsInCategory(category);
+    return nameableOnly ? list.filter(isNameable) : list;
+  }, [category, nameableOnly]);
 
   return (
     <main className="studio-field mx-auto min-h-screen w-full max-w-[720px] pb-24 text-ink">
@@ -67,7 +73,7 @@ function TeamStorePage() {
               <span className="text-destructive">Closed</span>
             ) : (
               <>
-                {countdown.days}d {countdown.hours}h {countdown.minutes}m
+                Drop 02 closes in {countdown.days} day{countdown.days === 1 ? "" : "s"}
               </>
             )}
           </p>
@@ -114,10 +120,11 @@ function TeamStorePage() {
             className="group block"
           >
             <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
+              <NameableFlag />
               <img
                 src={featuredJersey.thumb}
-                alt=""
-                className="h-full w-full object-contain transition-transform duration-[1.1s] ease-out group-hover:scale-[1.02]"
+                alt={`${featuredJersey.name}, front view`}
+                className="h-full w-full object-contain transition-transform duration-[1.1s] ease-out motion-safe:group-hover:scale-[1.02]"
               />
             </div>
             <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
@@ -130,7 +137,7 @@ function TeamStorePage() {
               </span>
             </div>
             <p className="place-line mt-4 pb-2 text-garnet">
-              Personalize · ${featuredJersey.price} →
+              Put your name on it · ${featuredJersey.price} →
             </p>
           </Link>
         </section>
@@ -157,9 +164,7 @@ function TeamStorePage() {
                   window.history.replaceState(null, "", `#${c.id}`);
                 }}
                 className={`place-line shrink-0 border-b-2 pb-3 transition-colors ${
-                  on
-                    ? "border-garnet text-ink"
-                    : "border-transparent text-ink/40 hover:text-ink/70"
+                  on ? "border-garnet text-ink" : "border-transparent text-ink/40 hover:text-ink/70"
                 }`}
               >
                 {c.label}
@@ -170,13 +175,22 @@ function TeamStorePage() {
         <p className="type-editorial mt-6 max-w-md text-base text-ink/65">
           {CATEGORY_LINE[category]}
         </p>
+        <label className="mt-5 flex cursor-pointer items-center gap-2 place-line text-ink/55">
+          <input
+            type="checkbox"
+            checked={nameableOnly}
+            onChange={(e) => setNameableOnly(e.target.checked)}
+            className="size-3.5 accent-[var(--garnet)]"
+          />
+          Can be personalized
+        </label>
       </section>
 
       <section className="mt-10">
         <div className="relative aspect-[16/9] overflow-hidden bg-ink">
           <img
             src={active.hero}
-            alt=""
+            alt={`${active.label} campaign`}
             className="h-full w-full object-contain object-center opacity-95"
           />
         </div>
@@ -196,10 +210,11 @@ function TeamStorePage() {
                 className="group block px-6 py-8 sm:px-10"
               >
                 <div className="relative aspect-[5/4] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
+                  {isNameable(p) && <NameableFlag />}
                   <img
                     src={p.thumb}
-                    alt=""
-                    className="h-full w-full object-contain transition-transform duration-[1.1s] ease-out group-hover:scale-[1.02]"
+                    alt={`${p.name}, front view`}
+                    className="h-full w-full object-contain transition-transform duration-[1.1s] ease-out motion-safe:group-hover:scale-[1.02]"
                   />
                 </div>
                 <div className="mt-5 flex items-start justify-between gap-3">

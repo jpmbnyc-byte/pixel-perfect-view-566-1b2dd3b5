@@ -19,3 +19,4 @@ jobs:
       - run: npm run render:catalog
       - run: npm run test:parity
       - run: npm run test:matrix
+      - run: npm run test:campaign

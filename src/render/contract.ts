@@ -2,7 +2,13 @@
  * Pinned render constants — DO NOT PARAMETERIZE.
  * Changing any value invalidates every cached render.
  * Bump RENDER_CONTRACT_VERSION and regenerate the whole catalog.
+ *
+ * STAGE / ghost mannequin = Tier 2 TRUTH only (configurator, live preview).
+ * Tier 1 CAMPAIGN photography uses CAMPAIGN_SHOT — see src/tokens/campaign.ts.
+ * Do not weaken the Tier 2 parity gate to accommodate photography.
  */
+
+export { CAMPAIGN_SHOT, CAMPAIGN_VIEWS, CAMPAIGN_TOLERANCE } from "@/tokens/campaign";
 
 export const RENDER_CONTRACT_VERSION = 3;
 
@@ -19,6 +25,7 @@ export const LIGHTING = {
   ambient: { intensity: 0.15 },
 } as const;
 
+/** Tier 2 only — ghost mannequin studio. Campaign (Tier 1) uses CAMPAIGN_SHOT. */
 export const STAGE = {
   background: "#F7F5F4",
   shadow: "contact-only" as const,

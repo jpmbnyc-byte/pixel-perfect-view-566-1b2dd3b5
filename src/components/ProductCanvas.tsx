@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import type { FontId } from "@/lib/catalog";
 import { fontById } from "@/lib/catalog";
 import { LETTERING, type LetteringLayout } from "@/lib/kit";
+import { CAMPAIGN_NAME_BADGE, CAMPAIGN_SHOT } from "@/tokens/campaign";
+import type { ImageTier } from "@/media/tiers";
 
-export type CanvasView = "front" | "back" | "side";
+export type CanvasView = "front" | "back" | "side" | "three-quarter";
 
 type Props = {
   view: CanvasView;
@@ -17,6 +19,10 @@ type Props = {
   showLettering?: boolean;
   /** Per-product back lettering geometry (defaults to kit LETTERING) */
   lettering?: LetteringLayout;
+  /** Tier 1 campaign vs Tier 2 truth (default). */
+  tier?: ImageTier;
+  /** Persistent badge on campaign back — lettered SKUs. */
+  showNameBadge?: boolean;
 };
 
 /** Fallback right-ink bias (em) if canvas sampling fails — Forge has the worst bearings. */
@@ -127,9 +133,11 @@ export function ProductCanvas({
   productLabel,
   showLettering = true,
   lettering = LETTERING,
+  tier = "truth",
+  showNameBadge = false,
 }: Props) {
   const font = fontById(fontId)!;
-  const src = view === "front" ? frontSrc : secondarySrc;
+  const src = view === "front" || view === "three-quarter" ? frontSrc : secondarySrc;
   const displayName = (name || "CARTER").slice(0, 12).toUpperCase();
   const displayNumber = number || "00";
   const blackout = lettering.surface === "blackout";
@@ -144,13 +152,18 @@ export function ProductCanvas({
   const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
   const nameInkBiasEm = useInkBiasEm(displayName, font.cssFamily, nameTracking);
   const numberInkBiasEm =
-    useInkBiasEm(displayNumber, font.cssFamily, "0") +
-    (displayNumber.length === 1 ? 0.05 : 0);
+    useInkBiasEm(displayNumber, font.cssFamily, "0") + (displayNumber.length === 1 ? 0.05 : 0);
+  const campaign = tier === "campaign";
+  const aspectClass = campaign ? "aspect-square" : "aspect-[3/4]";
+  const stageBg = campaign ? CAMPAIGN_SHOT.background : "#0a0a0a";
+  const caption = campaign
+    ? `${productLabel} · ${view} · campaign`
+    : `${productLabel} · ${view}${blackout && view === "back" ? " · blackout" : ""} · live preview`;
 
   return (
     <figure
-      className="relative aspect-[3/4] overflow-hidden bg-black"
-      style={{ containerType: "size" }}
+      className={`relative overflow-hidden ${aspectClass}`}
+      style={{ containerType: "size", background: stageBg }}
     >
       <img
         key={src}
@@ -202,9 +215,14 @@ export function ProductCanvas({
         </div>
       )}
 
+      {view === "back" && showNameBadge && (
+        <p className="pointer-events-none absolute bottom-10 left-3 z-10 bg-bone px-2.5 py-1.5 font-sans text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-garnet">
+          {CAMPAIGN_NAME_BADGE}
+        </p>
+      )}
+
       <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
-        {productLabel} · {view}
-        {blackout && view === "back" ? " · blackout" : ""} · live preview
+        {caption}
       </figcaption>
     </figure>
   );
