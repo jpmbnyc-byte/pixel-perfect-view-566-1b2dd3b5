@@ -14,7 +14,7 @@ function labelFrom(closesAt: string, now: number) {
   return `${parts.minutes}m`;
 }
 
-/** Soft urgency from kit.closesAt — no false scarcity. */
+/** Soft urgency from kit.closesAt — no false scarcity. Inherits color. */
 export function StoreCloseCountdown({ closesAt, className = "" }: Props) {
   const [label, setLabel] = useState(() => labelFrom(closesAt, Date.now()));
 
@@ -26,14 +26,12 @@ export function StoreCloseCountdown({ closesAt, className = "" }: Props) {
   }, [closesAt]);
 
   if (!label) {
-    return (
-      <p className={`label-caps text-bone/45 ${className}`}>Order window closed</p>
-    );
+    return <p className={`place-line opacity-45 ${className}`}>Order window closed</p>;
   }
 
   return (
-    <p className={`label-caps text-bone/55 ${className}`}>
-      Order window closes · <span className="text-bone">{label}</span> left
+    <p className={`place-line opacity-55 ${className}`}>
+      Order window · <span className="opacity-100">{label}</span> left
     </p>
   );
 }

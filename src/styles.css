@@ -39,8 +39,8 @@
 
 /*
  * BAYONNE BEES × NO PARADE F.C.
- * Garnet / black / white — athletic, high-contrast.
- * All colors are oklch tokens. Never hardcode color utilities in components.
+ * Luxury editorial constraint (Venezia-adjacent): paper / ink / one garnet accent.
+ * Cool bone — not warm cream. No manufacturer marks. All colors are oklch tokens.
  */
 
 @theme inline {
@@ -70,41 +70,46 @@
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
   --color-bone: var(--bone);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
   --color-maroon: var(--maroon);
   --color-garnet: var(--garnet);
   --color-harbor: var(--harbor);
   --font-display: "Forge", "Barlow Condensed", system-ui, sans-serif;
   --font-sans: "Barlow Condensed", system-ui, sans-serif;
   --font-kit: "Forge", "Barlow Condensed", sans-serif;
+  --font-editorial: "Instrument Serif", "Times New Roman", serif;
 }
 
 :root {
-  --radius: 0.125rem;
-  /* Paper / bone field */
-  --background: oklch(0.975 0.004 30);
-  --foreground: oklch(0.16 0.01 20);
-  --card: oklch(0.995 0.002 30);
-  --card-foreground: oklch(0.16 0.01 20);
-  --popover: oklch(0.995 0.002 30);
-  --popover-foreground: oklch(0.16 0.01 20);
+  --radius: 0;
+  /* Cool paper field — editorial, not warm cream */
+  --paper: oklch(0.965 0.006 95);
+  --ink: oklch(0.18 0.012 20);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(0.99 0.003 95);
+  --card-foreground: var(--ink);
+  --popover: oklch(0.99 0.003 95);
+  --popover-foreground: var(--ink);
   /* Garnet brand (darker than supplier "maroon") */
   --primary: oklch(0.34 0.12 18);
   --primary-foreground: oklch(0.98 0.005 30);
-  --secondary: oklch(0.94 0.01 30);
-  --secondary-foreground: oklch(0.22 0.03 18);
-  --muted: oklch(0.945 0.008 30);
-  --muted-foreground: oklch(0.48 0.02 20);
+  --secondary: oklch(0.93 0.008 95);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.94 0.006 95);
+  --muted-foreground: oklch(0.45 0.02 20);
   --accent: oklch(0.34 0.12 18);
   --accent-foreground: oklch(0.98 0.005 30);
   --destructive: oklch(0.5 0.18 25);
   --destructive-foreground: oklch(0.98 0.005 30);
-  --border: oklch(0.88 0.01 30);
-  --input: oklch(0.88 0.01 30);
+  --border: oklch(0.86 0.01 95);
+  --input: oklch(0.86 0.01 95);
   --ring: oklch(0.4 0.12 18);
   /* Metallic / highlight (was gold in No Parade system) */
   --gold: oklch(0.86 0.04 90);
   --gold-foreground: oklch(0.18 0.02 20);
-  --bone: oklch(0.97 0.006 30);
+  --bone: oklch(0.97 0.005 95);
   --garnet: oklch(0.34 0.12 18);
   --maroon: var(--garnet); /* alias — prefer garnet in new copy */
   /* Kill van Kull / peninsula water — steel, not sky-blue */
@@ -112,16 +117,18 @@
 }
 
 .dark {
-  --background: oklch(0.14 0.015 20);
-  --foreground: oklch(0.96 0.005 30);
-  --card: oklch(0.18 0.02 18);
-  --card-foreground: oklch(0.96 0.005 30);
-  --popover: oklch(0.18 0.02 18);
-  --popover-foreground: oklch(0.96 0.005 30);
+  --paper: oklch(0.16 0.012 20);
+  --ink: oklch(0.96 0.005 95);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(0.18 0.015 20);
+  --card-foreground: var(--ink);
+  --popover: oklch(0.18 0.015 20);
+  --popover-foreground: var(--ink);
   --primary: oklch(0.96 0.005 30);
   --primary-foreground: oklch(0.22 0.08 18);
   --secondary: oklch(0.22 0.03 18);
-  --secondary-foreground: oklch(0.96 0.005 30);
+  --secondary-foreground: var(--ink);
   --muted: oklch(0.22 0.03 18);
   --muted-foreground: oklch(0.72 0.02 30);
   --accent: oklch(0.45 0.14 18);
@@ -133,7 +140,7 @@
   --ring: oklch(0.55 0.12 18);
   --gold: oklch(0.86 0.04 90);
   --gold-foreground: oklch(0.14 0.015 20);
-  --bone: oklch(0.97 0.006 30);
+  --bone: oklch(0.97 0.005 95);
   --garnet: oklch(0.45 0.14 18);
   --maroon: var(--garnet);
   --harbor: oklch(0.48 0.045 230);
@@ -321,34 +328,73 @@
 @utility place-line {
   font-family: var(--font-sans);
   text-transform: uppercase;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.28em;
   font-size: 0.625rem;
   line-height: 1.3;
-  color: color-mix(in oklab, var(--bone) 55%, transparent);
+  color: color-mix(in oklab, currentColor 45%, transparent);
 }
 
-/* —— Adidas-language display (no logos / no three-stripe marks) —— */
+/* —— Luxury editorial display (Venezia-adjacent restraint) —— */
 @utility type-campaign {
   font-family: var(--font-kit);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 0.92;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
 }
 
 @utility type-campaign-tight {
   font-family: var(--font-kit);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.04em;
-  line-height: 0.88;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+
+@utility type-editorial {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+@utility hairline {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: color-mix(in oklab, currentColor 18%, transparent);
+}
+
+@utility tip-asymmetric {
+  display: flex;
+  height: 2px;
+  width: 4.5rem;
+  overflow: hidden;
+}
+@utility tip-asymmetric-a {
+  flex: 1.15;
+  background: var(--garnet);
+}
+@utility tip-asymmetric-b {
+  flex: 0.85;
+  background: var(--ink);
+}
+@utility tip-asymmetric-bone {
+  flex: 0.85;
+  background: var(--bone);
 }
 
 @utility bar-garnet {
   display: block;
-  height: 0.2rem;
-  width: 3rem;
+  height: 1px;
+  width: 3.5rem;
   background: var(--garnet);
+}
+
+@utility studio-field {
+  background: var(--paper);
+  color: var(--ink);
 }
 
 @keyframes team-kenburns {
