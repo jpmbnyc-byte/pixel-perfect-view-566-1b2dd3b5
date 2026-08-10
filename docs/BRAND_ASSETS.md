@@ -7,26 +7,28 @@ All Bayonne Bees imagery that the shop loads is declared in:
 | Export | Purpose |
 |---|---|
 | `CRESTS.primary` | Site chrome + Match crest master (`boxing-bee.png`) |
-| `CRESTS.queen` | Queen Bees story crest only |
+| `CRESTS.queen` | Queen Bees crest mark only |
+| `LIFESTYLE.*` | Campaign story stills (`lifestyle/` — no manufacturer logos) |
 | `PLATES[productId]` | Front + secondary plate for each catalog SKU |
-| `SURFACES.*` | Landing hero, lookbook, place plate, OG image, category heroes |
+| `SURFACES.*` | Landing hero, story, lookbook, OG, category heroes |
 
 `src/lib/catalog.ts` builds product thumbs / previews and category heroes from `PLATES` / `SURFACES`. Routes import `CRESTS` / `SURFACES` — they must not import raw asset paths.
 
 ## Surface map
 
-| Surface | Manifest key | Plate / crest |
+| Surface | Manifest key | Source |
 |---|---|---|
-| Landing hero | `SURFACES.landingHero` | Match Jersey front |
-| Landing Match lookbook | `SURFACES.landingMatchJersey` | Match Jersey front |
-| Landing place | `SURFACES.landingPlace` | Alumni Shorts front |
+| Landing hero | `SURFACES.landingHero` | `LIFESTYLE.focus` |
+| Queen Bees lifestyle | `SURFACES.landingQueenStory` | `LIFESTYLE.queen` |
+| Sideline lifestyle | `SURFACES.landingSideline` | `LIFESTYLE.sideline` |
+| Landing Match lookbook | `SURFACES.landingMatchJersey` | Match Jersey front plate |
 | Landing / store logo | `CRESTS.primary` | boxing-bee |
-| Queen Bees block | `CRESTS.queen` | reveal-01-crest |
+| Queen crest mark | `CRESTS.queen` | reveal-01-crest |
 | Category heroes | `SURFACES.categoryHero.*` | Lead SKU front |
 | Product cards / PDP | `PLATES[id]` via catalog | Per-SKU pair |
-| Open Graph | `SURFACES.ogImage` | Match Jersey front |
+| Open Graph | `SURFACES.ogImage` | `LIFESTYLE.focus` |
 
-Landing hero intentionally uses **Match Jersey** front so the first viewport matches the primary CTA and PDP front view.
+Lifestyle stills carry the site story (Adidas visual language, no logos). Product plates stay for commerce / PDP identical match.
 
 ## Adding a SKU image
 
