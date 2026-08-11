@@ -25,7 +25,7 @@ export type LetteringLayout = {
     y: number;
     heightPct: number;
     maxWidthPct: number;
-    /** Degrees of end-to-end upward arch (0 = flat). Ref ≈ 10°. */
+    /** Degrees of end-to-end upward arch. Locked to 0 — name prints as one flat row. */
     archDeg?: number;
   };
   number: { y: number; heightPct: number; maxWidthPct: number };
@@ -39,7 +39,7 @@ export type LetteringLayout = {
  */
 export const LETTERING: LetteringLayout = {
   centerX: 49.3,
-  name: { y: 20.5, heightPct: 5, maxWidthPct: 46, archDeg: 10 },
+  name: { y: 20.5, heightPct: 5, maxWidthPct: 46, archDeg: 0 },
   number: { y: 26.5, heightPct: 34, maxWidthPct: 44 },
   surface: "garnet",
 };
@@ -47,7 +47,7 @@ export const LETTERING: LetteringLayout = {
 /** Full kit set — shirt occupies ≈12–64% of the plate, so the block sits higher and shorter. */
 export const LETTERING_SET: LetteringLayout = {
   centerX: 50,
-  name: { y: 18.5, heightPct: 4.4, maxWidthPct: 42, archDeg: 10 },
+  name: { y: 18.5, heightPct: 4.4, maxWidthPct: 42, archDeg: 0 },
   number: { y: 24, heightPct: 27, maxWidthPct: 38 },
   surface: "garnet",
 };
@@ -55,7 +55,7 @@ export const LETTERING_SET: LetteringLayout = {
 /** Hoops tank — no collar, shoulders ≈10%, hem ≈88%; torso center runs ≈51%. */
 export const LETTERING_HOOPS: LetteringLayout = {
   centerX: 51.2,
-  name: { y: 18, heightPct: 5, maxWidthPct: 42, archDeg: 10 },
+  name: { y: 18, heightPct: 5, maxWidthPct: 42, archDeg: 0 },
   number: { y: 24, heightPct: 33, maxWidthPct: 40 },
   surface: "blackout",
 };
@@ -63,7 +63,7 @@ export const LETTERING_HOOPS: LetteringLayout = {
 /** Jersey dress — narrow torso (≈33% wide at the waist), longer silhouette. */
 export const LETTERING_DRESS: LetteringLayout = {
   centerX: 49.5,
-  name: { y: 16.5, heightPct: 4.2, maxWidthPct: 36, archDeg: 10 },
+  name: { y: 16.5, heightPct: 4.2, maxWidthPct: 36, archDeg: 0 },
   number: { y: 21.5, heightPct: 30, maxWidthPct: 32 },
   surface: "garnet",
 };
@@ -71,7 +71,7 @@ export const LETTERING_DRESS: LetteringLayout = {
 /** Long-sleeve — collar bottom ≈21%, hem ≈84%; whole block drops. */
 export const LETTERING_LS: LetteringLayout = {
   centerX: 50,
-  name: { y: 24, heightPct: 5, maxWidthPct: 46, archDeg: 10 },
+  name: { y: 24, heightPct: 5, maxWidthPct: 46, archDeg: 0 },
   number: { y: 30, heightPct: 32, maxWidthPct: 44 },
   surface: "garnet",
 };
