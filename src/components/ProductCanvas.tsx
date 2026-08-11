@@ -206,7 +206,7 @@ export function ProductCanvas({
               WebkitTextStroke: blackout ? "0.4px rgba(0,0,0,0.55)" : undefined,
             }}
           >
-            <ArchedName text={displayName} archDeg={lettering.name.archDeg ?? 0} />
+            <FlatName text={displayName} />
           </p>
           <p
             className="absolute flex items-center justify-center whitespace-nowrap text-center leading-none text-white"
