@@ -120,32 +120,9 @@ function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
   return biasEm;
 }
 
-/** Slight upward arch across the name — matches AVENUE A · 36 ref. */
-function ArchedName({ text, archDeg }: { text: string; archDeg: number }) {
-  if (!archDeg || text.length < 2) return <>{text}</>;
-  const chars = [...text];
-  const mid = (chars.length - 1) / 2;
-  return (
-    <span className="inline-flex items-end justify-center">
-      {chars.map((ch, i) => {
-        const t = mid === 0 ? 0 : (i - mid) / mid;
-        const rot = t * archDeg;
-        const lift = -Math.abs(t) * 0.22;
-        return (
-          <span
-            key={`${ch}-${i}`}
-            className="inline-block"
-            style={{
-              transform: `rotate(${rot}deg) translateY(${lift}em)`,
-              transformOrigin: "center bottom",
-            }}
-          >
-            {ch === " " ? "\u00A0" : ch}
-          </span>
-        );
-      })}
-    </span>
-  );
+/** Name renders as a single flat row on the shared baseline — no arch, no per-glyph rotation. */
+function FlatName({ text }: { text: string }) {
+  return <span className="inline-block whitespace-nowrap align-baseline">{text}</span>;
 }
 
 /**
@@ -229,7 +206,7 @@ export function ProductCanvas({
               WebkitTextStroke: blackout ? "0.4px rgba(0,0,0,0.55)" : undefined,
             }}
           >
-            <ArchedName text={displayName} archDeg={lettering.name.archDeg ?? 0} />
+            <FlatName text={displayName} />
           </p>
           <p
             className="absolute flex items-center justify-center whitespace-nowrap text-center leading-none text-white"
