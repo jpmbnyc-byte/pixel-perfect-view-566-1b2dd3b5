@@ -21,6 +21,7 @@ export const BOE_PERMISSION = {
     "1936",
     "Avenue A",
     "boxing-bee", // NPFC original IP
+    "lady-bee", // NPFC original IP — jersey dress crest only
   ] as const,
 } as const;
 

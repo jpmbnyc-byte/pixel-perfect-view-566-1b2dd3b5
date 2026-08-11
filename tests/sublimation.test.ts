@@ -43,4 +43,15 @@ describe("validateSublimation", () => {
     const warns = validateSublimation(s).filter((v) => v.severity === "warn");
     expect(warns.some((w) => w.code === "STRIKEOFF_REQUIRED")).toBe(true);
   });
+
+  it("allows lady-bee crest on BB-DRESS only", () => {
+    const dress = SKUS.find((x) => x.sku === "BB-DRESS")!;
+    expect(dress.graphics.crest).toBe("lady-bee");
+    expect(sublimationErrors(dress)).toEqual([]);
+
+    const jersey = clone(SKUS.find((x) => x.sku === "BB-MJ-REP")!);
+    jersey.graphics.crest = "lady-bee";
+    const codes = validateSublimation(jersey).map((v) => v.code);
+    expect(codes).toContain("ILLEGAL_CREST");
+  });
 });

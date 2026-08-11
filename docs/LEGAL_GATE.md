@@ -11,6 +11,7 @@ Until that letter is on file, the store and every physical buy ship as a **Bayon
 | 1936 / EST. 1936 | Queen Bees name on product |
 | Avenue A | “Official kit of…” claims |
 | Boxing-bee crest *(NPFC original IP)* | Current student names in personalization |
+| Lady-bee crest on jersey dress only *(NPFC original IP)* | Queen Bees crest / school marks on garments |
 
 The city is yours; the school isn’t. Story pages may still discuss Queen Bees as editorial (see `docs/QUEEN_BEES_STACK.md`) — never as a commerce mark.
 

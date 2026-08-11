@@ -60,8 +60,8 @@ export interface KitSpec {
   };
 
   graphics: {
-    /** ONLY value permitted on a purchasable SKU */
-    crest: "boxing-bee";
+    /** boxing-bee default; lady-bee only on BB-DRESS */
+    crest: "boxing-bee" | "lady-bee";
     crestPlacement: Placement;
     chestBand?: {
       text: "BAYONNE";

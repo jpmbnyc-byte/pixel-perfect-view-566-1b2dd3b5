@@ -251,7 +251,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey-dress",
     handle: "bayonne-bees-jersey-dress",
     name: "Jersey Dress",
-    blurb: "One piece. Same back print as the Match jersey — your name, your number.",
+    blurb: "One piece with the lady-bee crest. Same back print as the Match jersey — your name, your number.",
     category: "sideline",
     price: 72,
     customizable: true,

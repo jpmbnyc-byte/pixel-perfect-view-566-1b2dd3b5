@@ -61,10 +61,13 @@ export function validateSublimation(spec: KitSpec): Violation[] {
     }
   }
 
-  if (spec.graphics.crest !== "boxing-bee") {
+  const crestOk =
+    spec.graphics.crest === "boxing-bee" ||
+    (spec.graphics.crest === "lady-bee" && spec.sku === "BB-DRESS");
+  if (!crestOk) {
     v.push({
       code: "ILLEGAL_CREST",
-      fix: "purchasable SKUs may only use boxing-bee; Queen Bees is story-only",
+      fix: "purchasable SKUs use boxing-bee; lady-bee is BB-DRESS only; Queen Bees is story-only",
     });
   }
 

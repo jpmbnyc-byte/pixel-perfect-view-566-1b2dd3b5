@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640" fill="none">
+  <defs>
+    <clipPath id="field">
+      <path d="M64 52 C64 52 100 40 256 40 C412 40 448 52 448 52 L448 290 C448 420 256 600 256 600 C256 600 64 420 64 290 Z"/>
+    </clipPath>
+  </defs>
+  <!-- outer bone -->
+  <path d="M56 44 C56 44 96 32 256 32 C416 32 456 44 456 44 L456 292 C456 430 256 616 256 616 C256 616 56 430 56 292 Z" fill="#F4F1EC"/>
+  <!-- black band -->
+  <path d="M64 52 C64 52 100 40 256 40 C412 40 448 52 448 52 L448 290 C448 420 256 600 256 600 C256 600 64 420 64 290 Z" fill="#0A0A0A"/>
+  <!-- inner bone -->
+  <path d="M76 64 C76 64 108 52 256 52 C404 52 436 64 436 64 L436 288 C436 408 256 580 256 580 C256 580 76 408 76 288 Z" fill="#F4F1EC"/>
+  <g clip-path="url(#field)">
+    <rect x="0" y="0" width="512" height="318" fill="#5A1626"/>
+    <rect x="0" y="310" width="512" height="340" fill="#0A0A0A"/>
+    <line x1="90" y1="314" x2="422" y2="314" stroke="#F4F1EC" stroke-width="5"/>
+  </g>
+  <!-- wings -->
+  <path d="M248 248 L95 155 L55 200 L85 275 L225 295 Z" fill="#F4F1EC"/>
+  <path d="M264 248 L417 155 L457 200 L427 275 L287 295 Z" fill="#F4F1EC"/>
+  <path d="M225 258 L90 185" stroke="#0A0A0A" stroke-width="3.5"/>
+  <path d="M230 280 L95 245" stroke="#0A0A0A" stroke-width="3"/>
+  <path d="M225 270 L100 215" stroke="#0A0A0A" stroke-width="2.5"/>
+  <path d="M287 258 L422 185" stroke="#0A0A0A" stroke-width="3.5"/>
+  <path d="M282 280 L417 245" stroke="#0A0A0A" stroke-width="3"/>
+  <path d="M287 270 L412 215" stroke="#0A0A0A" stroke-width="2.5"/>
+  <!-- crown -->
+  <path d="M205 178 L205 125 L232 152 L256 108 L280 152 L307 125 L307 178 Z" fill="#F4F1EC"/>
+  <!-- head thorax -->
+  <ellipse cx="256" cy="208" rx="38" ry="36" fill="#0A0A0A"/>
+  <ellipse cx="256" cy="255" rx="50" ry="44" fill="#0A0A0A"/>
+  <!-- antennae -->
+  <line x1="238" y1="182" x2="218" y2="138" stroke="#F4F1EC" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="274" y1="182" x2="294" y2="138" stroke="#F4F1EC" stroke-width="4.5" stroke-linecap="round"/>
+  <circle cx="216" cy="135" r="6" fill="#F4F1EC"/>
+  <circle cx="296" cy="135" r="6" fill="#F4F1EC"/>
+  <!-- abdomen -->
+  <ellipse cx="256" cy="312" rx="44" ry="18" fill="#F4F1EC"/>
+  <ellipse cx="256" cy="332" rx="40" ry="16" fill="#0A0A0A"/>
+  <ellipse cx="256" cy="350" rx="34" ry="14" fill="#F4F1EC"/>
+  <ellipse cx="256" cy="366" rx="26" ry="12" fill="#0A0A0A"/>
+  <ellipse cx="256" cy="380" rx="18" ry="10" fill="#F4F1EC"/>
+  <path d="M242 388 L270 388 L256 420 Z" fill="#0A0A0A"/>
+  <!-- boxing gloves - mitt shape -->
+  <g>
+    <ellipse cx="175" cy="445" rx="46" ry="52" fill="#5A1626" stroke="#F4F1EC" stroke-width="5"/>
+    <path d="M145 420 C145 395 205 395 205 420" fill="#5A1626" stroke="#F4F1EC" stroke-width="4"/>
+    <rect x="155" y="380" width="40" height="36" rx="10" fill="#F4F1EC"/>
+    <rect x="160" y="385" width="30" height="26" rx="8" fill="#5A1626"/>
+    <path d="M150 440 Q175 415 200 440" stroke="#F4F1EC" stroke-width="3.5" fill="none"/>
+  </g>
+  <g>
+    <ellipse cx="337" cy="445" rx="46" ry="52" fill="#5A1626" stroke="#F4F1EC" stroke-width="5"/>
+    <path d="M307 420 C307 395 367 395 367 420" fill="#5A1626" stroke="#F4F1EC" stroke-width="4"/>
+    <rect x="317" y="380" width="40" height="36" rx="10" fill="#F4F1EC"/>
+    <rect x="322" y="385" width="30" height="26" rx="8" fill="#5A1626"/>
+    <path d="M312 440 Q337 415 362 440" stroke="#F4F1EC" stroke-width="3.5" fill="none"/>
+  </g>
+</svg>

@@ -9,7 +9,8 @@
  *    plates are forbidden. Delete duplicates; do not reintroduce them.
  * 4. Front/back (or front/side) for a SKU must be that SKU’s own pair — never
  *    borrow another product’s secondary when a dedicated plate exists.
- * 5. Queen Bees crest is Faithful/story only — not the Match kit crest.
+ * 5. Queen Bees story crest (`CRESTS.queen`) is Faithful/story only.
+ * 6. Lady-bee crest (`CRESTS.lady`) is BB-DRESS garment art only — not site chrome.
  */
 
 import jerseyFront from "@/assets/bayonne/previews/jersey-front.jpg";
@@ -36,6 +37,7 @@ import sweatsFront from "@/assets/bayonne/previews/sweats-front.jpg";
 import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
 
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
+import ladyBee from "@/assets/bayonne/spirit/lady-bee.png";
 import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
 
 import lifestyleFocus from "@/assets/bayonne/lifestyle/lifestyle-focus.jpg";
@@ -46,6 +48,8 @@ import lifestyleQueen from "@/assets/bayonne/lifestyle/lifestyle-queen.jpg";
 export const CRESTS = {
   /** Match kit + site chrome (landing header, store header, category aside). */
   primary: boxingBee,
+  /** Jersey dress left-chest crest — crowned bee shield (NPFC original IP). */
+  lady: ladyBee,
   /** Queen Bees crest mark — story proof, not Match garment art. */
   queen: queenCrest,
 } as const;
