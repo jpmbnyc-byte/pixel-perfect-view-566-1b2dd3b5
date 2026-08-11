@@ -33,19 +33,46 @@ export type LetteringLayout = {
   surface: "garnet" | "blackout";
 };
 
-/** Match jersey / full kit — ref print area. */
+/**
+ * Match jersey — plate: collar bottom ≈17%, hem ≈85%, torso center x ≈49.3%.
+ * Name sits below the collar band; number fills the upper-mid back panel.
+ */
 export const LETTERING: LetteringLayout = {
-  centerX: 50,
-  name: { y: 15, heightPct: 6, maxWidthPct: 50, archDeg: 10 },
-  number: { y: 25, heightPct: 38, maxWidthPct: 50 },
+  centerX: 49.3,
+  name: { y: 20.5, heightPct: 5, maxWidthPct: 46, archDeg: 10 },
+  number: { y: 26.5, heightPct: 34, maxWidthPct: 44 },
   surface: "garnet",
 };
 
-/** Jersey dress — same system; slightly tighter for the longer silhouette. */
-export const LETTERING_DRESS: LetteringLayout = {
+/** Full kit set — shirt occupies ≈12–64% of the plate, so the block sits higher and shorter. */
+export const LETTERING_SET: LetteringLayout = {
   centerX: 50,
-  name: { y: 14, heightPct: 5.5, maxWidthPct: 48, archDeg: 10 },
-  number: { y: 23, heightPct: 34, maxWidthPct: 46 },
+  name: { y: 18.5, heightPct: 4.4, maxWidthPct: 42, archDeg: 10 },
+  number: { y: 24, heightPct: 27, maxWidthPct: 38 },
+  surface: "garnet",
+};
+
+/** Hoops tank — no collar, shoulders ≈10%, hem ≈88%; torso center runs ≈51%. */
+export const LETTERING_HOOPS: LetteringLayout = {
+  centerX: 51.2,
+  name: { y: 18, heightPct: 5, maxWidthPct: 42, archDeg: 10 },
+  number: { y: 24, heightPct: 33, maxWidthPct: 40 },
+  surface: "blackout",
+};
+
+/** Jersey dress — narrow torso (≈33% wide at the waist), longer silhouette. */
+export const LETTERING_DRESS: LetteringLayout = {
+  centerX: 49.5,
+  name: { y: 16.5, heightPct: 4.2, maxWidthPct: 36, archDeg: 10 },
+  number: { y: 21.5, heightPct: 30, maxWidthPct: 32 },
+  surface: "garnet",
+};
+
+/** Long-sleeve — collar bottom ≈21%, hem ≈84%; whole block drops. */
+export const LETTERING_LS: LetteringLayout = {
+  centerX: 50,
+  name: { y: 24, heightPct: 5, maxWidthPct: 46, archDeg: 10 },
+  number: { y: 30, heightPct: 32, maxWidthPct: 44 },
   surface: "garnet",
 };
 
