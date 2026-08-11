@@ -7,7 +7,8 @@ describe("ref print area — Match jersey & jersey dress", () => {
     const jersey = productById("jersey")!;
     const L = letteringFor(jersey);
     expect(L).toEqual(LETTERING);
-    expect(L.centerX).toBe(50);
+    // Spine sits marginally left of frame center on the jersey-back plate.
+    expect(L.centerX).toBeCloseTo(49.3, 1);
     expect(L.name.archDeg).toBe(10);
     expect(L.name.maxWidthPct).toBeLessThanOrEqual(52);
     expect(L.number.heightPct).toBeGreaterThanOrEqual(34);

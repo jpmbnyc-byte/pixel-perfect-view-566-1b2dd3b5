@@ -9,7 +9,13 @@
  */
 
 import type { Item, LetteringLayout } from "./kit";
-import { LETTERING, LETTERING_DRESS } from "./kit";
+import {
+  LETTERING,
+  LETTERING_DRESS,
+  LETTERING_HOOPS,
+  LETTERING_LS,
+  LETTERING_SET,
+} from "./kit";
 import { PLATES, SURFACES } from "./brandAssets";
 import { CAMPAIGN_SHOTS } from "./campaignAssets";
 
@@ -219,8 +225,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Same print area as Match Jersey — do not borrow jersey-back plate */
-    lettering: LETTERING,
+    /** Set plate shows shirt + shorts — shirt hem ≈64%, so the block sits higher */
+    lettering: LETTERING_SET,
     thumb: thumbFor("full-set"),
     previews: { ...PLATES["full-set"] },
   },
@@ -236,8 +242,8 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    /** Blackout mesh — full torso; geometric center is the spine */
-    lettering: { ...LETTERING, surface: "blackout" },
+    /** Blackout mesh tank — no collar, spine sits right of frame center */
+    lettering: LETTERING_HOOPS,
     thumb: thumbFor("hoops-jersey"),
     previews: { ...PLATES["hoops-jersey"] },
   },
@@ -314,7 +320,7 @@ export const PRODUCTS: CatalogProduct[] = [
     typography: true,
     previewPair: "front-back",
     sizeChart: "apparel",
-    lettering: { ...LETTERING, centerX: 50 },
+    lettering: LETTERING_LS,
     thumb: thumbFor("ls-jersey"),
     previews: { ...PLATES["ls-jersey"] },
   },
