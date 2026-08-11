@@ -7,7 +7,8 @@ All Bayonne Bees imagery that the shop loads is declared in:
 | Export | Purpose |
 |---|---|
 | `CRESTS.primary` | Site chrome + Match crest master (`boxing-bee.png`) |
-| `CRESTS.queen` | Queen Bees crest mark only |
+| `CRESTS.lady` | Jersey dress left-chest crest only (`lady-bee.png`) |
+| `CRESTS.queen` | Queen Bees crest mark only (story) |
 | `LIFESTYLE.*` | Campaign story stills (`lifestyle/` — no manufacturer logos) |
 | `PLATES[productId]` | Front + secondary plate for each catalog SKU |
 | `SURFACES.*` | Landing hero, story, lookbook, OG, category heroes |
@@ -23,6 +24,7 @@ All Bayonne Bees imagery that the shop loads is declared in:
 | Sideline lifestyle | `SURFACES.landingSideline` | `LIFESTYLE.sideline` |
 | Landing Match lookbook | `SURFACES.landingMatchJersey` | Match Jersey front plate |
 | Landing / store logo | `CRESTS.primary` | boxing-bee |
+| Jersey dress crest | `CRESTS.lady` | lady-bee (BB-DRESS plates) |
 | Queen crest mark | `CRESTS.queen` | reveal-01-crest |
 | Category heroes | `SURFACES.categoryHero.*` | Lead SKU front |
 | Product cards / PDP | `PLATES[id]` via catalog | Per-SKU pair |

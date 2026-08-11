@@ -20,7 +20,8 @@ describe("ref print area — Match jersey & jersey dress", () => {
     const L = letteringFor(dress);
     expect(L).toEqual(LETTERING_DRESS);
     expect(L.name.archDeg).toBe(0);
-    expect(L.number.heightPct).toBeGreaterThanOrEqual(30);
+    expect(L.number.heightPct).toBeGreaterThanOrEqual(26);
+    expect(L.number.maxWidthPct).toBeLessThanOrEqual(34);
     expect(L.number.y).toBeGreaterThan(L.name.y);
   });
 });

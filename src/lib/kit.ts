@@ -62,9 +62,9 @@ export const LETTERING_HOOPS: LetteringLayout = {
 
 /** Jersey dress — narrow torso (≈33% wide at the waist), longer silhouette. */
 export const LETTERING_DRESS: LetteringLayout = {
-  centerX: 49.5,
-  name: { y: 16.5, heightPct: 4.2, maxWidthPct: 36, archDeg: 0 },
-  number: { y: 21.5, heightPct: 30, maxWidthPct: 32 },
+  centerX: 49.8,
+  name: { y: 17.2, heightPct: 4.4, maxWidthPct: 34, archDeg: 0 },
+  number: { y: 22.2, heightPct: 28, maxWidthPct: 30 },
   surface: "garnet",
 };
 

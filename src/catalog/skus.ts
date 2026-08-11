@@ -25,6 +25,8 @@ type Draft = {
   motifDefault?: "chevron" | "grid" | "arc";
   patternCopy?: string;
   strikeOffApproved?: boolean;
+  /** Override default boxing-bee (lady-bee is BB-DRESS only). */
+  crest?: KitSpec["graphics"]["crest"];
 };
 
 function trimsFor(process: ProcessId): KitSpec["garment"]["trims"] {
@@ -59,7 +61,7 @@ function build(d: Draft): KitSpec {
       trim: COLOR.trimBlack,
     },
     graphics: {
-      crest: "boxing-bee",
+      crest: d.crest ?? "boxing-bee",
       crestPlacement: { x: 0.34, y: 0.29, sizeMm: 55 },
       ...(d.continuousBand
         ? {
@@ -333,7 +335,8 @@ const DRAFTS: Draft[] = [
     block: "jersey-dress-v1",
     mode: "name-number",
     continuousBand: true,
-    blurb: "One-piece sideline cut — strongest differentiated SKU in the line.",
+    crest: "lady-bee",
+    blurb: "One-piece sideline cut with the lady-bee crest — strongest differentiated SKU in the line.",
     plateFront: "jersey-dress",
     plateSecondary: "jersey-dress",
     strikeOffApproved: true,

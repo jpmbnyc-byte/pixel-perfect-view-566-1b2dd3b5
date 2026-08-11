@@ -172,8 +172,8 @@
   font-family: var(--font-sans);
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 0.6875rem;
-  line-height: 1.2;
+  font-size: 0.75rem;
+  line-height: 1.25;
 }
 
 @utility rule-gold {
@@ -328,10 +328,10 @@
 @utility place-line {
   font-family: var(--font-sans);
   text-transform: uppercase;
-  letter-spacing: 0.28em;
-  font-size: 0.625rem;
-  line-height: 1.3;
-  color: color-mix(in oklab, currentColor 45%, transparent);
+  letter-spacing: 0.22em;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: color-mix(in oklab, currentColor 50%, transparent);
 }
 
 /* —— Luxury editorial display (Venezia-adjacent restraint) —— */

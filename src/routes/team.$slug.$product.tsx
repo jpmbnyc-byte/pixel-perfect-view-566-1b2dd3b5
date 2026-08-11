@@ -115,10 +115,12 @@ function ProductListingPage() {
     }
   }, [kit, shopifyItem, size, isHat]);
 
-  // Truth mode: flip to back when personalizing lettered tops.
+  // Truth mode: flip to back when personalizing lettered tops (incl. font pick).
   useEffect(() => {
-    if (galleryMode === "name-it" && product.nameNumber && (name || number)) setView("back");
-  }, [galleryMode, product.nameNumber, name, number]);
+    if (galleryMode === "name-it" && product.nameNumber && (name || number || usesTypography)) {
+      setView("back");
+    }
+  }, [galleryMode, product.nameNumber, name, number, usesTypography, fontId]);
 
   const onNumberChange = (raw: string) => {
     const digits = raw.replace(/\D/g, "");
@@ -426,7 +428,11 @@ function ProductListingPage() {
                       <button
                         key={f.id}
                         type="button"
-                        onClick={() => setFontId(f.id)}
+                        onClick={() => {
+                          setFontId(f.id);
+                          if (galleryMode !== "name-it") setGalleryMode("name-it");
+                          setView("back");
+                        }}
                         className={`border px-3 py-3 text-left transition-colors ${
                           on
                             ? "border-foreground bg-foreground text-background"

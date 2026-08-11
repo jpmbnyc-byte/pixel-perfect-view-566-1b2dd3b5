@@ -104,14 +104,18 @@ function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
       setBiasEm(Number.isFinite(measured) ? measured : fallback);
     };
 
-    const run = () => {
-      if (typeof document !== "undefined" && document.fonts?.ready) {
-        void document.fonts.ready.then(measure);
-      } else {
-        measure();
+    const run = async () => {
+      if (typeof document !== "undefined" && document.fonts?.load) {
+        try {
+          await document.fonts.load(`180px ${fontFamily}`);
+          await document.fonts.ready;
+        } catch {
+          /* measure with fallback metrics */
+        }
       }
+      if (!cancelled) measure();
     };
-    run();
+    void run();
     return () => {
       cancelled = true;
     };
@@ -187,7 +191,11 @@ export function ProductCanvas({
       />
 
       {view === "back" && showLettering && (
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div
+          key={fontId}
+          className="pointer-events-none absolute inset-0"
+          aria-hidden
+        >
           <p
             className="absolute flex items-center justify-center whitespace-nowrap text-center uppercase text-white"
             style={{
@@ -234,7 +242,7 @@ export function ProductCanvas({
         </p>
       )}
 
-      <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
+      <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center tracking-[0.14em] text-bone/80">
         {caption}
       </figcaption>
     </figure>
