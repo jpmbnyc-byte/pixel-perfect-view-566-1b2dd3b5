@@ -71,13 +71,21 @@ function TeamLanding() {
                 <span className="tip-asymmetric-bone" />
               </div>
             </div>
-            <Link
-              to="/team/$slug"
-              params={{ slug: kit.slug }}
-              className="place-line mt-1 shrink-0 text-bone transition-opacity hover:opacity-70"
-            >
-              Shop
-            </Link>
+            <div className="mt-1 flex shrink-0 flex-col items-end gap-2">
+              <Link
+                to="/team/$slug"
+                params={{ slug: kit.slug }}
+                className="place-line text-bone transition-opacity hover:opacity-70"
+              >
+                Shop
+              </Link>
+              <Link
+                to="/preorder"
+                className="place-line text-bone/70 transition-opacity hover:opacity-100"
+              >
+                Pre-order
+              </Link>
+            </div>
           </header>
 
           <div className="mt-auto max-w-md space-y-6 pt-16 motion-safe:animate-team-rise [animation-delay:140ms]">

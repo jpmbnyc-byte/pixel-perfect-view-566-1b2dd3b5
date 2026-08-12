@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PreorderRouteImport } from './routes/preorder'
 import { Route as TeamIndexRouteImport } from './routes/team.index'
 import { Route as TeamSlugRouteImport } from './routes/team.$slug'
 import { Route as TeamSlugIndexRouteImport } from './routes/team.$slug.index'
@@ -18,6 +19,11 @@ import { Route as TeamSlugProductRouteImport } from './routes/team.$slug.$produc
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreorderRoute = PreorderRouteImport.update({
+  id: '/preorder',
+  path: '/preorder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeamIndexRoute = TeamIndexRouteImport.update({
@@ -43,6 +49,7 @@ const TeamSlugProductRoute = TeamSlugProductRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/preorder': typeof PreorderRoute
   '/team/$slug': typeof TeamSlugRouteWithChildren
   '/team/': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/preorder': typeof PreorderRoute
   '/team': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
   '/team/$slug': typeof TeamSlugIndexRoute
@@ -57,6 +65,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/preorder': typeof PreorderRoute
   '/team/$slug': typeof TeamSlugRouteWithChildren
   '/team/': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
@@ -65,12 +74,18 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/team/$slug' | '/team/' | '/team/$slug/$product' | '/team/$slug/'
+    | '/'
+    | '/preorder'
+    | '/team/$slug'
+    | '/team/'
+    | '/team/$slug/$product'
+    | '/team/$slug/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/team' | '/team/$slug/$product' | '/team/$slug'
+  to: '/' | '/preorder' | '/team' | '/team/$slug/$product' | '/team/$slug'
   id:
     | '__root__'
     | '/'
+    | '/preorder'
     | '/team/$slug'
     | '/team/'
     | '/team/$slug/$product'
@@ -79,6 +94,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PreorderRoute: typeof PreorderRoute
   TeamSlugRoute: typeof TeamSlugRouteWithChildren
   TeamIndexRoute: typeof TeamIndexRoute
 }
@@ -90,6 +106,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preorder': {
+      id: '/preorder'
+      path: '/preorder'
+      fullPath: '/preorder'
+      preLoaderRoute: typeof PreorderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/team/': {
@@ -139,6 +162,7 @@ const TeamSlugRouteWithChildren = TeamSlugRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PreorderRoute: PreorderRoute,
   TeamSlugRoute: TeamSlugRouteWithChildren,
   TeamIndexRoute: TeamIndexRoute,
 }
