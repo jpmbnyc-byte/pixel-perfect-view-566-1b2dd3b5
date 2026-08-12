@@ -27,9 +27,9 @@ export const Route = createFileRoute("/preorder")({
 
 const SIZES = ["XXS", "XS", "S", "M", "L", "XL", "2XL", "3XL"] as const;
 const PIECES = [
-  { id: "set", label: "Full set", price: 148, note: "Jacket + pant" },
-  { id: "jacket", label: "Half-zip only", price: 92, note: "Nylon shell" },
-  { id: "pant", label: "Pant only", price: 74, note: "Elastic cuff" },
+  { id: "set", label: "Full set", price: 300, note: "Jacket + pant" },
+  { id: "jacket", label: "Half-zip only", price: 185, note: "Nylon shell" },
+  { id: "pant", label: "Pant only", price: 145, note: "Elastic cuff" },
 ] as const;
 
 const RUN_TOTAL = 120;
