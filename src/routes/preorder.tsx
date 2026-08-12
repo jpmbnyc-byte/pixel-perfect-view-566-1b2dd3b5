@@ -10,7 +10,7 @@ export const Route = createFileRoute("/preorder")({
   head: () => {
     const title = "Avenue A Nylon Set — garnet/black pre-order | No Parade F.C.";
     const description =
-      "Premium crinkle-nylon unisex tracksuit set in Bayonne garnet and black. Limited first run of 120. Reserve your size — $30 holds it, $148 at delivery.";
+      "Premium crinkle-nylon unisex tracksuit set in Bayonne garnet and black. Limited first run of 120. Reserve your size — $60 holds it, $300 at delivery.";
     return {
       meta: [
         { title },
@@ -27,11 +27,12 @@ export const Route = createFileRoute("/preorder")({
 
 const SIZES = ["XXS", "XS", "S", "M", "L", "XL", "2XL", "3XL"] as const;
 const PIECES = [
-  { id: "set", label: "Full set", price: 148, note: "Jacket + pant" },
-  { id: "jacket", label: "Half-zip only", price: 92, note: "Nylon shell" },
-  { id: "pant", label: "Pant only", price: 74, note: "Elastic cuff" },
+  { id: "set", label: "Full set", price: 300, note: "Jacket + pant" },
+  { id: "jacket", label: "Half-zip only", price: 185, note: "Nylon shell" },
+  { id: "pant", label: "Pant only", price: 145, note: "Elastic cuff" },
 ] as const;
 
+const DEPOSIT = 60;
 const RUN_TOTAL = 120;
 const RUN_TAKEN = 87;
 
@@ -91,7 +92,7 @@ function PreorderPage() {
               href="#reserve"
               className="place-line inline-flex items-center gap-3 border-b border-bone/40 pb-2 text-bone transition-colors hover:border-bone"
             >
-              Reserve for $30 · ${PIECES[0].price} at delivery
+              Reserve for ${DEPOSIT} · ${PIECES[0].price} at delivery
               <span aria-hidden>→</span>
             </a>
           </div>
@@ -178,7 +179,7 @@ function PreorderPage() {
         <div className="mx-auto w-full max-w-[720px] px-6 py-20 sm:px-10 sm:py-28">
           <p className="place-line">Reserve</p>
           <h2 className="type-editorial mt-6 text-[clamp(1.75rem,5vw,2.4rem)] text-ink">
-            Hold your size for $30.
+            Hold your size for ${DEPOSIT}.
           </h2>
 
           {done ? (
@@ -274,7 +275,7 @@ function PreorderPage() {
 
               <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-8">
                 <p className="text-[0.85rem] text-ink/60">
-                  ${active.price} total · $30 now, ${active.price - 30} at ship
+                  ${active.price} total · ${DEPOSIT} now, ${active.price - DEPOSIT} at ship
                 </p>
                 <button
                   type="submit"
