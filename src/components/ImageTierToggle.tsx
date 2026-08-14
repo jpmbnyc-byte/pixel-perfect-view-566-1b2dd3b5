@@ -9,7 +9,7 @@ type Props = {
 
 /**
  * PDP above-the-fold control — never in a tab, never below the spec block.
- * R1 copy: "Put your name on it" — not Customize / Personalize / Configure.
+ * Match voice: "Make it yours" — not Customize / Personalize / Configure.
  */
 export function ImageTierToggle({ mode, onChange, nameable }: Props) {
   return (
@@ -43,7 +43,7 @@ export function ImageTierToggle({ mode, onChange, nameable }: Props) {
         <span aria-hidden className="mr-1.5">
           ✏︎
         </span>
-        Put your name on it
+        Make it yours
       </button>
     </div>
   );

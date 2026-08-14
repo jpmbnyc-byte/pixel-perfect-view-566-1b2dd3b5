@@ -6,6 +6,11 @@ import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { DEPARTMENT_TO } from "@/components/TeamStorePage";
 import type { CategoryId } from "@/lib/catalog";
+import {
+  MATCH_DEPARTMENT_COPY,
+  MATCH_PRODUCT_COPY,
+  STORE_INTRO_COPY,
+} from "@/copy/match";
 
 const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
 const jersey = productById("jersey")!;
@@ -14,8 +19,8 @@ const shorts = productById("shorts")!;
 
 export const Route = createFileRoute("/team/")({
   head: () => {
-    const title = "Bayonne Team Customs — garnet since 1936 | No Parade F.C.";
-    const description = `Team customs in Bayonne’s actual garnet. Put your name on a jersey. From $${LOWEST}. No Parade F.C., Avenue A.`;
+    const title = "Bayonne Team Customs — Garnet since 1936 | No Parade F.C.";
+    const description = `${STORE_INTRO_COPY.title} Team customs in Bayonne’s garnet. Match jersey from $${jersey.price}. ${STORE_INTRO_COPY.lockup} No Parade F.C., Avenue A.`;
     return {
       meta: [
         { title },
@@ -91,7 +96,7 @@ function TeamLanding() {
 
           <div className="mt-auto max-w-md space-y-6 pt-16 motion-safe:animate-team-rise [animation-delay:140ms]">
             <h1 className="type-editorial text-[clamp(1.65rem,5.5vw,2.15rem)] text-bone">
-              The right red. Finally.
+              {STORE_INTRO_COPY.title}
             </h1>
             <p className="max-w-sm text-[0.95rem] leading-relaxed text-bone/70">
               Team customs for Bayonne — made in the color you actually wear. From ${LOWEST}.
@@ -101,7 +106,7 @@ function TeamLanding() {
               params={{ slug: kit.slug, product: jersey.id }}
               className="place-line inline-flex items-center gap-3 border-b border-bone/40 pb-2 text-bone transition-colors hover:border-bone"
             >
-              Put your name on it · ${jersey.price}
+              Make it yours · ${jersey.price}
               <span aria-hidden>→</span>
             </Link>
           </div>
@@ -111,32 +116,18 @@ function TeamLanding() {
       {/* —— Paper manifesto —— */}
       <section className="studio-field">
         <div className="mx-auto w-full max-w-[720px] px-6 py-20 sm:px-10 sm:py-28">
-          <p className="place-line">Why this store</p>
+          <p className="place-line">{STORE_INTRO_COPY.eyebrow}</p>
           <h2 className="type-editorial mt-6 max-w-lg text-[clamp(1.75rem,5vw,2.4rem)] text-ink">
-            Because “close enough” isn’t a color.
+            {STORE_INTRO_COPY.title}
           </h2>
           <div className="tip-asymmetric mt-8">
             <span className="tip-asymmetric-a" />
             <span className="tip-asymmetric-b" />
           </div>
-          <p className="mt-8 max-w-md text-[0.95rem] leading-relaxed text-ink/70">
-            Most spirit wear shows up in whatever red the printer already had loaded. You notice in
-            the gym. We matched Bayonne’s garnet once — and kept it.
+          <p className="mt-8 max-w-md whitespace-pre-line text-[0.95rem] leading-relaxed text-ink/70">
+            {STORE_INTRO_COPY.body}
           </p>
-          <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-ink/10 pt-8">
-            <div>
-              <dt className="place-line">Opened</dt>
-              <dd className="type-campaign mt-3 text-2xl text-ink">1936</dd>
-            </div>
-            <div>
-              <dt className="place-line">Color</dt>
-              <dd className="type-campaign mt-3 text-2xl text-ink">Garnet</dd>
-            </div>
-            <div>
-              <dt className="place-line">County</dt>
-              <dd className="type-campaign mt-3 text-2xl text-ink">Hudson</dd>
-            </div>
-          </dl>
+          <p className="place-line mt-10 text-ink/50">{STORE_INTRO_COPY.lockup}</p>
         </div>
       </section>
 
@@ -175,9 +166,9 @@ function TeamLanding() {
         <div className="mx-auto w-full max-w-[720px] px-6 pt-20 sm:px-10 sm:pt-24">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="place-line">Shop</p>
+              <p className="place-line">{MATCH_DEPARTMENT_COPY.line}</p>
               <h2 className="type-campaign mt-4 text-[clamp(2rem,7vw,2.8rem)] text-ink">
-                The Match strip
+                {MATCH_DEPARTMENT_COPY.title}
               </h2>
             </div>
             <Link
@@ -185,11 +176,11 @@ function TeamLanding() {
               params={{ slug: kit.slug }}
               className="place-line shrink-0 text-ink transition-opacity hover:opacity-55"
             >
-              View all
+              Shop Match →
             </Link>
           </div>
           <p className="type-editorial mt-5 max-w-md text-lg text-ink/75">
-            Narrow crew. Name and number on the back — typed by you, printed by us.
+            {MATCH_DEPARTMENT_COPY.body}
           </p>
         </div>
 
@@ -209,9 +200,13 @@ function TeamLanding() {
             <div>
               <p className="place-line">Match</p>
               <h3 className="type-campaign mt-2 text-2xl text-ink">Match Jersey</h3>
+              <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
+                {MATCH_PRODUCT_COPY.jersey.card}
+              </p>
             </div>
             <p className="font-sans text-xl tabular-nums text-ink">${jersey.price}</p>
           </div>
+          <p className="place-line mt-4 text-garnet">{MATCH_PRODUCT_COPY.jersey.cta}</p>
         </Link>
 
         <div className="mx-auto grid w-full max-w-[720px] grid-cols-2 gap-px bg-ink/10 px-0 sm:px-10">
@@ -221,8 +216,10 @@ function TeamLanding() {
             className="studio-field px-6 py-8 transition-opacity hover:opacity-80 sm:px-8"
           >
             <p className="place-line">Match</p>
-            <p className="type-campaign mt-3 text-xl text-ink">Shorts</p>
-            <p className="mt-2 font-sans text-lg tabular-nums text-ink/70">${shorts.price}</p>
+            <p className="type-campaign mt-3 text-xl text-ink">Match Shorts</p>
+            <p className="mt-2 text-sm leading-relaxed text-ink/55">{MATCH_PRODUCT_COPY.shorts.card}</p>
+            <p className="mt-3 font-sans text-lg tabular-nums text-ink/70">${shorts.price}</p>
+            <p className="place-line mt-4 text-garnet">{MATCH_PRODUCT_COPY.shorts.cta}</p>
           </Link>
           <Link
             to="/team/$slug/$product"
@@ -230,8 +227,12 @@ function TeamLanding() {
             className="studio-field px-6 py-8 transition-opacity hover:opacity-80 sm:px-8"
           >
             <p className="place-line">Match</p>
-            <p className="type-campaign mt-3 text-xl text-ink">Full Kit</p>
-            <p className="mt-2 font-sans text-lg tabular-nums text-ink/70">${fullSet.price}</p>
+            <p className="type-campaign mt-3 text-xl text-ink">Match Full Kit</p>
+            <p className="mt-2 text-sm leading-relaxed text-ink/55">
+              {MATCH_PRODUCT_COPY["full-set"].card}
+            </p>
+            <p className="mt-3 font-sans text-lg tabular-nums text-ink/70">${fullSet.price}</p>
+            <p className="place-line mt-4 text-garnet">{MATCH_PRODUCT_COPY["full-set"].cta}</p>
           </Link>
         </div>
       </section>
@@ -301,7 +302,7 @@ function TeamLanding() {
               params={{ slug: kit.slug }}
               className="place-line inline-flex items-center justify-center bg-ink px-8 py-4 text-bone transition-opacity hover:opacity-90"
             >
-              Enter the store · from ${LOWEST}
+              {STORE_INTRO_COPY.cta.replace(/\s*→\s*$/, "")} · from ${LOWEST}
             </Link>
             <StoreCloseCountdown closesAt={kit.closesAt} className="text-ink/50" />
           </div>
