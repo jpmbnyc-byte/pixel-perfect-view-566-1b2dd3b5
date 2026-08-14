@@ -230,19 +230,11 @@
 }
 
 @utility animate-team-rise {
-  animation: team-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@utility animate-team-hero-drift {
-  animation: team-hero-drift 22s ease-in-out infinite alternate;
+  animation: team-rise var(--dur-transition) var(--ease-entrance) both;
 }
 
 @utility animate-team-logo-in {
-  animation: team-logo-in 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@utility animate-team-bee-pulse {
-  animation: team-bee-pulse 4.5s ease-in-out infinite;
+  animation: team-logo-in var(--dur-transition) var(--ease-entrance) both;
 }
 
 /* —— Liquid harbor field (Bayonne peninsula water) —— */
@@ -315,21 +307,7 @@
   }
 }
 
-@utility animate-liquid-drift-a {
-  animation: liquid-drift-a 18s ease-in-out infinite alternate;
-}
-
-@utility animate-liquid-drift-b {
-  animation: liquid-drift-b 22s ease-in-out infinite alternate;
-}
-
-@utility animate-liquid-drift-c {
-  animation: liquid-drift-c 26s ease-in-out infinite alternate;
-}
-
-@utility animate-liquid-sheen {
-  animation: liquid-sheen 14s ease-in-out infinite alternate;
-}
+/* Liquid drift / sheen utilities removed — decorative infinite motion deleted (Tier 1). */
 
 @utility place-line {
   font-family: var(--font-sans);
@@ -413,7 +391,8 @@
 }
 
 @utility animate-team-kenburns {
-  animation: team-kenburns 28s ease-in-out infinite alternate;
+  /* Entrance-only kenburns once — no infinite replay */
+  animation: team-kenburns calc(var(--dur-transition) * 8) var(--ease-standard) both;
 }
 
 @keyframes team-bar-in {
@@ -429,18 +408,64 @@
 
 @utility animate-team-bar-in {
   transform-origin: left center;
-  animation: team-bar-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: team-bar-in var(--dur-standard) var(--ease-entrance) both;
 }
 
-/* Fun budget — prefers-reduced-motion disables all motion, no exceptions */
+/*
+ * Motion tokens — single source. No ad-hoc durations/easings in components.
+ * Reveals fire once (animation-fill both + no scroll-replay observers).
+ */
+:root {
+  --dur-micro: 120ms;
+  --dur-standard: 240ms;
+  --dur-transition: 400ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-entrance: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --stagger: 60ms;
+  --reveal-thresh: 0.15;
+}
+
+@utility duration-micro {
+  transition-duration: var(--dur-micro);
+}
+@utility duration-standard {
+  transition-duration: var(--dur-standard);
+}
+@utility duration-transition {
+  transition-duration: var(--dur-transition);
+}
+@utility ease-standard {
+  transition-timing-function: var(--ease-standard);
+}
+@utility ease-entrance {
+  transition-timing-function: var(--ease-entrance);
+}
+@utility focus-ring {
+  outline: none;
+  &:focus-visible {
+    outline: 2px solid var(--garnet);
+    outline-offset: 3px;
+  }
+}
+@utility tap-44 {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/*
+ * Reduced motion: kill transforms/reveals; keep short opacity/color feedback.
+ * Never remove functional feedback.
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
     scroll-behavior: auto !important;
+    transition-property: opacity, color, background-color, border-color, box-shadow !important;
+    transition-duration: 80ms !important;
+    transition-timing-function: linear !important;
   }
 }
 
