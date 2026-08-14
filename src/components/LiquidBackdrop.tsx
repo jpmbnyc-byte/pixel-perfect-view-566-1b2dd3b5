@@ -6,7 +6,7 @@ type Props = {
 
 /**
  * Kill van Kull–inspired liquid field: garnet oil-slick on dark harbor water.
- * Decorative only — never carries content or CTAs.
+ * Static only — infinite drift/sheen removed (decorative motion budget).
  */
 export function LiquidBackdrop({ intensity = "full", className = "" }: Props) {
   const soft = intensity === "soft";
@@ -25,31 +25,29 @@ export function LiquidBackdrop({ intensity = "full", className = "" }: Props) {
       />
 
       <div
-        className={`liquid-blob liquid-blob-a absolute rounded-full blur-3xl motion-safe:animate-liquid-drift-a ${
+        className={`liquid-blob liquid-blob-a absolute rounded-full blur-3xl ${
           soft
             ? "left-[-20%] top-[-10%] h-[55%] w-[70%] opacity-40"
             : "left-[-25%] top-[-15%] h-[70%] w-[85%] opacity-70"
         }`}
       />
       <div
-        className={`liquid-blob liquid-blob-b absolute rounded-full blur-3xl motion-safe:animate-liquid-drift-b ${
+        className={`liquid-blob liquid-blob-b absolute rounded-full blur-3xl ${
           soft
             ? "right-[-25%] top-[25%] h-[50%] w-[65%] opacity-30"
             : "right-[-30%] top-[20%] h-[65%] w-[80%] opacity-55"
         }`}
       />
       <div
-        className={`liquid-blob liquid-blob-c absolute rounded-full blur-3xl motion-safe:animate-liquid-drift-c ${
+        className={`liquid-blob liquid-blob-c absolute rounded-full blur-3xl ${
           soft
             ? "bottom-[-20%] left-[10%] h-[45%] w-[75%] opacity-25"
             : "bottom-[-25%] left-[5%] h-[55%] w-[90%] opacity-45"
         }`}
       />
 
-      {/* Surface sheen — water skim */}
-      <div className="absolute inset-0 opacity-[0.18] mix-blend-soft-light motion-safe:animate-liquid-sheen bg-[linear-gradient(115deg,transparent_20%,rgba(244,241,240,0.14)_42%,transparent_58%,rgba(42,72,88,0.2)_72%,transparent_88%)] bg-[length:220%_220%]" />
+      <div className="absolute inset-0 opacity-[0.12] mix-blend-soft-light bg-[linear-gradient(115deg,transparent_20%,rgba(244,241,240,0.14)_42%,transparent_58%,rgba(42,72,88,0.2)_72%,transparent_88%)]" />
 
-      {/* Fine grain so it feels printed, not flat UI */}
       <div className="absolute inset-0 opacity-[0.07] mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E')]" />
     </div>
   );

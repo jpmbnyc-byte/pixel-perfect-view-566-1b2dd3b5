@@ -29,6 +29,7 @@ import {
 import { campaignForProduct } from "@/media/campaignAssets";
 import { lineItemImageTier } from "@/media/tiers";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
+import { printScaleForSize } from "@/lib/printScale";
 import { EASTER_EGGS } from "@/tokens/fun";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
@@ -82,7 +83,9 @@ function ProductListingPage() {
   const [confirmed, setConfirmed] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
   const [yearEgg, setYearEgg] = useState(false);
+  const [confirmFlash, setConfirmFlash] = useState(false);
   const yearBuffer = useRef("");
+  const committedOnce = useRef(false);
 
   const campaign = campaignForProduct(product);
   const truthViews = previewViewsFor(product);
@@ -166,6 +169,19 @@ function ProductListingPage() {
   const checkoutReady = Boolean(
     nameReady && size && confirmed && (shopifyItem ? variantId && itemReady : false),
   );
+  const printScale = printScaleForSize(apparelSize || size);
+
+  // Confirmation moment when name + number first become valid together.
+  useEffect(() => {
+    if (!product.nameNumber) return;
+    if (name && numberValid && !committedOnce.current) {
+      committedOnce.current = true;
+      setConfirmFlash(true);
+      const id = window.setTimeout(() => setConfirmFlash(false), 900);
+      return () => window.clearTimeout(id);
+    }
+    if (!name || !numberValid) committedOnce.current = false;
+  }, [name, numberValid, product.nameNumber]);
 
   const cta: CtaState = useMemo(() => {
     if (!shopifyItem || (shopifyItem && !itemReady)) {
@@ -279,9 +295,10 @@ function ProductListingPage() {
         <Link
           to="/team/$slug"
           params={{ slug: kit.slug }}
-          className="place-line text-muted-foreground transition-colors hover:text-foreground"
+          hash={product.category}
+          className="place-line tap-44 inline-flex items-center text-muted-foreground transition-colors duration-micro ease-standard hover:text-foreground focus-ring"
         >
-          ← Bayonne store · Avenue A
+          ← Bayonne store · {product.category === "match" ? "Match" : product.category}
         </Link>
         <p className="label-caps mt-4 text-muted-foreground">
           Bayonne · {product.category === "match" ? "Match" : product.category}
@@ -306,7 +323,7 @@ function ProductListingPage() {
                 key={v}
                 type="button"
                 onClick={() => setView(v)}
-                className={`border px-2 py-2.5 text-center text-sm font-semibold capitalize transition-colors ${
+                className={`border px-2 py-2.5 text-center text-sm font-semibold capitalize transition-colors duration-micro ease-standard tap-44 focus-ring ${
                   view === v
                     ? "border-foreground bg-foreground text-background"
                     : "border-border bg-background text-foreground hover:bg-secondary"
@@ -350,6 +367,8 @@ function ProductListingPage() {
               lettering={lettering}
               tier={imageTier}
               showNameBadge={galleryMode === "photos" && product.nameNumber}
+              printScale={printScale}
+              confirmFlash={confirmFlash}
             />
           </div>
 
@@ -367,8 +386,14 @@ function ProductListingPage() {
           <section id="field-personalize" className="mt-6 px-5">
             <h2 className="text-xl font-bold tracking-tight">Put your name on it</h2>
             <p className="mt-2 text-sm leading-snug text-muted-foreground">
-              Live preview — the exact back that prints. Personalized items cannot be returned.
+              Live preview — the exact back that prints. Updates as you type. Personalized items
+              cannot be returned.
             </p>
+            {confirmFlash && (
+              <p className="mt-2 text-sm font-medium text-garnet" role="status">
+                Name locked on the jersey — check spelling, then size.
+              </p>
+            )}
 
             <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
               <OutlinedField
@@ -427,7 +452,7 @@ function ProductListingPage() {
                         key={f.id}
                         type="button"
                         onClick={() => setFontId(f.id)}
-                        className={`border px-3 py-3 text-left transition-colors ${
+                        className={`border px-3 py-3 text-left transition-colors duration-micro ease-standard tap-44 focus-ring ${
                           on
                             ? "border-foreground bg-foreground text-background"
                             : "border-border bg-background hover:bg-secondary"
@@ -460,7 +485,7 @@ function ProductListingPage() {
                   key={s}
                   type="button"
                   onClick={() => setSize(s)}
-                  className={`border py-3.5 text-sm font-semibold transition-colors ${
+                  className={`border py-3.5 text-sm font-semibold transition-colors duration-micro ease-standard tap-44 focus-ring ${
                     size === s
                       ? "border-foreground bg-secondary"
                       : "border-transparent bg-secondary/70 hover:bg-secondary"
@@ -480,7 +505,7 @@ function ProductListingPage() {
                     type="button"
                     disabled={!available && Boolean(shopifyItem)}
                     onClick={() => setSize(s)}
-                    className={`border py-3.5 text-sm font-semibold transition-colors ${
+                    className={`border py-3.5 text-sm font-semibold transition-colors duration-micro ease-standard tap-44 focus-ring ${
                       size === s
                         ? "border-foreground bg-secondary"
                         : "border-transparent bg-secondary/70 hover:bg-secondary"
@@ -493,14 +518,20 @@ function ProductListingPage() {
             </div>
           )}
           {!isHat && shopifyItem && SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
-            <p className="mt-2 text-sm text-muted-foreground">
-              Greyed sizes are still syncing — pick an available size to checkout.
+            <p className="mt-2 text-sm text-muted-foreground" role="status">
+              Greyed sizes are not yet mapped in Shopify. Pick a size that is available, or wait for
+              sync and refresh.
+            </p>
+          )}
+          {size && !isHat && (
+            <p className="mt-2 text-xs text-muted-foreground">
+              Preview lettering scaled for size {size}.
             </p>
           )}
           <button
             type="button"
             onClick={() => setChartOpen((o) => !o)}
-            className="mt-3 text-sm underline underline-offset-4"
+            className="mt-3 text-sm underline underline-offset-4 tap-44 focus-ring"
           >
             {chartOpen ? "Hide size guide" : "Size guide"}
           </button>
@@ -592,7 +623,7 @@ function ProductListingPage() {
             type="button"
             disabled={cta.kind === "sync"}
             onClick={goNext}
-            className="w-full bg-foreground py-4 text-sm font-bold uppercase tracking-wide text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45"
+            className="w-full bg-foreground py-4 text-sm font-bold uppercase tracking-wide text-background transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
           >
             {cta.label}
           </button>
@@ -633,7 +664,7 @@ function OutlinedField({
   return (
     <label
       htmlFor={id}
-      className="relative flex min-h-[4.5rem] flex-col border border-foreground/80 bg-background px-3 pb-2 pt-3 focus-within:border-foreground focus-within:ring-1 focus-within:ring-foreground"
+      className="relative flex min-h-[4.5rem] flex-col border border-foreground/80 bg-background px-3 pb-2 pt-3 transition-colors duration-micro ease-standard focus-within:border-foreground focus-within:ring-1 focus-within:ring-foreground"
     >
       <span className="absolute -top-2 left-2 bg-background px-1 text-xs font-medium text-muted-foreground">
         {label}
@@ -649,8 +680,14 @@ function OutlinedField({
         style={{ fontFamily }}
         autoComplete="off"
         spellCheck={false}
+        aria-describedby={`${id}-counter`}
       />
-      <span className="self-end text-[0.7rem] tabular-nums text-muted-foreground">{counter}</span>
+      <span
+        id={`${id}-counter`}
+        className="self-end text-[0.7rem] tabular-nums text-muted-foreground"
+      >
+        {counter}
+      </span>
     </label>
   );
 }

@@ -135,9 +135,12 @@ export function priceFor(kit: KitConfig, item: Item) {
 }
 
 export function sanitizeName(raw: string, maxChars: number) {
+  // NFC + uppercase; keep letters (incl. diacritics), spaces, hyphen, apostrophe.
+  // Bayonne names use all three — never strip é/ñ or O'Brien / Anne-Marie.
   return raw
-    .toUpperCase()
-    .replace(/[^A-Z \-']/g, "")
+    .normalize("NFC")
+    .toLocaleUpperCase("und")
+    .replace(/[^\p{L} \-']/gu, "")
     .slice(0, maxChars);
 }
 

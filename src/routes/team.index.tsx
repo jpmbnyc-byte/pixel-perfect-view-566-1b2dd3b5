@@ -201,7 +201,7 @@ function TeamLanding() {
             <img
               src={SURFACES.landingMatchJersey}
               alt="Match Jersey front in Bayonne garnet"
-              className="h-full w-full object-contain object-center transition-transform duration-[1.1s] ease-out group-hover:scale-[1.02]"
+              className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
             />
           </div>
           <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">

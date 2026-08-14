@@ -25,6 +25,10 @@ type Props = {
   tier?: ImageTier;
   /** Persistent badge on campaign back — lettered SKUs. */
   showNameBadge?: boolean;
+  /** Scales lettering with apparel size (print proportion preview). */
+  printScale?: number;
+  /** Brief confirmation flash when name+number committed. */
+  confirmFlash?: boolean;
 };
 
 /** Fallback right-ink bias (em) if canvas sampling fails — Forge has the worst bearings. */
@@ -143,6 +147,8 @@ export function ProductCanvas({
   lettering = LETTERING,
   tier = "truth",
   showNameBadge = false,
+  printScale = 1,
+  confirmFlash = false,
 }: Props) {
   const font = fontById(fontId)!;
   const src =
@@ -151,7 +157,8 @@ export function ProductCanvas({
       : view === "three-quarter"
         ? (threeQuarterSrc ?? frontSrc)
         : secondarySrc;
-  const displayName = (name || "CARTER").slice(0, 12).toUpperCase();
+  // Name arrives pre-sanitized (NFC uppercase, diacritics kept).
+  const displayName = name || "CARTER";
   const displayNumber = number || "00";
   const blackout = lettering.surface === "blackout";
   const nameShadow = blackout
@@ -161,7 +168,8 @@ export function ProductCanvas({
     ? "0 0 3px #000, 0 2px 0 #000, 0 0 18px rgba(0,0,0,0.9)"
     : "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)";
   const nameChars = Math.max(displayName.replace(/\s/g, "").length, 1);
-  const nameFit = Math.min(1, 6.5 / nameChars);
+  const nameFit = Math.min(1, 6.5 / nameChars) * printScale;
+  const numberScale = printScale;
   const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
   const nameInkBiasEm = useInkBiasEm(displayName, font.cssFamily, nameTracking);
   const numberInkBiasEm =
@@ -173,9 +181,26 @@ export function ProductCanvas({
     ? `${productLabel} · ${view} · campaign`
     : `${productLabel} · ${view}${blackout && view === "back" ? " · blackout" : ""} · live preview`;
 
+  useEffect(() => {
+    if (!showLettering || view !== "back") return;
+    performance.mark("lettering-paint-start");
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        performance.mark("lettering-paint-end");
+        try {
+          performance.measure("lettering-keypress-to-paint", "lettering-paint-start", "lettering-paint-end");
+        } catch {
+          /* marks may collide across rapid keystrokes */
+        }
+      });
+    });
+  }, [name, number, fontId, showLettering, view, printScale]);
+
   return (
     <figure
-      className={`relative overflow-hidden ${aspectClass}`}
+      className={`relative overflow-hidden ${aspectClass} transition-[box-shadow] duration-standard ease-standard ${
+        confirmFlash ? "ring-2 ring-garnet ring-offset-2 ring-offset-background" : ""
+      }`}
       style={{ containerType: "size", background: stageBg }}
     >
       <img
@@ -213,7 +238,8 @@ export function ProductCanvas({
             style={{
               top: `${lettering.number.y}%`,
               left: `${lettering.centerX}%`,
-              transform: `translateX(calc(-50% - ${numberInkBiasEm}em))`,
+              transform: `translateX(calc(-50% - ${numberInkBiasEm}em)) scale(${numberScale})`,
+              transformOrigin: "center center",
               width: "max-content",
               maxWidth: `${lettering.number.maxWidthPct}%`,
               height: `${lettering.number.heightPct}%`,
