@@ -9,6 +9,7 @@ Do not import jpg/png paths from routes or components except through that manife
 | `spirit/` | `boxing-bee.png` — Match crest + site chrome (`CRESTS.primary`) |
 | `reveal/` | `reveal-01-crest.jpg` — Queen Bees crest mark (`CRESTS.queen`) |
 | `lifestyle/` | Campaign story stills (`LIFESTYLE` — no manufacturer logos) |
+| `originals/` | Studio / flat PNG masters (heritage tee, baggy sweats, crest cap refs) |
 | `previews/` | Merchize printable plates — one front + secondary per SKU (`PLATES`) |
 | `../fonts/` | Local OTF kit lettering faces |
 
