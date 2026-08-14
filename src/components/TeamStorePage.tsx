@@ -15,15 +15,14 @@ import {
 import { countdownParts, type KitConfig } from "@/lib/kit";
 import { isNameable } from "@/media/campaignAssets";
 import { shopifySynced, type ShopifySyncStatus } from "@/lib/shopify";
+import {
+  MATCH_DEPARTMENT_COPY,
+  STORE_INTRO_COPY,
+  departmentLine,
+  matchCopyFor,
+} from "@/copy/match";
 
 export const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
-
-const CATEGORY_LINE: Record<CategoryId, string> = {
-  match: "For the whistle.",
-  sideline: "For November on the bleachers.",
-  warmups: "Before kickoff.",
-  alumni: "1936 — kept close.",
-};
 
 /** Typed paths for department routes (Tier 2). */
 export const DEPARTMENT_TO: Record<
@@ -37,7 +36,9 @@ export const DEPARTMENT_TO: Record<
 };
 
 function productAction(p: CatalogProduct) {
-  if (p.typography && p.nameNumber) return "Put your name on it";
+  const match = matchCopyFor(p.id);
+  if (match) return match.cta.replace(/\s*→\s*$/, "");
+  if (p.typography && p.nameNumber) return "Make it yours";
   if (p.sizeChart === "hat") return "Choose size";
   if (p.previewPair === "front-side") return "See front + side";
   return "View";
@@ -102,9 +103,11 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           <span className="tip-asymmetric-b" />
         </div>
 
-        <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">
-          Garnet that looks right in the gym — not almost.
+        <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">{STORE_INTRO_COPY.title}</p>
+        <p className="mt-4 max-w-md whitespace-pre-line text-sm leading-relaxed text-ink/60">
+          {STORE_INTRO_COPY.body}
         </p>
+        <p className="place-line mt-5 text-ink/45">{STORE_INTRO_COPY.lockup}</p>
       </header>
 
       {!catalogReady && (
@@ -112,9 +115,8 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           className="border-y border-ink/10 px-6 py-3 text-sm leading-snug text-ink/60 sm:px-10"
           role="status"
         >
-          Design every piece now. Checkout unlocks when listings finish syncing to{" "}
-          <span className="text-ink">noparade-store.com</span>. Refresh this page after sync
-          completes.
+          Design every piece now. Checkout unlocks when listings are ready. Refresh this page when
+          you’re set to order.
         </div>
       )}
 
@@ -139,11 +141,14 @@ export function TeamStorePage({ category, kit, sync }: Props) {
               <div>
                 <p className="place-line">Featured · Match</p>
                 <h2 className="type-campaign mt-2 text-2xl text-ink">{featuredJersey.name}</h2>
+                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
+                  {matchCopyFor(featuredJersey.id)?.card ?? featuredJersey.blurb}
+                </p>
               </div>
               <span className="font-sans text-xl tabular-nums text-ink">${featuredJersey.price}</span>
             </div>
             <p className="place-line mt-4 pb-2 text-garnet">
-              Put your name on it · ${featuredJersey.price} →
+              Make it yours · ${featuredJersey.price} →
             </p>
           </Link>
         </section>
@@ -175,7 +180,21 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             );
           })}
         </div>
-        <p className="type-editorial mt-6 max-w-md text-base text-ink/65">{CATEGORY_LINE[category]}</p>
+        {category === "match" ? (
+          <>
+            <p className="place-line mt-6 text-garnet">{MATCH_DEPARTMENT_COPY.line}</p>
+            <p className="type-editorial mt-3 max-w-md text-base text-ink/65">
+              {MATCH_DEPARTMENT_COPY.title}
+            </p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
+              {MATCH_DEPARTMENT_COPY.body}
+            </p>
+          </>
+        ) : (
+          <p className="type-editorial mt-6 max-w-md text-base text-ink/65">
+            {departmentLine(category)}
+          </p>
+        )}
         <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
           <input
             type="checkbox"
@@ -235,7 +254,9 @@ export function TeamStorePage({ category, kit, sync }: Props) {
                     <h3 className="type-campaign text-xl text-ink">{p.name}</h3>
                     <span className="shrink-0 font-sans text-lg tabular-nums text-ink">${p.price}</span>
                   </div>
-                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">{p.blurb}</p>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
+                    {matchCopyFor(p.id)?.card ?? p.blurb}
+                  </p>
                   <p className="place-line mt-4 text-garnet">
                     {productAction(p)} · ${p.price} →
                   </p>

@@ -31,6 +31,7 @@ import { lineItemImageTier } from "@/media/tiers";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
 import { printScaleForSize } from "@/lib/printScale";
 import { DEPARTMENT_TO } from "@/components/TeamStorePage";
+import { matchCopyFor } from "@/copy/match";
 import { EASTER_EGGS } from "@/tokens/fun";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
@@ -44,8 +45,9 @@ export const Route = createFileRoute("/team/$slug/$product")({
     if (!loaderData) {
       return { meta: [{ title: "Product unavailable" }, { name: "robots", content: "noindex" }] };
     }
+    const match = matchCopyFor(loaderData.product.id);
     const title = `${loaderData.product.name} — Bayonne Bees`;
-    const description = loaderData.product.blurb;
+    const description = match?.card ?? loaderData.product.blurb;
     return {
       meta: [
         { title },
@@ -68,6 +70,7 @@ function ProductListingPage() {
   const { kit, sync } = TeamSlugRoute.useLoaderData();
   const { product } = Route.useLoaderData();
   const formRef = useRef<HTMLFormElement>(null);
+  const matchCopy = matchCopyFor(product.id);
 
   const isHat = product.sizeChart === "hat";
   const usesTypography = product.typography;
@@ -216,7 +219,10 @@ function ProductListingPage() {
         label: usesTypography ? "Confirm spelling & size" : "Confirm size",
       };
     }
-    return { kind: "ready", label: `Checkout · $${product.price}` };
+    return {
+      kind: "ready",
+      label: matchCopy ? matchCopy.cta.replace(/\s*→\s*$/, "") : `Checkout · $${product.price}`,
+    };
   }, [
     shopifyItem,
     itemReady,
@@ -227,6 +233,7 @@ function ProductListingPage() {
     size,
     confirmed,
     usesTypography,
+    matchCopy,
   ]);
 
   const artSpec = useMemo(() => {
@@ -309,7 +316,16 @@ function ProductListingPage() {
         <p className="mt-2 font-sans text-lg font-semibold tabular-nums text-garnet">
           ${product.price}
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{product.blurb}</p>
+        {matchCopy ? (
+          <>
+            <p className="mt-3 type-editorial text-lg text-ink/80">{matchCopy.tagline}</p>
+            <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+              {matchCopy.body}
+            </p>
+          </>
+        ) : (
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{product.blurb}</p>
+        )}
       </header>
 
       <div className="relative z-10">
@@ -381,13 +397,15 @@ function ProductListingPage() {
           </div>
         </section>
 
-        {/* Inline under toggle when "Put your name on it" — no modal, no new page */}
+        {/* Inline under toggle when naming — no modal, no new page */}
         {product.nameNumber && galleryMode === "name-it" && (
           <section id="field-personalize" className="mt-6 px-5">
-            <h2 className="text-xl font-bold tracking-tight">Put your name on it</h2>
+            <h2 className="text-xl font-bold tracking-tight">
+              {matchCopy?.personalizeHeading ?? "Your shirt. Your name."}
+            </h2>
             <p className="mt-2 text-sm leading-snug text-muted-foreground">
-              Live preview — the exact back that prints. Updates as you type. Personalized items
-              cannot be returned.
+              {matchCopy?.personalizeHelper ??
+                "Add the name and number exactly as you want them printed."}
             </p>
             {confirmFlash && (
               <p className="mt-2 text-sm font-medium text-garnet" role="status">
@@ -477,7 +495,9 @@ function ProductListingPage() {
         )}
 
         <section id="field-size" className="mt-8 px-5">
-          <h2 className="text-xl font-bold tracking-tight">Sizes</h2>
+          <h2 className="text-xl font-bold tracking-tight">
+            {matchCopy?.sizeHeading ?? (product.nameNumber ? "Sizes" : "Find your fit.")}
+          </h2>
           {isHat ? (
             <div className="mt-4 grid grid-cols-2 gap-2">
               {HAT_SIZES.map((s) => (
@@ -519,8 +539,7 @@ function ProductListingPage() {
           )}
           {!isHat && shopifyItem && SIZES.some((s) => !variantIdFor(kit, shopifyItem, s)) && (
             <p className="mt-2 text-sm text-muted-foreground" role="status">
-              Greyed sizes are not yet mapped in Shopify. Pick a size that is available, or wait for
-              sync and refresh.
+              Greyed sizes aren’t available yet. Pick a size that is open, or refresh shortly.
             </p>
           )}
           {size && !isHat && (
@@ -584,9 +603,10 @@ function ProductListingPage() {
               className="mt-0.5 size-5 shrink-0 accent-[var(--primary)]"
             />
             <span>
-              {usesTypography
-                ? "I’ve double-checked the spelling, number, and size. Custom kits can’t be edited after checkout."
-                : "I’ve double-checked the size. Custom pieces can’t be edited after checkout."}
+              {matchCopy?.confirm ??
+                (usesTypography
+                  ? "I’ve checked the spelling, number and size. I understand personalized pieces can’t be changed after checkout."
+                  : "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.")}
             </span>
           </label>
 
@@ -629,9 +649,9 @@ function ProductListingPage() {
           </button>
           <p className="text-center text-xs leading-snug text-muted-foreground">
             {cta.kind === "ready"
-              ? "Secure checkout on noparade-store.com · Nothing prints until you order"
+              ? "Secure checkout · Nothing prints until you order"
               : cta.kind === "sync"
-                ? "Design now — checkout unlocks when this listing finishes syncing"
+                ? "Design now — checkout unlocks when this listing is ready"
                 : "Tap to jump to the next step · Preview updates as you type"}
           </p>
         </div>
@@ -696,14 +716,14 @@ function SyncNote({ sync, hasShopifyItem }: { sync: ShopifySyncStatus; hasShopif
   if (!hasShopifyItem) {
     return (
       <p className="mt-4 text-center text-sm text-muted-foreground">
-        Design is ready. Checkout unlocks when this listing goes live on noparade-store.com.
+        Design is ready. Checkout unlocks when this listing goes live.
       </p>
     );
   }
   if (sync.top || sync.bottom || sync.set) return null;
   return (
     <p className="mt-4 text-center text-sm text-muted-foreground">
-      Core kit sizes are still syncing to noparade-store.com. You can finish the design now.
+      Core kit sizes are still opening. You can finish the design now.
     </p>
   );
 }

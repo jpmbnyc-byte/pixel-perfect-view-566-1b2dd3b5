@@ -83,7 +83,7 @@ export const CATEGORIES: Category[] = [
   {
     id: "match",
     label: "Match",
-    description: "What they wear when the whistle blows.",
+    description: "For the whistle. Three pieces. One garnet.",
     hero: SURFACES.categoryHero.match,
   },
   {
@@ -184,7 +184,7 @@ export const PRODUCTS: CatalogProduct[] = [
     handle: "bayonne-bees-jersey",
     name: "Match Jersey",
     blurb:
-      "owayo F6 Hero. Narrow crew ringer, unbroken BAYONNE chest band, crest left. Your name on the back — included.",
+      "The right garnet. BAYONNE across the front. Your name and number on the back.",
     category: "match",
     price: 115,
     shopifyItem: "top",
@@ -201,8 +201,7 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "shorts",
     handle: "bayonne-bees-shorts",
     name: "Match Shorts",
-    blurb:
-      "owayo FP6 Hero. Same garnet. Single bone outseam tape (18mm) — never three stripes. No name, no number.",
+    blurb: "One garnet. One bone stripe. Nothing unnecessary.",
     category: "match",
     price: 73,
     shopifyItem: "bottom",
@@ -217,8 +216,8 @@ export const PRODUCTS: CatalogProduct[] = [
   {
     id: "full-set",
     handle: "bayonne-bees-full-set",
-    name: "Full Kit Set",
-    blurb: "F6 Hero jersey + FP6 Hero shorts, one garnet. Name and number on the jersey — included.",
+    name: "Match Full Kit",
+    blurb: "The complete Bayonne strip. Jersey, shorts and your name on the back.",
     category: "match",
     price: 188,
     shopifyItem: "set",
