@@ -34,6 +34,14 @@ import hatFront from "@/assets/bayonne/previews/hat-front.jpg";
 import hatSide from "@/assets/bayonne/previews/hat-side.jpg";
 import sweatsFront from "@/assets/bayonne/previews/sweats-front.jpg";
 import sweatsSide from "@/assets/bayonne/previews/sweats-side.jpg";
+import heritageTeeGarnetFront from "@/assets/bayonne/previews/heritage-tee-garnet-front.jpg";
+import heritageTeeGarnetBack from "@/assets/bayonne/previews/heritage-tee-garnet-back.jpg";
+import heritageTeeBlackFront from "@/assets/bayonne/previews/heritage-tee-black-front.jpg";
+import heritageTeeBlackBack from "@/assets/bayonne/previews/heritage-tee-black-back.jpg";
+import baggySweatsGarnetFront from "@/assets/bayonne/previews/baggy-sweats-garnet-front.jpg";
+import baggySweatsGarnetSide from "@/assets/bayonne/previews/baggy-sweats-garnet-side.jpg";
+import baggySweatsBlackFront from "@/assets/bayonne/previews/baggy-sweats-black-front.jpg";
+import baggySweatsBlackSide from "@/assets/bayonne/previews/baggy-sweats-black-side.jpg";
 
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
@@ -83,6 +91,10 @@ export const PLATES = {
   "ls-jersey": { front: lsFront, secondary: lsBack },
   "quarter-zip": { front: qzipFront, secondary: qzipBack },
   "geo-shorts": { front: geoShortsFront, secondary: geoShortsSide },
+  "heritage-tee-garnet": { front: heritageTeeGarnetFront, secondary: heritageTeeGarnetBack },
+  "heritage-tee-black": { front: heritageTeeBlackFront, secondary: heritageTeeBlackBack },
+  "baggy-sweats-garnet": { front: baggySweatsGarnetFront, secondary: baggySweatsGarnetSide },
+  "baggy-sweats-black": { front: baggySweatsBlackFront, secondary: baggySweatsBlackSide },
 } as const satisfies Record<string, PlatePair>;
 
 export type PlateProductId = keyof typeof PLATES;
@@ -109,8 +121,10 @@ export const SURFACES = {
     match: PLATES.jersey.front,
     sideline: PLATES["hoops-jersey"].front,
     warmups: PLATES.crewneck.front,
-    alumni: PLATES["geo-shorts"].front,
+    alumni: PLATES["heritage-tee-garnet"].front,
   },
+  /** Alumni heritage feature — on-body still */
+  landingHeritage: PLATES["heritage-tee-garnet"].front,
 } as const;
 
 export function plateFor(productId: PlateProductId): PlatePair {

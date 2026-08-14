@@ -32,6 +32,7 @@ import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shop
 import { printScaleForSize } from "@/lib/printScale";
 import { DEPARTMENT_TO } from "@/components/TeamStorePage";
 import { matchCopyFor } from "@/copy/match";
+import { heritageCopyFor } from "@/copy/heritage";
 import { EASTER_EGGS } from "@/tokens/fun";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
@@ -46,8 +47,9 @@ export const Route = createFileRoute("/team/$slug/$product")({
       return { meta: [{ title: "Product unavailable" }, { name: "robots", content: "noindex" }] };
     }
     const match = matchCopyFor(loaderData.product.id);
-    const title = `${loaderData.product.name} — Bayonne Bees`;
-    const description = match?.card ?? loaderData.product.blurb;
+    const heritage = heritageCopyFor(loaderData.product.id);
+    const title = `${loaderData.product.name} — Bayonne`;
+    const description = match?.card ?? heritage?.card ?? loaderData.product.blurb;
     return {
       meta: [
         { title },
@@ -71,6 +73,8 @@ function ProductListingPage() {
   const { product } = Route.useLoaderData();
   const formRef = useRef<HTMLFormElement>(null);
   const matchCopy = matchCopyFor(product.id);
+  const heritageCopy = heritageCopyFor(product.id);
+  const storyCopy = matchCopy ?? heritageCopy;
 
   const isHat = product.sizeChart === "hat";
   const usesTypography = product.typography;
@@ -221,7 +225,7 @@ function ProductListingPage() {
     }
     return {
       kind: "ready",
-      label: matchCopy ? matchCopy.cta.replace(/\s*→\s*$/, "") : `Checkout · $${product.price}`,
+      label: storyCopy ? storyCopy.cta.replace(/\s*→\s*$/, "") : `Checkout · $${product.price}`,
     };
   }, [
     shopifyItem,
@@ -233,7 +237,7 @@ function ProductListingPage() {
     size,
     confirmed,
     usesTypography,
-    matchCopy,
+    storyCopy,
   ]);
 
   const artSpec = useMemo(() => {
@@ -316,11 +320,11 @@ function ProductListingPage() {
         <p className="mt-2 font-sans text-lg font-semibold tabular-nums text-garnet">
           ${product.price}
         </p>
-        {matchCopy ? (
+        {storyCopy ? (
           <>
-            <p className="mt-3 type-editorial text-lg text-ink/80">{matchCopy.tagline}</p>
+            <p className="mt-3 type-editorial text-lg text-ink/80">{storyCopy.tagline}</p>
             <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
-              {matchCopy.body}
+              {storyCopy.body}
             </p>
           </>
         ) : (
@@ -603,7 +607,7 @@ function ProductListingPage() {
               className="mt-0.5 size-5 shrink-0 accent-[var(--primary)]"
             />
             <span>
-              {matchCopy?.confirm ??
+              {storyCopy?.confirm ??
                 (usesTypography
                   ? "I’ve checked the spelling, number and size. I understand personalized pieces can’t be changed after checkout."
                   : "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.")}

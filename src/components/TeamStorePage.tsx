@@ -21,6 +21,7 @@ import {
   departmentLine,
   matchCopyFor,
 } from "@/copy/match";
+import { ALUMNI_DEPARTMENT_COPY, heritageCopyFor } from "@/copy/heritage";
 
 export const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
 
@@ -38,6 +39,8 @@ export const DEPARTMENT_TO: Record<
 function productAction(p: CatalogProduct) {
   const match = matchCopyFor(p.id);
   if (match) return match.cta.replace(/\s*→\s*$/, "");
+  const heritage = heritageCopyFor(p.id);
+  if (heritage) return heritage.cta.replace(/\s*→\s*$/, "");
   if (p.typography && p.nameNumber) return "Make it yours";
   if (p.sizeChart === "hat") return "Choose size";
   if (p.previewPair === "front-side") return "See front + side";
@@ -60,6 +63,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
   const closed = kit.status !== "live" || countdown === null;
   const catalogReady = shopifySynced(sync);
   const featuredJersey = productById("jersey");
+  const featuredHeritage = productById("heritage-tee-garnet");
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
   const products = useMemo(() => {
@@ -154,6 +158,39 @@ export function TeamStorePage({ category, kit, sync }: Props) {
         </section>
       )}
 
+      {featuredHeritage && !closed && category === "alumni" && (
+        <section className="px-6 sm:px-10">
+          <Link
+            to="/team/$slug/$product"
+            params={{ slug: kit.slug, product: featuredHeritage.id }}
+            className="group block focus-ring"
+          >
+            <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
+              <img
+                src={featuredHeritage.thumb}
+                alt={`${featuredHeritage.name}, front view`}
+                width={800}
+                height={1000}
+                className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
+              />
+            </div>
+            <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
+              <div>
+                <p className="place-line">Featured · Alumni</p>
+                <h2 className="type-campaign mt-2 text-2xl text-ink">{featuredHeritage.name}</h2>
+                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
+                  {heritageCopyFor(featuredHeritage.id)?.card ?? featuredHeritage.blurb}
+                </p>
+              </div>
+              <span className="font-sans text-xl tabular-nums text-ink">${featuredHeritage.price}</span>
+            </div>
+            <p className="place-line mt-4 pb-2 text-garnet">
+              {heritageCopyFor(featuredHeritage.id)?.cta ?? `View · $${featuredHeritage.price} →`}
+            </p>
+          </Link>
+        </section>
+      )}
+
       <section className="px-6 pt-12 sm:px-10">
         <p className="place-line">Departments</p>
         <div
@@ -188,6 +225,16 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             </p>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
               {MATCH_DEPARTMENT_COPY.body}
+            </p>
+          </>
+        ) : category === "alumni" ? (
+          <>
+            <p className="place-line mt-6 text-garnet">{ALUMNI_DEPARTMENT_COPY.line}</p>
+            <p className="type-editorial mt-3 max-w-md text-base text-ink/65">
+              {ALUMNI_DEPARTMENT_COPY.title}
+            </p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
+              {ALUMNI_DEPARTMENT_COPY.body}
             </p>
           </>
         ) : (
@@ -255,7 +302,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
                     <span className="shrink-0 font-sans text-lg tabular-nums text-ink">${p.price}</span>
                   </div>
                   <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
-                    {matchCopyFor(p.id)?.card ?? p.blurb}
+                    {matchCopyFor(p.id)?.card ?? heritageCopyFor(p.id)?.card ?? p.blurb}
                   </p>
                   <p className="place-line mt-4 text-garnet">
                     {productAction(p)} · ${p.price} →
