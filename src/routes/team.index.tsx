@@ -4,6 +4,8 @@ import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { CRESTS, SURFACES } from "@/lib/brandAssets";
 import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
+import { DEPARTMENT_TO } from "@/components/TeamStorePage";
+import type { CategoryId } from "@/lib/catalog";
 
 const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
 const jersey = productById("jersey")!;
@@ -72,7 +74,7 @@ function TeamLanding() {
             </div>
             <div className="mt-1 flex shrink-0 flex-col items-end gap-2">
               <Link
-                to="/team/$slug"
+                to="/team/$slug/match"
                 params={{ slug: kit.slug }}
                 className="place-line text-bone transition-opacity hover:opacity-70"
               >
@@ -179,9 +181,8 @@ function TeamLanding() {
               </h2>
             </div>
             <Link
-              to="/team/$slug"
+              to="/team/$slug/match"
               params={{ slug: kit.slug }}
-              hash="match"
               className="place-line shrink-0 text-ink transition-opacity hover:opacity-55"
             >
               View all
@@ -274,12 +275,11 @@ function TeamLanding() {
                     ["warmups", "Warmups"],
                     ["alumni", "Alumni"],
                   ] as const
-                ).map(([hash, label]) => (
-                  <li key={hash}>
+                ).map(([id, label]) => (
+                  <li key={id}>
                     <Link
-                      to="/team/$slug"
+                      to={DEPARTMENT_TO[id as CategoryId]}
                       params={{ slug: kit.slug }}
-                      hash={hash}
                       className="type-campaign text-2xl text-ink transition-opacity hover:opacity-50"
                     >
                       {label}
@@ -297,9 +297,8 @@ function TeamLanding() {
 
           <div className="mt-14 flex flex-col gap-4 border-t border-ink/10 pt-10 sm:flex-row sm:items-center sm:justify-between">
             <Link
-              to="/team/$slug"
+              to="/team/$slug/match"
               params={{ slug: kit.slug }}
-              hash="match"
               className="place-line inline-flex items-center justify-center bg-ink px-8 py-4 text-bone transition-opacity hover:opacity-90"
             >
               Enter the store · from ${LOWEST}

@@ -30,6 +30,7 @@ import { campaignForProduct } from "@/media/campaignAssets";
 import { lineItemImageTier } from "@/media/tiers";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
 import { printScaleForSize } from "@/lib/printScale";
+import { DEPARTMENT_TO } from "@/components/TeamStorePage";
 import { EASTER_EGGS } from "@/tokens/fun";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
@@ -293,9 +294,8 @@ function ProductListingPage() {
 
       <header className="relative z-10 px-5 pb-2 pt-5">
         <Link
-          to="/team/$slug"
+          to={DEPARTMENT_TO[product.category]}
           params={{ slug: kit.slug }}
-          hash={product.category}
           className="place-line tap-44 inline-flex items-center text-muted-foreground transition-colors duration-micro ease-standard hover:text-foreground focus-ring"
         >
           ← Bayonne store · {product.category === "match" ? "Match" : product.category}
