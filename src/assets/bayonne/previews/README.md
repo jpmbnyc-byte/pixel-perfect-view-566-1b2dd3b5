@@ -25,6 +25,18 @@ Resolve only via `PLATES` in [`src/lib/brandAssets.ts`](../../../lib/brandAssets
 Shorts side language: **single 18mm bone outseam tape** (sublimated, not embroidered).  
 Never three stripes (adidas trade dress). Match jersey = owayo F6 Hero crew ringer (not polo).
 
+## Match Shorts visual lock (owayo FP6 Hero)
+
+Canonical reference: `shorts-side.jpg`.
+
+- Solid garnet body — mesh texture only; **no** tonal bee AOP watermark
+- Black ribbed waistband
+- Single bone `#F4F1F0` outseam tape (~18mm), never two/three stripes
+- Boxing-bee crest in black/bone (monochrome), lower leg — not full-color yellow/red
+- No manufacturer marks
+
+Front / side / set / campaign shorts plates must match this lock.
+
 | Product | Front | Side |
 |---|---|---|
 | Match Shorts | `shorts-front.jpg` | `shorts-side.jpg` |
