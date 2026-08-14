@@ -8,6 +8,6 @@ Do not import these from app code — commerce plates resolve through
 |---|---|
 | `heritage-set-*-front/back.png` | On-model set (tee + baggy sweats) |
 | `baggy-sweats-*-flat-front/back.png` | Flat baggy sweats plates |
-| `crest-cap-flat.png` / `crest-cap-on-model.png` | Crest Cap reference (not yet a catalog SKU) |
+| `crest-cap-flat.png` / `crest-cap-on-model.png` | Crest Cap masters → `previews/hat-*.jpg` + campaign |
 
 Derived JPG campaign + preview plates live in `../campaign/` and `../previews/`.

@@ -66,7 +66,7 @@ Extra tag when customizable: `custom-name-number`
 | 3 | `bayonne-bees-full-set` | F6 Hero + FP6 Hero set | **Core** | Yes — jersey (included) | `set` |
 | 4 | `bayonne-bees-hoops-jersey` | AOP Sleeveless Jersey Tank — dye-sub + DTF crest | Spirit | Yes — back | — |
 | 5 | `bayonne-bees-jersey-dress` | AOP Hoodie Dress (closest dress blank) — dye-sub | Spirit | Yes — back | — |
-| 6 | `bayonne-bees-aop-hat` | AOP Baseball Cap — crown dye-sub + DTF crest | Spirit | No — fixed art | — |
+| 6 | `bayonne-crest-cap` | Structured snapback — embroidered BB crest + side bee | Spirit | No — fixed art | — |
 | 7 | `bayonne-bees-crewneck` | AOP crew / sweatshirt blank — dye-sub + DTF crest | Warm-up | No — side geo | — |
 | 8 | `bayonne-bees-ls-jersey` | AOP long-sleeve jersey blank — dye-sub + DTF | Warm-up | Yes — back | — |
 | 9 | `bayonne-bees-quarter-zip` | AOP Long Sleeve 1/4 Zip Jersey — dye-sub + DTF crest | Warm-up | Chest crest only | — |
@@ -77,7 +77,7 @@ Extra tag when customizable: `custom-name-number`
 
 **PDP preview pairs**
 - Lettered tops → **front + back** (font + name/number UI)
-- Shorts / sweats / AOP hat → **front + side** (motif UI only; no typography)
+- Shorts / sweats / Crest Cap → **front + side** (motif UI only; no typography)
 
 **Launch set (ship first):** #1–3, then #7, #4. Rest wave 2.
 
@@ -151,15 +151,16 @@ See `docs/OWAYO_F6_HERO.md` (FP6 Hero) and `src/tokens/pinstripe.ts`.
 | Soft brand | Lower left leg, H ~6% | Boxing-bee crest |
 | Waistband | Solid black | No critical logos on elastic |
 
-### 2b. AOP hat (`bayonne-bees-aop-hat`)
+### 2b. Crest Cap (`bayonne-crest-cap`)
 
-App preview: **front + side**. Motif on crown; crest front. Hat sizes S/M · L/XL. No typography.
+App preview: **front (flat) + side (on-model)**. Fixed art — BB crest front, boxing-bee side, bone pinstripe crown, garnet brim. Hat sizes S/M · L/XL. No typography.
 
 | Zone | Placement | Art |
 |---|---|---|
-| Crown AOP | Full panels | Selected geo (chevron / grid / arc) in garnet/black/bone |
-| Front | Center panels | Boxing-bee crest patch |
-| Brim | Top / undervisor | Matching garnet or black undervisor |
+| Front crest | Center crown | BB monogram crest + small crown |
+| Side | Wearer’s right panel | Boxing-bee line art |
+| Crown | Full panels | Bone field, quiet garnet pinstripe |
+| Brim | Flat visor | Solid garnet |
 
 ### 3. Full set (`bayonne-bees-full-set`)
 

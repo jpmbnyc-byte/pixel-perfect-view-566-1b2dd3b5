@@ -44,6 +44,14 @@ export const HERITAGE_PRODUCT_COPY = {
     confirm:
       "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
   },
+  "aop-hat": {
+    tagline: "Crest up front. Year on the sideline.",
+    body: "Bone crown with a quiet garnet pinstripe. Solid garnet brim. The BB crest sits dead center — crown on the mark, nothing else fighting for space.\n\nA small boxing-bee lands on the side panel. Structured snapback. S/M or L/XL.\n\nNo name. No number. Put it on and go.",
+    card: "Bone pinstripe crown. Garnet brim. BB crest up front.",
+    cta: "Choose your size →",
+    confirm:
+      "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
+  },
 } as const satisfies Record<string, HeritageProductCopy>;
 
 export const ALUMNI_DEPARTMENT_COPY = {
@@ -51,6 +59,13 @@ export const ALUMNI_DEPARTMENT_COPY = {
   title: "Heritage. Off the field.",
   body: "Heavyweight tees and baggy sweats in Bayonne garnet and blackout black — the year on the leg, the script on the chest, Avenue A in the cut.",
   cta: "Shop Alumni →",
+} as const;
+
+export const SIDELINE_DEPARTMENT_COPY = {
+  line: "For November on the bleachers.",
+  title: "Cover. Crest. Cap.",
+  body: "Sideline layers and the Crest Cap — bone crown, garnet brim, BB mark up front. Built for the walk from Avenue A to the gym door.",
+  cta: "Shop Sideline →",
 } as const;
 
 export type HeritageProductId = keyof typeof HERITAGE_PRODUCT_COPY;

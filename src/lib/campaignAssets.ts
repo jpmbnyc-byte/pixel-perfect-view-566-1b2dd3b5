@@ -27,6 +27,7 @@ import heritageTeeBlackFront from "@/assets/bayonne/campaign/heritage-tee-black-
 import heritageTeeBlackBack from "@/assets/bayonne/campaign/heritage-tee-black-back.jpg";
 import baggySweatsGarnetFront from "@/assets/bayonne/campaign/baggy-sweats-garnet-front.jpg";
 import baggySweatsBlackFront from "@/assets/bayonne/campaign/baggy-sweats-black-front.jpg";
+import crestCapFront from "@/assets/bayonne/campaign/crest-cap-front.jpg";
 
 import type { CampaignView } from "@/tokens/campaign";
 
@@ -80,6 +81,7 @@ export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
   },
   "baggy-sweats-garnet": { front: baggySweatsGarnetFront },
   "baggy-sweats-black": { front: baggySweatsBlackFront },
+  "aop-hat": { front: crestCapFront },
 };
 
 /** Build-map SKU → campaign views (lettered sets share storefront modules). */

@@ -23,7 +23,7 @@ owayo collars are **sublimated self-fabric**, not knit rib. Use a flat two-color
 | Full Kit Set | `bayonne-bees-full-set` | F6 Hero + FP6 Hero | As above |
 | Hoops Jersey | `bayonne-bees-hoops-jersey` | [All-over Print Sleeveless Jersey Tank Top](https://merchize.com/product/all-over-print-sleeveless-jersey-tank-top/) | Sublimation + DTF |
 | Jersey Dress | `bayonne-bees-jersey-dress` | [All-over Print Hoodie Dress](https://merchize.com/product/all-over-print-hoodie-dress/) *(closest Merchize dress blank)* | Sublimation AOP |
-| Crest Cap | `bayonne-bees-aop-hat` | [All-over Print Baseball Cap](https://merchize.com/product/all-over-print-baseball-cap/) | Crown sublimation + DTF crest |
+| Crest Cap | `bayonne-crest-cap` | Structured snapback (bone/garnet) | Embroidered BB crest + side bee |
 | 1936 Crewneck | `bayonne-bees-crewneck` | All-over Print crew / sweatshirt blank (Merchize AOP fleece) | Sublimation AOP + DTF crest |
 | Base Layer Sweats | `bayonne-bees-sweatpants` | [All-over Print Sweatpants](https://merchize.com/product/all-over-print-sweatpants/) | Sublimation AOP |
 | Long-Sleeve Jersey | `bayonne-bees-ls-jersey` | Long-sleeve AOP jersey / hockey long sleeve blank | Sublimation + DTF |

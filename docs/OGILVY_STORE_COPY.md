@@ -60,7 +60,7 @@ Prices from current catalog. Fabric weights cut until measured.
 
 - **Match Jersey** — $115. owayo F6 Hero. Narrow crew ringer (black + bone inner line). Garnet field. Continuous black chest band with BAYONNE. Crest left. Name and number on the back (included).
 - **Match Shorts** — $73. owayo FP6 Hero. Same garnet as the jersey. Single 18mm bone outseam tape (never three stripes). No name or number.
-- **AOP Hat** — $36. All-over geo on the crown. Crest up front. Front + side preview.
+- **Crest Cap** — $36. Bone pinstripe crown, garnet brim, BB crest up front. Front + on-model preview.
 - **Full Kit Set** — $188. F6 Hero jersey + FP6 Hero shorts. One garnet. One crest. Name/number included.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
 - **Jersey Dress** — $72. One-piece sideline cut. Color-block basketball crest. Name and number on the back.

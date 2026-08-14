@@ -89,7 +89,7 @@ export const CATEGORIES: Category[] = [
   {
     id: "sideline",
     label: "Sideline",
-    description: "For standing outside in November.",
+    description: "For November on the bleachers. Crest Cap included.",
     hero: SURFACES.categoryHero.sideline,
   },
   {
@@ -266,9 +266,9 @@ export const PRODUCTS: CatalogProduct[] = [
   },
   {
     id: "aop-hat",
-    handle: "bayonne-bees-aop-hat",
-    name: "AOP Hat",
-    blurb: "All-over print on the crown. Crest up front. S/M or L/XL.",
+    handle: "bayonne-crest-cap",
+    name: "Crest Cap",
+    blurb: "Bone crown. Garnet brim. BB crest up front. S/M or L/XL.",
     category: "sideline",
     price: 36,
     customizable: true,
