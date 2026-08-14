@@ -34,7 +34,8 @@ export const BAYONNE_BEES_KIT: KitConfig = {
     name: { fill: "#F4F1F0", outline: "#5A1626", outlineWidth: 2 },
   },
   rules: { nameMaxChars: 12, numberMin: 0, numberMax: 99 },
-  pricing: { top: 58, bottom: 34, set: 89, currency: "USD" },
+  /** owayo F6/FP6 Hero retail — see docs/OWAYO_F6_HERO.md / src/catalog/pricing.ts */
+  pricing: { top: 115, bottom: 73, set: 188, currency: "USD" },
   mode: "both",
   shopify: {
     domain: "https://noparade-store.com",

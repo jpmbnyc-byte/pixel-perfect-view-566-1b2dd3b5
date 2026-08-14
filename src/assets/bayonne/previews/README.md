@@ -22,8 +22,8 @@ Resolve only via `PLATES` in [`src/lib/brandAssets.ts`](../../../lib/brandAssets
 
 ## Motif pieces — front + side
 
-Shorts side language: **double ink pinstripes** (sublimated, not embroidered).  
-Match = white/bone · Alumni/sideline = black. Never three stripes.
+Shorts side language: **single 18mm bone outseam tape** (sublimated, not embroidered).  
+Never three stripes (adidas trade dress). Match jersey = owayo F6 Hero crew ringer (not polo).
 
 | Product | Front | Side |
 |---|---|---|

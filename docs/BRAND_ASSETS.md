@@ -32,7 +32,7 @@ Lifestyle stills carry the site story. Product plates stay for **Tier 2 TRUTH** 
 
 On-body campaign stills live in `src/assets/bayonne/campaign/` and are registered in `src/lib/campaignAssets.ts` (`status: shot`). Lettered backs carry `AVENUE A` / `36`; PDP overlays the “Your name goes here” badge. Truth plates stay in `previews/` for the configurator.
 
-**Shorts pinstripes:** double sublimated ink only (`src/tokens/pinstripe.ts`) — white/bone on Match, black on Alumni/sideline. Never embroidered; never three stripes.
+**Shorts side language:** single 18mm bone outseam tape (`src/tokens/pinstripe.ts` / `SIDE_TAPE`) on Match and Alumni alike. Never embroidered; never three stripes (adidas trade dress). See `docs/OWAYO_F6_HERO.md`.
 
 ## Adding a SKU image
 

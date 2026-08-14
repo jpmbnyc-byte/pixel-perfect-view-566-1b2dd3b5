@@ -1,18 +1,25 @@
 /**
  * Bayonne Bees brand color tokens.
  * Garnet is the only saturated accent on any screen (chroma budget).
+ *
+ * owayo print note: `#5A1626` must be submitted as a Pantone for their color
+ * profile — not selected from their 152 screen presets. Screen ≠ print.
+ * See docs/OWAYO_F6_HERO.md.
  */
 
 export const COLOR = {
-  /** Primary. Low-chroma dark red — hardest zone for dye-sub. */
+  /** Primary. Low-chroma dark red — hardest zone for dye-sub / owayo Pantone. */
   garnet: "#5A1626",
   /** Gradient terminal only. */
   garnetDeep: "#3E0F1A",
   /** SUBLIMATED black. Not trim black — see validateSublimation. */
   inkBlack: "#1C1A1B",
-  /** PRE-DYED trim only (rib, collar, cuff, waistband, brim). */
+  /**
+   * PRE-DYED / ringer / cuff / waistband black.
+   * F6 Hero collar = flat ringer band of this + bone inner line (not knit rib polo).
+   */
   trimBlack: "#0A0A0A",
-  /** Piping, lettering, paper field accents. */
+  /** Piping, lettering, paper field accents, shorts outseam tape. */
   bone: "#F4F1F0",
   /** Site background — warm paper (Bureau Borsche 3% deviation). */
   paper: "#EDEAE7",

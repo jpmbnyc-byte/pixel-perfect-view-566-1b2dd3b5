@@ -58,17 +58,17 @@ Ogilvy's rules: the headline does 80% of the work, it states a fact rather than 
 
 Prices from current catalog. Fabric weights cut until measured.
 
-- **Match Jersey** — $58. Black V-neck. Garnet field. Black chest panel with BAYONNE. Crest left. Name and number on the back.
-- **Match Shorts** — $34. Same garnet as the jersey. Double white ink pinstripes on the side (sublimated, not embroidered). No name or number.
+- **Match Jersey** — $115. owayo F6 Hero. Narrow crew ringer (black + bone inner line). Garnet field. Continuous black chest band with BAYONNE. Crest left. Name and number on the back (included).
+- **Match Shorts** — $73. owayo FP6 Hero. Same garnet as the jersey. Single 18mm bone outseam tape (never three stripes). No name or number.
 - **AOP Hat** — $36. All-over geo on the crown. Crest up front. Front + side preview.
-- **Full Kit Set** — $89. Black-collar jersey and matching shorts with double white ink pinstripes. One garnet. One crest.
+- **Full Kit Set** — $188. F6 Hero jersey + FP6 Hero shorts. One garnet. One crest. Name/number included.
 - **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
 - **Jersey Dress** — $72. One-piece sideline cut. Color-block basketball crest. Name and number on the back.
 - **1936 Crewneck** — $64. Garnet body, black geo side panels (front + side). Motif only — no lettering.
 - **Base Layer Sweats** — $58. Black base, garnet geometric side panel you pick (front + side). Motif only.
 - **Long-Sleeve Jersey** — $62. Name and number on the back. Year inside the collar.
 - **Quarter-Zip** — $68. Crest on the left chest. Nothing else on the front.
-- **Alumni Shorts** — $42. Same garnet as the match strip. Double black ink pinstripes on the side (sublimated, not embroidered).
+- **Alumni Shorts** — $42. Same garnet as the match strip. Single 18mm bone outseam tape (never three stripes).
 
 **Queen Bees Tee** (when listed): Made for the girls soccer program. The crest was drawn for them and had never existed before. Price TBD when the SKU ships.
 

@@ -41,6 +41,12 @@
  * BAYONNE BEES × NO PARADE F.C.
  * Luxury editorial constraint (Venezia-adjacent): paper / ink / one garnet accent.
  * Cool bone — not warm cream. No manufacturer marks. All colors are oklch tokens.
+ *
+ * Manufacturing hex lock (owayo F6/FP6 — submit garnet as Pantone, not screen preset):
+ *   --garnet: #5A1626
+ *   --black:  #0A0A0A
+ *   --bone:   #F4F1F0
+ * See docs/OWAYO_F6_HERO.md and src/tokens/brand.ts.
  */
 
 @theme inline {
