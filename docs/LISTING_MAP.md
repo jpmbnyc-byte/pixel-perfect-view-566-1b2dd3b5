@@ -1,6 +1,6 @@
 # Bayonne Bees — Listing Map & Placement Guide
 
-Fulfillment: print partner via Shopify sync  
+Fulfillment: **owayo** for Match strip (F6 / FP6 Hero); see `docs/OWAYO_F6_HERO.md`  
 Brand: **Bayonne Bees** · No Parade F.C. Team Customs  
 Palette: Garnet `#5A1626` · Black `#0A0A0A` · Bone `#F4F1F0` · optional sting gold outline `#C9A96A`  
 Motif: School kit (crest + wordmark + number) + design-forward geometric accents  
@@ -61,9 +61,9 @@ Extra tag when customizable: `custom-name-number`
 
 | # | Shopify handle | Merchize blank (printable) | Tier | Custom Name/Number | Configurator item |
 |---|---|---|---|---|---|
-| 1 | `bayonne-bees-jersey` | AOP V-neck Short Sleeve Jersey (`VSSJVN`) — dye-sub + DTF crest | **Core** | Yes — back | `top` |
-| 2 | `bayonne-bees-shorts` | AOP Soccer Jersey Shorts — dye-sub | **Core** | No — side geo | `bottom` |
-| 3 | `bayonne-bees-full-set` | AOP Soccer Jersey Set (`SJSEVN`) — dye-sub + DTF crest | **Core** | Yes — jersey | `set` |
+| 1 | `bayonne-bees-jersey` | **owayo F6 Hero** (crew, K-TEX) — cut-and-sew sublimation | **Core** | Yes — back (included) | `top` |
+| 2 | `bayonne-bees-shorts` | **owayo FP6 Hero** — cut-and-sew sublimation | **Core** | No — side tape | `bottom` |
+| 3 | `bayonne-bees-full-set` | F6 Hero + FP6 Hero set | **Core** | Yes — jersey (included) | `set` |
 | 4 | `bayonne-bees-hoops-jersey` | AOP Sleeveless Jersey Tank — dye-sub + DTF crest | Spirit | Yes — back | — |
 | 5 | `bayonne-bees-jersey-dress` | AOP Hoodie Dress (closest dress blank) — dye-sub | Spirit | Yes — back | — |
 | 6 | `bayonne-bees-aop-hat` | AOP Baseball Cap — crown dye-sub + DTF crest | Spirit | No — fixed art | — |
@@ -123,15 +123,18 @@ Print-zone reference scale (`src/lib/kit.ts` → `LETTERING`), as % of mockup / 
 
 ### 1. Soccer / football jersey (`bayonne-bees-jersey`)
 
+**owayo F6 Hero** — narrow crew ringer (black + bone inner line, hidden seam). No polo, no placket. Continuous BAYONNE chest band.
+
 **Front**
 | Zone | Placement | Art |
 |---|---|---|
-| Chest wordmark | Center X 50%, Y 28–34%, H ~8% | `BAYONNE` block or script |
+| Collar | Narrow crew, flat ringer | Black `#0A0A0A` band + bone `#F4F1F0` inner line |
+| Chest wordmark | Continuous black band, center | `BAYONNE` bone block — unbroken across placketless front |
 | Crest | Left chest X 18–22%, Y 22–28%, size ~8–10% W | Boxing bee |
-| Geo accents | Sleeves + side panels only | Chevron / diagonal blocks |
+| Sleeve cuffs | Flat black panels | No fold / no registration tipping |
 | Center torso | Clear | No busy pattern behind number area on back |
 
-**Back** — name + number table above.
+**Back** — name + number table above (included in unit price).
 
 **Files:** `front-aop.png`, `back-aop.png` (or placement PNGs per print template), `crest.svg`
 
@@ -139,12 +142,12 @@ Print-zone reference scale (`src/lib/kit.ts` → `LETTERING`), as % of mockup / 
 
 App preview: **front + side** (not back). No name/number/font.
 
-**Side language (all shorts):** exactly **two** sublimated ink pinstripes — never embroidered, never three (manufacturer exclusion).  
-**Match day:** white/bone pinstripes · **Alumni / sideline / other:** black pinstripes.
+**Side language (all shorts):** exactly **one** sublimated bone outseam tape, **18mm** — never embroidered, never three (adidas trade dress).  
+See `docs/OWAYO_F6_HERO.md` (FP6 Hero) and `src/tokens/pinstripe.ts`.
 
 | Zone | Placement | Art |
 |---|---|---|
-| Side pinstripes | Outer thigh, full height | Double white/bone ink lines (match) |
+| Outseam tape | Outer thigh, full height | Single bone `#F4F1F0` tape, 18mm |
 | Soft brand | Lower left leg, H ~6% | Boxing-bee crest |
 | Waistband | Solid black | No critical logos on elastic |
 

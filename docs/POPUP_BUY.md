@@ -22,7 +22,7 @@ Machine: iPad customizer + Team Identity Preview + register pin.
 | SKU | Qty | COGS ea | COGS | Retail | Retail value | GM% |
 |---|---:|---:|---:|---:|---:|---:|
 | Founding 36 Jacket *(anchor)* | 6 | $58 | $348 | $165 | $990 | 65% |
-| Match Jersey (blank back) | 18 | $26 | $468 | $58 | $1,044 | 55% |
+| Match Jersey (blank back) | 18 | $60 | $1,080 | $115 | $2,070 | 48% |
 | Garnet Beanie *(new)* | 30 | $9 | $270 | $34 | $1,020 | 74% |
 | Avenue A Scarf | 24 | $12 | $288 | $34 | $816 | 65% |
 | Bayonne Tee | 24 | $12 | $288 | $38 | $912 | 68% |
@@ -34,7 +34,7 @@ Encoded in `src/catalog/popupBuy.ts`.
 
 ### Two new heroes
 
-**Founding 36 Jacket — $165.** Anthem silhouette with collector numbering **1/36–36/36** inside the collar. Order **6** only — anchors the room so the $58 jersey reads as the reasonable choice. Sell 3–4; take orders for the rest.
+**Founding 36 Jacket — $165.** Anthem silhouette with collector numbering **1/36–36/36** inside the collar. Order **6** only — anchors the room so the $115 jersey reads as the reasonable choice. Sell 3–4; take orders for the rest.
 
 **Garnet Beanie — $34.** One size, no size risk, 74% margin, September in New Jersey. Likely top seller by units.
 
@@ -72,6 +72,6 @@ Strong case (~60% ST + 2 jackets + 25 customs): ~$4,400 net. Unsold stock rolls 
 
 ## The three things that decide the day
 
-1. **iPad customizer on the table.** Blank-back jersey: *$58 as-is, or $98 with your name, three weeks.*
+1. **iPad customizer on the table.** Match jersey: *$115 with your name and number included — owayo unit price, no decoration upcharge.*
 2. **Capture every coach, parent, league board member by name.** One roster order beats the day’s retail.
 3. **Pin at $14 at the register.** Nobody walks out empty-handed; 86% margin.

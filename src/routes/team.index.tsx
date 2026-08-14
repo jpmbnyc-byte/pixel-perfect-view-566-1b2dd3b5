@@ -5,11 +5,15 @@ import { CRESTS, SURFACES } from "@/lib/brandAssets";
 import { PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 
+const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
+const jersey = productById("jersey")!;
+const fullSet = productById("full-set")!;
+const shorts = productById("shorts")!;
+
 export const Route = createFileRoute("/team/")({
   head: () => {
     const title = "Bayonne Team Customs — garnet since 1936 | No Parade F.C.";
-    const description =
-      "Team customs in Bayonne’s actual garnet. Put your name on a jersey. From $34. No Parade F.C., Avenue A.";
+    const description = `Team customs in Bayonne’s actual garnet. Put your name on a jersey. From $${LOWEST}. No Parade F.C., Avenue A.`;
     return {
       meta: [
         { title },
@@ -25,11 +29,6 @@ export const Route = createFileRoute("/team/")({
   },
   component: TeamLanding,
 });
-
-const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
-const jersey = productById("jersey")!;
-const fullSet = productById("full-set")!;
-const shorts = productById("shorts")!;
 
 /**
  * Luxury editorial landing — Venezia-adjacent restraint:
@@ -189,7 +188,7 @@ function TeamLanding() {
             </Link>
           </div>
           <p className="type-editorial mt-5 max-w-md text-lg text-ink/75">
-            Black V-neck. Name and number on the back — typed by you, printed by us.
+            Narrow crew. Name and number on the back — typed by you, printed by us.
           </p>
         </div>
 

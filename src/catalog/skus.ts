@@ -29,6 +29,9 @@ type Draft = {
 
 function trimsFor(process: ProcessId): KitSpec["garment"]["trims"] {
   if (process === "knit") return [];
+  // F6 Hero collar is sublimated self-fabric ringer (flat band, hidden seam) —
+  // not knit rib polo. Modelled as pre-dyed trim black for validateSublimation
+  // (trim finish must be pre-dyed; body/panel blacks differ). See docs/OWAYO_F6_HERO.md.
   return [
     { id: "collar", finish: "pre-dyed" },
     { id: "cuff", finish: "pre-dyed" },
@@ -91,15 +94,16 @@ const DRAFTS: Draft[] = [
   {
     sku: "BB-MJ-REP",
     name: "Match Jersey (Replica)",
-    price: 58,
+    price: 115,
     category: "match",
     process: "sublimation-cutsew",
     fabric: "poly-interlock-matte",
     gsm: 150,
-    block: "articulated-football-v2",
+    block: "owayo-f6-hero",
     mode: "name-number",
     continuousBand: true,
-    blurb: "150gsm matte interlock. Continuous chest band. Tonal texture. Interior collar print.",
+    blurb:
+      "owayo F6 Hero · K-TEX. Narrow crew ringer (black + bone inner line, hidden seam — not polo). Continuous BAYONNE chest band. Name/number included.",
     plateFront: "jersey",
     plateSecondary: "jersey",
     strikeOffApproved: true,
@@ -108,15 +112,16 @@ const DRAFTS: Draft[] = [
   {
     sku: "BB-MJ-AUT",
     name: "Match Jersey (Authentic)",
-    price: 98,
+    price: 115,
     category: "match",
     process: "sublimation-cutsew",
     fabric: "poly-mesh-engineered",
     gsm: 130,
-    block: "articulated-football-v2-auth",
+    block: "owayo-f6-hero",
     mode: "name-number",
     continuousBand: true,
-    blurb: "130gsm engineered mesh, laser-perf side zones, bonded crew, heat-sealed hems.",
+    blurb:
+      "owayo F6 Hero · K-TEX ultra.dry. Narrow crew ringer, continuous chest band, OFIT sizing. Name/number included.",
     plateFront: "jersey",
     plateSecondary: "jersey",
     strikeOffApproved: true,
@@ -125,40 +130,39 @@ const DRAFTS: Draft[] = [
   {
     sku: "BB-MS",
     name: "Match Shorts",
-    price: 36,
+    price: 73,
     category: "match",
     process: "sublimation-cutsew",
     fabric: "micro-poly",
     gsm: 135,
-    block: "match-short-v1",
+    block: "owayo-fp6-hero",
     mode: "motif",
     motifDefault: "chevron",
     blurb:
-      "135gsm micro-poly. Double bone/white ink pinstripes on the side — sublimated, not embroidered. Pop-up: do not carry loose stock — sell inside sets or at $44+.",
+      "owayo FP6 Hero · K-TEX. Elastic + draw cord. Single bone outseam tape 18mm — never three stripes.",
     plateFront: "shorts",
     plateSecondary: "shorts",
     strikeOffApproved: true,
-    patternCopy:
-      "Double white ink pinstripes — match-day side language, two lines only (never three).",
+    patternCopy: "Single bone outseam tape, 18mm — FP6 Hero side language (never three stripes).",
   },
   {
     sku: "BB-SOCK",
     name: "Match Socks",
-    price: 18,
+    price: 15,
     category: "match",
     process: "knit",
     fabric: "knit-jacquard",
     gsm: 0,
     block: "sock-knit",
     mode: "none",
-    blurb: "Garnet sock, black/bone hoop. Attach-rate item.",
+    blurb: "owayo Classic sock. Garnet field, black/bone hoop.",
     plateFront: "shorts",
     plateSecondary: "shorts",
   },
   {
     sku: "BB-SET-REP",
     name: "Full Kit Set (Replica)",
-    price: 104,
+    price: 188,
     category: "match",
     process: "sublimation-cutsew",
     fabric: "poly-interlock-matte",
@@ -166,7 +170,7 @@ const DRAFTS: Draft[] = [
     block: "kit-set-rep",
     mode: "name-number",
     continuousBand: true,
-    blurb: "Replica jersey + shorts + socks.",
+    blurb: "F6 Hero jersey + FP6 Hero shorts. Name/number included.",
     plateFront: "full-set",
     plateSecondary: "full-set",
     strikeOffApproved: true,
@@ -175,7 +179,7 @@ const DRAFTS: Draft[] = [
   {
     sku: "BB-SET-AUT",
     name: "Kit Set (Authentic)",
-    price: 142,
+    price: 204,
     category: "match",
     process: "sublimation-cutsew",
     fabric: "poly-mesh-engineered",
@@ -183,7 +187,7 @@ const DRAFTS: Draft[] = [
     block: "kit-set-auth",
     mode: "name-number",
     continuousBand: true,
-    blurb: "Authentic jersey + shorts + socks.",
+    blurb: "F6 Hero jersey + FP6 Hero shorts + Classic socks. Name/number included.",
     plateFront: "full-set",
     plateSecondary: "full-set",
     strikeOffApproved: true,
@@ -384,12 +388,12 @@ const DRAFTS: Draft[] = [
     mode: "motif",
     motifDefault: "chevron",
     blurb:
-      "Same garnet as the Match strip. Double black ink pinstripes on the side — sublimated, not embroidered. Off-field cut.",
+      "Same garnet as the Match strip. Single 18mm bone outseam tape — never three stripes. Off-field cut.",
     plateFront: "geo-shorts",
     plateSecondary: "geo-shorts",
     strikeOffApproved: true,
     patternCopy:
-      "Double black ink pinstripes — alumni/sideline side language, two lines only (never three).",
+      "Single bone outseam tape, 18mm — same FP6 side language as Match (never three stripes).",
   },
   {
     sku: "BB-CLASS",

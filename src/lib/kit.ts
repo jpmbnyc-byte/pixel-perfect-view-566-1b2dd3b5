@@ -34,7 +34,8 @@ export type LetteringLayout = {
 };
 
 /**
- * Match jersey — plate: collar bottom ≈17%, hem ≈85%, torso center x ≈49.3%.
+ * Match jersey — owayo F6 Hero plate: narrow crew ringer bottom ≈17%, hem ≈85%,
+ * torso center x ≈49.3%. Continuous BAYONNE chest band (no placket interrupt).
  * Name sits below the collar band; number fills the upper-mid back panel.
  */
 export const LETTERING: LetteringLayout = {

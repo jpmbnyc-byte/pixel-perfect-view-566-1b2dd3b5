@@ -1,17 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { COLOR } from "@/tokens/brand";
-import { PINSTRIPE, pinstripeInk } from "@/tokens/pinstripe";
+import { PINSTRIPES, SIDE_TAPE } from "../src/tokens/pinstripe";
 
-describe("shorts pinstripe system", () => {
-  it("uses exactly two sublimated ink lines", () => {
-    expect(PINSTRIPE.count).toBe(2);
-    expect(PINSTRIPE.finish).toBe("sublimated-ink");
+describe("pinstripe / side-tape tokens", () => {
+  it("locks match shorts to a single 18mm bone outseam tape (no three-stripe adidas trade dress)", () => {
+    expect(PINSTRIPES.match.count).toBe(1);
+    expect(PINSTRIPES.match.widthMm).toBe(18);
+    expect(PINSTRIPES.match.color).toBe("#F4F1F0");
   });
 
-  it("assigns white/bone to match and black to all others", () => {
-    expect(pinstripeInk("match")).toBe(COLOR.bone);
-    expect(pinstripeInk("other")).toBe(COLOR.inkBlack);
-    expect(PINSTRIPE.match).toBe(COLOR.bone);
-    expect(PINSTRIPE.other).toBe(COLOR.inkBlack);
+  it("locks other shorts programs to the same single bone outseam tape", () => {
+    expect(PINSTRIPES.other.count).toBe(1);
+    expect(PINSTRIPES.other.widthMm).toBe(18);
+    expect(PINSTRIPES.other.color).toBe("#F4F1F0");
+  });
+
+  it("exposes SIDE_TAPE as the shared outseam geometry", () => {
+    expect(SIDE_TAPE.count).toBe(1);
+    expect(SIDE_TAPE.widthMm).toBe(18);
+    expect(SIDE_TAPE.color).toBe("#F4F1F0");
   });
 });
