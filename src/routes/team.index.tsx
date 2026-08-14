@@ -11,11 +11,16 @@ import {
   MATCH_PRODUCT_COPY,
   STORE_INTRO_COPY,
 } from "@/copy/match";
+import { ALUMNI_DEPARTMENT_COPY, HERITAGE_PRODUCT_COPY } from "@/copy/heritage";
 
 const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
 const jersey = productById("jersey")!;
 const fullSet = productById("full-set")!;
 const shorts = productById("shorts")!;
+const heritageTeeGarnet = productById("heritage-tee-garnet")!;
+const heritageTeeBlack = productById("heritage-tee-black")!;
+const baggySweatsGarnet = productById("baggy-sweats-garnet")!;
+const baggySweatsBlack = productById("baggy-sweats-black")!;
 
 export const Route = createFileRoute("/team/")({
   head: () => {
@@ -234,6 +239,89 @@ function TeamLanding() {
             <p className="mt-3 font-sans text-lg tabular-nums text-ink/70">${fullSet.price}</p>
             <p className="place-line mt-4 text-garnet">{MATCH_PRODUCT_COPY["full-set"].cta}</p>
           </Link>
+        </div>
+      </section>
+
+      {/* —— Alumni heritage feature —— */}
+      <section className="studio-field">
+        <div className="mx-auto w-full max-w-[720px] px-6 pt-20 sm:px-10 sm:pt-24">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="place-line">{ALUMNI_DEPARTMENT_COPY.line}</p>
+              <h2 className="type-campaign mt-4 text-[clamp(2rem,7vw,2.8rem)] text-ink">
+                {ALUMNI_DEPARTMENT_COPY.title}
+              </h2>
+            </div>
+            <Link
+              to="/team/$slug/alumni"
+              params={{ slug: kit.slug }}
+              className="place-line shrink-0 text-ink transition-opacity hover:opacity-55"
+            >
+              Shop Alumni →
+            </Link>
+          </div>
+          <p className="type-editorial mt-5 max-w-md text-lg text-ink/75">
+            {ALUMNI_DEPARTMENT_COPY.body}
+          </p>
+        </div>
+
+        <Link
+          to="/team/$slug/$product"
+          params={{ slug: kit.slug, product: heritageTeeGarnet.id }}
+          className="group mx-auto mt-10 block w-full max-w-[720px] px-6 sm:px-10"
+        >
+          <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_88%,white)] sm:aspect-[5/4]">
+            <img
+              src={SURFACES.landingHeritage}
+              alt="Heritage Tee in Bayonne garnet"
+              className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
+            />
+          </div>
+          <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
+            <div>
+              <p className="place-line">Alumni</p>
+              <h3 className="type-campaign mt-2 text-2xl text-ink">{heritageTeeGarnet.name}</h3>
+              <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
+                {HERITAGE_PRODUCT_COPY["heritage-tee-garnet"].card}
+              </p>
+            </div>
+            <p className="font-sans text-xl tabular-nums text-ink">${heritageTeeGarnet.price}</p>
+          </div>
+          <p className="place-line mt-4 text-garnet">
+            {HERITAGE_PRODUCT_COPY["heritage-tee-garnet"].cta}
+          </p>
+        </Link>
+
+        <div className="mx-auto grid w-full max-w-[720px] grid-cols-2 gap-px bg-ink/10">
+          {(
+            [
+              [heritageTeeBlack, "heritage-tee-black"],
+              [baggySweatsGarnet, "baggy-sweats-garnet"],
+              [baggySweatsBlack, "baggy-sweats-black"],
+            ] as const
+          ).map(([p, copyId]) => (
+            <Link
+              key={p.id}
+              to="/team/$slug/$product"
+              params={{ slug: kit.slug, product: p.id }}
+              className="studio-field px-6 py-8 transition-opacity hover:opacity-80 sm:px-8"
+            >
+              <div className="relative mb-5 aspect-[3/4] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_88%,white)]">
+                <img
+                  src={p.thumb}
+                  alt={p.name}
+                  className="h-full w-full object-contain object-center"
+                />
+              </div>
+              <p className="place-line">Alumni</p>
+              <p className="type-campaign mt-3 text-xl text-ink">{p.name}</p>
+              <p className="mt-2 text-sm leading-relaxed text-ink/55">
+                {HERITAGE_PRODUCT_COPY[copyId].card}
+              </p>
+              <p className="mt-3 font-sans text-lg tabular-nums text-ink/70">${p.price}</p>
+              <p className="place-line mt-4 text-garnet">{HERITAGE_PRODUCT_COPY[copyId].cta}</p>
+            </Link>
+          ))}
         </div>
       </section>
 

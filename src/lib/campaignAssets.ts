@@ -21,6 +21,12 @@ import shortsBack from "@/assets/bayonne/campaign/shorts-back.jpg";
 import geoShortsFront from "@/assets/bayonne/campaign/geo-shorts-front.jpg";
 import crewFront from "@/assets/bayonne/campaign/crew-front.jpg";
 import qzipFront from "@/assets/bayonne/campaign/qzip-front.jpg";
+import heritageTeeGarnetFront from "@/assets/bayonne/campaign/heritage-tee-garnet-front.jpg";
+import heritageTeeGarnetBack from "@/assets/bayonne/campaign/heritage-tee-garnet-back.jpg";
+import heritageTeeBlackFront from "@/assets/bayonne/campaign/heritage-tee-black-front.jpg";
+import heritageTeeBlackBack from "@/assets/bayonne/campaign/heritage-tee-black-back.jpg";
+import baggySweatsGarnetFront from "@/assets/bayonne/campaign/baggy-sweats-garnet-front.jpg";
+import baggySweatsBlackFront from "@/assets/bayonne/campaign/baggy-sweats-black-front.jpg";
 
 import type { CampaignView } from "@/tokens/campaign";
 
@@ -64,6 +70,16 @@ export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
   "geo-shorts": { front: geoShortsFront },
   crewneck: { front: crewFront },
   "quarter-zip": { front: qzipFront },
+  "heritage-tee-garnet": {
+    front: heritageTeeGarnetFront,
+    back: heritageTeeGarnetBack,
+  },
+  "heritage-tee-black": {
+    front: heritageTeeBlackFront,
+    back: heritageTeeBlackBack,
+  },
+  "baggy-sweats-garnet": { front: baggySweatsGarnetFront },
+  "baggy-sweats-black": { front: baggySweatsBlackFront },
 };
 
 /** Build-map SKU → campaign views (lettered sets share storefront modules). */

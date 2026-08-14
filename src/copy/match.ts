@@ -21,7 +21,7 @@ export type MatchProductCopy = {
 export const MATCH_PRODUCT_COPY: Record<"jersey" | "shorts" | "full-set", MatchProductCopy> = {
   jersey: {
     tagline: "The one with your name on it.",
-    body: "Bayonne across the chest. Yours across the back.\n\nBuilt in the garnet that belongs here, the Match Jersey takes the familiar language of a school kit and cleans it up: narrow crew neck, uninterrupted BAYONNE chest band and the Bees crest at the heart.\n\nPersonalize the back with your name and number. It’s included.",
+    body: "Bayonne across the chest. Yours across the back.\n\nBuilt in the garnet that belongs here, the Match Jersey takes the familiar language of a school kit and cleans it up: narrow crew neck, uninterrupted BAYONNE chest band and the crest at the heart.\n\nPersonalize the back with your name and number. It’s included.",
     card: "The right garnet. BAYONNE across the front. Your name and number on the back.",
     cta: "Make it yours →",
     personalizeHeading: "Your shirt. Your name.",
