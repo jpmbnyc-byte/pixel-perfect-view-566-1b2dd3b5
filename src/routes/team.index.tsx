@@ -21,6 +21,7 @@ const heritageTeeGarnet = productById("heritage-tee-garnet")!;
 const heritageTeeBlack = productById("heritage-tee-black")!;
 const baggySweatsGarnet = productById("baggy-sweats-garnet")!;
 const baggySweatsBlack = productById("baggy-sweats-black")!;
+const crestCap = productById("aop-hat")!;
 
 export const Route = createFileRoute("/team/")({
   head: () => {
@@ -347,6 +348,44 @@ function TeamLanding() {
           <p className="mt-6 max-w-sm text-[0.95rem] leading-relaxed text-bone/72">
             Same garnet under the lights. Customs that look like they belong on Avenue A.
           </p>
+          <Link
+            to="/team/$slug/$product"
+            params={{ slug: kit.slug, product: crestCap.id }}
+            className="place-line mt-8 inline-flex items-center gap-3 border-b border-bone/40 pb-2 text-bone transition-colors hover:border-bone"
+          >
+            Crest Cap · ${crestCap.price}
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* —— Crest Cap lookbook —— */}
+      <section className="studio-field">
+        <div className="mx-auto w-full max-w-[720px] px-6 py-16 sm:px-10 sm:py-20">
+          <Link
+            to="/team/$slug/$product"
+            params={{ slug: kit.slug, product: crestCap.id }}
+            className="group block"
+          >
+            <div className="relative aspect-[5/4] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_88%,white)]">
+              <img
+                src={crestCap.thumb}
+                alt="Crest Cap on model"
+                className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
+              />
+            </div>
+            <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
+              <div>
+                <p className="place-line">Sideline</p>
+                <h3 className="type-campaign mt-2 text-2xl text-ink">{crestCap.name}</h3>
+                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
+                  {HERITAGE_PRODUCT_COPY["aop-hat"].card}
+                </p>
+              </div>
+              <p className="font-sans text-xl tabular-nums text-ink">${crestCap.price}</p>
+            </div>
+            <p className="place-line mt-4 text-garnet">{HERITAGE_PRODUCT_COPY["aop-hat"].cta}</p>
+          </Link>
         </div>
       </section>
 

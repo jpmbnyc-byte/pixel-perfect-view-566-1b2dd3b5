@@ -21,7 +21,11 @@ import {
   departmentLine,
   matchCopyFor,
 } from "@/copy/match";
-import { ALUMNI_DEPARTMENT_COPY, heritageCopyFor } from "@/copy/heritage";
+import {
+  ALUMNI_DEPARTMENT_COPY,
+  SIDELINE_DEPARTMENT_COPY,
+  heritageCopyFor,
+} from "@/copy/heritage";
 
 export const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
 
@@ -64,6 +68,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
   const catalogReady = shopifySynced(sync);
   const featuredJersey = productById("jersey");
   const featuredHeritage = productById("heritage-tee-garnet");
+  const featuredCrestCap = productById("aop-hat");
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
   const products = useMemo(() => {
@@ -191,6 +196,39 @@ export function TeamStorePage({ category, kit, sync }: Props) {
         </section>
       )}
 
+      {featuredCrestCap && !closed && category === "sideline" && (
+        <section className="px-6 sm:px-10">
+          <Link
+            to="/team/$slug/$product"
+            params={{ slug: kit.slug, product: featuredCrestCap.id }}
+            className="group block focus-ring"
+          >
+            <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
+              <img
+                src={featuredCrestCap.thumb}
+                alt={`${featuredCrestCap.name}, front view`}
+                width={800}
+                height={1000}
+                className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
+              />
+            </div>
+            <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
+              <div>
+                <p className="place-line">Featured · Sideline</p>
+                <h2 className="type-campaign mt-2 text-2xl text-ink">{featuredCrestCap.name}</h2>
+                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
+                  {heritageCopyFor(featuredCrestCap.id)?.card ?? featuredCrestCap.blurb}
+                </p>
+              </div>
+              <span className="font-sans text-xl tabular-nums text-ink">${featuredCrestCap.price}</span>
+            </div>
+            <p className="place-line mt-4 pb-2 text-garnet">
+              {heritageCopyFor(featuredCrestCap.id)?.cta ?? `Choose size · $${featuredCrestCap.price} →`}
+            </p>
+          </Link>
+        </section>
+      )}
+
       <section className="px-6 pt-12 sm:px-10">
         <p className="place-line">Departments</p>
         <div
@@ -235,6 +273,16 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             </p>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
               {ALUMNI_DEPARTMENT_COPY.body}
+            </p>
+          </>
+        ) : category === "sideline" ? (
+          <>
+            <p className="place-line mt-6 text-garnet">{SIDELINE_DEPARTMENT_COPY.line}</p>
+            <p className="type-editorial mt-3 max-w-md text-base text-ink/65">
+              {SIDELINE_DEPARTMENT_COPY.title}
+            </p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
+              {SIDELINE_DEPARTMENT_COPY.body}
             </p>
           </>
         ) : (

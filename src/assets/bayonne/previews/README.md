@@ -43,4 +43,4 @@ Front / side / set / campaign shorts plates must match this lock.
 | Alumni Shorts | `geo-shorts-front.jpg` | `geo-shorts-side.jpg` |
 | 1936 Crewneck | `crew-front.jpg` | `crew-side.jpg` |
 | Base Layer Sweats | `sweats-front.jpg` | `sweats-side.jpg` |
-| Crest Cap | `hat-front.jpg` | `hat-side.jpg` |
+| Crest Cap | `hat-front.jpg` (flat) | `hat-side.jpg` (on-model) |
