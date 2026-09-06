@@ -2,8 +2,8 @@
  * Bayonne Athletics active storefront catalog.
  *
  * Fall 001 rule: keep the existing storefront hierarchy, but only surface the
- * currently approved Bayonne Athletics collection. The 1936 Heritage Jersey is
- * the single personalized product; every other product is fixed artwork.
+ * currently approved collection. The 1936 Heritage Jersey is the single
+ * personalized product; every other product is fixed artwork.
  */
 
 import type { Item, LetteringLayout } from "./kit";
@@ -21,10 +21,7 @@ export type FontId = "rail" | "beacon" | "whistle" | "forge";
 export type PreviewPair = "front-back" | "front-side";
 export type SizeChartKind = "apparel" | "hat" | "shoe" | "sock";
 
-export type ProductPreviews = {
-  front: string;
-  secondary: string;
-};
+export type ProductPreviews = { front: string; secondary: string };
 
 export type CatalogProduct = {
   id: string;
@@ -33,6 +30,8 @@ export type CatalogProduct = {
   blurb: string;
   category: CategoryId;
   price: number;
+  /** Used only by the Heritage Jersey when the name/number engine is active. */
+  personalizedPrice?: number;
   shopifyItem?: Item;
   customizable: boolean;
   nameNumber: boolean;
@@ -52,30 +51,10 @@ export type Category = {
 };
 
 export const CATEGORIES: Category[] = [
-  {
-    id: "match",
-    label: "1936 Match",
-    description: "The club jersey and match short. Heritage made wearable.",
-    hero: SURFACES.categoryHero.match,
-  },
-  {
-    id: "sideline",
-    label: "Performance",
-    description: "Technical layers for training, running and everyday movement.",
-    hero: SURFACES.categoryHero.sideline,
-  },
-  {
-    id: "warmups",
-    label: "Travel + Core",
-    description: "Heavyweight travel pieces, everyday uniform and utility.",
-    hero: SURFACES.categoryHero.warmups,
-  },
-  {
-    id: "alumni",
-    label: "Club Goods",
-    description: "Caps, knit, socks and the New Balance footwear rotation.",
-    hero: SURFACES.categoryHero.alumni,
-  },
+  { id: "match", label: "1936 Match", description: "The club jersey and match short. Heritage made wearable.", hero: SURFACES.categoryHero.match },
+  { id: "sideline", label: "Performance", description: "Technical layers for training, running and everyday movement.", hero: SURFACES.categoryHero.sideline },
+  { id: "warmups", label: "Travel + Core", description: "Heavyweight travel pieces, everyday uniform and utility.", hero: SURFACES.categoryHero.warmups },
+  { id: "alumni", label: "Club Goods", description: "Caps, knit, socks and the New Balance footwear rotation.", hero: SURFACES.categoryHero.alumni },
 ];
 
 export const MOTIFS: { id: MotifId; label: string; description: string }[] = [
@@ -84,13 +63,7 @@ export const MOTIFS: { id: MotifId; label: string; description: string }[] = [
   { id: "arc", label: "Arc Panel", description: "Curved modern kit geometry." },
 ];
 
-export const FONTS: {
-  id: FontId;
-  label: string;
-  cssFamily: string;
-  file: string;
-  sample: string;
-}[] = [
+export const FONTS: { id: FontId; label: string; cssFamily: string; file: string; sample: string }[] = [
   { id: "rail", label: "Rail Cut", cssFamily: "'Rail Cut', sans-serif", file: "france-away.otf", sample: "BAYONNE" },
   { id: "beacon", label: "Beacon", cssFamily: "'Beacon', sans-serif", file: "haiti.otf", sample: "BAYONNE" },
   { id: "whistle", label: "Whistle", cssFamily: "'Whistle', sans-serif", file: "jamaica-away.otf", sample: "BAYONNE" },
@@ -134,10 +107,10 @@ export const PRODUCTS: CatalogProduct[] = [
     id: "jersey",
     handle: "bayonne-1936-heritage-jersey",
     name: "1936 Heritage Jersey",
-    blurb:
-      "Black and garnet club jersey built from the Bayonne 1936 language. Wear it clean or add your name and number.",
+    blurb: "Black and garnet club jersey built from the Bayonne 1936 language. Wear it clean or add your name and number.",
     category: "match",
     price: 78,
+    personalizedPrice: 98,
     shopifyItem: "top",
     customizable: true,
     nameNumber: true,
@@ -148,180 +121,57 @@ export const PRODUCTS: CatalogProduct[] = [
     thumb: thumbFor("jersey"),
     previews: { ...PLATES.jersey },
   },
-  fixed(
-    "shorts",
-    "bayonne-match-short",
-    "Match Short",
-    "Black match short with restrained garnet club marks and a clean athletic cut.",
-    "match",
-    48,
-  ),
-  fixed(
-    "full-set",
-    "bayonne-1936-match-set",
-    "1936 Match Set",
-    "The complete club look: Heritage Jersey and Match Short.",
-    "match",
-    118,
-  ),
+  fixed("shorts", "bayonne-match-short", "Match Short", "Black match short with restrained garnet club marks and a clean athletic cut.", "match", 48),
+  fixed("full-set", "bayonne-1936-match-set", "1936 Match Set", "The complete club look: Heritage Jersey and Match Short.", "match", 118),
 
-  fixed(
-    "ls-jersey",
-    "bayonne-performance-long-sleeve",
-    "Performance Long Sleeve",
-    "Lightweight moisture-managing long sleeve made for training, running and cool-weather movement.",
-    "sideline",
-    64,
-  ),
-  fixed(
-    "geo-shorts",
-    "bayonne-performance-short",
-    "7\" Performance Short",
-    "Technical seven-inch training short with clean movement, zip-pocket utility and minimal Bayonne marking.",
-    "sideline",
-    58,
-  ),
-  fixed(
-    "quarter-zip",
-    "bayonne-mens-tech-tee",
-    "Men's Raglan Tech Tee",
-    "Lightweight raglan performance tee with a clean athletic fit and Bayonne chest mark.",
-    "sideline",
-    58,
-  ),
-  fixed(
-    "crewneck",
-    "bayonne-womens-tech-tee",
-    "Women's Raglan Tech Tee",
-    "Women's technical raglan tee designed for movement, breathability and an easy athletic fit.",
-    "sideline",
-    52,
-  ),
-  fixed(
-    "baggy-sweats-black",
-    "bayonne-performance-set",
-    "Performance Set",
-    "Performance Long Sleeve and 7-inch short paired as one training uniform.",
-    "sideline",
-    112,
-  ),
+  fixed("ls-jersey", "bayonne-performance-long-sleeve", "Performance Long Sleeve", "Lightweight moisture-managing long sleeve made for training, running and cool-weather movement.", "sideline", 64),
+  fixed("geo-shorts", "bayonne-performance-short", "7\" Performance Short", "Technical seven-inch training short with clean movement, zip-pocket utility and minimal Bayonne marking.", "sideline", 58),
+  fixed("quarter-zip", "bayonne-mens-tech-tee", "Men's Raglan Tech Tee", "Lightweight raglan performance tee with a clean athletic fit and Bayonne chest mark.", "sideline", 58),
+  fixed("crewneck", "bayonne-womens-tech-tee", "Women's Raglan Tech Tee", "Women's technical raglan tee designed for movement, breathability and an easy athletic fit.", "sideline", 52),
+  fixed("baggy-sweats-black", "bayonne-performance-set", "Performance Set", "Performance Long Sleeve and 7-inch short paired as one training uniform.", "sideline", 112),
 
-  fixed(
-    "heritage-tee-black",
-    "bayonne-max-heavy-full-zip",
-    "Max Heavy Full Zip",
-    "Washed heavyweight full-zip layer with relaxed proportions and quiet Bayonne branding.",
-    "warmups",
-    98,
-  ),
-  fixed(
-    "sweatpants",
-    "bayonne-max-heavy-sweatpant",
-    "Max Heavy Sweatpant",
-    "Heavyweight relaxed sweatpant built to pair with the full zip and stand alone as a daily uniform.",
-    "warmups",
-    88,
-  ),
-  fixed(
-    "baggy-sweats-garnet",
-    "bayonne-travel-set",
-    "Travel Set",
-    "The heavyweight full zip and sweatpant together. Built for transit, recovery and everyday wear.",
-    "warmups",
-    168,
-  ),
-  fixed(
-    "heritage-tee-garnet",
-    "bayonne-stretch-pique-polo",
-    "Stretch Pique Polo",
-    "A refined heavyweight stretch polo that carries the club identity without looking like teamwear.",
-    "warmups",
-    78,
-  ),
-  fixed(
-    "hoops-jersey",
-    "bayonne-pocket-long-sleeve",
-    "Pocket Long Sleeve",
-    "Substantial cotton jersey, relaxed fit and a restrained left-pocket Bayonne mark.",
-    "warmups",
-    62,
-  ),
-  fixed(
-    "jersey-dress",
-    "bayonne-field-cargo",
-    "Field Cargo",
-    "Relaxed cotton-twill utility cargo with practical storage and a restrained Bayonne detail.",
-    "warmups",
-    90,
-  ),
+  fixed("heritage-tee-black", "bayonne-max-heavy-full-zip", "Max Heavy Full Zip", "Washed heavyweight full-zip layer with relaxed proportions and quiet Bayonne branding.", "warmups", 98),
+  fixed("sweatpants", "bayonne-max-heavy-sweatpant", "Max Heavy Sweatpant", "Heavyweight relaxed sweatpant built to pair with the full zip and stand alone as a daily uniform.", "warmups", 88),
+  fixed("baggy-sweats-garnet", "bayonne-travel-set", "Travel Set", "The heavyweight full zip and sweatpant together. Built for transit, recovery and everyday wear.", "warmups", 168),
+  fixed("heritage-tee-garnet", "bayonne-stretch-pique-polo", "Stretch Pique Polo", "A refined heavyweight stretch polo that carries the club identity without looking like teamwear.", "warmups", 78),
+  fixed("hoops-jersey", "bayonne-pocket-long-sleeve", "Pocket Long Sleeve", "Substantial cotton jersey, relaxed fit and a restrained left-pocket Bayonne mark.", "warmups", 62),
+  fixed("jersey-dress", "bayonne-field-cargo", "Field Cargo", "Relaxed cotton-twill utility cargo with practical storage and a restrained Bayonne detail.", "warmups", 90),
 
-  fixed(
-    "aop-hat",
-    "bayonne-two-tone-club-cap",
-    "Two-Tone Club Cap",
-    "Bone crown, black bill and the garnet Gothic B. An everyday Bayonne club cap.",
-    "alumni",
-    36,
-    "hat",
-  ),
-  fixed(
-    "beanie",
-    "bayonne-gothic-b-beanie",
-    "Gothic B Beanie",
-    "Textured knit beanie with a single garnet Gothic B and an understated all-season profile.",
-    "alumni",
-    34,
-    "hat",
-  ),
-  fixed(
-    "club-sock",
-    "bayonne-club-sock",
-    "Club Sock",
-    "White club sock with a garnet Gothic B at the ankle. Clean enough for the kit, easy enough for every day.",
-    "alumni",
-    18,
-    "sock",
-  ),
-  fixed(
-    "nb-bbp400",
-    "new-balance-bb-p400",
-    "New Balance BB P400",
-    "Curated New Balance court/lifestyle shoe offered in the Bayonne Athletics footwear rotation.",
-    "alumni",
-    140,
-    "shoe",
-  ),
-  fixed(
-    "nb-runner",
-    "new-balance-fresh-foam-runner",
-    "New Balance Fresh Foam Runner",
-    "A cushioned everyday New Balance runner selected to sit naturally with the collection.",
-    "alumni",
-    150,
-    "shoe",
-  ),
+  fixed("aop-hat", "bayonne-two-tone-club-cap", "Two-Tone Club Cap", "Bone crown, black bill and the garnet Gothic B. An everyday Bayonne club cap.", "alumni", 36, "hat"),
+  fixed("beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie", "Textured knit beanie with a single garnet Gothic B and an understated all-season profile.", "alumni", 34, "hat"),
+  fixed("club-sock", "bayonne-club-sock", "Club Sock", "White club sock with a garnet Gothic B at the ankle. Clean enough for the kit, easy enough for every day.", "alumni", 18, "sock"),
+  fixed("nb-bbp400", "new-balance-bb-p400", "New Balance BB P400", "Curated New Balance court/lifestyle shoe offered in the Bayonne Athletics footwear rotation.", "alumni", 140, "shoe"),
+  fixed("nb-runner", "new-balance-fresh-foam-runner", "New Balance Fresh Foam Runner", "A cushioned everyday New Balance runner selected to sit naturally with the collection.", "alumni", 150, "shoe"),
 ];
 
-export function productsInCategory(category: CategoryId): CatalogProduct[] {
-  return PRODUCTS.filter((p) => p.category === category);
+export function categoryById(id: CategoryId) {
+  return CATEGORIES.find((c) => c.id === id);
 }
 
-export function productById(id: string): CatalogProduct | undefined {
+export function productsInCategory(id: CategoryId) {
+  return PRODUCTS.filter((p) => p.category === id);
+}
+
+export function productById(id: string) {
   return PRODUCTS.find((p) => p.id === id || p.handle === id);
 }
 
 export function fontById(id: FontId) {
-  return FONTS.find((f) => f.id === id);
+  return FONTS.find((f) => f.id === id) ?? FONTS[0]!;
 }
 
-export function previewViewsFor(product: CatalogProduct): ("front" | "back")[] {
-  return product.previewPair === "front-back" ? ["front", "back"] : ["front", "back"];
+export function motifById(id: MotifId) {
+  return MOTIFS.find((m) => m.id === id) ?? MOTIFS[0]!;
 }
 
-export function letteringFor(product: CatalogProduct): LetteringLayout | undefined {
-  return product.lettering;
+export function previewViewsFor(product: CatalogProduct): Array<"front" | "back" | "side"> {
+  return product.previewPair === "front-side" ? ["front", "side"] : ["front", "back"];
 }
 
-export function fontsStylesheetHref(): string {
-  return "/bayonne-fonts.css";
+export function letteringFor(product: CatalogProduct): LetteringLayout {
+  return product.lettering ?? LETTERING;
+}
+
+export function fontsStylesheetHref() {
+  return "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap";
 }
