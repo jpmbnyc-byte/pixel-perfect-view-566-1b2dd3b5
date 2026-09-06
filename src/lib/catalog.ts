@@ -103,7 +103,7 @@ export const HAT_SIZE_CHART: { size: HatSize; note: string }[] = [
   { size: "ONE SIZE", note: "Adjustable / stretch-fit by style" },
 ];
 
-const fixed = (
+function fixed(
   id: keyof typeof PLATES,
   handle: string,
   name: string,
@@ -111,21 +111,23 @@ const fixed = (
   category: CategoryId,
   price: number,
   sizeChart: SizeChartKind = "apparel",
-): CatalogProduct => ({
-  id,
-  handle,
-  name,
-  blurb,
-  category,
-  price,
-  customizable: false,
-  nameNumber: false,
-  typography: false,
-  previewPair: "front-side",
-  sizeChart,
-  thumb: thumbFor(id),
-  previews: { ...PLATES[id] },
-});
+): CatalogProduct {
+  return {
+    id,
+    handle,
+    name,
+    blurb,
+    category,
+    price,
+    customizable: false,
+    nameNumber: false,
+    typography: false,
+    previewPair: "front-side",
+    sizeChart,
+    thumb: thumbFor(id),
+    previews: { ...PLATES[id] },
+  };
+}
 
 export const PRODUCTS: CatalogProduct[] = [
   {
@@ -162,6 +164,7 @@ export const PRODUCTS: CatalogProduct[] = [
     "match",
     118,
   ),
+
   fixed(
     "ls-jersey",
     "bayonne-performance-long-sleeve",
@@ -202,6 +205,7 @@ export const PRODUCTS: CatalogProduct[] = [
     "sideline",
     112,
   ),
+
   fixed(
     "heritage-tee-black",
     "bayonne-max-heavy-full-zip",
@@ -250,6 +254,7 @@ export const PRODUCTS: CatalogProduct[] = [
     "warmups",
     90,
   ),
+
   fixed(
     "aop-hat",
     "bayonne-two-tone-club-cap",
@@ -260,7 +265,7 @@ export const PRODUCTS: CatalogProduct[] = [
     "hat",
   ),
   fixed(
-    "dress-front" as never,
+    "beanie",
     "bayonne-gothic-b-beanie",
     "Gothic B Beanie",
     "Textured knit beanie with a single garnet Gothic B and an understated all-season profile.",
@@ -269,7 +274,7 @@ export const PRODUCTS: CatalogProduct[] = [
     "hat",
   ),
   fixed(
-    "set-front" as never,
+    "club-sock",
     "bayonne-club-sock",
     "Club Sock",
     "White club sock with a garnet Gothic B at the ankle. Clean enough for the kit, easy enough for every day.",
@@ -278,7 +283,7 @@ export const PRODUCTS: CatalogProduct[] = [
     "sock",
   ),
   fixed(
-    "hat-side" as never,
+    "nb-bbp400",
     "new-balance-bb-p400",
     "New Balance BB P400",
     "Curated New Balance court/lifestyle shoe offered in the Bayonne Athletics footwear rotation.",
@@ -287,7 +292,7 @@ export const PRODUCTS: CatalogProduct[] = [
     "shoe",
   ),
   fixed(
-    "crew-side" as never,
+    "nb-runner",
     "new-balance-fresh-foam-runner",
     "New Balance Fresh Foam Runner",
     "A cushioned everyday New Balance runner selected to sit naturally with the collection.",
