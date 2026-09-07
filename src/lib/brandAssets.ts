@@ -41,6 +41,7 @@ import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
 import lifestyleFocus from "@/assets/bayonne/lifestyle/lifestyle-focus.jpg";
 import lifestyleSideline from "@/assets/bayonne/lifestyle/lifestyle-sideline.jpg";
 import lifestyleQueen from "@/assets/bayonne/lifestyle/lifestyle-queen.jpg";
+import performanceMaleHero from "@/assets/bayonne/fall001/performance-male-hero.webp";
 
 export const CRESTS = {
   primary: boxingBee,
@@ -90,12 +91,12 @@ export const SURFACES = {
   landingHero: LIFESTYLE.focus,
   landingMatchJersey: PLATES.jersey.front,
   landingQueenStory: LIFESTYLE.queen,
-  landingSideline: LIFESTYLE.sideline,
+  landingSideline: performanceMaleHero,
   landingPlace: LIFESTYLE.sideline,
   ogImage: LIFESTYLE.focus,
   categoryHero: {
     match: PLATES.jersey.front,
-    sideline: PLATES["ls-jersey"].front,
+    sideline: performanceMaleHero,
     warmups: PLATES["heritage-tee-black"].front,
     alumni: PLATES["aop-hat"].front,
   },
