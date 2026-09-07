@@ -1,24 +1,22 @@
 import type { KitConfig } from "../kit";
 
 /**
- * Bayonne Bees — Team Customs kit.
+ * Bayonne Athletics — Fall 001.
  *
- * Launch checklist (print partner → Shopify → configurator):
- * 1. Print partner: Jersey / Shorts / Full Set (Garnet/Black), Name + Number personalization ON
- * 2. Sync those products to Shopify into collection "Team Customs"
- * 3. Publish with handles below (or paste static variant IDs into shopify.*Variants)
- * 4. Keep this configurator as the only ATC path for customizable Team Customs SKUs
- * 5. Ops: each paid order → fulfillment → apply Name/Number from Shopify properties → fulfill
+ * Commerce rule:
+ * - Heritage Jersey base: $78
+ * - Heritage Jersey personalized: $98 (separate Shopify price/variant required)
+ * - Match Short: $48
+ * - Match Set: $118
  *
- * Full listing map + placement guide: docs/LISTING_MAP.md
- * Until catalog sync is live, variant maps stay empty and checkout stays locked.
+ * The storefront blocks personalized checkout until the $98 commerce variant is
+ * synced, preventing a custom jersey from being charged at the $78 base price.
  */
 export const BAYONNE_BEES_KIT: KitConfig = {
   slug: "bayonne-bees",
-  teamName: "Bayonne Bees",
+  teamName: "Bayonne Athletics",
   sport: "football",
   status: "live",
-  // Explicit ISO — do not use Date.now() here (build-time bake closes the store).
   closesAt: "2026-09-15T03:59:59.000Z",
   seasonYear: 2026,
   colorway: {
@@ -34,22 +32,15 @@ export const BAYONNE_BEES_KIT: KitConfig = {
     name: { fill: "#F4F1F0", outline: "#5A1626", outlineWidth: 2 },
   },
   rules: { nameMaxChars: 12, numberMin: 0, numberMax: 99 },
-  /** owayo F6/FP6 Hero retail — see docs/OWAYO_F6_HERO.md / src/catalog/pricing.ts */
-  pricing: { top: 115, bottom: 73, set: 188, currency: "USD" },
+  pricing: { top: 78, bottom: 48, set: 118, currency: "USD" },
   mode: "both",
   shopify: {
     domain: "https://noparade-store.com",
-    /** Shopify product handles. Size maps resolve from these at load time. */
     productHandles: {
-      top: "bayonne-bees-jersey",
-      bottom: "bayonne-bees-shorts",
-      set: "bayonne-bees-full-set",
+      top: "bayonne-1936-heritage-jersey",
+      bottom: "bayonne-match-short",
+      set: "bayonne-1936-match-set",
     },
-    /**
-     * Optional hardcoded Shopify variant IDs (size → id).
-     * When non-empty, these win over handle resolve.
-     * Leave empty until catalog sync; paste IDs here if handles differ.
-     */
     topVariants: {},
     bottomVariants: {},
     setVariants: {},

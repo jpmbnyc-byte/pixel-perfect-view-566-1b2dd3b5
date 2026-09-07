@@ -1,14 +1,8 @@
 /**
- * Shopify storefront helpers for Team Customs.
+ * Shopify storefront helpers for Bayonne Athletics.
  *
  * Order path:
- *   Configurator → POST {domain}/cart/add (variant + properties)
- *   → Shopify Checkout → paid order → fulfillment sync
- *   → ops / personalizer applies Name + Number from line properties → print
- *
- * Products must be print-partner → Shopify synced.
- * Shopify-only products never trigger print fulfillment.
- * Listing map: docs/LISTING_MAP.md
+ *   Configurator → Shopify cart/add → Checkout → fulfillment.
  */
 
 import type { Item, KitConfig, Size } from "./kit";
@@ -16,7 +10,6 @@ import { SIZES } from "./kit";
 
 const SIZE_SET = new Set<string>(SIZES);
 
-/** Prefer personalization-capable style options when a product has Style + Size. */
 const PERSONALIZATION_STYLE_HINTS = [
   "custom name + number",
   "custom name",
@@ -35,7 +28,7 @@ type ShopifyJsVariant = {
   option3: string | null;
   sku: string | null;
   available: boolean;
-  price: number; // cents
+  price: number;
 };
 
 type ShopifyJsProduct = {
@@ -62,11 +55,8 @@ function normalizeSize(raw: string | null | undefined): Size | null {
   const cleaned = raw.trim().toUpperCase().replace(/\s+/g, "");
   if (SIZE_SET.has(cleaned)) return cleaned as Size;
   const aliases: Record<string, Size> = {
-    XXS: "2XS",
     "2X": "2XL",
     XXL: "2XL",
-    XXXL: "3XL",
-    "3X": "3XL",
   };
   return aliases[cleaned] ?? null;
 }
@@ -115,10 +105,6 @@ function optionAt(v: ShopifyJsVariant, idx: 1 | 2 | 3) {
   return v.option3;
 }
 
-/**
- * Map Shopify product variants → size → variant id string.
- * Prefers personalization-capable styles; skips blank/non-custom styles when alternatives exist.
- */
 export function variantMapFromProduct(product: ShopifyJsProduct): Partial<Record<Size, string>> {
   const sizeIdx = sizeOptionIndex(product);
   const styleIdx = styleOptionIndex(product, sizeIdx);
@@ -172,14 +158,9 @@ function hasAnyVariants(map: Partial<Record<Size, string>> | undefined) {
 function dollarsFromProduct(product: ShopifyJsProduct | null) {
   const first = product?.variants?.[0];
   if (!first) return null;
-  // Shopify .js prices are in cents
   return Math.round(first.price / 100);
 }
 
-/**
- * Resolve size→variant maps for a kit.
- * Static maps in kit config win; otherwise fetch synced products by handle.
- */
 export async function resolveKitShopify(kit: KitConfig): Promise<{
   kit: KitConfig;
   sync: ShopifySyncStatus;
@@ -230,7 +211,6 @@ export async function resolveKitShopify(kit: KitConfig): Promise<{
   };
 }
 
-/** Classic Shopify cart/add endpoint (cross-origin form POST → checkout). */
 export function cartAddAction(domain: string) {
   return `${domain.replace(/\/$/, "")}/cart/add`;
 }

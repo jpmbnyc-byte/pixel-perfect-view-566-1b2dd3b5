@@ -13,23 +13,10 @@ import {
   type CategoryId,
 } from "@/lib/catalog";
 import { countdownParts, type KitConfig } from "@/lib/kit";
-import { isNameable } from "@/media/campaignAssets";
 import { shopifySynced, type ShopifySyncStatus } from "@/lib/shopify";
-import {
-  MATCH_DEPARTMENT_COPY,
-  STORE_INTRO_COPY,
-  departmentLine,
-  matchCopyFor,
-} from "@/copy/match";
-import {
-  ALUMNI_DEPARTMENT_COPY,
-  SIDELINE_DEPARTMENT_COPY,
-  heritageCopyFor,
-} from "@/copy/heritage";
 
 export const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
 
-/** Typed paths for department routes (Tier 2). */
 export const DEPARTMENT_TO: Record<
   CategoryId,
   "/team/$slug/match" | "/team/$slug/sideline" | "/team/$slug/warmups" | "/team/$slug/alumni"
@@ -40,15 +27,19 @@ export const DEPARTMENT_TO: Record<
   alumni: "/team/$slug/alumni",
 };
 
+const FEATURED_BY_CATEGORY: Record<CategoryId, string> = {
+  match: "jersey",
+  sideline: "ls-jersey",
+  warmups: "heritage-tee-black",
+  alumni: "nb-runner",
+};
+
 function productAction(p: CatalogProduct) {
-  const match = matchCopyFor(p.id);
-  if (match) return match.cta.replace(/\s*→\s*$/, "");
-  const heritage = heritageCopyFor(p.id);
-  if (heritage) return heritage.cta.replace(/\s*→\s*$/, "");
-  if (p.typography && p.nameNumber) return "Make it yours";
-  if (p.sizeChart === "hat") return "Choose size";
-  if (p.previewPair === "front-side") return "See front + side";
-  return "View";
+  if (p.nameNumber) return "Customize jersey";
+  if (p.sizeChart === "shoe") return "Choose your pair";
+  if (p.sizeChart === "hat") return "View club good";
+  if (p.sizeChart === "sock") return "View club sock";
+  return "View product";
 }
 
 type Props = {
@@ -57,24 +48,19 @@ type Props = {
   sync: ShopifySyncStatus;
 };
 
-/**
- * Luxury editorial store — high-key studio plates, hairline chrome,
- * quiet category rail. Departments are real routes (see DEPARTMENT_TO).
- */
 export function TeamStorePage({ category, kit, sync }: Props) {
   const [nameableOnly, setNameableOnly] = useState(false);
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
   const catalogReady = shopifySynced(sync);
-  const featuredJersey = productById("jersey");
-  const featuredHeritage = productById("heritage-tee-garnet");
-  const featuredCrestCap = productById("aop-hat");
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
   const products = useMemo(() => {
     const list = productsInCategory(category);
-    return nameableOnly ? list.filter(isNameable) : list;
+    return nameableOnly ? list.filter((p) => p.nameNumber) : list;
   }, [category, nameableOnly]);
+
+  const featured = productById(FEATURED_BY_CATEGORY[category]);
 
   return (
     <main className="studio-field mx-auto min-h-screen w-full max-w-[720px] pb-24 text-ink">
@@ -103,7 +89,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           />
           <div className="min-w-0">
             <h1 className="type-campaign-tight text-[clamp(2rem,9vw,3.2rem)] text-ink">BAYONNE</h1>
-            <p className="place-line mt-3">Team Customs · {kit.colorway.name}</p>
+            <p className="place-line mt-3">Athletics · 07002 · Fall 001</p>
           </div>
         </div>
 
@@ -112,11 +98,12 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           <span className="tip-asymmetric-b" />
         </div>
 
-        <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">{STORE_INTRO_COPY.title}</p>
-        <p className="mt-4 max-w-md whitespace-pre-line text-sm leading-relaxed text-ink/60">
-          {STORE_INTRO_COPY.body}
+        <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">
+          Performance apparel, club goods and one jersey made personal.
         </p>
-        <p className="place-line mt-5 text-ink/45">{STORE_INTRO_COPY.lockup}</p>
+        <p className="mt-4 max-w-md text-sm leading-relaxed text-ink/60">
+          Bayonne Athletics is built for movement — training, travel, daily wear and the city that gives the collection its name. The 1936 Heritage Jersey is the only customizable piece; the rest of Fall 001 stays fixed and intentional.
+        </p>
       </header>
 
       {!catalogReady && (
@@ -124,23 +111,22 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           className="border-y border-ink/10 px-6 py-3 text-sm leading-snug text-ink/60 sm:px-10"
           role="status"
         >
-          Design every piece now. Checkout unlocks when listings are ready. Refresh this page when
-          you’re set to order.
+          Product design and sizing are live. Checkout activates as synced listings become available.
         </div>
       )}
 
-      {featuredJersey && !closed && category === "match" && (
+      {featured && !closed && (
         <section className="px-6 sm:px-10">
           <Link
             to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: featuredJersey.id }}
+            params={{ slug: kit.slug, product: featured.id }}
             className="group block focus-ring"
           >
             <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
-              <NameableFlag />
+              {featured.nameNumber && <NameableFlag />}
               <img
-                src={featuredJersey.thumb}
-                alt={`${featuredJersey.name}, front view`}
+                src={featured.thumb}
+                alt={`${featured.name}, featured view`}
                 width={800}
                 height={1000}
                 className="h-full w-full object-contain motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
@@ -148,89 +134,23 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             </div>
             <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
               <div>
-                <p className="place-line">Featured · Match</p>
-                <h2 className="type-campaign mt-2 text-2xl text-ink">{featuredJersey.name}</h2>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
-                  {matchCopyFor(featuredJersey.id)?.card ?? featuredJersey.blurb}
-                </p>
+                <p className="place-line">Featured · {active.label}</p>
+                <h2 className="type-campaign mt-2 text-2xl text-ink">{featured.name}</h2>
+                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">{featured.blurb}</p>
               </div>
-              <span className="font-sans text-xl tabular-nums text-ink">${featuredJersey.price}</span>
+              <span className="font-sans text-xl tabular-nums text-ink">
+                {featured.personalizedPrice
+                  ? `$${featured.price} / $${featured.personalizedPrice}`
+                  : `$${featured.price}`}
+              </span>
             </div>
-            <p className="place-line mt-4 pb-2 text-garnet">
-              Make it yours · ${featuredJersey.price} →
-            </p>
-          </Link>
-        </section>
-      )}
-
-      {featuredHeritage && !closed && category === "alumni" && (
-        <section className="px-6 sm:px-10">
-          <Link
-            to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: featuredHeritage.id }}
-            className="group block focus-ring"
-          >
-            <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
-              <img
-                src={featuredHeritage.thumb}
-                alt={`${featuredHeritage.name}, front view`}
-                width={800}
-                height={1000}
-                className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
-              />
-            </div>
-            <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
-              <div>
-                <p className="place-line">Featured · Alumni</p>
-                <h2 className="type-campaign mt-2 text-2xl text-ink">{featuredHeritage.name}</h2>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
-                  {heritageCopyFor(featuredHeritage.id)?.card ?? featuredHeritage.blurb}
-                </p>
-              </div>
-              <span className="font-sans text-xl tabular-nums text-ink">${featuredHeritage.price}</span>
-            </div>
-            <p className="place-line mt-4 pb-2 text-garnet">
-              {heritageCopyFor(featuredHeritage.id)?.cta ?? `View · $${featuredHeritage.price} →`}
-            </p>
-          </Link>
-        </section>
-      )}
-
-      {featuredCrestCap && !closed && category === "sideline" && (
-        <section className="px-6 sm:px-10">
-          <Link
-            to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: featuredCrestCap.id }}
-            className="group block focus-ring"
-          >
-            <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
-              <img
-                src={featuredCrestCap.thumb}
-                alt={`${featuredCrestCap.name}, front view`}
-                width={800}
-                height={1000}
-                className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
-              />
-            </div>
-            <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
-              <div>
-                <p className="place-line">Featured · Sideline</p>
-                <h2 className="type-campaign mt-2 text-2xl text-ink">{featuredCrestCap.name}</h2>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
-                  {heritageCopyFor(featuredCrestCap.id)?.card ?? featuredCrestCap.blurb}
-                </p>
-              </div>
-              <span className="font-sans text-xl tabular-nums text-ink">${featuredCrestCap.price}</span>
-            </div>
-            <p className="place-line mt-4 pb-2 text-garnet">
-              {heritageCopyFor(featuredCrestCap.id)?.cta ?? `Choose size · $${featuredCrestCap.price} →`}
-            </p>
+            <p className="place-line mt-4 pb-2 text-garnet">{productAction(featured)} →</p>
           </Link>
         </section>
       )}
 
       <section className="px-6 pt-12 sm:px-10">
-        <p className="place-line">Departments</p>
+        <p className="place-line">Shop</p>
         <div
           className="mt-5 flex gap-2 overflow-x-auto border-b border-ink/10 pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           role="tablist"
@@ -255,41 +175,9 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             );
           })}
         </div>
-        {category === "match" ? (
-          <>
-            <p className="place-line mt-6 text-garnet">{MATCH_DEPARTMENT_COPY.line}</p>
-            <p className="type-editorial mt-3 max-w-md text-base text-ink/65">
-              {MATCH_DEPARTMENT_COPY.title}
-            </p>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
-              {MATCH_DEPARTMENT_COPY.body}
-            </p>
-          </>
-        ) : category === "alumni" ? (
-          <>
-            <p className="place-line mt-6 text-garnet">{ALUMNI_DEPARTMENT_COPY.line}</p>
-            <p className="type-editorial mt-3 max-w-md text-base text-ink/65">
-              {ALUMNI_DEPARTMENT_COPY.title}
-            </p>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
-              {ALUMNI_DEPARTMENT_COPY.body}
-            </p>
-          </>
-        ) : category === "sideline" ? (
-          <>
-            <p className="place-line mt-6 text-garnet">{SIDELINE_DEPARTMENT_COPY.line}</p>
-            <p className="type-editorial mt-3 max-w-md text-base text-ink/65">
-              {SIDELINE_DEPARTMENT_COPY.title}
-            </p>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/55">
-              {SIDELINE_DEPARTMENT_COPY.body}
-            </p>
-          </>
-        ) : (
-          <p className="type-editorial mt-6 max-w-md text-base text-ink/65">
-            {departmentLine(category)}
-          </p>
-        )}
+
+        <p className="type-editorial mt-6 max-w-md text-base text-ink/65">{active.description}</p>
+
         <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
           <input
             type="checkbox"
@@ -297,7 +185,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             onChange={(e) => setNameableOnly(e.target.checked)}
             className="size-5 accent-[var(--garnet)] focus-ring"
           />
-          Can be personalized
+          Customizable jersey only
         </label>
       </section>
 
@@ -320,16 +208,13 @@ export function TeamStorePage({ category, kit, sync }: Props) {
       <section>
         {products.length === 0 ? (
           <div className="border-y border-ink/10 px-6 py-16 text-center sm:px-10" role="status">
-            <p className="type-editorial text-lg text-ink/70">No pieces in this filter.</p>
-            <p className="mt-3 text-sm text-ink/50">
-              Clear “Can be personalized,” or switch department.
-            </p>
+            <p className="type-editorial text-lg text-ink/70">The Heritage Jersey lives in 1936 Match.</p>
             <button
               type="button"
               className="place-line tap-44 mt-6 inline-flex items-center text-garnet focus-ring"
               onClick={() => setNameableOnly(false)}
             >
-              Clear filter
+              Show all {active.label}
             </button>
           </div>
         ) : (
@@ -342,35 +227,28 @@ export function TeamStorePage({ category, kit, sync }: Props) {
                   className="group block px-6 py-8 focus-ring sm:px-10"
                 >
                   <div className="relative">
-                    {isNameable(p) && <NameableFlag />}
+                    {p.nameNumber && <NameableFlag />}
                     <ProductCardMedia product={p} />
                   </div>
                   <div className="mt-5 flex items-start justify-between gap-3">
-                    <h3 className="type-campaign text-xl text-ink">{p.name}</h3>
-                    <span className="shrink-0 font-sans text-lg tabular-nums text-ink">${p.price}</span>
+                    <div>
+                      <h3 className="type-campaign text-xl text-ink">{p.name}</h3>
+                      <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/55">{p.blurb}</p>
+                      {p.sizeChart === "apparel" && (
+                        <p className="place-line mt-3 text-ink/40">S · M · L · XL · 2XL</p>
+                      )}
+                    </div>
+                    <span className="shrink-0 font-sans text-lg tabular-nums text-ink">
+                      {p.personalizedPrice ? `$${p.price}+` : `$${p.price}`}
+                    </span>
                   </div>
-                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
-                    {matchCopyFor(p.id)?.card ?? heritageCopyFor(p.id)?.card ?? p.blurb}
-                  </p>
-                  <p className="place-line mt-4 text-garnet">
-                    {productAction(p)} · ${p.price} →
-                  </p>
+                  <p className="place-line mt-5 text-garnet">{productAction(p)} →</p>
                 </Link>
               </li>
             ))}
           </ul>
         )}
       </section>
-
-      <aside className="px-6 pt-14 sm:px-10">
-        <p className="place-line">A note · Hudson County</p>
-        <p className="type-editorial mt-4 max-w-md text-lg text-ink/70">
-          Some stories stay off the hangers. The crest we drew for the girls is one of them.
-        </p>
-        <p className="mt-6 text-sm leading-relaxed text-ink/45">
-          Avenue A · Bayonne · Garnet since 1936.
-        </p>
-      </aside>
     </main>
   );
 }

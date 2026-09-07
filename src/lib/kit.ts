@@ -1,43 +1,27 @@
 /**
  * SINGLE GEOMETRY SOURCE (§9.1)
- * Every consumer — the live preview, the shared-image export, and (later) the
- * print file — reads placement from here. Nothing re-implements these numbers.
- * All placements are percentages of the mockup image, so they are resolution
- * invariant.
+ * Every consumer — the live preview, shared-image export and print file —
+ * reads placement from here.
  */
 
-export type Size = "2XS" | "XS" | "S" | "M" | "L" | "XL" | "2XL" | "3XL";
+export type Size = "S" | "M" | "L" | "XL" | "2XL";
 export type Item = "top" | "bottom" | "set";
 
-export const SIZES: Size[] = ["2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL"];
+/** Bayonne Athletics active apparel size run. */
+export const SIZES: Size[] = ["S", "M", "L", "XL", "2XL"];
 
-/**
- * Back-panel lettering zones, as % of the mockup / print template.
- * Locked to the AVENUE A · 36 on-body reference:
- *   name — slight upward arch, shoulder-blade span
- *   number — large, centered below, ~central third of the torso
- * Products with different framing override via catalog.lettering.
- * Live preview also optically centers glyph ink (Forge and similar have right-biased bearings).
- */
 export type LetteringLayout = {
   centerX: number;
   name: {
     y: number;
     heightPct: number;
     maxWidthPct: number;
-    /** Degrees of end-to-end upward arch. Locked to 0 — name prints as one flat row. */
     archDeg?: number;
   };
   number: { y: number; heightPct: number; maxWidthPct: number };
-  /** Black mesh / dark field — stronger white lettering contrast */
   surface: "garnet" | "blackout";
 };
 
-/**
- * Match jersey — owayo F6 Hero plate: narrow crew ringer bottom ≈17%, hem ≈85%,
- * torso center x ≈49.3%. Continuous BAYONNE chest band (no placket interrupt).
- * Name sits below the collar band; number fills the upper-mid back panel.
- */
 export const LETTERING: LetteringLayout = {
   centerX: 49.3,
   name: { y: 20.5, heightPct: 5, maxWidthPct: 46, archDeg: 0 },
@@ -45,7 +29,6 @@ export const LETTERING: LetteringLayout = {
   surface: "garnet",
 };
 
-/** Full kit set — shirt occupies ≈12–64% of the plate, so the block sits higher and shorter. */
 export const LETTERING_SET: LetteringLayout = {
   centerX: 50,
   name: { y: 18.5, heightPct: 4.4, maxWidthPct: 42, archDeg: 0 },
@@ -53,7 +36,6 @@ export const LETTERING_SET: LetteringLayout = {
   surface: "garnet",
 };
 
-/** Hoops tank — no collar, shoulders ≈10%, hem ≈88%; torso center runs ≈51%. */
 export const LETTERING_HOOPS: LetteringLayout = {
   centerX: 51.2,
   name: { y: 18, heightPct: 5, maxWidthPct: 42, archDeg: 0 },
@@ -61,7 +43,6 @@ export const LETTERING_HOOPS: LetteringLayout = {
   surface: "blackout",
 };
 
-/** Jersey dress — narrow torso (≈33% wide at the waist), longer silhouette. */
 export const LETTERING_DRESS: LetteringLayout = {
   centerX: 49.5,
   name: { y: 16.5, heightPct: 4.2, maxWidthPct: 36, archDeg: 0 },
@@ -69,7 +50,6 @@ export const LETTERING_DRESS: LetteringLayout = {
   surface: "garnet",
 };
 
-/** Long-sleeve — collar bottom ≈21%, hem ≈84%; whole block drops. */
 export const LETTERING_LS: LetteringLayout = {
   centerX: 50,
   name: { y: 24, heightPct: 5, maxWidthPct: 46, archDeg: 0 },
@@ -83,7 +63,6 @@ export type KitConfig = {
   sport: string;
   status: "draft" | "live" | "closed";
   closesAt: string;
-  /** Calendar season stamped inside the collar and carried on the order. */
   seasonYear: number;
   colorway: { base: string; gesture: string; trim: string; name: string };
   font: {
@@ -97,7 +76,6 @@ export type KitConfig = {
   mode: "both" | "top_only" | "bottom_only";
   shopify: {
     domain: string;
-    /** Expected Shopify product handles used to auto-resolve size→variant IDs. */
     productHandles?: Partial<Record<Item, string>>;
     topVariants: Partial<Record<Size, string>>;
     bottomVariants: Partial<Record<Size, string>>;
@@ -106,14 +84,11 @@ export type KitConfig = {
 };
 
 export const SIZE_CHART: { size: Size; chest: string; length: string }[] = [
-  { size: "2XS", chest: '30–32"', length: '25"' },
-  { size: "XS", chest: '33–35"', length: '26"' },
   { size: "S", chest: '36–38"', length: '27"' },
   { size: "M", chest: '39–41"', length: '28"' },
   { size: "L", chest: '42–44"', length: '29"' },
   { size: "XL", chest: '45–47"', length: '30"' },
   { size: "2XL", chest: '48–50"', length: '31"' },
-  { size: "3XL", chest: '51–53"', length: '32"' },
 ];
 
 export function variantIdFor(kit: KitConfig, item: Item, size: Size) {
@@ -135,8 +110,6 @@ export function priceFor(kit: KitConfig, item: Item) {
 }
 
 export function sanitizeName(raw: string, maxChars: number) {
-  // NFC + uppercase; keep letters (incl. diacritics), spaces, hyphen, apostrophe.
-  // Bayonne names use all three — never strip é/ñ or O'Brien / Anne-Marie.
   return raw
     .normalize("NFC")
     .toLocaleUpperCase("und")
@@ -148,7 +121,6 @@ export function sanitizeNumber(raw: string) {
   return raw.replace(/\D/g, "").slice(0, 2);
 }
 
-/** §6 — self-describing art spec carried on the Shopify order. */
 export function buildArtSpec(args: {
   kit: KitConfig;
   item: Item;

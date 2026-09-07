@@ -1,14 +1,8 @@
 /**
  * Tier 1 campaign shot modules — imported once, resolved via media/campaignAssets.
- * Do not import these jpg paths from routes directly.
+ * Do not import these image paths from routes directly.
  */
 
-import jerseyFront from "@/assets/bayonne/campaign/jersey-front.jpg";
-import jerseyTq from "@/assets/bayonne/campaign/jersey-three-quarter.jpg";
-import jerseyBack from "@/assets/bayonne/campaign/jersey-back.jpg";
-import lsFront from "@/assets/bayonne/campaign/ls-front.jpg";
-import lsTq from "@/assets/bayonne/campaign/ls-three-quarter.jpg";
-import lsBack from "@/assets/bayonne/campaign/ls-back.jpg";
 import hoopsFront from "@/assets/bayonne/campaign/hoops-front.jpg";
 import hoopsTq from "@/assets/bayonne/campaign/hoops-three-quarter.jpg";
 import hoopsBack from "@/assets/bayonne/campaign/hoops-back.jpg";
@@ -18,7 +12,6 @@ import dressBack from "@/assets/bayonne/campaign/dress-back.jpg";
 import shortsFront from "@/assets/bayonne/campaign/shorts-front.jpg";
 import shortsTq from "@/assets/bayonne/campaign/shorts-three-quarter.jpg";
 import shortsBack from "@/assets/bayonne/campaign/shorts-back.jpg";
-import geoShortsFront from "@/assets/bayonne/campaign/geo-shorts-front.jpg";
 import crewFront from "@/assets/bayonne/campaign/crew-front.jpg";
 import qzipFront from "@/assets/bayonne/campaign/qzip-front.jpg";
 import heritageTeeGarnetFront from "@/assets/bayonne/campaign/heritage-tee-garnet-front.jpg";
@@ -26,8 +19,13 @@ import heritageTeeGarnetBack from "@/assets/bayonne/campaign/heritage-tee-garnet
 import heritageTeeBlackFront from "@/assets/bayonne/campaign/heritage-tee-black-front.jpg";
 import heritageTeeBlackBack from "@/assets/bayonne/campaign/heritage-tee-black-back.jpg";
 import baggySweatsGarnetFront from "@/assets/bayonne/campaign/baggy-sweats-garnet-front.jpg";
-import baggySweatsBlackFront from "@/assets/bayonne/campaign/baggy-sweats-black-front.jpg";
 import crestCapFront from "@/assets/bayonne/campaign/crest-cap-front.jpg";
+
+// Fall 001 uploaded source-of-truth imagery.
+import performanceMaleHero from "@/assets/bayonne/fall001/performance-male-hero.webp";
+import performanceMaleBack from "@/assets/bayonne/fall001/performance-male-back.webp";
+import heritageJerseyModelFront from "@/assets/bayonne/fall001/heritage-jersey-model-front.webp";
+import heritageJerseyModelBack from "@/assets/bayonne/fall001/heritage-jersey-model-back.webp";
 
 import type { CampaignView } from "@/tokens/campaign";
 
@@ -38,21 +36,35 @@ export type CampaignViewMap = Partial<Record<CampaignView, string>> & {
 
 /** Storefront product id → campaign views */
 export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
+  // 1936 Match — uploaded custom jersey presentation is the visual source of truth.
+  // Until the remaining exact angle is committed, the approved front frame fills
+  // the front and 3/4 slots so the custom-lettering view contract stays intact.
   jersey: {
-    front: jerseyFront,
-    "three-quarter": jerseyTq,
-    back: jerseyBack,
+    front: heritageJerseyModelFront,
+    "three-quarter": heritageJerseyModelFront,
+    back: heritageJerseyModelBack,
   },
   "full-set": {
-    front: jerseyFront,
-    "three-quarter": jerseyTq,
-    back: jerseyBack,
+    front: heritageJerseyModelFront,
+    "three-quarter": heritageJerseyModelFront,
+    back: heritageJerseyModelBack,
   },
+
+  // Performance capsule — uploaded male fit imagery replaces legacy stand-ins.
+  // The back frame also documents the ST485 horizontal rear zip pocket.
   "ls-jersey": {
-    front: lsFront,
-    "three-quarter": lsTq,
-    back: lsBack,
+    front: performanceMaleHero,
+    back: performanceMaleBack,
   },
+  "geo-shorts": {
+    front: performanceMaleHero,
+    back: performanceMaleBack,
+  },
+  "baggy-sweats-black": {
+    front: performanceMaleHero,
+    back: performanceMaleBack,
+  },
+
   "hoops-jersey": {
     front: hoopsFront,
     "three-quarter": hoopsTq,
@@ -68,7 +80,6 @@ export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
     "three-quarter": shortsTq,
     back: shortsBack,
   },
-  "geo-shorts": { front: geoShortsFront },
   crewneck: { front: crewFront },
   "quarter-zip": { front: qzipFront },
   "heritage-tee-garnet": {
@@ -80,7 +91,6 @@ export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
     back: heritageTeeBlackBack,
   },
   "baggy-sweats-garnet": { front: baggySweatsGarnetFront },
-  "baggy-sweats-black": { front: baggySweatsBlackFront },
   "aop-hat": { front: crestCapFront },
 };
 
