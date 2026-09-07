@@ -5,8 +5,6 @@
  * into the asset folders directly.
  */
 
-import jerseyFront from "@/assets/bayonne/previews/jersey-front.jpg";
-import jerseyBack from "@/assets/bayonne/previews/jersey-back.jpg";
 import shortsFront from "@/assets/bayonne/previews/shorts-front.jpg";
 import shortsSide from "@/assets/bayonne/previews/shorts-side.jpg";
 import setFront from "@/assets/bayonne/previews/set-front.jpg";
@@ -17,12 +15,8 @@ import dressFront from "@/assets/bayonne/previews/dress-front.jpg";
 import dressBack from "@/assets/bayonne/previews/dress-back.jpg";
 import crewFront from "@/assets/bayonne/previews/crew-front.jpg";
 import crewSide from "@/assets/bayonne/previews/crew-side.jpg";
-import lsFront from "@/assets/bayonne/previews/ls-front.jpg";
-import lsBack from "@/assets/bayonne/previews/ls-back.jpg";
 import qzipFront from "@/assets/bayonne/previews/qzip-front.jpg";
 import qzipBack from "@/assets/bayonne/previews/qzip-back.jpg";
-import geoShortsFront from "@/assets/bayonne/previews/geo-shorts-front.jpg";
-import geoShortsSide from "@/assets/bayonne/previews/geo-shorts-side.jpg";
 import hatFront from "@/assets/bayonne/previews/hat-front.jpg";
 import hatSide from "@/assets/bayonne/previews/hat-side.jpg";
 import sweatsFront from "@/assets/bayonne/previews/sweats-front.jpg";
@@ -33,8 +27,6 @@ import heritageTeeBlackFront from "@/assets/bayonne/previews/heritage-tee-black-
 import heritageTeeBlackBack from "@/assets/bayonne/previews/heritage-tee-black-back.jpg";
 import baggySweatsGarnetFront from "@/assets/bayonne/previews/baggy-sweats-garnet-front.jpg";
 import baggySweatsGarnetSide from "@/assets/bayonne/previews/baggy-sweats-garnet-side.jpg";
-import baggySweatsBlackFront from "@/assets/bayonne/previews/baggy-sweats-black-front.jpg";
-import baggySweatsBlackSide from "@/assets/bayonne/previews/baggy-sweats-black-side.jpg";
 
 import boxingBee from "@/assets/bayonne/spirit/boxing-bee.png";
 import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
