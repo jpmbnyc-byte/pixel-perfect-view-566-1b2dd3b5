@@ -3,9 +3,6 @@
  * Do not import these image paths from routes directly.
  */
 
-import jerseyFront from "@/assets/bayonne/campaign/jersey-front.jpg";
-import jerseyTq from "@/assets/bayonne/campaign/jersey-three-quarter.jpg";
-import jerseyBack from "@/assets/bayonne/campaign/jersey-back.jpg";
 import hoopsFront from "@/assets/bayonne/campaign/hoops-front.jpg";
 import hoopsTq from "@/assets/bayonne/campaign/hoops-three-quarter.jpg";
 import hoopsBack from "@/assets/bayonne/campaign/hoops-back.jpg";
@@ -27,6 +24,8 @@ import crestCapFront from "@/assets/bayonne/campaign/crest-cap-front.jpg";
 // Fall 001 uploaded source-of-truth imagery.
 import performanceMaleHero from "@/assets/bayonne/fall001/performance-male-hero.webp";
 import performanceMaleBack from "@/assets/bayonne/fall001/performance-male-back.webp";
+import heritageJerseyModelFront from "@/assets/bayonne/fall001/heritage-jersey-model-front.webp";
+import heritageJerseyModelBack from "@/assets/bayonne/fall001/heritage-jersey-model-back.webp";
 
 import type { CampaignView } from "@/tokens/campaign";
 
@@ -37,18 +36,21 @@ export type CampaignViewMap = Partial<Record<CampaignView, string>> & {
 
 /** Storefront product id → campaign views */
 export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
+  // 1936 Match — uploaded custom jersey presentation is the visual source of truth.
+  // Until the remaining exact angle is committed, the approved front frame fills
+  // the front and 3/4 slots so the custom-lettering view contract stays intact.
   jersey: {
-    front: jerseyFront,
-    "three-quarter": jerseyTq,
-    back: jerseyBack,
+    front: heritageJerseyModelFront,
+    "three-quarter": heritageJerseyModelFront,
+    back: heritageJerseyModelBack,
   },
   "full-set": {
-    front: jerseyFront,
-    "three-quarter": jerseyTq,
-    back: jerseyBack,
+    front: heritageJerseyModelFront,
+    "three-quarter": heritageJerseyModelFront,
+    back: heritageJerseyModelBack,
   },
 
-  // Performance capsule — uploaded male fit imagery now replaces legacy stand-ins.
+  // Performance capsule — uploaded male fit imagery replaces legacy stand-ins.
   // The back frame also documents the ST485 horizontal rear zip pocket.
   "ls-jersey": {
     front: performanceMaleHero,
