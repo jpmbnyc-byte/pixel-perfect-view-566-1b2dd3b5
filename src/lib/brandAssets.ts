@@ -41,7 +41,12 @@ import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
 import lifestyleFocus from "@/assets/bayonne/lifestyle/lifestyle-focus.jpg";
 import lifestyleSideline from "@/assets/bayonne/lifestyle/lifestyle-sideline.jpg";
 import lifestyleQueen from "@/assets/bayonne/lifestyle/lifestyle-queen.jpg";
+
+// Fall 001 committed ecommerce / on-body source-of-truth imagery.
 import performanceMaleHero from "@/assets/bayonne/fall001/performance-male-hero.webp";
+import performanceMaleBack from "@/assets/bayonne/fall001/performance-male-back.webp";
+import heritageJerseyModelFront from "@/assets/bayonne/fall001/heritage-jersey-model-front.webp";
+import heritageJerseyModelBack from "@/assets/bayonne/fall001/heritage-jersey-model-back.webp";
 
 export const CRESTS = {
   primary: boxingBee,
@@ -60,21 +65,26 @@ export type PlatePair = {
 };
 
 export const PLATES = {
-  jersey: { front: jerseyFront, secondary: jerseyBack },
+  // Fall 001 exact committed imagery. Keep these aligned with CAMPAIGN_SHOTS so
+  // grid rollover/tap, PDP product mode, category surfaces and campaign mode do
+  // not drift onto legacy preview aliases.
+  jersey: { front: heritageJerseyModelFront, secondary: heritageJerseyModelBack },
+  "full-set": { front: heritageJerseyModelFront, secondary: heritageJerseyModelBack },
+  "ls-jersey": { front: performanceMaleHero, secondary: performanceMaleBack },
+  "geo-shorts": { front: performanceMaleHero, secondary: performanceMaleBack },
+  "baggy-sweats-black": { front: performanceMaleHero, secondary: performanceMaleBack },
+
+  // Awaiting dedicated Fall 001 ecommerce stills.
   shorts: { front: shortsFront, secondary: shortsSide },
-  "full-set": { front: setFront, secondary: setBack },
   "hoops-jersey": { front: hoopsFront, secondary: hoopsBack },
   "jersey-dress": { front: dressFront, secondary: dressBack },
   "aop-hat": { front: hatFront, secondary: hatSide },
   crewneck: { front: crewFront, secondary: crewSide },
   sweatpants: { front: sweatsFront, secondary: sweatsSide },
-  "ls-jersey": { front: lsFront, secondary: lsBack },
   "quarter-zip": { front: qzipFront, secondary: qzipBack },
-  "geo-shorts": { front: geoShortsFront, secondary: geoShortsSide },
   "heritage-tee-garnet": { front: heritageTeeGarnetFront, secondary: heritageTeeGarnetBack },
   "heritage-tee-black": { front: heritageTeeBlackFront, secondary: heritageTeeBlackBack },
   "baggy-sweats-garnet": { front: baggySweatsGarnetFront, secondary: baggySweatsGarnetSide },
-  "baggy-sweats-black": { front: baggySweatsBlackFront, secondary: baggySweatsBlackSide },
 
   // Active Club Goods aliases. These keep every slot visually filled while the
   // dedicated product stills from the Bayonne image library are promoted into
