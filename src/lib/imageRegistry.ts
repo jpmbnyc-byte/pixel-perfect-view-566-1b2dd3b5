@@ -93,21 +93,33 @@ export type CanonicalProductId =
   | "heritage-jersey"
   | "match-short"
   | "match-set"
+  | "broadway-21-jersey"
+  | "broadway-club-short"
+  | "broadway-21-set"
   | "performance-ls"
   | "performance-short"
   | "mens-raglan"
   | "womens-raglan"
   | "performance-set"
+  | "field-short-grey"
+  | "field-short-bone"
   | "max-heavy-full-zip"
   | "max-heavy-sweatpant"
   | "travel-set"
   | "pique-polo"
   | "pocket-ls"
   | "field-cargo"
+  | "club-hood"
+  | "collegiate-tee"
+  | "recreation-crew"
+  | "local-issue-ls"
   | "harbor-coach"
+  | "sideline-shell"
   | "two-tone-cap"
   | "gothic-b-beanie"
   | "club-sock"
+  | "club-sock-4pk"
+  | "market-tote"
   | "nb-bbp400"
   | "nb-p400-chalk"
   | "nb-p400-volt"
@@ -134,6 +146,9 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelFront: matchJerseyKitFront,
     modelSecondary: matchJerseyStudioBall,
   },
+  "broadway-21-jersey": { pending: true },
+  "broadway-club-short": { pending: true },
+  "broadway-21-set": { pending: true },
   "performance-ls": {
     productFront: performanceLsWomen,
     productBack: performanceLsMen,
@@ -154,6 +169,8 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelFront: performanceWomenFront,
     modelSecondary: performanceMenThreeQuarter,
   },
+  "field-short-grey": { pending: true },
+  "field-short-bone": { pending: true },
   "max-heavy-full-zip": {
     productFront: maxHeavyFullZipFront,
     productBack: maxHeavyFullZipFront,
@@ -175,11 +192,16 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "pique-polo": { pending: true },
   "pocket-ls": { pending: true },
   "field-cargo": { pending: true },
+  "club-hood": { pending: true },
+  "collegiate-tee": { pending: true },
+  "recreation-crew": { pending: true },
+  "local-issue-ls": { pending: true },
   "harbor-coach": {
     productFront: harborCoachFront,
     productBack: harborCoachFront,
     modelFront: harborCoachFront,
   },
+  "sideline-shell": { pending: true },
   "two-tone-cap": {
     productFront: clubGoodsHero,
     productBack: clubGoodsHero,
@@ -198,6 +220,8 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelFront: clubSockFront,
     modelSecondary: clubSockDetail,
   },
+  "club-sock-4pk": { pending: true },
+  "market-tote": { pending: true },
   "nb-bbp400": {
     productFront: nbP400Lateral,
     productBack: nbP400Outsole,
