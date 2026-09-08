@@ -30,5 +30,7 @@ describe("storefront identity", () => {
     expect(COLLECTION_COPY.lockup).toBe("Built different.");
     expect(COLLECTION_COPY.motto).toBe("Train · Compete · Represent");
     expect(COLLECTION_COPY.standard).toBe("Athletics for a higher standard.");
+    expect(COLLECTION_COPY.place).toBe("Bayonne · 07002");
+    expect(COLLECTION_COPY.community).toBe("The city on the water. Represent.");
   });
 });

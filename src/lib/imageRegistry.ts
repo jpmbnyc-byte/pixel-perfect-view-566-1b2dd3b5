@@ -246,7 +246,7 @@ export const HERO_CROP: Record<
   keyof typeof HEROES,
   { fit: "cover" | "contain"; position: string }
 > = {
-  landing: { fit: "contain", position: "center" },
+  landing: { fit: "cover", position: "right 18%" },
   landingModel: { fit: "cover", position: "center 12%" },
   match: { fit: "contain", position: "center 12%" },
   performance: { fit: "cover", position: "center 18%" },

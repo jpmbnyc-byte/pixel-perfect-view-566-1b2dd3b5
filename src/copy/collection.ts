@@ -9,6 +9,8 @@ export const COLLECTION_COPY = {
   brand: "Bayonne Athletics",
   season: "Fall 001 · 07002",
   lockup: "Built different.",
+  place: "Bayonne · 07002",
+  community: "The city on the water. Represent.",
   standard: "Athletics for a higher standard.",
   motto: "Train · Compete · Represent",
   title: "Made for movement. Made for the city that gives the collection its name.",
