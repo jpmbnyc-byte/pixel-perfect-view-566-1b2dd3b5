@@ -205,8 +205,6 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("pocket-ls", "bayonne-pocket-long-sleeve", "Pocket Long Sleeve", "travel", 62),
   listing("field-cargo", "bayonne-field-cargo", "Field Cargo", "travel", 90),
   listing("club-hood", "bayonne-club-hood", "Club Hood", "travel", 88),
-  listing("collegiate-tee", "bayonne-collegiate-tee", "Collegiate Tee", "travel", 42),
-  listing("recreation-crew", "bayonne-recreation-crew", "Recreation Crew", "travel", 78),
   listing("local-issue-ls", "bayonne-local-issue-long-sleeve", "Local Issue Longsleeve", "travel", 54),
 
   listing("harbor-coach", "bayonne-harbor-division-hooded-coach", "Harbor Division Hooded Coach Jacket", "harbor", 98),
