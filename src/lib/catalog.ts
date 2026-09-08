@@ -216,7 +216,7 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie", "club", 34, { sizeChart: "hat" }),
   listing("club-sock", "bayonne-club-sock", "Club Sock", "club", 18, { sizeChart: "sock" }),
   listing("club-sock-4pk", "bayonne-club-sock-4-pack", "Club Sock 4-Pack", "club", 60, { sizeChart: "sock" }),
-  listing("market-tote", "bayonne-market-tote", "Market Tote", "club", 28),
+  listing("market-tote", "bayonne-market-tote", "Market Tote", "club", 28, { sizeChart: "hat" }),
   listing("nb-bbp400", "new-balance-bb-p400", "New Balance BB P400", "club", 130, { sizeChart: "shoe" }),
   listing("nb-p400-chalk", "new-balance-p400-pink-chalk", "New Balance P400", "club", 130, {
     sizeChart: "shoe",
