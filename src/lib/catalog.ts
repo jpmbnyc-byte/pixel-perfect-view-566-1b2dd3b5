@@ -86,7 +86,7 @@ export const CATEGORIES: Category[] = [
   {
     id: "harbor",
     label: "Harbor Division",
-    description: "Coach shell and fleece sweats for the waterfront — quiet fronts, garnet marks, industrial edge.",
+    description: "Coach shell, quarter-zip pullover and fleece sweats for the waterfront — quiet fronts, garnet marks, industrial edge.",
     hero: HEROES.harbor,
     heroFit: HERO_CROP.harbor.fit,
     heroPosition: HERO_CROP.harbor.position,
@@ -208,6 +208,7 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("local-issue-ls", "bayonne-local-issue-long-sleeve", "Local Issue Longsleeve", "travel", 54),
 
   listing("harbor-coach", "bayonne-harbor-division-hooded-coach", "Harbor Division Hooded Coach Jacket", "harbor", 98),
+  listing("harbor-pullover", "bayonne-harbor-division-pullover", "Harbor Division Pullover", "harbor", 88),
   listing("harbor-sweatpant-black", "bayonne-harbor-sweatpant-black", "Harbor Sweatpant — Black / Garnet", "harbor", 88),
   listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 88),
 
@@ -253,7 +254,10 @@ export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
   "performance-ls",
   "performance-short",
   "travel-set",
+  "max-heavy-full-zip",
+  "max-heavy-sweatpant",
   "harbor-coach",
+  "harbor-pullover",
   "harbor-sweatpant-grey",
   "two-tone-cap",
   "gothic-b-beanie",

@@ -4,12 +4,17 @@ import { IMAGE_REGISTRY } from "@/lib/imageRegistry";
 import { sourceForProduct } from "@/lib/productSources";
 
 describe("Fall 001 assortment", () => {
-  it("locks 36 live listings including Harbor Division at $98", () => {
-    expect(PRODUCTS).toHaveLength(36);
+  it("locks 37 live listings including Harbor Division at $98", () => {
+    expect(PRODUCTS).toHaveLength(37);
     const harbor = productById("harbor-coach")!;
     expect(harbor.name).toBe("Harbor Division Hooded Coach Jacket");
     expect(harbor.price).toBe(98);
     expect(harbor.category).toBe("harbor");
+    const pullover = productById("harbor-pullover")!;
+    expect(pullover.name).toBe("Harbor Division Pullover");
+    expect(pullover.price).toBe(88);
+    expect(pullover.category).toBe("harbor");
+    expect(pullover.imageryPending).toBe(false);
   });
 
   it("keeps the full Bayonne product system in the storefront", () => {
@@ -52,7 +57,7 @@ describe("Fall 001 assortment", () => {
     expect(productsInCategory("match")).toHaveLength(6);
     expect(productsInCategory("performance")).toHaveLength(7);
     expect(productsInCategory("travel")).toHaveLength(8);
-    expect(productsInCategory("harbor")).toHaveLength(3);
+    expect(productsInCategory("harbor")).toHaveLength(4);
     expect(productsInCategory("club")).toHaveLength(12);
     expect(productsInCategory("club").map((p) => p.id)[0]).toBe("two-tone-cap");
     for (const p of PRODUCTS.filter((item) => item.sizeChart === "apparel")) {
@@ -82,6 +87,7 @@ describe("Fall 001 assortment", () => {
     expect(LOOKBOOK_TEASER_IDS).toContain("gothic-b-beanie");
     expect(LOOKBOOK_TEASER_IDS).toContain("gothic-b-beanie-brown");
     expect(LOOKBOOK_TEASER_IDS).toContain("harbor-sweatpant-grey");
+    expect(LOOKBOOK_TEASER_IDS).toContain("harbor-pullover");
     expect(LOOKBOOK_TEASER_IDS).not.toContain("mens-raglan");
     expect(productById("nb-runner-heat")?.line).toMatch(/Pink Heat/);
     expect(productById("nb-runner-cardinal")?.line).toMatch(/Cardinal/);
@@ -140,6 +146,14 @@ describe("Fall 001 assortment", () => {
     );
     expect(IMAGE_REGISTRY["gothic-b-beanie-brown"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["harbor-sweatpant-grey"].productFront).toBeTruthy();
+    expect(IMAGE_REGISTRY["harbor-pullover"].productFront).toBeTruthy();
+    expect(IMAGE_REGISTRY["harbor-pullover"].productBack).not.toBe(
+      IMAGE_REGISTRY["harbor-pullover"].productFront,
+    );
+    expect(IMAGE_REGISTRY["travel-set"].modelFront).toBe(IMAGE_REGISTRY["travel-set"].productFront);
+    expect(IMAGE_REGISTRY["max-heavy-full-zip"].modelFront).not.toBe(
+      IMAGE_REGISTRY["max-heavy-full-zip"].modelSecondary,
+    );
   });
 
   it("leads Gothic B Beanie PDPs with the front-B plates, not the back", async () => {
@@ -201,6 +215,30 @@ describe("Fall 001 assortment", () => {
     expect(shortShots[0]?.src).toBe(IMAGE_REGISTRY["performance-short"].productFront);
     expect(shortShots[1]?.src).toBe(IMAGE_REGISTRY["performance-short"].productBack);
     expect(LOOKBOOK_TEASER_IDS).toContain("performance-set");
+  });
+
+  it("leads Travel with couple and male/female solos, and lists the Harbor pullover", async () => {
+    const { galleryShots, HEROES } = await import("@/lib/imageRegistry");
+    expect(HEROES.travel).toBe(IMAGE_REGISTRY["travel-set"].modelFront);
+    const set = galleryShots("travel-set");
+    const zip = galleryShots("max-heavy-full-zip");
+    const pant = galleryShots("max-heavy-sweatpant");
+    const pullover = galleryShots("harbor-pullover");
+    expect(set).toHaveLength(6);
+    expect(zip).toHaveLength(6);
+    expect(pant).toHaveLength(5);
+    expect(pullover).toHaveLength(8);
+    expect(set[0]?.src).toBe(IMAGE_REGISTRY["travel-set"].modelFront);
+    expect(set.map((s) => s.alt).join(" ")).toMatch(/couple/);
+    expect(set.map((s) => s.alt).join(" ")).toMatch(/men’s/);
+    expect(set.map((s) => s.alt).join(" ")).toMatch(/women’s/);
+    expect(zip[0]?.src).toBe(IMAGE_REGISTRY["max-heavy-full-zip"].productFront);
+    expect(pullover[0]?.src).toBe(IMAGE_REGISTRY["harbor-pullover"].productFront);
+    expect(pullover[6]?.src).toBe(IMAGE_REGISTRY["harbor-pullover"].productBack);
+    expect(productById("quarter-zip")?.id).toBe("mens-raglan");
+    expect(productById("harbor-pullover")?.id).toBe("harbor-pullover");
+    expect(LOOKBOOK_TEASER_IDS).toContain("travel-set");
+    expect(LOOKBOOK_TEASER_IDS).toContain("max-heavy-full-zip");
   });
 
   it("keeps photo zoom in a portal and locks the page frame", async () => {

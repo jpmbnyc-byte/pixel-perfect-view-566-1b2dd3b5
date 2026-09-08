@@ -36,12 +36,22 @@ import performanceLsMen from "@/assets/bayonne/fall001/performance-ls-men.png";
 import performanceShortWomen from "@/assets/bayonne/fall001/performance-short-women.png";
 import performanceShortMen from "@/assets/bayonne/fall001/performance-short-men.png";
 
-import maxHeavyFullZipFront from "@/assets/bayonne/fall001/max-heavy-full-zip-front.png";
-import maxHeavySweatpantBack from "@/assets/bayonne/fall001/max-heavy-sweatpant-back.png";
-import travelSetModelFront from "@/assets/bayonne/fall001/travel-set-model-front.png";
-import travelSetThreeQuarter from "@/assets/bayonne/fall001/travel-set-three-quarter.png";
+import travelMenFront from "@/assets/bayonne/fall001/travel-men-front.png";
+import travelMenClose from "@/assets/bayonne/fall001/travel-men-close.png";
+import travelMenBack from "@/assets/bayonne/fall001/travel-men-back.png";
+import travelWomenFront from "@/assets/bayonne/fall001/travel-women-front.png";
+import travelWomenSeated from "@/assets/bayonne/fall001/travel-women-seated.png";
+import travelCouple from "@/assets/bayonne/fall001/travel-couple.png";
 
 import harborCoachFront from "@/assets/bayonne/fall001/harbor-coach-front.png";
+import harborPulloverFront from "@/assets/bayonne/fall001/harbor-pullover-front.png";
+import harborPulloverBack from "@/assets/bayonne/fall001/harbor-pullover-back.png";
+import harborPulloverModelFront from "@/assets/bayonne/fall001/harbor-pullover-model-front.png";
+import harborPulloverModelFrontOff from "@/assets/bayonne/fall001/harbor-pullover-model-front-off.png";
+import harborPulloverModelThreeQuarter from "@/assets/bayonne/fall001/harbor-pullover-model-three-quarter.png";
+import harborPulloverModelProfile from "@/assets/bayonne/fall001/harbor-pullover-model-profile.png";
+import harborPulloverModelChest from "@/assets/bayonne/fall001/harbor-pullover-model-chest.png";
+import harborPulloverModelBack from "@/assets/bayonne/fall001/harbor-pullover-model-back.png";
 import harborSweatpantGreyMark from "@/assets/bayonne/fall001/harbor-sweatpant-grey-mark.png";
 import harborSweatpantGreyWaist from "@/assets/bayonne/fall001/harbor-sweatpant-grey-waist.png";
 import harborSweatpantGreyModel from "@/assets/bayonne/fall001/harbor-sweatpant-grey-model.png";
@@ -127,6 +137,7 @@ export type CanonicalProductId =
   | "recreation-crew"
   | "local-issue-ls"
   | "harbor-coach"
+  | "harbor-pullover"
   | "harbor-sweatpant-black"
   | "harbor-sweatpant-grey"
   | "two-tone-cap"
@@ -187,22 +198,22 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "field-short-grey": { pending: true },
   "field-short-bone": { pending: true },
   "max-heavy-full-zip": {
-    productFront: maxHeavyFullZipFront,
-    productBack: maxHeavyFullZipFront,
-    modelFront: maxHeavyFullZipFront,
-    modelSecondary: maxHeavyFullZipFront,
+    productFront: travelMenClose,
+    productBack: travelMenBack,
+    modelFront: travelMenFront,
+    modelSecondary: travelWomenFront,
   },
   "max-heavy-sweatpant": {
-    productFront: maxHeavySweatpantBack,
-    productBack: maxHeavySweatpantBack,
-    modelFront: maxHeavySweatpantBack,
-    modelSecondary: maxHeavySweatpantBack,
+    productFront: travelMenFront,
+    productBack: travelMenBack,
+    modelFront: travelWomenFront,
+    modelSecondary: travelMenFront,
   },
   "travel-set": {
-    productFront: travelSetModelFront,
-    productBack: maxHeavySweatpantBack,
-    modelFront: travelSetModelFront,
-    modelSecondary: travelSetThreeQuarter,
+    productFront: travelCouple,
+    productBack: travelMenBack,
+    modelFront: travelCouple,
+    modelSecondary: travelWomenFront,
   },
   "pique-polo": { pending: true },
   "pocket-ls": { pending: true },
@@ -215,6 +226,12 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     productFront: harborCoachFront,
     productBack: harborCoachFront,
     modelFront: harborCoachFront,
+  },
+  "harbor-pullover": {
+    productFront: harborPulloverFront,
+    productBack: harborPulloverBack,
+    modelFront: harborPulloverModelFront,
+    modelSecondary: harborPulloverModelThreeQuarter,
   },
   "harbor-sweatpant-black": { pending: true },
   "harbor-sweatpant-grey": {
@@ -287,7 +304,7 @@ export const HEROES = {
   landingModel: landingHeroModel,
   match: matchJerseyKitFront,
   performance: performanceMenThreeQuarter,
-  travel: travelSetThreeQuarter,
+  travel: travelCouple,
   harbor: harborCoachFront,
   club: clubGoodsHero,
   og: matchJerseyKitFront,
@@ -301,7 +318,7 @@ export const HERO_CROP: Record<
   landingModel: { fit: "cover", position: "center 12%" },
   match: { fit: "contain", position: "center 12%" },
   performance: { fit: "cover", position: "center 18%" },
-  travel: { fit: "cover", position: "center 16%" },
+  travel: { fit: "cover", position: "center 18%" },
   harbor: { fit: "cover", position: "center 42%" },
   club: { fit: "cover", position: "center 10%" },
   og: { fit: "contain", position: "center" },
@@ -364,9 +381,48 @@ const GOTHIC_B_BEANIE_BROWN_GALLERY: GalleryShot[] = [
   { src: gothicBBeanieBrownBack, alt: "Gothic B Beanie in brown, back" },
 ];
 
+const TRAVEL_SET_GALLERY: GalleryShot[] = [
+  { src: travelCouple, alt: "Travel Set, couple studio shot" },
+  { src: travelMenFront, alt: "Travel Set, men’s full-body front" },
+  { src: travelWomenFront, alt: "Travel Set, women’s full-body front" },
+  { src: travelMenClose, alt: "Max Heavy Full Zip, men’s chest mark" },
+  { src: travelWomenSeated, alt: "Travel Set, women’s seated studio shot" },
+  { src: travelMenBack, alt: "Travel Set, men’s back view" },
+];
+
+const MAX_HEAVY_FULL_ZIP_GALLERY: GalleryShot[] = [
+  { src: travelMenClose, alt: "Max Heavy Full Zip, men’s chest mark" },
+  { src: travelMenFront, alt: "Max Heavy Full Zip, men’s full-body front" },
+  { src: travelWomenFront, alt: "Max Heavy Full Zip, women’s full-body front" },
+  { src: travelWomenSeated, alt: "Max Heavy Full Zip, women’s seated studio shot" },
+  { src: travelCouple, alt: "Max Heavy Full Zip, couple studio shot" },
+  { src: travelMenBack, alt: "Max Heavy Full Zip, men’s back view" },
+];
+
+const MAX_HEAVY_SWEATPANT_GALLERY: GalleryShot[] = [
+  { src: travelMenFront, alt: "Max Heavy Sweatpant, men’s full-body front" },
+  { src: travelWomenFront, alt: "Max Heavy Sweatpant, women’s full-body front" },
+  { src: travelMenBack, alt: "Max Heavy Sweatpant, men’s back view" },
+  { src: travelCouple, alt: "Max Heavy Sweatpant, couple studio shot" },
+  { src: travelWomenSeated, alt: "Max Heavy Sweatpant, women’s seated studio shot" },
+];
+
+const HARBOR_PULLOVER_GALLERY: GalleryShot[] = [
+  { src: harborPulloverFront, alt: "Harbor Division Pullover, product front with pennant B" },
+  { src: harborPulloverModelFront, alt: "Harbor Division Pullover, worn full-body front" },
+  { src: harborPulloverModelThreeQuarter, alt: "Harbor Division Pullover, three-quarter" },
+  { src: harborPulloverModelChest, alt: "Harbor Division Pullover, worn chest and pennant B" },
+  { src: harborPulloverModelFrontOff, alt: "Harbor Division Pullover, worn looking off" },
+  { src: harborPulloverModelProfile, alt: "Harbor Division Pullover, worn profile" },
+  { src: harborPulloverBack, alt: "Harbor Division Pullover, product back with arched 07002" },
+  { src: harborPulloverModelBack, alt: "Harbor Division Pullover, worn back" },
+];
+
 const HARBOR_SWEATPANT_GREY_GALLERY: GalleryShot[] = [
   { src: harborSweatpantGreyMark, alt: "Harbor Sweatpant in heather grey, garnet 07002 mark" },
   { src: harborSweatpantGreyModel, alt: "Harbor Sweatpant in heather grey, worn" },
+  { src: harborPulloverModelFront, alt: "Harbor Sweatpant in heather grey, full-body front" },
+  { src: harborPulloverModelBack, alt: "Harbor Sweatpant in heather grey, full-body back" },
   { src: harborSweatpantGreyWaist, alt: "Harbor Sweatpant in heather grey, waist and drawcord" },
 ];
 
@@ -376,8 +432,12 @@ export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "performance-set") return PERFORMANCE_SET_GALLERY;
   if (id === "performance-ls") return PERFORMANCE_LS_GALLERY;
   if (id === "performance-short") return PERFORMANCE_SHORT_GALLERY;
+  if (id === "travel-set") return TRAVEL_SET_GALLERY;
+  if (id === "max-heavy-full-zip") return MAX_HEAVY_FULL_ZIP_GALLERY;
+  if (id === "max-heavy-sweatpant") return MAX_HEAVY_SWEATPANT_GALLERY;
   if (id === "gothic-b-beanie") return GOTHIC_B_BEANIE_BLACK_GALLERY;
   if (id === "gothic-b-beanie-brown") return GOTHIC_B_BEANIE_BROWN_GALLERY;
+  if (id === "harbor-pullover") return HARBOR_PULLOVER_GALLERY;
   if (id === "harbor-sweatpant-grey") return HARBOR_SWEATPANT_GREY_GALLERY;
   const set = IMAGE_REGISTRY[id];
   if (set.pending) return [];

@@ -34,6 +34,15 @@ GUID filenames as committed from camera/Photos. The storefront imports only huma
 | 7F8FC317-078B-4C55-BADB-A92937E28968.png | harbor-sweatpant-grey-mark.png |
 | 9FA35E35-0128-49E6-940C-EBD5B40D5C7A.png | harbor-sweatpant-grey-waist.png |
 | 65949BC9-94FA-48B6-B04C-F8C97DD5CE4D.png | harbor-sweatpant-grey-model.png |
+| 7d63985d-721a-4ce7-893d-dd47425c26f2.png | travel collage source (couple + male/female solos) |
+| 97628c9e-5923-41c3-b297-c9d6862d0df9.png | harbor-pullover-front.png |
+| 14a20d7a-f10c-4d75-bddd-7b8628cd58e1.png | harbor-pullover-back.png |
+| e4af968a-db8d-4121-b8f8-28351c203655.png | harbor-pullover-model-chest.png |
+| c559c090-21b1-42a3-b12c-a3bc98aa9393.png | harbor-pullover-model-three-quarter.png |
+| 309957d9-1973-46c0-9a0c-d69b51be128b.png | harbor-pullover-model-front.png |
+| 969b635b-fcfc-4e0e-ad75-541573e41127.png | harbor-pullover-model-front-off.png |
+| 0df76fc4-1fdb-4196-a00b-1ff8bcabaded.png | harbor-pullover-model-profile.png |
+| 362fbed3-464c-43cb-8251-305e3a6e394c.png | harbor-pullover-model-back.png |
 
 Corrupt 15KB blobs that were not valid WebP (`performance-male-hero.webp`, `performance-male-back.webp`, `heritage-jersey-model-*.webp`) are archived here and not imported by the storefront.
 
