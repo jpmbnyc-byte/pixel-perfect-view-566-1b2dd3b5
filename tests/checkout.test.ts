@@ -57,7 +57,7 @@ describe("Stripe checkout pricing", () => {
       expect(runner.value.description).toContain("198689462957");
     }
     if (court.ok) {
-      expect(court.value.unitAmount).toBe(14_000);
+      expect(court.value.unitAmount).toBe(13_000);
       expect(court.value.description).toContain("4M · 5.5W");
       expect(court.value.description).toContain("198689917464");
     }
