@@ -27,6 +27,9 @@ export function ProductLookbookCard({ product, slug }: CardProps) {
         </h3>
         <p className="place-line text-ink/45">{product.line}</p>
         <p className="font-sans text-sm tabular-nums text-ink">${product.price}</p>
+        {product.nameNumber && (
+          <p className="place-line mt-2 text-garnet">Put your name on it</p>
+        )}
       </div>
       {product.imageryPending && (
         <p className="place-line mt-2 text-ink/35">Photography in production</p>

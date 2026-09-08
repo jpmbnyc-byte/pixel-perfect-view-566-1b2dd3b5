@@ -22,7 +22,7 @@ const performanceLs = productById("performance-ls")!;
 export const Route = createFileRoute("/team/")({
   head: () => {
     const title = "Bayonne Athletics — Fall 001 · 07002";
-    const description = `${COLLECTION_COPY.lockup} ${COLLECTION_COPY.title} Heritage Jersey from $${jersey.price}.`;
+    const description = `${COLLECTION_COPY.lockup} ${COLLECTION_COPY.title} Match Jersey from $${jersey.price}.`;
     return {
       meta: [
         { title },
@@ -72,7 +72,7 @@ function TeamLanding() {
               params={{ slug: kit.slug, product: jersey.id }}
               className="place-line mt-10 inline-flex items-center gap-3 border-b border-bone/40 pb-2 text-bone transition-colors hover:border-bone"
             >
-              1936 Heritage Jersey · ${jersey.price}
+              1936 Match Jersey · ${jersey.price}
               <span aria-hidden>→</span>
             </Link>
           </div>

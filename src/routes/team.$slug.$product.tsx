@@ -1,12 +1,14 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useState, type HTMLAttributes } from "react";
+import { useState, type HTMLAttributes } from "react";
 
+import { ProductZoomGallery } from "@/components/ProductZoomGallery";
 import { ComingSoonMedia } from "@/components/ComingSoonMedia";
+import { galleryShots } from "@/lib/imageRegistry";
 import { MotionMark } from "@/components/brand/BrandMarks";
 import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
-import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
+import { ProductCanvas } from "@/components/ProductCanvas";
 import {
   FONTS,
   HAT_SIZE_CHART,
@@ -21,7 +23,6 @@ import { SIZES, SIZE_CHART, sanitizeName, sanitizeNumber } from "@/lib/kit";
 import { SOCK_SIZES, storeIsOpen } from "@/lib/checkout";
 import { formatShoeOption, shoeRunsFor } from "@/lib/footwear";
 import { createCheckoutSession } from "@/lib/checkout.functions";
-import { campaignForProduct } from "@/media/campaignAssets";
 import { DEPARTMENT_TO } from "@/lib/departments";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { productCopyFor } from "@/copy/collection";
@@ -59,10 +60,9 @@ function ProductListingPage() {
   const { product } = Route.useLoaderData();
   const startCheckout = useServerFn(createCheckoutSession);
 
-  const campaign = product.imageryPending ? undefined : campaignForProduct(product);
   const copy = productCopyFor(product.id);
-  const [galleryMode, setGalleryMode] = useState<GalleryMode>(campaign?.views.front ? "photos" : "product");
-  const [view, setView] = useState<CanvasView>("front");
+  const shots = product.imageryPending ? [] : galleryShots(product.id);
+  const [galleryMode, setGalleryMode] = useState<GalleryMode>("photos");
   const [fontId, setFontId] = useState<FontId>("forge");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -90,35 +90,9 @@ function ProductListingPage() {
 
   const checkoutReady = Boolean(personalizationComplete && size && confirmed && open);
 
-  const photoViews = useMemo<CanvasView[]>(() => {
-    if (!campaign) return ["front"];
-    const values: CanvasView[] = [];
-    if (campaign.views.front) values.push("front");
-    if (campaign.views["three-quarter"]) values.push("three-quarter");
-    if (campaign.views.back) values.push("back");
-    return values.length ? values : ["front"];
-  }, [campaign]);
-
-  const productViews: CanvasView[] =
-    product.previewPair === "front-back" ? ["front", "back"] : ["front", "side"];
-  const activeViews = galleryMode === "photos" ? photoViews : productViews;
-
   const setMode = (mode: GalleryMode) => {
     setGalleryMode(mode);
-    if (mode === "customize") setView("back");
-    else setView("front");
   };
-
-  const frontSrc =
-    galleryMode === "photos" && campaign?.views.front ? campaign.views.front : product.previews.front;
-  const secondarySrc =
-    galleryMode === "photos" && campaign?.views.back
-      ? campaign.views.back
-      : product.previews.secondary;
-  const threeQuarterSrc =
-    galleryMode === "photos" && campaign?.views["three-quarter"]
-      ? campaign.views["three-quarter"]
-      : undefined;
 
   const nextLabel = (() => {
     if (!open) return "Store closed";
@@ -179,71 +153,58 @@ function ProductListingPage() {
 
         <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-16">
           <section className="lg:sticky lg:top-24">
-            <div className="mb-3 flex gap-2 overflow-x-auto">
-              {!product.imageryPending && campaign?.views.front && (
+            {product.nameNumber && (
+              <div className="mb-3 flex gap-2 overflow-x-auto">
                 <button
                   type="button"
                   onClick={() => setMode("photos")}
-                  className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode === "photos" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
+                  className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode !== "customize" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
                 >
-                  Look
+                  Gallery
                 </button>
-              )}
-              <button
-                type="button"
-                onClick={() => setMode("product")}
-                className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode === "product" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
-              >
-                Product
-              </button>
-              {product.nameNumber && (
                 <button
                   type="button"
                   onClick={() => setMode("customize")}
                   className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode === "customize" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
                 >
-                  Customize
+                  Put your name on it
                 </button>
-              )}
-            </div>
-
-            {!product.imageryPending && (
-              <div className={`mb-3 grid gap-2 ${activeViews.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
-                {activeViews.map((v) => (
-                  <button
-                    key={v}
-                    type="button"
-                    onClick={() => setView(v)}
-                    className={`border px-2 py-2.5 text-center text-sm capitalize tap-44 ${view === v ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
-                  >
-                    {v === "three-quarter" ? "¾" : v}
-                  </button>
-                ))}
               </div>
             )}
 
             <div className="overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)]">
               {product.imageryPending ? (
                 <ComingSoonMedia name={product.name} className="aspect-[4/5]" />
-              ) : (
+              ) : galleryMode === "customize" && product.nameNumber ? (
                 <ProductCanvas
-                  view={view}
-                  frontSrc={frontSrc}
-                  {...(threeQuarterSrc ? { threeQuarterSrc } : {})}
-                  secondarySrc={secondarySrc}
+                  view="back"
+                  frontSrc={product.previews.front}
+                  secondarySrc={product.previews.secondary}
                   fontId={fontId}
                   name={name}
                   number={number}
                   productLabel={product.name}
-                  showLettering={galleryMode === "customize" && product.nameNumber}
+                  showLettering
                   lettering={lettering}
-                  tier={galleryMode === "photos" ? "campaign" : "truth"}
-                  showNameBadge={galleryMode === "photos" && product.nameNumber}
+                  tier="truth"
+                  showNameBadge={false}
                   printScale={1}
                   confirmFlash={false}
+                  className="aspect-square"
+                />
+              ) : (
+                <ProductZoomGallery
+                  shots={shots.map((shot) => ({
+                    ...shot,
+                    alt: shot.alt || `${product.name}`,
+                  }))}
+                  productName={product.name}
                 />
               )}
             </div>
+            {galleryMode === "customize" && product.nameNumber && (
+              <p className="place-line mt-3 text-ink/40">Blank back · live name and number</p>
+            )}
           </section>
 
           <section className="lg:pt-2">
@@ -289,13 +250,16 @@ function ProductListingPage() {
         {product.nameNumber && (
           <section id="field-personalize" className="mt-10">
             <div className="flex items-baseline justify-between gap-4">
-              <h2 className="type-editorial text-2xl text-ink">Make the jersey yours.</h2>
+              <h2 className="type-editorial text-2xl text-ink">
+                {copy?.personalizeHeading ?? "Put your name on it."}
+              </h2>
               <span className="text-sm font-semibold tabular-nums text-garnet">
                 {hasPersonalization ? `$${product.personalizedPrice ?? product.price}` : `+$${(product.personalizedPrice ?? product.price) - product.price}`}
               </span>
             </div>
             <p className="mt-2 text-sm leading-snug text-muted-foreground">
-              Optional. Leave both fields blank for the $78 club jersey, or add your name and number for the personalized version.
+              {copy?.personalizeHelper ??
+                "Add the name and number exactly as you want them printed on the back. Leave both blank for the $78 club jersey."}
             </p>
 
             <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
@@ -306,7 +270,10 @@ function ProductListingPage() {
                 maxLength={2}
                 inputMode="numeric"
                 placeholder="21"
-                onChange={(v) => setNumber(sanitizeNumber(v))}
+                onChange={(v) => {
+                  setNumber(sanitizeNumber(v));
+                  setMode("customize");
+                }}
                 counter={`${number.length} / 2`}
                 fontFamily={font.cssFamily}
               />
@@ -316,7 +283,10 @@ function ProductListingPage() {
                 value={name}
                 maxLength={nameMax}
                 placeholder="BROADWAY"
-                onChange={(v) => setName(sanitizeName(v, nameMax))}
+                onChange={(v) => {
+                  setName(sanitizeName(v, nameMax));
+                  setMode("customize");
+                }}
                 counter={`${name.length} / ${nameMax}`}
                 fontFamily={font.cssFamily}
               />

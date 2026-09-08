@@ -29,6 +29,7 @@ type Props = {
   printScale?: number;
   /** Brief confirmation flash when name+number committed. */
   confirmFlash?: boolean;
+  className?: string;
 };
 
 /** Fallback right-ink bias (em) if canvas sampling fails — Forge has the worst bearings. */
@@ -149,6 +150,7 @@ export function ProductCanvas({
   showNameBadge = false,
   printScale = 1,
   confirmFlash = false,
+  className,
 }: Props) {
   const font = fontById(fontId)!;
   const src =
@@ -198,7 +200,7 @@ export function ProductCanvas({
 
   return (
     <figure
-      className={`relative overflow-hidden ${aspectClass} transition-[box-shadow] duration-standard ease-standard ${
+      className={`relative overflow-hidden ${className ?? aspectClass} transition-[box-shadow] duration-standard ease-standard ${
         confirmFlash ? "ring-2 ring-garnet ring-offset-2 ring-offset-background" : ""
       }`}
       style={{ containerType: "size", background: stageBg }}

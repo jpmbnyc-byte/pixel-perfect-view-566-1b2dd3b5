@@ -6,7 +6,7 @@
  * through productById for existing URLs, but never define identity.
  */
 
-import { LETTERING, type Item, type LetteringLayout } from "./kit";
+import { LETTERING, LETTERING_MATCH_JERSEY, type Item, type LetteringLayout } from "./kit";
 import {
   HEROES,
   HERO_CROP,
@@ -171,13 +171,13 @@ function listing(
 }
 
 export const PRODUCTS: CatalogProduct[] = [
-  listing("heritage-jersey", "bayonne-1936-heritage-jersey", "1936 Heritage Jersey", "match", 78, {
+  listing("heritage-jersey", "bayonne-1936-heritage-jersey", "1936 Match Jersey", "match", 78, {
     personalizedPrice: 98,
     shopifyItem: "top",
     customizable: true,
     nameNumber: true,
     typography: true,
-    lettering: LETTERING,
+    lettering: LETTERING_MATCH_JERSEY,
   }),
   listing("match-short", "bayonne-match-short", "Match Short", "match", 48, { shopifyItem: "bottom" }),
   listing("match-set", "bayonne-1936-match-set", "1936 Match Set", "match", 118, { shopifyItem: "set" }),

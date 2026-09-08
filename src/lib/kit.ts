@@ -29,6 +29,14 @@ export const LETTERING: LetteringLayout = {
   surface: "garnet",
 };
 
+/** Print overlay on the blank 1936 Match Jersey back plate. */
+export const LETTERING_MATCH_JERSEY: LetteringLayout = {
+  centerX: 50,
+  name: { y: 17.5, heightPct: 5.2, maxWidthPct: 40, archDeg: 8 },
+  number: { y: 25, heightPct: 26, maxWidthPct: 38 },
+  surface: "blackout",
+};
+
 export const LETTERING_SET: LetteringLayout = {
   centerX: 50,
   name: { y: 18.5, heightPct: 4.4, maxWidthPct: 42, archDeg: 0 },
