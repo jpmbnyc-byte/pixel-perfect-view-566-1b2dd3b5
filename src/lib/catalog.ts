@@ -68,7 +68,7 @@ export const CATEGORIES: Category[] = [
   {
     id: "performance",
     label: "Performance",
-    description: "Technical layers for training, running and the hours before and after both.",
+    description: "Black long sleeve and seven-inch short — the training uniform, on both fits.",
     hero: HEROES.performance,
     heroFit: HERO_CROP.performance.fit,
     heroPosition: HERO_CROP.performance.position,
@@ -230,6 +230,7 @@ export function productsInCategory(id: CategoryId) {
 export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
   "heritage-jersey",
   "match-short",
+  "performance-set",
   "performance-ls",
   "performance-short",
   "travel-set",

@@ -58,16 +58,16 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "performance-ls": {
     tagline: "Built to move.",
     line: "Technical knit · Black",
-    body: "Lightweight technical long sleeve for training, running and cool-weather movement.",
-    card: "Lightweight technical long sleeve for training, running and cool-weather movement.",
+    body: "Lightweight technical long sleeve for training, running and cool-weather movement. Chest mark in white. Gothic B at the cuff.",
+    card: "Technical long sleeve in black, with the chest mark and cuff B.",
     cta: "Choose your size →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
   },
   "performance-short": {
     tagline: "Seven inches. No extra noise.",
     line: "Technical knit · Black",
-    body: "Seven-inch training short with clean movement, useful storage and minimal Bayonne marking.",
-    card: "Seven-inch training short with clean movement, useful storage and minimal Bayonne marking.",
+    body: "Seven-inch training short with clean movement, useful storage and minimal Bayonne marking. 07002 on one leg. Gothic B on the other.",
+    card: "Seven-inch training short in black, with 07002 and the gothic B.",
     cta: "Choose your size →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
   },
@@ -90,8 +90,8 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "performance-set": {
     tagline: "One training uniform.",
     line: "Long sleeve + short · Black",
-    body: "Performance Long Sleeve and seven-inch short paired as one training uniform.",
-    card: "Performance Long Sleeve and seven-inch short paired as one training uniform.",
+    body: "Performance Long Sleeve and seven-inch short worn as one training uniform — photographed on both women’s and men’s fits.",
+    card: "The training uniform: long sleeve and seven-inch short, photographed on both fits.",
     cta: "Shop the set →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
   },
@@ -238,7 +238,7 @@ export const DEPARTMENT_COPY: Record<
   performance: {
     line: "Performance",
     title: "Built to move.",
-    body: "Technical layers for training, running and the hours before and after both.",
+    body: "Black long sleeve and seven-inch short — the training uniform, on both fits.",
     cta: "Shop Performance →",
   },
   travel: {

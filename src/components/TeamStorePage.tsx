@@ -23,7 +23,7 @@ export { DEPARTMENT_TO };
 
 const FEATURED_BY_CATEGORY: Record<CategoryId, string> = {
   match: "heritage-jersey",
-  performance: "performance-ls",
+  performance: "performance-set",
   travel: "travel-set",
   harbor: "harbor-coach",
   club: "two-tone-cap",

@@ -24,11 +24,14 @@ import matchShortFront from "@/assets/bayonne/fall001/match-short-front.jpg";
 import matchShortThreeQuarter from "@/assets/bayonne/fall001/match-short-three-quarter.png";
 import matchShortBack from "@/assets/bayonne/fall001/match-short-back.png";
 
-import performanceHero from "@/assets/bayonne/fall001/performance-hero.jpg";
-import performanceLsModel from "@/assets/bayonne/fall001/performance-ls-model.jpg";
-import performanceLsFront from "@/assets/bayonne/fall001/performance-ls-front.jpg";
-import performanceLsBack from "@/assets/bayonne/fall001/performance-ls-back.jpg";
-import performanceShortFront from "@/assets/bayonne/fall001/performance-short-front.jpg";
+import performanceWomenFront from "@/assets/bayonne/fall001/performance-women-front.png";
+import performanceWomenTight from "@/assets/bayonne/fall001/performance-women-tight.png";
+import performanceMenThreeQuarter from "@/assets/bayonne/fall001/performance-men-three-quarter.png";
+import performanceMenTight from "@/assets/bayonne/fall001/performance-men-tight.png";
+import performanceLsWomen from "@/assets/bayonne/fall001/performance-ls-women.png";
+import performanceLsMen from "@/assets/bayonne/fall001/performance-ls-men.png";
+import performanceShortWomen from "@/assets/bayonne/fall001/performance-short-women.png";
+import performanceShortMen from "@/assets/bayonne/fall001/performance-short-men.png";
 
 import maxHeavyFullZipFront from "@/assets/bayonne/fall001/max-heavy-full-zip-front.png";
 import maxHeavySweatpantBack from "@/assets/bayonne/fall001/max-heavy-sweatpant-back.png";
@@ -129,24 +132,24 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelSecondary: matchJerseyStudioBall,
   },
   "performance-ls": {
-    productFront: performanceLsFront,
-    productBack: performanceLsBack,
-    modelFront: performanceLsModel,
-    modelSecondary: performanceLsBack,
+    productFront: performanceLsWomen,
+    productBack: performanceLsMen,
+    modelFront: performanceWomenTight,
+    modelSecondary: performanceMenTight,
   },
   "performance-short": {
-    productFront: performanceShortFront,
-    productBack: performanceShortFront,
-    modelFront: performanceShortFront,
-    modelSecondary: performanceShortFront,
+    productFront: performanceShortWomen,
+    productBack: performanceShortMen,
+    modelFront: performanceMenTight,
+    modelSecondary: performanceWomenTight,
   },
   "mens-raglan": { pending: true },
   "womens-raglan": { pending: true },
   "performance-set": {
-    productFront: performanceLsFront,
-    productBack: performanceShortFront,
-    modelFront: performanceHero,
-    modelSecondary: performanceLsBack,
+    productFront: performanceWomenFront,
+    productBack: performanceMenThreeQuarter,
+    modelFront: performanceWomenFront,
+    modelSecondary: performanceMenThreeQuarter,
   },
   "max-heavy-full-zip": {
     productFront: maxHeavyFullZipFront,
@@ -226,9 +229,9 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
 };
 
 export const HEROES = {
-  landing: matchJerseyStadium,
+  landing: performanceWomenFront,
   match: matchJerseyKitFront,
-  performance: performanceHero,
+  performance: performanceMenThreeQuarter,
   travel: travelSetThreeQuarter,
   harbor: harborCoachFront,
   club: clubGoodsHero,
@@ -239,9 +242,9 @@ export const HERO_CROP: Record<
   keyof typeof HEROES,
   { fit: "cover" | "contain"; position: string }
 > = {
-  landing: { fit: "cover", position: "center 42%" },
+  landing: { fit: "cover", position: "center 14%" },
   match: { fit: "contain", position: "center 12%" },
-  performance: { fit: "cover", position: "center 58%" },
+  performance: { fit: "cover", position: "center 18%" },
   travel: { fit: "cover", position: "center 16%" },
   harbor: { fit: "cover", position: "center 42%" },
   club: { fit: "cover", position: "center 10%" },
@@ -260,9 +263,39 @@ const MATCH_JERSEY_GALLERY: GalleryShot[] = [
   { src: matchJerseyBackBlank, alt: "1936 Match Jersey, blank back for personalization" },
 ];
 
+const PERFORMANCE_SET_GALLERY: GalleryShot[] = [
+  { src: performanceWomenFront, alt: "Performance Set, women’s front view" },
+  { src: performanceWomenTight, alt: "Performance Set, women’s three-quarter crop" },
+  { src: performanceMenThreeQuarter, alt: "Performance Set, men’s three-quarter view" },
+  { src: performanceMenTight, alt: "Performance Set, men’s crop" },
+  { src: performanceLsWomen, alt: "Performance Long Sleeve, women’s product shot" },
+  { src: performanceShortWomen, alt: "7\" Performance Short, women’s product shot" },
+];
+
+const PERFORMANCE_LS_GALLERY: GalleryShot[] = [
+  { src: performanceLsWomen, alt: "Performance Long Sleeve, women’s product shot" },
+  { src: performanceLsMen, alt: "Performance Long Sleeve, men’s product shot" },
+  { src: performanceWomenFront, alt: "Performance Long Sleeve, women’s front view" },
+  { src: performanceWomenTight, alt: "Performance Long Sleeve, women’s crop" },
+  { src: performanceMenThreeQuarter, alt: "Performance Long Sleeve, men’s three-quarter view" },
+  { src: performanceMenTight, alt: "Performance Long Sleeve, men’s crop" },
+];
+
+const PERFORMANCE_SHORT_GALLERY: GalleryShot[] = [
+  { src: performanceShortWomen, alt: "7\" Performance Short, women’s product shot" },
+  { src: performanceShortMen, alt: "7\" Performance Short, men’s product shot" },
+  { src: performanceWomenFront, alt: "7\" Performance Short, women’s front view" },
+  { src: performanceMenThreeQuarter, alt: "7\" Performance Short, men’s three-quarter view" },
+  { src: performanceWomenTight, alt: "7\" Performance Short, women’s crop" },
+  { src: performanceMenTight, alt: "7\" Performance Short, men’s crop" },
+];
+
 /** Ordered storefront gallery. Never the customizer overlay base except the dedicated blank back. */
 export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "heritage-jersey") return MATCH_JERSEY_GALLERY;
+  if (id === "performance-set") return PERFORMANCE_SET_GALLERY;
+  if (id === "performance-ls") return PERFORMANCE_LS_GALLERY;
+  if (id === "performance-short") return PERFORMANCE_SHORT_GALLERY;
   const set = IMAGE_REGISTRY[id];
   if (set.pending) return [];
   const views = campaignViews(id);

@@ -77,6 +77,10 @@ describe("Fall 001 assortment", () => {
     expect(IMAGE_REGISTRY["performance-short"].modelFront).not.toBe(
       IMAGE_REGISTRY["performance-ls"].modelFront,
     );
+    expect(IMAGE_REGISTRY["performance-set"].modelFront).toBeTruthy();
+    expect(IMAGE_REGISTRY["performance-set"].modelSecondary).not.toBe(
+      IMAGE_REGISTRY["performance-set"].modelFront,
+    );
   });
 
   it("does not import expired mascot, boxing-kit, or corrupt plates", async () => {
@@ -87,6 +91,11 @@ describe("Fall 001 assortment", () => {
     expect(src).not.toContain("match-set-front");
     expect(src).not.toContain("local-issue-tee");
     expect(src).not.toContain("performance-male-hero");
+    expect(src).not.toContain("performance-hero.jpg");
+    expect(src).not.toContain("performance-ls-front.jpg");
+    expect(src).not.toContain("performance-ls-back.jpg");
+    expect(src).not.toContain("performance-ls-model.jpg");
+    expect(src).not.toContain("performance-short-front.jpg");
     expect(src).not.toContain("boxing-bee");
   });
 
@@ -98,5 +107,22 @@ describe("Fall 001 assortment", () => {
     expect(shots[0]?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productFront);
     expect(shots.at(-1)?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
     expect(jersey.previews.secondary).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
+  });
+
+  it("uses the new women’s and men’s Performance studio plates", async () => {
+    const { galleryShots, HEROES } = await import("@/lib/imageRegistry");
+    expect(HEROES.landing).toBe(IMAGE_REGISTRY["performance-set"].modelFront);
+    expect(HEROES.performance).toBe(IMAGE_REGISTRY["performance-set"].modelSecondary);
+    const setShots = galleryShots("performance-set");
+    const lsShots = galleryShots("performance-ls");
+    const shortShots = galleryShots("performance-short");
+    expect(setShots).toHaveLength(6);
+    expect(lsShots).toHaveLength(6);
+    expect(shortShots).toHaveLength(6);
+    expect(lsShots[0]?.src).toBe(IMAGE_REGISTRY["performance-ls"].productFront);
+    expect(lsShots[1]?.src).toBe(IMAGE_REGISTRY["performance-ls"].productBack);
+    expect(shortShots[0]?.src).toBe(IMAGE_REGISTRY["performance-short"].productFront);
+    expect(shortShots[1]?.src).toBe(IMAGE_REGISTRY["performance-short"].productBack);
+    expect(LOOKBOOK_TEASER_IDS).toContain("performance-set");
   });
 });

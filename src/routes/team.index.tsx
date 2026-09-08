@@ -17,7 +17,7 @@ const jersey = productById("heritage-jersey")!;
 const travelSet = productById("travel-set")!;
 const cap = productById("two-tone-cap")!;
 const harbor = productById("harbor-coach")!;
-const performanceLs = productById("performance-ls")!;
+const performanceSet = productById("performance-set")!;
 
 export const Route = createFileRoute("/team/")({
   head: () => {
@@ -123,7 +123,7 @@ function TeamLanding() {
         {(
           [
             ["match", SURFACES.categoryHero.match, jersey, HERO_CROP.match],
-            ["performance", SURFACES.landingSideline, performanceLs, HERO_CROP.performance],
+            ["performance", SURFACES.landingSideline, performanceSet, HERO_CROP.performance],
             ["travel", SURFACES.landingTravel, travelSet, HERO_CROP.travel],
             ["harbor", SURFACES.landingHarbor, harbor, HERO_CROP.harbor],
             ["club", SURFACES.landingClub, cap, HERO_CROP.club],
