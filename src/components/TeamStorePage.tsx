@@ -1,38 +1,25 @@
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
+import { MotionMark } from "@/components/brand/BrandMarks";
+import { StoreFooter } from "@/components/brand/StoreFooter";
+import { StoreNav } from "@/components/brand/StoreNav";
 import { NameableFlag } from "@/components/NameableFlag";
 import { ProductCardMedia } from "@/components/ProductCardMedia";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
-import { CRESTS } from "@/lib/brandAssets";
 import {
   CATEGORIES,
-  productById,
   productsInCategory,
   type CatalogProduct,
   type CategoryId,
 } from "@/lib/catalog";
+import { DEPARTMENT_TO } from "@/lib/departments";
 import { countdownParts, type KitConfig } from "@/lib/kit";
 import { shopifySynced, type ShopifySyncStatus } from "@/lib/shopify";
 
 export const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
 
-export const DEPARTMENT_TO: Record<
-  CategoryId,
-  "/team/$slug/match" | "/team/$slug/sideline" | "/team/$slug/warmups" | "/team/$slug/alumni"
-> = {
-  match: "/team/$slug/match",
-  sideline: "/team/$slug/sideline",
-  warmups: "/team/$slug/warmups",
-  alumni: "/team/$slug/alumni",
-};
-
-const FEATURED_BY_CATEGORY: Record<CategoryId, string> = {
-  match: "jersey",
-  sideline: "ls-jersey",
-  warmups: "heritage-tee-black",
-  alumni: "nb-runner",
-};
+export { DEPARTMENT_TO };
 
 function productAction(p: CatalogProduct) {
   if (p.nameNumber) return "Customize jersey";
@@ -60,195 +47,125 @@ export function TeamStorePage({ category, kit, sync }: Props) {
     return nameableOnly ? list.filter((p) => p.nameNumber) : list;
   }, [category, nameableOnly]);
 
-  const featured = productById(FEATURED_BY_CATEGORY[category]);
-
   return (
-    <main className="studio-field mx-auto min-h-screen w-full max-w-[720px] pb-24 text-ink">
-      <header className="px-6 pb-8 pt-8 sm:px-10">
-        <div className="flex items-center justify-between gap-4">
-          <Link
-            to="/team"
-            className="place-line tap-44 inline-flex items-center focus-ring transition-opacity duration-micro ease-standard hover:opacity-55"
-          >
-            ← Back
-          </Link>
-          {closed ? (
-            <p className="place-line text-destructive">Closed</p>
-          ) : (
-            <StoreCloseCountdown closesAt={kit.closesAt} />
-          )}
-        </div>
-
-        <div className="mt-10 flex items-end gap-4">
-          <img
-            src={CRESTS.primary}
-            alt=""
-            width={64}
-            height={64}
-            className="h-14 w-14 shrink-0 object-contain sm:h-16 sm:w-16"
-          />
-          <div className="min-w-0">
-            <h1 className="type-campaign-tight text-[clamp(2rem,9vw,3.2rem)] text-ink">BAYONNE</h1>
-            <p className="place-line mt-3">Athletics · 07002 · Fall 001</p>
-          </div>
-        </div>
-
-        <div className="tip-asymmetric mt-7">
-          <span className="tip-asymmetric-a" />
-          <span className="tip-asymmetric-b" />
-        </div>
-
-        <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">
-          Performance apparel, club goods and one jersey made personal.
-        </p>
-        <p className="mt-4 max-w-md text-sm leading-relaxed text-ink/60">
-          Bayonne Athletics is built for movement — training, travel, daily wear and the city that gives the collection its name. The 1936 Heritage Jersey is the only customizable piece; the rest of Fall 001 stays fixed and intentional.
-        </p>
-      </header>
-
-      {!catalogReady && (
-        <div
-          className="border-y border-ink/10 px-6 py-3 text-sm leading-snug text-ink/60 sm:px-10"
-          role="status"
-        >
-          Product design and sizing are live. Checkout activates as synced listings become available.
-        </div>
-      )}
-
-      {featured && !closed && (
-        <section className="px-6 sm:px-10">
-          <Link
-            to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: featured.id }}
-            className="group block focus-ring"
-          >
-            <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
-              {featured.nameNumber && <NameableFlag />}
-              <img
-                src={featured.thumb}
-                alt={`${featured.name}, featured view`}
-                width={800}
-                height={1000}
-                className="h-full w-full object-contain motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
-              />
-            </div>
-            <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
-              <div>
-                <p className="place-line">Featured · {active.label}</p>
-                <h2 className="type-campaign mt-2 text-2xl text-ink">{featured.name}</h2>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">{featured.blurb}</p>
-              </div>
-              <span className="font-sans text-xl tabular-nums text-ink">
-                {featured.personalizedPrice
-                  ? `$${featured.price} / $${featured.personalizedPrice}`
-                  : `$${featured.price}`}
-              </span>
-            </div>
-            <p className="place-line mt-4 pb-2 text-garnet">{productAction(featured)} →</p>
-          </Link>
-        </section>
-      )}
-
-      <section className="px-6 pt-12 sm:px-10">
-        <p className="place-line">Shop</p>
-        <div
-          className="mt-5 flex gap-2 overflow-x-auto border-b border-ink/10 pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          role="tablist"
-          aria-label="Store categories"
-        >
-          {CATEGORIES.map((c) => {
-            const on = c.id === category;
-            return (
-              <Link
-                key={c.id}
-                id={c.id}
-                role="tab"
-                aria-selected={on}
-                to={DEPARTMENT_TO[c.id]}
-                params={{ slug: kit.slug }}
-                className={`place-line tap-44 shrink-0 border-b-2 px-2 transition-colors duration-micro ease-standard focus-ring ${
-                  on ? "border-garnet text-ink" : "border-transparent text-ink/40 hover:text-ink/70"
-                }`}
-              >
-                {c.label}
-              </Link>
-            );
-          })}
-        </div>
-
-        <p className="type-editorial mt-6 max-w-md text-base text-ink/65">{active.description}</p>
-
-        <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
-          <input
-            type="checkbox"
-            checked={nameableOnly}
-            onChange={(e) => setNameableOnly(e.target.checked)}
-            className="size-5 accent-[var(--garnet)] focus-ring"
-          />
-          Customizable jersey only
-        </label>
-      </section>
-
-      <section className="mt-10">
-        <div className="relative aspect-[16/9] overflow-hidden bg-ink">
+    <div className="studio-field min-h-screen text-ink">
+      <StoreNav />
+      <main>
+        <section className="relative isolate min-h-[52dvh] overflow-hidden bg-black sm:min-h-[62dvh]">
           <img
             src={active.hero}
-            alt={`${active.label} campaign`}
-            width={1280}
-            height={720}
-            className="h-full w-full object-contain object-center opacity-95"
+            alt=""
+            width={1600}
+            height={900}
+            className="absolute inset-0 h-full w-full object-contain object-center"
           />
-        </div>
-        <div className="flex items-baseline justify-between px-6 py-5 sm:px-10">
-          <h2 className="type-campaign text-3xl text-ink">{active.label}</h2>
-          <p className="place-line">{products.length} pieces</p>
-        </div>
-      </section>
-
-      <section>
-        {products.length === 0 ? (
-          <div className="border-y border-ink/10 px-6 py-16 text-center sm:px-10" role="status">
-            <p className="type-editorial text-lg text-ink/70">The Heritage Jersey lives in 1936 Match.</p>
-            <button
-              type="button"
-              className="place-line tap-44 mt-6 inline-flex items-center text-garnet focus-ring"
-              onClick={() => setNameableOnly(false)}
-            >
-              Show all {active.label}
-            </button>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
+          <div className="relative z-10 mx-auto flex min-h-[52dvh] w-full max-w-[1280px] flex-col justify-end px-6 py-12 sm:min-h-[62dvh] sm:px-10">
+            <p className="place-line text-bone">{active.label}</p>
+            <h1 className="type-editorial mt-4 max-w-xl text-[clamp(2rem,5vw,3.4rem)] text-bone">
+              Performance apparel, club goods and one jersey made personal.
+            </h1>
+            <MotionMark className="mt-6 text-bone" />
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-bone/75">
+              {active.description}
+            </p>
+            <div className="mt-8">
+              {closed ? (
+                <p className="place-line text-bone/50">Closed</p>
+              ) : (
+                <StoreCloseCountdown closesAt={kit.closesAt} className="text-bone/55" />
+              )}
+            </div>
           </div>
-        ) : (
-          <ul className="divide-y divide-ink/10 border-y border-ink/10">
-            {products.map((p) => (
-              <li key={p.id}>
-                <Link
-                  to="/team/$slug/$product"
-                  params={{ slug: kit.slug, product: p.id }}
-                  className="group block px-6 py-8 focus-ring sm:px-10"
-                >
-                  <div className="relative">
-                    {p.nameNumber && <NameableFlag />}
-                    <ProductCardMedia product={p} />
-                  </div>
-                  <div className="mt-5 flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="type-campaign text-xl text-ink">{p.name}</h3>
-                      <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/55">{p.blurb}</p>
-                      {p.sizeChart === "apparel" && (
-                        <p className="place-line mt-3 text-ink/40">S · M · L · XL · 2XL</p>
-                      )}
-                    </div>
-                    <span className="shrink-0 font-sans text-lg tabular-nums text-ink">
-                      {p.personalizedPrice ? `$${p.price}+` : `$${p.price}`}
-                    </span>
-                  </div>
-                  <p className="place-line mt-5 text-garnet">{productAction(p)} →</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
+        </section>
+
+        {!catalogReady && (
+          <div
+            className="mx-auto w-full max-w-[1280px] border-y border-ink/10 px-6 py-3 text-sm leading-snug text-ink/60 sm:px-10"
+            role="status"
+          >
+            Product design and sizing are live. Checkout activates as synced listings become available.
+          </div>
         )}
-      </section>
-    </main>
+
+        <section className="mx-auto w-full max-w-[1280px] px-4 pt-8 sm:px-10">
+          <div
+            className="flex gap-1 overflow-x-auto border-b border-ink/10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            role="tablist"
+            aria-label="Store categories"
+          >
+            {CATEGORIES.map((c) => {
+              const on = c.id === category;
+              return (
+                <Link
+                  key={c.id}
+                  id={c.id}
+                  role="tab"
+                  aria-selected={on}
+                  to={DEPARTMENT_TO[c.id]}
+                  params={{ slug: kit.slug }}
+                  className={`place-line tap-44 shrink-0 border-b px-3 transition-colors duration-micro ease-standard focus-ring ${
+                    on ? "border-ink text-ink" : "border-transparent text-ink/35 hover:text-ink/70"
+                  }`}
+                >
+                  {c.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          <label className="mt-6 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
+            <input
+              type="checkbox"
+              checked={nameableOnly}
+              onChange={(e) => setNameableOnly(e.target.checked)}
+              className="size-4 accent-[var(--garnet)] focus-ring"
+            />
+            Customizable jersey only
+          </label>
+          <p className="place-line mt-6">{products.length} pieces</p>
+        </section>
+
+        <section className="mx-auto w-full max-w-[1280px] px-4 pb-20 sm:px-10">
+          {products.length === 0 ? (
+            <div className="border-y border-ink/10 px-6 py-16 text-center" role="status">
+              <p className="type-editorial text-2xl text-ink/70">The Heritage Jersey lives in 1936 Match.</p>
+              <button
+                type="button"
+                className="place-line tap-44 mt-6 inline-flex items-center text-garnet focus-ring"
+                onClick={() => setNameableOnly(false)}
+              >
+                Show all {active.label}
+              </button>
+            </div>
+          ) : (
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-8 sm:gap-y-16 lg:grid-cols-3">
+              {products.map((p) => (
+                <li key={p.id}>
+                  <Link
+                    to="/team/$slug/$product"
+                    params={{ slug: kit.slug, product: p.id }}
+                    className="group block focus-ring"
+                  >
+                    <div className="relative">
+                      {p.nameNumber && <NameableFlag />}
+                      <ProductCardMedia product={p} />
+                    </div>
+                    <div className="mt-4 space-y-1">
+                      <h3 className="font-display text-[1.05rem] font-medium tracking-[0.04em] text-ink">
+                        {p.name}
+                      </h3>
+                      <p className="font-sans text-sm tabular-nums">${p.personalizedPrice ? `${p.price}+` : p.price}</p>
+                    </div>
+                    <p className="place-line mt-3">{productAction(p)} →</p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </main>
+      <StoreFooter />
+    </div>
   );
 }

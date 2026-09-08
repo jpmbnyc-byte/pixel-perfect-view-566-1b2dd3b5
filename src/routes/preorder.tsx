@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import { CRESTS } from "@/lib/brandAssets";
+import { MotionMark, Wordmark } from "@/components/brand/BrandMarks";
 import setFront from "@/assets/bayonne/campaign/nylon-set-front.jpg";
 import setBack from "@/assets/bayonne/campaign/nylon-set-back.jpg";
 import setDetail from "@/assets/bayonne/campaign/nylon-set-detail.jpg";
 
 export const Route = createFileRoute("/preorder")({
   head: () => {
-    const title = "Avenue A Nylon Set — garnet/black pre-order | No Parade F.C.";
+    const title = "Avenue A Nylon Set — Bayonne Athletics";
     const description =
       "Premium crinkle-nylon unisex tracksuit set in Bayonne garnet and black. Limited first run of 120. Reserve your size — $60 holds it, $300 at delivery.";
     return {
@@ -64,10 +64,9 @@ function PreorderPage() {
 
         <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[720px] flex-col px-6 pb-14 pt-8 sm:px-10">
           <header className="flex items-start justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <img src={CRESTS.primary} alt="" className="h-10 w-10 object-contain" />
-              <p className="place-line text-bone">No Parade F.C. · Avenue A</p>
-            </div>
+            <Link to="/team" className="text-bone focus-ring">
+              <Wordmark variant="compact" align="left" />
+            </Link>
             <Link to="/team" className="place-line text-bone transition-opacity hover:opacity-70">
               Store
             </Link>
@@ -80,10 +79,7 @@ function PreorderPage() {
               <br />
               NYLON SET
             </h1>
-            <div className="tip-asymmetric">
-              <span className="tip-asymmetric-a" />
-              <span className="tip-asymmetric-bone" />
-            </div>
+            <MotionMark className="block text-bone" />
             <p className="max-w-sm text-[0.95rem] leading-relaxed text-bone/75">
               Crinkle nylon. Garnet over black. Unisex block, bonded seams, matte hardware — cut
               once, made in one run of {RUN_TOTAL}.

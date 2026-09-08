@@ -1,7 +1,8 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useMemo, useRef, useState, type HTMLAttributes } from "react";
 
-import { LiquidBackdrop } from "@/components/LiquidBackdrop";
+import { MotionMark } from "@/components/brand/BrandMarks";
+import { StoreNav } from "@/components/brand/StoreNav";
 import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
   FONTS,
@@ -26,7 +27,7 @@ import {
 } from "@/lib/kit";
 import { campaignForProduct } from "@/media/campaignAssets";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
-import { DEPARTMENT_TO } from "@/components/TeamStorePage";
+import { DEPARTMENT_TO } from "@/lib/departments";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
 export const Route = createFileRoute("/team/$slug/$product")({
@@ -232,31 +233,30 @@ function ProductListingPage() {
   };
 
   return (
-    <main className="relative mx-auto min-h-screen w-full max-w-[560px] overflow-hidden bg-background pb-28 font-sans">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] opacity-[0.55]" aria-hidden>
-        <LiquidBackdrop intensity="soft" />
-      </div>
-
-      <header className="relative z-10 px-5 pb-2 pt-5">
+    <div className="studio-field min-h-screen text-ink">
+      <StoreNav />
+      <main className="relative mx-auto w-full max-w-[1280px] px-4 pb-28 sm:px-10">
+      <header className="relative z-10 pb-2 pt-6">
         <Link
           to={DEPARTMENT_TO[product.category]}
           params={{ slug: kit.slug }}
-          className="place-line tap-44 inline-flex items-center text-muted-foreground transition-colors duration-micro ease-standard hover:text-foreground focus-ring"
+          className="place-line tap-44 inline-flex items-center text-ink/45 transition-colors duration-micro ease-standard hover:text-ink focus-ring"
         >
-          ← Bayonne Athletics
+          ← {product.category === "match" ? "1936 Match" : "Bayonne Athletics"}
         </Link>
-        <p className="label-caps mt-4 text-muted-foreground">07002 · Fall 001</p>
-        <h1 className="mt-2 font-kit text-[clamp(1.85rem,7vw,2.5rem)] leading-none tracking-wide">
+        <p className="place-line mt-6">07002 · Fall 001</p>
+        <h1 className="type-editorial mt-3 text-[clamp(2rem,4.5vw,3.1rem)] leading-[1.05] text-ink">
           {product.name}
         </h1>
-        <p className="mt-2 font-sans text-lg font-semibold tabular-nums text-garnet">
+        <p className="mt-4 font-sans text-lg tabular-nums text-ink">
           {product.personalizedPrice
             ? `$${product.price} · $${product.personalizedPrice} personalized`
             : `$${product.price}`}
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{product.blurb}</p>
+        <MotionMark className="mt-5 block text-garnet" />
+        <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink/60">{product.blurb}</p>
         {product.sizeChart === "apparel" && (
-          <p className="label-caps mt-4 text-muted-foreground">Sizes S · M · L · XL · 2XL</p>
+          <p className="place-line mt-4">Sizes S · M · L · XL · 2XL</p>
         )}
       </header>
 
@@ -561,24 +561,25 @@ function ProductListingPage() {
         </section>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-[560px] flex-col gap-1.5 px-5 py-3">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-paper/95 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-1.5 px-5 py-3">
           <button
             type="button"
             disabled={Boolean((shopifyItem && !itemReady) || (hasPersonalization && !personalizedCommerceReady)) && Boolean(size && confirmed)}
             onClick={goNext}
-            className="w-full bg-foreground py-4 text-sm font-bold uppercase tracking-wide text-background transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
+            className="w-full bg-ink py-4 font-sans text-xs font-medium uppercase tracking-[0.22em] text-bone transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
           >
             {nextLabel}
           </button>
-          <p className="text-center text-xs leading-snug text-muted-foreground">
+          <p className="text-center text-xs leading-snug text-ink/45">
             {product.nameNumber
               ? "Base jersey $78 · personalized jersey $98 · preview updates as you type"
               : "Fall 001 · product selection saved when checkout listing opens"}
           </p>
         </div>
       </div>
-    </main>
+      </main>
+    </div>
   );
 }
 

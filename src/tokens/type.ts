@@ -1,8 +1,11 @@
-/** Type stacks — story / wordmark / kit personalization. */
+/** Type stacks — storefront identity vs kit personalization. */
 
 export const TYPE = {
-  story: "Instrument Serif",
-  wordmark: "Forge",
+  wordmark: "Bodoni Moda",
+  story: "Cormorant Garamond",
+  ui: "Barlow",
+  numeric: "Oswald",
+  script: "Great Vibes",
   kit: {
     railCut: "Rail Cut",
     beacon: "Beacon",

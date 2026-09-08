@@ -58,11 +58,12 @@ export const MATCH_DEPARTMENT_COPY = {
 } as const;
 
 export const STORE_INTRO_COPY = {
-  eyebrow: "Bayonne store",
-  title: "Garnet. Not “close enough” red.",
-  body: "Bayonne has worn the color long enough to know when it’s wrong.\n\nSo we started there.\n\nTeam customs built around the garnet, history and visual language of Avenue A — then stripped away everything that didn’t belong.\n\nFor the players.\nFor the sideline.\nFor the people who never really stopped wearing Bayonne.",
-  lockup: "Garnet since 1936.",
-  cta: "Enter the store →",
+  eyebrow: "Bayonne Athletics",
+  title: "Built different.",
+  body: "Bayonne Athletics is built around the things a uniform does when the game is over.\n\nMatch pieces. Training layers. Heavyweight travel goods. The cap you keep by the door.\n\nTrain · Compete · Represent.",
+  lockup: "Built different.",
+  motto: "Train · Compete · Represent",
+  cta: "Enter Fall 001",
 } as const;
 
 export function matchCopyFor(productId: string): MatchProductCopy | null {

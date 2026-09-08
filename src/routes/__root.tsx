@@ -77,18 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "No Parade F.C. — Team Order Engine" },
+      { title: "Bayonne Athletics — Fall 001" },
       {
         name: "description",
         content:
-          "Order your team's custom No Parade F.C. kit — name, number and size in under a minute.",
+          "Bayonne Athletics Fall 001. Built different. Match, performance, travel and club goods.",
       },
-      { name: "author", content: "No Parade F.C." },
-      { property: "og:title", content: "No Parade F.C. — Team Order Engine" },
+      { name: "author", content: "Bayonne Athletics" },
+      { property: "og:title", content: "Bayonne Athletics — Fall 001" },
       {
         property: "og:description",
         content:
-          "Order your team's custom No Parade F.C. kit — name, number and size in under a minute.",
+          "Bayonne Athletics Fall 001. Built different. Match, performance, travel and club goods.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -103,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         /* UI chrome only — kit lettering faces are local OTFs in styles.css */
-        href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Oswald:wght@500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
