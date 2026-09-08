@@ -20,8 +20,7 @@ import matchShortThreeQuarter from "@/assets/bayonne/fall001/match-short-three-q
 import matchShortBack from "@/assets/bayonne/fall001/match-short-back.png";
 import matchSetFront from "@/assets/bayonne/fall001/match-set-front.png";
 
-import performanceHero from "@/assets/bayonne/fall001/performance-male-hero.webp";
-import performanceHeroBack from "@/assets/bayonne/fall001/performance-male-back.webp";
+import performanceHero from "@/assets/bayonne/fall001/performance-hero.jpg";
 import performanceLsFront from "@/assets/bayonne/fall001/performance-ls-front.jpg";
 import performanceLsBack from "@/assets/bayonne/fall001/performance-ls-back.jpg";
 import performanceShortFront from "@/assets/bayonne/fall001/performance-short-front.jpg";
@@ -102,13 +101,13 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     productFront: performanceLsFront,
     productBack: performanceLsBack,
     modelFront: performanceHero,
-    modelSecondary: performanceHeroBack,
+    modelSecondary: performanceLsBack,
   },
   "performance-short": {
     productFront: performanceShortFront,
     productBack: performanceShortFront,
     modelFront: performanceHero,
-    modelSecondary: performanceHeroBack,
+    modelSecondary: performanceLsBack,
   },
   "mens-raglan": {
     productFront: mensRaglanBack,
@@ -121,7 +120,7 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     productFront: performanceLsFront,
     productBack: performanceShortFront,
     modelFront: performanceHero,
-    modelSecondary: performanceHeroBack,
+    modelSecondary: performanceLsBack,
   },
   "max-heavy-full-zip": {
     productFront: maxHeavyFullZipFront,
