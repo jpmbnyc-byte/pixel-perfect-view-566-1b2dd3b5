@@ -120,24 +120,23 @@ function TeamLanding() {
 
       {(
         [
-          ["match", SURFACES.landingHero, jersey, HERO_CROP.match.position],
-          ["performance", SURFACES.landingSideline, performanceLs, HERO_CROP.performance.position],
-          ["travel", SURFACES.landingTravel, travelSet, HERO_CROP.travel.position],
-          ["harbor", SURFACES.landingHarbor, harbor, HERO_CROP.harbor.position],
-          ["club", SURFACES.landingClub, cap, HERO_CROP.club.position],
+          ["match", SURFACES.categoryHero.match, jersey, HERO_CROP.match],
+          ["performance", SURFACES.landingSideline, performanceLs, HERO_CROP.performance],
+          ["travel", SURFACES.landingTravel, travelSet, HERO_CROP.travel],
+          ["harbor", SURFACES.landingHarbor, harbor, HERO_CROP.harbor],
+          ["club", SURFACES.landingClub, cap, HERO_CROP.club],
         ] as const
-      ).map(([id, hero, featured, position]) => {
+      ).map(([id, hero, featured, crop]) => {
         const dept = DEPARTMENT_COPY[id];
         const cat = CATEGORIES.find((c) => c.id === id)!;
-        const contain = id === "harbor";
         return (
           <section key={id} className="relative isolate overflow-hidden">
-            <div className={`absolute inset-0 ${contain ? "bg-black" : ""}`} aria-hidden>
+            <div className="absolute inset-0 bg-black" aria-hidden>
               <img
                 src={hero}
                 alt=""
-                className={`h-full w-full ${contain ? "object-contain" : "object-cover"}`}
-                style={{ objectPosition: position }}
+                className={`h-full w-full ${crop.fit === "cover" ? "object-cover" : "object-contain"}`}
+                style={{ objectPosition: crop.position }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/40 to-black/25" />
             </div>

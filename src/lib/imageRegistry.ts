@@ -21,6 +21,7 @@ import matchShortBack from "@/assets/bayonne/fall001/match-short-back.png";
 import matchSetFront from "@/assets/bayonne/fall001/match-set-front.png";
 
 import performanceHero from "@/assets/bayonne/fall001/performance-hero.jpg";
+import performanceLsModel from "@/assets/bayonne/fall001/performance-ls-model.jpg";
 import performanceLsFront from "@/assets/bayonne/fall001/performance-ls-front.jpg";
 import performanceLsBack from "@/assets/bayonne/fall001/performance-ls-back.jpg";
 import performanceShortFront from "@/assets/bayonne/fall001/performance-short-front.jpg";
@@ -100,7 +101,7 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "performance-ls": {
     productFront: performanceLsFront,
     productBack: performanceLsBack,
-    modelFront: performanceHero,
+    modelFront: performanceLsModel,
     modelSecondary: performanceLsBack,
   },
   "performance-short": {
@@ -176,9 +177,9 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
 
 export const HEROES = {
   landing: matchHeroStadium,
-  match: matchHeroStadium,
+  match: heritageJerseyModelBack,
   performance: performanceHero,
-  travel: travelSetModelFront,
+  travel: travelSetThreeQuarter,
   harbor: harborCoachFront,
   club: clubGoodsHero,
   og: matchHeroStadium,
@@ -189,11 +190,11 @@ export const HERO_CROP: Record<
   { fit: "cover" | "contain"; position: string }
 > = {
   landing: { fit: "cover", position: "center 28%" },
-  match: { fit: "cover", position: "center 32%" },
-  performance: { fit: "cover", position: "center 12%" },
-  travel: { fit: "cover", position: "center 18%" },
-  harbor: { fit: "contain", position: "center" },
-  club: { fit: "cover", position: "center 22%" },
+  match: { fit: "cover", position: "center 18%" },
+  performance: { fit: "cover", position: "center 58%" },
+  travel: { fit: "cover", position: "center 16%" },
+  harbor: { fit: "cover", position: "center 42%" },
+  club: { fit: "cover", position: "center 10%" },
   og: { fit: "cover", position: "center 28%" },
 };
 
