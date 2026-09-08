@@ -21,6 +21,19 @@ GUID filenames as committed from camera/Photos. The storefront imports only huma
 | 656799C3-1F5B-4130-A834-7C0F1F8F2BFA.png | club-sock-detail.png |
 | 0C045F07-B350-469F-B9A5-F9159A21415F.png | gothic-b-beanie-back.png |
 | 0D0FA75B-E204-495B-ADCC-6F9FC6E74436.png | gothic-b-beanie-model-back.png |
+| A6BCE061-D384-451E-94AC-2C191A1D392D.png | gothic-b-beanie-black-front.png |
+| F3AD910A-5958-4AC5-8048-DABC9891611C.png | gothic-b-beanie-black-logo.png |
+| 7F9B2099-D26A-4FC5-A95A-E448E61B6EDA.png | gothic-b-beanie-black-model.png |
+| 63E9E8BB-8034-4FE4-98FB-A72CA1503E0A.png | gothic-b-beanie-black-model-three-quarter.png |
+| CC56DF2F-A5EE-46FD-A3CA-6E3A9E6DA987.png | gothic-b-beanie-black-lifestyle.png |
+| 074DC134-5DD5-45E4-9D1F-C64CB60CC712.png | gothic-b-beanie-brown-front.png |
+| B803EB25-CE8F-4FAA-A77F-6468E3727AD9.png | gothic-b-beanie-brown-logo.png |
+| 27036BA1-86CF-420C-AF03-48DC3F450F9D.png | gothic-b-beanie-brown-back.png |
+| 5E9F3FC3-57EE-4AFA-A679-A2B980CB2022.png | gothic-b-beanie-brown-model.png |
+| F749BFF5-9890-4453-BBCF-6F13E4C58771.png | gothic-b-beanie-brown-model-three-quarter.png |
+| 7F8FC317-078B-4C55-BADB-A92937E28968.png | harbor-sweatpant-grey-mark.png |
+| 9FA35E35-0128-49E6-940C-EBD5B40D5C7A.png | harbor-sweatpant-grey-waist.png |
+| 65949BC9-94FA-48B6-B04C-F8C97DD5CE4D.png | harbor-sweatpant-grey-model.png |
 
 Corrupt 15KB blobs that were not valid WebP (`performance-male-hero.webp`, `performance-male-back.webp`, `heritage-jersey-model-*.webp`) are archived here and not imported by the storefront.
 

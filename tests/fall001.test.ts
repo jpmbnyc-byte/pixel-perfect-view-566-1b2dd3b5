@@ -4,8 +4,8 @@ import { IMAGE_REGISTRY } from "@/lib/imageRegistry";
 import { sourceForProduct } from "@/lib/productSources";
 
 describe("Fall 001 assortment", () => {
-  it("locks 34 live listings including Harbor Division at $98", () => {
-    expect(PRODUCTS).toHaveLength(34);
+  it("locks 36 live listings including Harbor Division at $98", () => {
+    expect(PRODUCTS).toHaveLength(36);
     const harbor = productById("harbor-coach")!;
     expect(harbor.name).toBe("Harbor Division Hooded Coach Jacket");
     expect(harbor.price).toBe(98);
@@ -15,7 +15,11 @@ describe("Fall 001 assortment", () => {
   it("keeps the full Bayonne product system in the storefront", () => {
     expect(productById("club-hood")?.name).toBe("Club Hood");
     expect(productById("local-issue-ls")?.name).toBe("Local Issue Longsleeve");
-    expect(productById("sideline-shell")?.name).toBe("Sideline Shell");
+    expect(productById("sideline-shell")).toBeUndefined();
+    expect(productById("harbor-sweatpant-black")?.name).toBe("Harbor Sweatpant — Black / Garnet");
+    expect(productById("harbor-sweatpant-grey")?.name).toBe("Harbor Sweatpant — Heather Grey / Garnet");
+    expect(productById("gothic-b-beanie")?.name).toBe("Gothic B Beanie — Black");
+    expect(productById("gothic-b-beanie-brown")?.name).toBe("Gothic B Beanie — Brown");
     expect(productById("field-short-grey")?.name).toBe("Field Short — Grey");
     expect(productById("field-short-bone")?.name).toBe("Field Short — Bone");
     expect(productById("market-tote")?.name).toBe("Market Tote");
@@ -48,8 +52,8 @@ describe("Fall 001 assortment", () => {
     expect(productsInCategory("match")).toHaveLength(6);
     expect(productsInCategory("performance")).toHaveLength(7);
     expect(productsInCategory("travel")).toHaveLength(8);
-    expect(productsInCategory("harbor")).toHaveLength(2);
-    expect(productsInCategory("club")).toHaveLength(11);
+    expect(productsInCategory("harbor")).toHaveLength(3);
+    expect(productsInCategory("club")).toHaveLength(12);
     expect(productsInCategory("club").map((p) => p.id)[0]).toBe("two-tone-cap");
     for (const p of PRODUCTS.filter((item) => item.sizeChart === "apparel")) {
       expect(p.sizeChart).toBe("apparel");
@@ -76,6 +80,8 @@ describe("Fall 001 assortment", () => {
     expect(productById("nb-bbp400")?.name).toBe("New Balance BB P400");
     expect(LOOKBOOK_TEASER_IDS).toContain("nb-runner");
     expect(LOOKBOOK_TEASER_IDS).toContain("gothic-b-beanie");
+    expect(LOOKBOOK_TEASER_IDS).toContain("gothic-b-beanie-brown");
+    expect(LOOKBOOK_TEASER_IDS).toContain("harbor-sweatpant-grey");
     expect(LOOKBOOK_TEASER_IDS).not.toContain("mens-raglan");
     expect(productById("nb-runner-heat")?.line).toMatch(/Pink Heat/);
     expect(productById("nb-runner-cardinal")?.line).toMatch(/Cardinal/);
@@ -111,7 +117,7 @@ describe("Fall 001 assortment", () => {
         "local-issue-ls",
         "pique-polo",
         "pocket-ls",
-        "sideline-shell",
+        "harbor-sweatpant-black",
         "club-sock-4pk",
         "market-tote",
         "nb-p400-chalk",
@@ -129,6 +135,25 @@ describe("Fall 001 assortment", () => {
     expect(IMAGE_REGISTRY["performance-set"].modelSecondary).not.toBe(
       IMAGE_REGISTRY["performance-set"].modelFront,
     );
+    expect(IMAGE_REGISTRY["gothic-b-beanie"].productFront).not.toBe(
+      IMAGE_REGISTRY["gothic-b-beanie"].productBack,
+    );
+    expect(IMAGE_REGISTRY["gothic-b-beanie-brown"].productFront).toBeTruthy();
+    expect(IMAGE_REGISTRY["harbor-sweatpant-grey"].productFront).toBeTruthy();
+  });
+
+  it("leads Gothic B Beanie PDPs with the front-B plates, not the back", async () => {
+    const { galleryShots } = await import("@/lib/imageRegistry");
+    const black = galleryShots("gothic-b-beanie");
+    const brown = galleryShots("gothic-b-beanie-brown");
+    expect(black[0]?.src).toBe(IMAGE_REGISTRY["gothic-b-beanie"].productFront);
+    expect(brown[0]?.src).toBe(IMAGE_REGISTRY["gothic-b-beanie-brown"].productFront);
+    expect(black).toHaveLength(7);
+    expect(brown).toHaveLength(5);
+    expect(black[0]?.alt).toMatch(/front with garnet B/);
+    expect(brown[0]?.alt).toMatch(/front with garnet B/);
+    expect(productById("gothic-b-beanie")?.line).toMatch(/Black \/ Garnet/);
+    expect(productById("gothic-b-beanie-brown")?.line).toMatch(/Brown \/ Garnet/);
   });
 
   it("does not import expired mascot, boxing-kit, or corrupt plates", async () => {

@@ -121,21 +121,6 @@ export const PRODUCT_SOURCES: Record<string, ProductSource> = {
       "Drawcord at hood and hem",
     ],
   },
-  "sideline-shell": {
-    supplier: "OpenTip",
-    sourceName: "Independent Trading Co. EXP54LWZ Lightweight Windbreaker Jacket",
-    sourceUrl: "https://www.opentip.com/product.php?products_id=13571156",
-    verifiedOn: "2026-09-08",
-    facts: [
-      "82 gsm 100% polyester shell",
-      "Interior water-resistant coating",
-      "600 mm listed water-pressure resistance",
-      "Zip front",
-      "Mesh-lined three-panel hood",
-      "Welt pockets",
-      "Packable lightweight construction",
-    ],
-  },
   "field-short-grey": {
     supplier: "OpenTip",
     sourceName: "Badger Sport 421200 Lineup Short",

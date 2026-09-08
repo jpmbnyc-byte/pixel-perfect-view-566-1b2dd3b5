@@ -26,8 +26,10 @@ const LIVE_IDS: CanonicalProductId[] = [
   "pocket-ls",
   "field-cargo",
   "harbor-coach",
+  "harbor-sweatpant-grey",
   "two-tone-cap",
   "gothic-b-beanie",
+  "gothic-b-beanie-brown",
   "club-sock",
   "nb-bbp400",
   "nb-p400-chalk",
@@ -61,6 +63,7 @@ export const CAMPAIGN_SHOTS: Record<string, CampaignViewMap> = {
   "jersey-dress": shots["field-cargo"],
   "aop-hat": shots["two-tone-cap"],
   beanie: shots["gothic-b-beanie"],
+  "beanie-brown": shots["gothic-b-beanie-brown"],
 };
 
 /** Build-map SKU → campaign views (internal production docs). */

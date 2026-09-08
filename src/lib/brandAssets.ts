@@ -9,6 +9,7 @@ import queenCrest from "@/assets/bayonne/reveal/reveal-01-crest.jpg";
 import {
   COMING_SOON,
   HEROES,
+  IMAGE_REGISTRY,
   campaignViews,
   platePair,
   type CanonicalProductId,
@@ -27,32 +28,9 @@ export type PlatePair = {
   secondary: string;
 };
 
-const CANONICAL_PLATES = {
-  "heritage-jersey": platePair("heritage-jersey"),
-  "match-short": platePair("match-short"),
-  "match-set": platePair("match-set"),
-  "performance-ls": platePair("performance-ls"),
-  "performance-short": platePair("performance-short"),
-  "mens-raglan": platePair("mens-raglan"),
-  "womens-raglan": platePair("womens-raglan"),
-  "performance-set": platePair("performance-set"),
-  "max-heavy-full-zip": platePair("max-heavy-full-zip"),
-  "max-heavy-sweatpant": platePair("max-heavy-sweatpant"),
-  "travel-set": platePair("travel-set"),
-  "pique-polo": platePair("pique-polo"),
-  "pocket-ls": platePair("pocket-ls"),
-  "field-cargo": platePair("field-cargo"),
-  "harbor-coach": platePair("harbor-coach"),
-  "two-tone-cap": platePair("two-tone-cap"),
-  "gothic-b-beanie": platePair("gothic-b-beanie"),
-  "club-sock": platePair("club-sock"),
-  "nb-bbp400": platePair("nb-bbp400"),
-  "nb-p400-chalk": platePair("nb-p400-chalk"),
-  "nb-p400-volt": platePair("nb-p400-volt"),
-  "nb-runner": platePair("nb-runner"),
-  "nb-runner-heat": platePair("nb-runner-heat"),
-  "nb-runner-cardinal": platePair("nb-runner-cardinal"),
-} as const satisfies Record<CanonicalProductId, PlatePair>;
+const CANONICAL_PLATES = Object.fromEntries(
+  (Object.keys(IMAGE_REGISTRY) as CanonicalProductId[]).map((id) => [id, platePair(id)]),
+) as Record<CanonicalProductId, PlatePair>;
 
 /** Legacy plate keys used by internal build-map SKUs. */
 export const PLATES = {

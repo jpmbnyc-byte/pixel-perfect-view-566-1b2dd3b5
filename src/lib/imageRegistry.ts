@@ -42,10 +42,23 @@ import travelSetModelFront from "@/assets/bayonne/fall001/travel-set-model-front
 import travelSetThreeQuarter from "@/assets/bayonne/fall001/travel-set-three-quarter.png";
 
 import harborCoachFront from "@/assets/bayonne/fall001/harbor-coach-front.png";
+import harborSweatpantGreyMark from "@/assets/bayonne/fall001/harbor-sweatpant-grey-mark.png";
+import harborSweatpantGreyWaist from "@/assets/bayonne/fall001/harbor-sweatpant-grey-waist.png";
+import harborSweatpantGreyModel from "@/assets/bayonne/fall001/harbor-sweatpant-grey-model.png";
 
 import clubGoodsHero from "@/assets/bayonne/fall001/club-goods-hero.png";
+import gothicBBeanieBlackFront from "@/assets/bayonne/fall001/gothic-b-beanie-black-front.png";
+import gothicBBeanieBlackLogo from "@/assets/bayonne/fall001/gothic-b-beanie-black-logo.png";
+import gothicBBeanieBlackModel from "@/assets/bayonne/fall001/gothic-b-beanie-black-model.png";
+import gothicBBeanieBlackModelThreeQuarter from "@/assets/bayonne/fall001/gothic-b-beanie-black-model-three-quarter.png";
+import gothicBBeanieBlackLifestyle from "@/assets/bayonne/fall001/gothic-b-beanie-black-lifestyle.png";
 import gothicBBeanieBack from "@/assets/bayonne/fall001/gothic-b-beanie-back.png";
 import gothicBBeanieModelBack from "@/assets/bayonne/fall001/gothic-b-beanie-model-back.png";
+import gothicBBeanieBrownFront from "@/assets/bayonne/fall001/gothic-b-beanie-brown-front.png";
+import gothicBBeanieBrownLogo from "@/assets/bayonne/fall001/gothic-b-beanie-brown-logo.png";
+import gothicBBeanieBrownBack from "@/assets/bayonne/fall001/gothic-b-beanie-brown-back.png";
+import gothicBBeanieBrownModel from "@/assets/bayonne/fall001/gothic-b-beanie-brown-model.png";
+import gothicBBeanieBrownModelThreeQuarter from "@/assets/bayonne/fall001/gothic-b-beanie-brown-model-three-quarter.png";
 import clubSockFront from "@/assets/bayonne/fall001/club-sock-front.png";
 import clubSockDetail from "@/assets/bayonne/fall001/club-sock-detail.png";
 
@@ -114,9 +127,11 @@ export type CanonicalProductId =
   | "recreation-crew"
   | "local-issue-ls"
   | "harbor-coach"
-  | "sideline-shell"
+  | "harbor-sweatpant-black"
+  | "harbor-sweatpant-grey"
   | "two-tone-cap"
   | "gothic-b-beanie"
+  | "gothic-b-beanie-brown"
   | "club-sock"
   | "club-sock-4pk"
   | "market-tote"
@@ -201,7 +216,13 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     productBack: harborCoachFront,
     modelFront: harborCoachFront,
   },
-  "sideline-shell": { pending: true },
+  "harbor-sweatpant-black": { pending: true },
+  "harbor-sweatpant-grey": {
+    productFront: harborSweatpantGreyMark,
+    productBack: harborSweatpantGreyWaist,
+    modelFront: harborSweatpantGreyModel,
+    modelSecondary: harborSweatpantGreyMark,
+  },
   "two-tone-cap": {
     productFront: clubGoodsHero,
     productBack: clubGoodsHero,
@@ -209,10 +230,16 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelSecondary: clubGoodsHero,
   },
   "gothic-b-beanie": {
-    productFront: gothicBBeanieBack,
+    productFront: gothicBBeanieBlackFront,
     productBack: gothicBBeanieBack,
-    modelFront: gothicBBeanieModelBack,
-    modelSecondary: gothicBBeanieBack,
+    modelFront: gothicBBeanieBlackModel,
+    modelSecondary: gothicBBeanieBlackLifestyle,
+  },
+  "gothic-b-beanie-brown": {
+    productFront: gothicBBeanieBrownFront,
+    productBack: gothicBBeanieBrownBack,
+    modelFront: gothicBBeanieBrownModel,
+    modelSecondary: gothicBBeanieBrownModelThreeQuarter,
   },
   "club-sock": {
     productFront: clubSockFront,
@@ -319,12 +346,39 @@ const PERFORMANCE_SHORT_GALLERY: GalleryShot[] = [
   { src: performanceMenTight, alt: "7\" Performance Short, men’s crop" },
 ];
 
+const GOTHIC_B_BEANIE_BLACK_GALLERY: GalleryShot[] = [
+  { src: gothicBBeanieBlackFront, alt: "Gothic B Beanie in black, front with garnet B" },
+  { src: gothicBBeanieBlackModel, alt: "Gothic B Beanie in black, worn" },
+  { src: gothicBBeanieBlackModelThreeQuarter, alt: "Gothic B Beanie in black, three-quarter" },
+  { src: gothicBBeanieBlackLogo, alt: "Gothic B Beanie in black, garnet B detail" },
+  { src: gothicBBeanieBlackLifestyle, alt: "Gothic B Beanie in black, on the street" },
+  { src: gothicBBeanieBack, alt: "Gothic B Beanie in black, back" },
+  { src: gothicBBeanieModelBack, alt: "Gothic B Beanie in black, worn from behind" },
+];
+
+const GOTHIC_B_BEANIE_BROWN_GALLERY: GalleryShot[] = [
+  { src: gothicBBeanieBrownFront, alt: "Gothic B Beanie in brown, front with garnet B" },
+  { src: gothicBBeanieBrownModel, alt: "Gothic B Beanie in brown, worn" },
+  { src: gothicBBeanieBrownModelThreeQuarter, alt: "Gothic B Beanie in brown, three-quarter" },
+  { src: gothicBBeanieBrownLogo, alt: "Gothic B Beanie in brown, garnet B detail" },
+  { src: gothicBBeanieBrownBack, alt: "Gothic B Beanie in brown, back" },
+];
+
+const HARBOR_SWEATPANT_GREY_GALLERY: GalleryShot[] = [
+  { src: harborSweatpantGreyMark, alt: "Harbor Sweatpant in heather grey, garnet 07002 mark" },
+  { src: harborSweatpantGreyModel, alt: "Harbor Sweatpant in heather grey, worn" },
+  { src: harborSweatpantGreyWaist, alt: "Harbor Sweatpant in heather grey, waist and drawcord" },
+];
+
 /** Ordered storefront gallery. Never the customizer overlay base except the dedicated blank back. */
 export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "heritage-jersey") return MATCH_JERSEY_GALLERY;
   if (id === "performance-set") return PERFORMANCE_SET_GALLERY;
   if (id === "performance-ls") return PERFORMANCE_LS_GALLERY;
   if (id === "performance-short") return PERFORMANCE_SHORT_GALLERY;
+  if (id === "gothic-b-beanie") return GOTHIC_B_BEANIE_BLACK_GALLERY;
+  if (id === "gothic-b-beanie-brown") return GOTHIC_B_BEANIE_BROWN_GALLERY;
+  if (id === "harbor-sweatpant-grey") return HARBOR_SWEATPANT_GREY_GALLERY;
   const set = IMAGE_REGISTRY[id];
   if (set.pending) return [];
   const views = campaignViews(id);

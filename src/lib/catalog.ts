@@ -86,7 +86,7 @@ export const CATEGORIES: Category[] = [
   {
     id: "harbor",
     label: "Harbor Division",
-    description: "Outerwear shaped by the industrial edge of the city: black shell, quiet front, bridge at the back.",
+    description: "Coach shell and fleece sweats for the waterfront — quiet fronts, garnet marks, industrial edge.",
     hero: HEROES.harbor,
     heroFit: HERO_CROP.harbor.fit,
     heroPosition: HERO_CROP.harbor.position,
@@ -208,10 +208,14 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("local-issue-ls", "bayonne-local-issue-long-sleeve", "Local Issue Longsleeve", "travel", 54),
 
   listing("harbor-coach", "bayonne-harbor-division-hooded-coach", "Harbor Division Hooded Coach Jacket", "harbor", 98),
-  listing("sideline-shell", "bayonne-sideline-shell", "Sideline Shell", "harbor", 98),
+  listing("harbor-sweatpant-black", "bayonne-harbor-sweatpant-black", "Harbor Sweatpant — Black / Garnet", "harbor", 88),
+  listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 88),
 
   listing("two-tone-cap", "bayonne-two-tone-club-cap", "Two-Tone Club Cap", "club", 36, { sizeChart: "hat" }),
-  listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie", "club", 34, { sizeChart: "hat" }),
+  listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie — Black", "club", 34, { sizeChart: "hat" }),
+  listing("gothic-b-beanie-brown", "bayonne-gothic-b-beanie-brown", "Gothic B Beanie — Brown", "club", 34, {
+    sizeChart: "hat",
+  }),
   listing("club-sock", "bayonne-club-sock", "Club Sock", "club", 18, { sizeChart: "sock" }),
   listing("club-sock-4pk", "bayonne-club-sock-4-pack", "Club Sock 4-Pack", "club", 60, { sizeChart: "sock" }),
   listing("market-tote", "bayonne-market-tote", "Market Tote", "club", 28, { sizeChart: "hat" }),
@@ -250,8 +254,10 @@ export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
   "performance-short",
   "travel-set",
   "harbor-coach",
+  "harbor-sweatpant-grey",
   "two-tone-cap",
   "gothic-b-beanie",
+  "gothic-b-beanie-brown",
   "nb-bbp400",
   "nb-runner",
 ];
