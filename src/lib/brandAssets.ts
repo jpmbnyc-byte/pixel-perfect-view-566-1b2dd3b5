@@ -44,7 +44,11 @@ const CANONICAL_PLATES = {
   "gothic-b-beanie": platePair("gothic-b-beanie"),
   "club-sock": platePair("club-sock"),
   "nb-bbp400": platePair("nb-bbp400"),
+  "nb-p400-chalk": platePair("nb-p400-chalk"),
+  "nb-p400-volt": platePair("nb-p400-volt"),
   "nb-runner": platePair("nb-runner"),
+  "nb-runner-heat": platePair("nb-runner-heat"),
+  "nb-runner-cardinal": platePair("nb-runner-cardinal"),
 } as const satisfies Record<CanonicalProductId, PlatePair>;
 
 /** Legacy plate keys used by internal build-map SKUs. */

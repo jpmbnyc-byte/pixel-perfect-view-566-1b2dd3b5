@@ -3,8 +3,8 @@ import { CATEGORIES, LOOKBOOK_TEASER_IDS, PRODUCTS, productById, productsInCateg
 import { IMAGE_REGISTRY } from "@/lib/imageRegistry";
 
 describe("Fall 001 assortment", () => {
-  it("locks 20 live listings including Harbor Division at $98", () => {
-    expect(PRODUCTS).toHaveLength(20);
+  it("locks 24 live listings including Harbor Division at $98", () => {
+    expect(PRODUCTS).toHaveLength(24);
     const harbor = productById("harbor-coach")!;
     expect(harbor.name).toBe("Harbor Division Hooded Coach Jacket");
     expect(harbor.price).toBe(98);
@@ -44,6 +44,10 @@ describe("Fall 001 assortment", () => {
     expect(productById("nb-runner")?.name).toBe("New Balance AC Runner");
     expect(productById("nb-bbp400")?.name).toBe("New Balance P400");
     expect(LOOKBOOK_TEASER_IDS).toContain("nb-runner");
+    expect(LOOKBOOK_TEASER_IDS).toContain("nb-runner-heat");
+    expect(productById("nb-runner-heat")?.line).toMatch(/Pink Heat/);
+    expect(productById("nb-runner-cardinal")?.line).toMatch(/Cardinal/);
+    expect(productById("nb-p400-volt")?.line).toMatch(/Afterglow/);
   });
 
   it("teases only photographed pieces on the landing lookbook", () => {
@@ -61,7 +65,9 @@ describe("Fall 001 assortment", () => {
 
   it("marks only unresolved families as pending photography", () => {
     const pending = PRODUCTS.filter((p) => p.imageryPending).map((p) => p.id).sort();
-    expect(pending).toEqual(["field-cargo", "pique-polo", "pocket-ls", "womens-raglan"].sort());
+    expect(pending).toEqual(
+      ["field-cargo", "nb-p400-chalk", "pique-polo", "pocket-ls", "womens-raglan"].sort(),
+    );
     expect(IMAGE_REGISTRY["harbor-coach"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["heritage-jersey"].modelFront).toBeTruthy();
   });

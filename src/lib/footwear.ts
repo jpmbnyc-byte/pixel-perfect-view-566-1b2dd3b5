@@ -1,12 +1,15 @@
 /**
- * Fall 001 footwear — only sizes actually on the buy, men’s display with
- * women’s conversion (+1.5 US). Do not show a full empty size run.
- *
- * Mapped from the live wholesale variant SKU suffix (D-04 = 4, D-125 = 12.5)
- * plus the UPCs on the buy. Unmapped UPCs stay off the size grid.
+ * Fall 001 footwear — one listing per colorway on the buy.
+ * Men’s US display, women’s = +1.5. Only the size on that barcode.
  */
 
-export type FootwearId = "nb-bbp400" | "nb-runner";
+export type FootwearId =
+  | "nb-runner"
+  | "nb-runner-heat"
+  | "nb-runner-cardinal"
+  | "nb-bbp400"
+  | "nb-p400-chalk"
+  | "nb-p400-volt";
 
 export type ShoeRun = {
   men: string;
@@ -30,28 +33,19 @@ export function formatShoeOption(row: ShoeRun) {
   return `${row.men}M · ${row.women}W`;
 }
 
-/**
- * UPCs on the Fall 001 buy. Sizes are listed only after the variant suffix
- * is confirmed. Do not invent sizes for barcodes still in pending.
- */
-export const FOOTWEAR_BUY_UPCS: Record<FootwearId, readonly string[]> = {
-  "nb-runner": ["198689462957", "198688679899", "199063548267"],
-  "nb-bbp400": ["198689917464", "199063943796", "198689850297"],
-};
-
 export const FOOTWEAR_RUNS: Record<FootwearId, ShoeRun[]> = {
   "nb-runner": [run("12.5", "198689462957")],
+  "nb-runner-heat": [run("12.5", "198688679899")],
+  "nb-runner-cardinal": [run("11.5", "199063548267")],
   "nb-bbp400": [run("4", "198689917464")],
+  "nb-p400-chalk": [run("4", "199063943796")],
+  "nb-p400-volt": [run("4", "198689850297")],
 };
 
-/** On the buy; size suffix not yet confirmed — never offered at checkout. */
-export const FOOTWEAR_UPCS_PENDING_SIZE: Record<FootwearId, string[]> = {
-  "nb-runner": ["198688679899", "199063548267"],
-  "nb-bbp400": ["199063943796", "198689850297"],
-};
+export const FOOTWEAR_IDS = Object.keys(FOOTWEAR_RUNS) as FootwearId[];
 
 export function isFootwearId(id: string): id is FootwearId {
-  return id === "nb-bbp400" || id === "nb-runner";
+  return id in FOOTWEAR_RUNS;
 }
 
 export function shoeRunsFor(productId: string): ShoeRun[] {

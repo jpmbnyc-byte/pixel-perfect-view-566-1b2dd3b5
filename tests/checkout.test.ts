@@ -63,5 +63,12 @@ describe("Stripe checkout pricing", () => {
     }
     expect(resolveCheckout({ productId: "nb-runner", size: "10" }).ok).toBe(false);
     expect(resolveCheckout({ productId: "nb-bbp400", size: "11" }).ok).toBe(false);
+    const heat = resolveCheckout({ productId: "nb-runner-heat", size: "12.5" });
+    const cardinal = resolveCheckout({ productId: "nb-runner-cardinal", size: "11.5" });
+    const volt = resolveCheckout({ productId: "nb-p400-volt", size: "4" });
+    expect(heat.ok && heat.value.description.includes("198688679899")).toBe(true);
+    expect(cardinal.ok && cardinal.value.description.includes("11.5M · 13W")).toBe(true);
+    expect(volt.ok && volt.value.description.includes("198689850297")).toBe(true);
+    expect(resolveCheckout({ productId: "nb-runner-cardinal", size: "12.5" }).ok).toBe(false);
   });
 });

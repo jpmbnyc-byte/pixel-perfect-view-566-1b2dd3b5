@@ -44,10 +44,24 @@ import nbAcRunnerLateral from "@/assets/bayonne/fall001/nb-ac-runner-lateral.jpg
 import nbAcRunnerAngle from "@/assets/bayonne/fall001/nb-ac-runner-medial.jpg";
 import nbAcRunnerTop from "@/assets/bayonne/fall001/nb-ac-runner-top.jpg";
 import nbAcRunnerOutsole from "@/assets/bayonne/fall001/nb-ac-runner-detail.jpg";
+import nbAcHeatLateral from "@/assets/bayonne/fall001/nb-ac-heat-lateral.jpg";
+import nbAcHeatAngle from "@/assets/bayonne/fall001/nb-ac-heat-angle.jpg";
+import nbAcHeatHeel from "@/assets/bayonne/fall001/nb-ac-heat-heel.jpg";
+import nbAcHeatTop from "@/assets/bayonne/fall001/nb-ac-heat-top.jpg";
+import nbAcCardinalLateral from "@/assets/bayonne/fall001/nb-ac-cardinal-lateral.jpg";
+import nbAcCardinalAngle from "@/assets/bayonne/fall001/nb-ac-cardinal-angle.jpg";
+import nbAcCardinalHeel from "@/assets/bayonne/fall001/nb-ac-cardinal-heel.jpg";
+import nbAcCardinalTop from "@/assets/bayonne/fall001/nb-ac-cardinal-top.jpg";
 import nbP400Lateral from "@/assets/bayonne/fall001/nb-p400-lateral.jpg";
 import nbP400ThreeQuarter from "@/assets/bayonne/fall001/nb-p400-three-quarter.jpg";
 import nbP400Top from "@/assets/bayonne/fall001/nb-p400-pair.jpg";
 import nbP400Outsole from "@/assets/bayonne/fall001/nb-p400-outsole.jpg";
+import nbP400VoltLateral from "@/assets/bayonne/fall001/nb-p400-volt-lateral.jpg";
+import nbP400VoltAngle from "@/assets/bayonne/fall001/nb-p400-volt-angle.jpg";
+import nbP400VoltTop from "@/assets/bayonne/fall001/nb-p400-volt-top.jpg";
+import nbP400VoltPair from "@/assets/bayonne/fall001/nb-p400-volt-pair.jpg";
+
+import { isFootwearId } from "./footwear";
 
 export const COMING_SOON = comingSoon;
 
@@ -86,7 +100,11 @@ export type CanonicalProductId =
   | "gothic-b-beanie"
   | "club-sock"
   | "nb-bbp400"
-  | "nb-runner";
+  | "nb-p400-chalk"
+  | "nb-p400-volt"
+  | "nb-runner"
+  | "nb-runner-heat"
+  | "nb-runner-cardinal";
 
 export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "heritage-jersey": {
@@ -182,11 +200,30 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelFront: nbP400ThreeQuarter,
     modelSecondary: nbP400Top,
   },
+  "nb-p400-chalk": { pending: true },
+  "nb-p400-volt": {
+    productFront: nbP400VoltLateral,
+    productBack: nbP400VoltPair,
+    modelFront: nbP400VoltAngle,
+    modelSecondary: nbP400VoltTop,
+  },
   "nb-runner": {
     productFront: nbAcRunnerLateral,
     productBack: nbAcRunnerOutsole,
     modelFront: nbAcRunnerAngle,
     modelSecondary: nbAcRunnerTop,
+  },
+  "nb-runner-heat": {
+    productFront: nbAcHeatLateral,
+    productBack: nbAcHeatHeel,
+    modelFront: nbAcHeatAngle,
+    modelSecondary: nbAcHeatTop,
+  },
+  "nb-runner-cardinal": {
+    productFront: nbAcCardinalLateral,
+    productBack: nbAcCardinalHeel,
+    modelFront: nbAcCardinalAngle,
+    modelSecondary: nbAcCardinalTop,
   },
 };
 
@@ -237,7 +274,7 @@ export function campaignViews(id: CanonicalProductId): {
   const front = set.modelFront ?? set.productFront;
   const back = set.modelSecondary ?? set.productBack;
   const footwearThreeQuarter =
-    (id === "nb-bbp400" || id === "nb-runner") &&
+    isFootwearId(id) &&
     set.productFront &&
     set.productFront !== front &&
     set.productFront !== back

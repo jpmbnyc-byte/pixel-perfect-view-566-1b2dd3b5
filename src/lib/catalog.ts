@@ -1,7 +1,7 @@
 /**
  * Bayonne Athletics Fall 001 storefront catalog.
  *
- * 20 live listings. Canonical product IDs only — old garment aliases
+ * 24 live listings. Canonical product IDs only — old garment aliases
  * (heritage tee, quarter zip, jersey dress, hoops, crest cap) resolve
  * through productById for existing URLs, but never define identity.
  */
@@ -201,7 +201,19 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie", "club", 34, { sizeChart: "hat" }),
   listing("club-sock", "bayonne-club-sock", "Club Sock", "club", 18, { sizeChart: "sock" }),
   listing("nb-bbp400", "new-balance-bb-p400", "New Balance P400", "club", 140, { sizeChart: "shoe" }),
+  listing("nb-p400-chalk", "new-balance-p400-pink-chalk", "New Balance P400", "club", 140, {
+    sizeChart: "shoe",
+  }),
+  listing("nb-p400-volt", "new-balance-p400-afterglow", "New Balance P400", "club", 140, {
+    sizeChart: "shoe",
+  }),
   listing("nb-runner", "new-balance-fresh-foam-runner", "New Balance AC Runner", "club", 150, {
+    sizeChart: "shoe",
+  }),
+  listing("nb-runner-heat", "new-balance-ac-runner-pink-heat", "New Balance AC Runner", "club", 150, {
+    sizeChart: "shoe",
+  }),
+  listing("nb-runner-cardinal", "new-balance-ac-runner-white-cardinal", "New Balance AC Runner", "club", 150, {
     sizeChart: "shoe",
   }),
 ];
@@ -225,6 +237,7 @@ export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
   "two-tone-cap",
   "nb-bbp400",
   "nb-runner",
+  "nb-runner-heat",
 ];
 
 export function productById(id: string) {

@@ -30,7 +30,11 @@ const LIVE_IDS: CanonicalProductId[] = [
   "gothic-b-beanie",
   "club-sock",
   "nb-bbp400",
+  "nb-p400-chalk",
+  "nb-p400-volt",
   "nb-runner",
+  "nb-runner-heat",
+  "nb-runner-cardinal",
 ];
 
 const shots = Object.fromEntries(LIVE_IDS.map((id) => [id, campaignViews(id)])) as Record<
