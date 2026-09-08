@@ -29,13 +29,13 @@ export type ProductCopy = {
 
 export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "heritage-jersey": {
-    tagline: "Heritage made wearable.",
-    line: "Cotton jersey · Black / Garnet",
-    body: "Black and garnet club jersey built from the Bayonne 1936 language. Wear it clean or make it yours.\n\nYour name. Your number. Bayonne across the front.",
-    card: "Black and garnet club jersey built from the Bayonne 1936 language. Wear it clean or make it yours.",
-    cta: "Make it yours →",
-    personalizeHeading: "Your name. Your number.",
-    personalizeHelper: "Add the name and number exactly as you want them printed. Leave both blank for the $78 club jersey.",
+    tagline: "Put your name on it.",
+    line: "Performance knit · Garnet / Black",
+    body: "The 1936 Match Jersey in garnet and black — club marks on the chest, number on the front, your name and number across the back.\n\nWear it clean for $78, or put your name on it for $98.",
+    card: "Garnet and black match jersey. Wear it clean, or put your name on it.",
+    cta: "Put your name on it →",
+    personalizeHeading: "Put your name on it.",
+    personalizeHelper: "Add the name and number exactly as you want them printed on the back. Leave both blank for the $78 club jersey.",
     confirm:
       "I’ve checked the spelling, number and size. I understand personalized pieces can’t be changed after checkout.",
   },
@@ -50,8 +50,8 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "match-set": {
     tagline: "The complete club uniform.",
     line: "Jersey + short · Black / Garnet",
-    body: "The complete club uniform: Heritage Jersey and Match Short together.",
-    card: "The complete club uniform: Heritage Jersey and Match Short together.",
+    body: "The complete club uniform: Match Jersey and Match Short together.",
+    card: "The complete club uniform: Match Jersey and Match Short together.",
     cta: "Shop the set →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
   },

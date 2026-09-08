@@ -1,17 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { LETTERING } from "@/lib/kit";
+import { LETTERING_MATCH_JERSEY } from "@/lib/kit";
 import { letteringFor, productById } from "@/lib/catalog";
 
-describe("ref print area — Heritage Jersey", () => {
-  it("locks Heritage Jersey to arched name + large number below", () => {
+describe("ref print area — Match Jersey", () => {
+  it("locks the 1936 Match Jersey to name over number on the blank back", () => {
     const jersey = productById("jersey")!;
     const L = letteringFor(jersey);
     expect(jersey.id).toBe("heritage-jersey");
-    expect(L).toEqual(LETTERING);
-    expect(L.centerX).toBeCloseTo(49.3, 1);
-    expect(L.name.archDeg).toBe(0);
-    expect(L.name.maxWidthPct).toBeLessThanOrEqual(52);
-    expect(L.number.heightPct).toBeGreaterThanOrEqual(34);
+    expect(jersey.nameNumber).toBe(true);
+    expect(jersey.name).toBe("1936 Match Jersey");
+    expect(L).toEqual(LETTERING_MATCH_JERSEY);
+    expect(L.centerX).toBeCloseTo(50, 1);
     expect(L.number.y).toBeGreaterThan(L.name.y);
   });
 });

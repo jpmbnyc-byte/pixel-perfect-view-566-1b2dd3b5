@@ -4,7 +4,7 @@ type Props = {
 };
 
 /** Garnet corner mark on every lettered SKU card. Tooltip: Nameable. */
-export function NameableFlag({ label = "Nameable" }: Props) {
+export function NameableFlag({ label = "Put your name on it" }: Props) {
   return (
     <span
       className="nameable-flag pointer-events-none absolute right-0 top-0 z-10"

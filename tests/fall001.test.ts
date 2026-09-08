@@ -71,8 +71,9 @@ describe("Fall 001 assortment", () => {
     );
     expect(IMAGE_REGISTRY["harbor-coach"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["heritage-jersey"].modelFront).toBeTruthy();
-    expect(IMAGE_REGISTRY["match-set"].modelFront).toBe(IMAGE_REGISTRY["heritage-jersey"].modelFront);
-    expect(IMAGE_REGISTRY["match-set"].modelSecondary).toBe(IMAGE_REGISTRY["match-short"].modelFront);
+    expect(IMAGE_REGISTRY["match-set"].modelFront).toBe(IMAGE_REGISTRY["heritage-jersey"].productFront);
+    expect(IMAGE_REGISTRY["heritage-jersey"].productBack).toBeTruthy();
+    expect(PRODUCTS.filter((p) => p.nameNumber).map((p) => p.id)).toEqual(["heritage-jersey"]);
     expect(IMAGE_REGISTRY["performance-short"].modelFront).not.toBe(
       IMAGE_REGISTRY["performance-ls"].modelFront,
     );
@@ -87,5 +88,15 @@ describe("Fall 001 assortment", () => {
     expect(src).not.toContain("local-issue-tee");
     expect(src).not.toContain("performance-male-hero");
     expect(src).not.toContain("boxing-bee");
+  });
+
+  it("uses the new Match Jersey kit and blank back for the customizer", async () => {
+    const { galleryShots } = await import("@/lib/imageRegistry");
+    const jersey = productById("heritage-jersey")!;
+    const shots = galleryShots("heritage-jersey");
+    expect(jersey.name).toBe("1936 Match Jersey");
+    expect(shots[0]?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productFront);
+    expect(shots.at(-1)?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
+    expect(jersey.previews.secondary).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
   });
 });

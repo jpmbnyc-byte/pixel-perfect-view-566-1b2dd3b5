@@ -143,7 +143,7 @@ export function TeamStorePage({ category, kit }: Props) {
         <section className="mx-auto w-full max-w-[1280px] px-4 pb-20 sm:px-10">
           {products.length === 0 ? (
             <div className="border-y border-ink/10 px-6 py-16 text-center" role="status">
-              <p className="type-editorial text-2xl text-ink/70">The Heritage Jersey lives in 1936 Match.</p>
+              <p className="type-editorial text-2xl text-ink/70">The Match Jersey lives in 1936 Match.</p>
               <button
                 type="button"
                 className="place-line tap-44 mt-6 inline-flex items-center text-garnet focus-ring"

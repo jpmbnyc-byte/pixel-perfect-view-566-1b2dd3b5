@@ -12,10 +12,13 @@
 
 import comingSoon from "@/assets/bayonne/fall001/coming-soon.svg";
 
-import heritageJerseyProductFront from "@/assets/bayonne/fall001/heritage-jersey-product-front.jpg";
-import heritageJerseyProductBack from "@/assets/bayonne/fall001/heritage-jersey-product-back.png";
-import heritageJerseyModelFront from "@/assets/bayonne/fall001/heritage-jersey-model-front.jpg";
-import heritageJerseyModelBack from "@/assets/bayonne/fall001/heritage-jersey-model-back.png";
+import matchJerseyKitFront from "@/assets/bayonne/fall001/match-jersey-kit-front.png";
+import matchJerseyBackBlank from "@/assets/bayonne/fall001/match-jersey-back-blank.jpg";
+import matchJerseyStadium from "@/assets/bayonne/fall001/match-jersey-stadium.png";
+import matchJerseyStudioFront from "@/assets/bayonne/fall001/match-jersey-studio-front.png";
+import matchJerseyChest from "@/assets/bayonne/fall001/match-jersey-chest.png";
+import matchJerseyStudioBall from "@/assets/bayonne/fall001/match-jersey-studio-ball.png";
+import matchJerseyStudioBack from "@/assets/bayonne/fall001/match-jersey-studio-back.png";
 
 import matchShortFront from "@/assets/bayonne/fall001/match-short-front.jpg";
 import matchShortThreeQuarter from "@/assets/bayonne/fall001/match-short-three-quarter.png";
@@ -108,10 +111,10 @@ export type CanonicalProductId =
 
 export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "heritage-jersey": {
-    productFront: heritageJerseyProductFront,
-    productBack: heritageJerseyProductBack,
-    modelFront: heritageJerseyModelFront,
-    modelSecondary: heritageJerseyModelBack,
+    productFront: matchJerseyKitFront,
+    productBack: matchJerseyBackBlank,
+    modelFront: matchJerseyStudioFront,
+    modelSecondary: matchJerseyStudioBack,
   },
   "match-short": {
     productFront: matchShortFront,
@@ -120,10 +123,10 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelSecondary: matchShortBack,
   },
   "match-set": {
-    productFront: heritageJerseyProductFront,
+    productFront: matchJerseyKitFront,
     productBack: matchShortFront,
-    modelFront: heritageJerseyModelFront,
-    modelSecondary: matchShortThreeQuarter,
+    modelFront: matchJerseyKitFront,
+    modelSecondary: matchJerseyStudioBall,
   },
   "performance-ls": {
     productFront: performanceLsFront,
@@ -223,27 +226,58 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
 };
 
 export const HEROES = {
-  landing: heritageJerseyModelFront,
-  match: heritageJerseyModelBack,
+  landing: matchJerseyStadium,
+  match: matchJerseyKitFront,
   performance: performanceHero,
   travel: travelSetThreeQuarter,
   harbor: harborCoachFront,
   club: clubGoodsHero,
-  og: heritageJerseyModelFront,
+  og: matchJerseyKitFront,
 } as const;
 
 export const HERO_CROP: Record<
   keyof typeof HEROES,
   { fit: "cover" | "contain"; position: string }
 > = {
-  landing: { fit: "cover", position: "center 18%" },
-  match: { fit: "cover", position: "center 18%" },
+  landing: { fit: "cover", position: "center 42%" },
+  match: { fit: "contain", position: "center 12%" },
   performance: { fit: "cover", position: "center 58%" },
   travel: { fit: "cover", position: "center 16%" },
   harbor: { fit: "cover", position: "center 42%" },
   club: { fit: "cover", position: "center 10%" },
-  og: { fit: "cover", position: "center 18%" },
+  og: { fit: "contain", position: "center" },
 };
+
+export type GalleryShot = { src: string; alt: string };
+
+const MATCH_JERSEY_GALLERY: GalleryShot[] = [
+  { src: matchJerseyKitFront, alt: "1936 Match Jersey and Match Short, front" },
+  { src: matchJerseyStudioFront, alt: "1936 Match Jersey, worn" },
+  { src: matchJerseyChest, alt: "1936 Match Jersey, chest detail" },
+  { src: matchJerseyStudioBall, alt: "1936 Match Jersey with ball" },
+  { src: matchJerseyStadium, alt: "1936 Match Jersey, stadium tunnel" },
+  { src: matchJerseyStudioBack, alt: "1936 Match Jersey back with sample name and number" },
+  { src: matchJerseyBackBlank, alt: "1936 Match Jersey, blank back for personalization" },
+];
+
+/** Ordered storefront gallery. Never the customizer overlay base except the dedicated blank back. */
+export function galleryShots(id: CanonicalProductId): GalleryShot[] {
+  if (id === "heritage-jersey") return MATCH_JERSEY_GALLERY;
+  const set = IMAGE_REGISTRY[id];
+  if (set.pending) return [];
+  const views = campaignViews(id);
+  const pair = platePair(id);
+  const seen = new Set<string>();
+  const shots: GalleryShot[] = [];
+  for (const src of [views.front, views["three-quarter"], views.back, pair.front, pair.secondary]) {
+    if (!src || seen.has(src)) continue;
+    seen.add(src);
+    shots.push({ src, alt: "" });
+  }
+  return shots;
+}
+
+export { matchJerseyBackBlank };
 
 export function imagesFor(id: CanonicalProductId): ProductImageSet {
   return IMAGE_REGISTRY[id];
