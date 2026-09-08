@@ -1,9 +1,8 @@
 /**
  * Bayonne Athletics Fall 001 storefront catalog.
  *
- * 24 live listings. Canonical product IDs only — old garment aliases
- * (heritage tee, quarter zip, jersey dress, hoops, crest cap) resolve
- * through productById for existing URLs, but never define identity.
+ * Canonical product IDs only — old garment aliases resolve through
+ * productById for existing URLs, but never define identity.
  */
 
 import { LETTERING, LETTERING_MATCH_JERSEY, type Item, type LetteringLayout } from "./kit";
@@ -16,6 +15,7 @@ import {
   type CanonicalProductId,
 } from "./imageRegistry";
 import { PRODUCT_COPY } from "@/copy/collection";
+import { sourceForProduct } from "./productSources";
 
 export type CategoryId = "match" | "performance" | "travel" | "harbor" | "club";
 export type MotifId = "chevron" | "grid" | "arc";
@@ -45,6 +45,8 @@ export type CatalogProduct = {
   thumb: string;
   previews: ProductPreviews;
   imageryPending?: boolean;
+  /** Customer-safe material / construction facts traced to a verified source where available. */
+  details: string[];
 };
 
 export type Category = {
@@ -136,6 +138,8 @@ export const PRODUCT_ID_ALIASES: Record<string, CanonicalProductId> = {
   "jersey-dress": "field-cargo",
   "aop-hat": "two-tone-cap",
   beanie: "gothic-b-beanie",
+  "harbor-jacket": "harbor-coach",
+  "tote-bag": "market-tote",
 };
 
 function listing(
@@ -166,6 +170,7 @@ function listing(
     thumb: campaign.front ?? previews.front,
     previews,
     imageryPending: pending,
+    details: sourceForProduct(id)?.facts ?? [],
     ...extra,
   };
 }
@@ -181,12 +186,17 @@ export const PRODUCTS: CatalogProduct[] = [
   }),
   listing("match-short", "bayonne-match-short", "Match Short", "match", 48, { shopifyItem: "bottom" }),
   listing("match-set", "bayonne-1936-match-set", "1936 Match Set", "match", 118, { shopifyItem: "set" }),
+  listing("broadway-21-jersey", "bayonne-broadway-21-club-jersey", "Broadway 21 Club Jersey", "match", 78),
+  listing("broadway-club-short", "bayonne-broadway-club-short", "Broadway Club Short", "match", 48),
+  listing("broadway-21-set", "bayonne-broadway-21-match-set", "Broadway 21 Match Set", "match", 118),
 
   listing("performance-ls", "bayonne-performance-long-sleeve", "Performance Long Sleeve", "performance", 64),
   listing("performance-short", "bayonne-performance-short", '7" Performance Short', "performance", 58),
   listing("mens-raglan", "bayonne-mens-tech-tee", "Men’s Raglan Tech Tee", "performance", 58),
   listing("womens-raglan", "bayonne-womens-tech-tee", "Women’s Raglan Tech Tee", "performance", 52),
   listing("performance-set", "bayonne-performance-set", "Performance Set", "performance", 112),
+  listing("field-short-grey", "bayonne-field-short-grey", "Field Short — Grey", "performance", 58),
+  listing("field-short-bone", "bayonne-field-short-bone", "Field Short — Bone", "performance", 58),
 
   listing("max-heavy-full-zip", "bayonne-max-heavy-full-zip", "Max Heavy Full Zip", "travel", 98),
   listing("max-heavy-sweatpant", "bayonne-max-heavy-sweatpant", "Max Heavy Sweatpant", "travel", 88),
@@ -194,17 +204,22 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("pique-polo", "bayonne-stretch-pique-polo", "Stretch Pique Polo", "travel", 78),
   listing("pocket-ls", "bayonne-pocket-long-sleeve", "Pocket Long Sleeve", "travel", 62),
   listing("field-cargo", "bayonne-field-cargo", "Field Cargo", "travel", 90),
+  listing("club-hood", "bayonne-club-hood", "Club Hood", "travel", 88),
+  listing("local-issue-ls", "bayonne-local-issue-long-sleeve", "Local Issue Longsleeve", "travel", 54),
 
   listing("harbor-coach", "bayonne-harbor-division-hooded-coach", "Harbor Division Hooded Coach Jacket", "harbor", 98),
+  listing("sideline-shell", "bayonne-sideline-shell", "Sideline Shell", "harbor", 98),
 
   listing("two-tone-cap", "bayonne-two-tone-club-cap", "Two-Tone Club Cap", "club", 36, { sizeChart: "hat" }),
   listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie", "club", 34, { sizeChart: "hat" }),
   listing("club-sock", "bayonne-club-sock", "Club Sock", "club", 18, { sizeChart: "sock" }),
-  listing("nb-bbp400", "new-balance-bb-p400", "New Balance BB P400", "club", 140, { sizeChart: "shoe" }),
-  listing("nb-p400-chalk", "new-balance-p400-pink-chalk", "New Balance P400", "club", 140, {
+  listing("club-sock-4pk", "bayonne-club-sock-4-pack", "Club Sock 4-Pack", "club", 60, { sizeChart: "sock" }),
+  listing("market-tote", "bayonne-market-tote", "Market Tote", "club", 28, { sizeChart: "hat" }),
+  listing("nb-bbp400", "new-balance-bb-p400", "New Balance BB P400", "club", 130, { sizeChart: "shoe" }),
+  listing("nb-p400-chalk", "new-balance-p400-pink-chalk", "New Balance P400", "club", 130, {
     sizeChart: "shoe",
   }),
-  listing("nb-p400-volt", "new-balance-p400-afterglow", "New Balance P400", "club", 140, {
+  listing("nb-p400-volt", "new-balance-p400-afterglow", "New Balance P400", "club", 130, {
     sizeChart: "shoe",
   }),
   listing("nb-runner", "new-balance-fresh-foam-runner", "New Balance Fresh Foam Runner", "club", 150, {
