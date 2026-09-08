@@ -45,9 +45,9 @@ type GridProps = {
 
 export function ProductLookbookGrid({ products, slug }: GridProps) {
   return (
-    <ul className="grid grid-cols-2 gap-x-3 gap-y-12 sm:gap-x-8 sm:gap-y-16 lg:grid-cols-3 lg:gap-x-10">
+    <ul className="grid min-w-0 grid-cols-2 gap-x-3 gap-y-12 sm:gap-x-8 sm:gap-y-16 lg:grid-cols-3 lg:gap-x-10">
       {products.map((p) => (
-        <li key={p.id}>
+        <li key={p.id} className="min-w-0">
           <ProductLookbookCard product={p} slug={slug} />
         </li>
       ))}

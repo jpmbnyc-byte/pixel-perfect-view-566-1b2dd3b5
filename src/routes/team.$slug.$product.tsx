@@ -138,9 +138,9 @@ function ProductListingPage() {
   };
 
   return (
-    <div className="studio-field min-h-screen text-ink">
+    <div className="studio-field min-h-screen overflow-x-clip text-ink">
       <StoreNav />
-      <main className="mx-auto w-full max-w-[1280px] px-4 pb-28 sm:px-10 lg:pb-16">
+      <main className="mx-auto w-full min-w-0 max-w-[1280px] px-4 pb-28 sm:px-10 lg:pb-16">
         <p className="place-line pt-6">
           <Link
             to={DEPARTMENT_TO[product.category]}
@@ -151,8 +151,8 @@ function ProductListingPage() {
           </Link>
         </p>
 
-        <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-16">
-          <section className="lg:sticky lg:top-24">
+        <div className="mt-6 grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start lg:gap-16">
+          <section className="min-w-0 lg:sticky lg:top-24">
             {product.nameNumber && (
               <div className="mb-3 flex gap-2 overflow-x-auto">
                 <button
@@ -172,7 +172,7 @@ function ProductListingPage() {
               </div>
             )}
 
-            <div className="overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)]">
+            <div className="min-w-0 bg-[color-mix(in_oklab,var(--paper)_70%,white)]">
               {product.imageryPending ? (
                 <ComingSoonMedia name={product.name} className="aspect-[4/5]" />
               ) : galleryMode === "customize" && product.nameNumber ? (
@@ -207,7 +207,7 @@ function ProductListingPage() {
             )}
           </section>
 
-          <section className="lg:pt-2">
+          <section className="min-w-0 lg:pt-2">
             <p className="place-line">07002 · Fall 001</p>
             <h1 className="type-editorial mt-3 text-[clamp(2rem,4.5vw,3.1rem)] leading-[1.05] text-ink">
               {product.name}
