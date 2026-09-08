@@ -13,16 +13,26 @@ type Props = {
 /**
  * Contained horizontal strip. Zoom opens a viewport portal so scale/pan
  * never changes the PDP column or the product copy beside it.
+ * Vertical lightbox scroll updates the active shot — tap-to-zoom follows
+ * the photo on screen, not the one that opened the overlay.
  */
 export function ProductZoomGallery({ shots, productName }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const [mounted, setMounted] = useState(false);
   const verticalRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(0);
 
   const close = useCallback(() => {
     setOpenIndex(null);
     setZoomed(false);
+  }, []);
+
+  const setActive = useCallback((index: number, resetZoom: boolean) => {
+    activeRef.current = index;
+    setActiveIndex(index);
+    if (resetZoom) setZoomed(false);
   }, []);
 
   useEffect(() => {
@@ -31,9 +41,36 @@ export function ProductZoomGallery({ shots, productName }: Props) {
 
   useEffect(() => {
     if (openIndex === null) return;
-    const node = verticalRef.current?.querySelector<HTMLElement>(`[data-shot="${openIndex}"]`);
-    node?.scrollIntoView({ block: "start" });
-  }, [openIndex]);
+    const root = verticalRef.current;
+    if (!root) return;
+    const opened = root.querySelector<HTMLElement>(`[data-shot="${openIndex}"]`);
+    opened?.scrollIntoView({ block: "start" });
+    setActive(openIndex, true);
+
+    const nodes = root.querySelectorAll<HTMLElement>("[data-shot]");
+    let armed = false;
+    const arm = window.setTimeout(() => {
+      armed = true;
+    }, 120);
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!armed) return;
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const next = Number(visible.target.getAttribute("data-shot"));
+        if (!Number.isFinite(next) || next === activeRef.current) return;
+        setActive(next, true);
+      },
+      { root, threshold: [0.35, 0.55, 0.75] },
+    );
+    nodes.forEach((node) => io.observe(node));
+    return () => {
+      window.clearTimeout(arm);
+      io.disconnect();
+    };
+  }, [openIndex, shots.length, setActive]);
 
   useEffect(() => {
     if (openIndex === null) return;
@@ -80,30 +117,44 @@ export function ProductZoomGallery({ shots, productName }: Props) {
               ref={verticalRef}
               className={cn(
                 "h-full overflow-y-auto overflow-x-hidden overscroll-contain pt-16",
-                zoomed ? "snap-none overflow-auto" : "snap-y snap-mandatory",
+                zoomed ? "snap-none" : "snap-y snap-mandatory",
               )}
             >
-              {shots.map((shot, index) => (
-                <button
-                  key={`zoom-${shot.src}-${index}`}
-                  type="button"
-                  data-shot={index}
-                  onClick={() => setZoomed((value) => !value)}
-                  className="flex h-[100dvh] w-full max-w-full shrink-0 snap-start items-center justify-center overflow-hidden px-2 py-6"
-                >
-                  <img
-                    src={shot.src}
-                    alt={shot.alt || productName}
+              {shots.map((shot, index) => {
+                const active = index === activeIndex;
+                return (
+                  <button
+                    key={`zoom-${shot.src}-${index}`}
+                    type="button"
+                    data-shot={index}
+                    data-active-shot={active ? "true" : undefined}
+                    onClick={() => {
+                      if (index !== activeRef.current) {
+                        setActive(index, false);
+                        setZoomed(true);
+                        return;
+                      }
+                      setZoomed((value) => !value);
+                    }}
                     className={cn(
-                      "max-w-full object-contain object-center transition-[max-height,width] duration-300 ease-out",
-                      zoomed && index === openIndex
-                        ? "h-auto w-[min(180%,64rem)] max-h-none"
-                        : "h-auto max-h-[82dvh] w-auto",
+                      "flex h-[100dvh] w-full max-w-full shrink-0 snap-start items-center justify-center px-2 py-6",
+                      zoomed && active ? "overflow-auto" : "overflow-hidden",
                     )}
-                    draggable={false}
-                  />
-                </button>
-              ))}
+                  >
+                    <img
+                      src={shot.src}
+                      alt={shot.alt || productName}
+                      className={cn(
+                        "max-w-full object-contain object-center transition-[max-height,width] duration-300 ease-out",
+                        zoomed && active
+                          ? "h-auto w-[min(180%,64rem)] max-h-none"
+                          : "h-auto max-h-[82dvh] w-auto",
+                      )}
+                      draggable={false}
+                    />
+                  </button>
+                );
+              })}
             </div>
           </div>,
           document.body,
@@ -125,6 +176,7 @@ export function ProductZoomGallery({ shots, productName }: Props) {
               role="listitem"
               onClick={() => {
                 setZoomed(false);
+                setActive(index, true);
                 setOpenIndex(index);
               }}
               className="relative aspect-[3/4] w-full min-w-full max-w-full shrink-0 snap-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)] focus-ring"

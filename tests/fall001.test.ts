@@ -212,10 +212,23 @@ describe("Fall 001 assortment", () => {
     expect(gallery).toContain("createPortal");
     expect(gallery).toContain("document.body");
     expect(gallery).toContain("overscroll-x-contain");
+    expect(gallery).toContain("IntersectionObserver");
+    expect(gallery).toContain("data-active-shot");
+    expect(gallery).not.toContain("zoomed && index === openIndex");
     expect(gallery).not.toContain("zoom-in-95");
     expect(gallery).not.toContain("scale-[1.85]");
     expect(css).toContain("overflow-x: clip");
     expect(pdp).toContain("minmax(0,1.15fr)");
     expect(pdp).toContain("min-w-0");
+  });
+
+  it("does not stamp BACK on product thumbs", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const thumbs = await readFile(resolve(process.cwd(), "src/components/ProductCardMedia.tsx"), "utf8");
+    expect(thumbs).not.toContain("Show ${label}");
+    expect(thumbs).not.toContain('"{label}"');
+    expect(thumbs).not.toContain("Front");
+    expect(thumbs.toLowerCase()).not.toMatch(/["'`]back["'`]/);
   });
 });

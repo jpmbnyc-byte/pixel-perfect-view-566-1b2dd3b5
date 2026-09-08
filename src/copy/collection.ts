@@ -39,7 +39,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
     card: "Garnet and black match jersey. Wear it clean, or put your name on it.",
     cta: "Put your name on it →",
     personalizeHeading: "Put your name on it.",
-    personalizeHelper: "Add the name and number exactly as you want them printed on the back. Leave both blank for the $78 club jersey.",
+    personalizeHelper: "Add the name and number exactly as you want them printed on the back. Letters, spaces, hyphens and apostrophes. Leave both blank for the $78 club jersey.",
     confirm: "I’ve checked the spelling, number and size. I understand personalized pieces can’t be changed after checkout.",
   },
   "match-short": {

@@ -20,6 +20,7 @@ import {
   type FontId,
 } from "@/lib/catalog";
 import { SIZES, SIZE_CHART, sanitizeName, sanitizeNumber } from "@/lib/kit";
+import { printScaleForSize } from "@/lib/printScale";
 import { SOCK_SIZES, storeIsOpen } from "@/lib/checkout";
 import { formatShoeOption, shoeRunsFor } from "@/lib/footwear";
 import { createCheckoutSession } from "@/lib/checkout.functions";
@@ -188,9 +189,9 @@ function ProductListingPage() {
                   lettering={lettering}
                   tier="truth"
                   showNameBadge={false}
-                  printScale={1}
+                  printScale={printScaleForSize(size)}
                   confirmFlash={false}
-                  className="aspect-square"
+                  className="aspect-[529/576] w-full"
                 />
               ) : (
                 <ProductZoomGallery
@@ -259,7 +260,7 @@ function ProductListingPage() {
             </div>
             <p className="mt-2 text-sm leading-snug text-muted-foreground">
               {copy?.personalizeHelper ??
-                "Add the name and number exactly as you want them printed on the back. Leave both blank for the $78 club jersey."}
+                "Add the name and number exactly as you want them printed on the back. Letters, spaces, hyphens and apostrophes. Leave both blank for the $78 club jersey."}
             </p>
 
             <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
@@ -569,7 +570,7 @@ function OutlinedField({
         inputMode={inputMode}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full flex-1 bg-transparent text-2xl font-semibold uppercase tracking-wide outline-none placeholder:text-muted-foreground/45"
+        className="w-full min-w-0 flex-1 bg-transparent text-2xl font-semibold uppercase tracking-wide outline-none placeholder:text-muted-foreground/45"
         style={{ fontFamily }}
         autoComplete="off"
         spellCheck={false}

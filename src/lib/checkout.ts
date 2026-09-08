@@ -5,7 +5,7 @@
 
 import { FONTS, HAT_SIZES, productById, type CatalogProduct, type FontId } from "@/lib/catalog";
 import { shoeRunFor, shoeSizeAllowed } from "@/lib/footwear";
-import { SIZES, countdownParts } from "@/lib/kit";
+import { SIZES, countdownParts, sanitizeName, sanitizeNumber } from "@/lib/kit";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { validatePersonalization } from "@/personalize/validate";
 
@@ -87,8 +87,8 @@ export function resolveCheckout(input: CheckoutInput): CheckoutResolveResult {
   const size = input.size.trim();
   if (!sizeAllowed(product, size)) return { ok: false, error: "Choose a valid size." };
 
-  const name = product.nameNumber ? (input.name ?? "").trim().toUpperCase() : "";
-  const number = product.nameNumber ? (input.number ?? "").trim() : "";
+  const name = product.nameNumber ? sanitizeName(input.name ?? "", 12) : "";
+  const number = product.nameNumber ? sanitizeNumber(input.number ?? "") : "";
   const personalized = Boolean(name || number);
 
   if (personalized) {

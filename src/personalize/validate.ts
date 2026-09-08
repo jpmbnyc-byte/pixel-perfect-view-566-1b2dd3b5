@@ -1,6 +1,6 @@
 import { NAME_MAX, NUMBER_MAX, NUMBER_MIN } from "./matrix";
 
-const NAME_RE = /^[A-Z][A-Z '\-]{0,11}$/;
+const NAME_RE = /^[\p{L}][\p{L} '\-]{0,11}$/u;
 
 /** Profanity + BHS roster blocklist — extend via ops. */
 const BLOCKLIST = new Set(
@@ -24,7 +24,11 @@ export type PersonalizeInput = {
 export type PersonalizeIssue = { field: "name" | "number"; code: string; message: string };
 
 export function normalizeName(raw: string): string {
-  return raw.toUpperCase().slice(0, NAME_MAX);
+  return raw
+    .normalize("NFC")
+    .toLocaleUpperCase("und")
+    .replace(/[^\p{L} \-']/gu, "")
+    .slice(0, NAME_MAX);
 }
 
 export function validatePersonalization(input: PersonalizeInput): PersonalizeIssue[] {
@@ -35,7 +39,7 @@ export function validatePersonalization(input: PersonalizeInput): PersonalizeIss
       issues.push({
         field: "name",
         code: "NAME_CHARS",
-        message: "A–Z, space, hyphen, apostrophe only. Max 12.",
+        message: "Letters, space, hyphen, apostrophe only. Max 12.",
       });
     }
     if (BLOCKLIST.has(name.replace(/[\s'\-]/g, ""))) {

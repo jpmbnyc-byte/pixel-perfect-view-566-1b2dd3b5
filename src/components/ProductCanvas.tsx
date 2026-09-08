@@ -3,6 +3,7 @@ import type { FontId } from "@/lib/catalog";
 import { fontById } from "@/lib/catalog";
 import { LETTERING, type LetteringLayout } from "@/lib/kit";
 import { CAMPAIGN_NAME_BADGE, CAMPAIGN_SHOT } from "@/tokens/campaign";
+import { COLOR } from "@/tokens/brand";
 import type { ImageTier } from "@/media/tiers";
 
 export type CanvasView = "front" | "back" | "side" | "three-quarter";
@@ -125,15 +126,40 @@ function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
   return biasEm;
 }
 
-/** Name renders as a single flat row on the shared baseline — no arch, no per-glyph rotation. */
-function FlatName({ text }: { text: string }) {
-  return <span className="inline-block whitespace-nowrap align-baseline">{text}</span>;
+/** Name follows a mild bridge arch when the layout asks for it — print-accurate, not decorative. */
+function PrintName({ text, archDeg = 0 }: { text: string; archDeg?: number }) {
+  const chars = Array.from(text);
+  if (!archDeg || chars.length < 3) {
+    return <span className="inline-block whitespace-nowrap align-baseline">{text}</span>;
+  }
+  const mid = (chars.length - 1) / 2;
+  return (
+    <span className="inline-flex items-end justify-center">
+      {chars.map((ch, i) => {
+        const t = mid === 0 ? 0 : (i - mid) / mid;
+        const rot = t * archDeg;
+        const lift = (1 - t * t) * (archDeg / 36);
+        return (
+          <span
+            key={`${i}-${ch}`}
+            className="inline-block"
+            style={{
+              transform: `rotate(${rot}deg) translateY(${-lift}em)`,
+              transformOrigin: "center bottom",
+            }}
+          >
+            {ch === " " ? "\u00a0" : ch}
+          </span>
+        );
+      })}
+    </span>
+  );
 }
 
 /**
- * Photoreal live preview — garment photo only.
- * No geometric motif bake / overlay on front, back, or side.
- * Name + number lettering is personalization on the back view only.
+ * Photoreal storefront canvas — garment photo only.
+ * Lettering is positioned as a percentage of the plate itself so the
+ * on-screen name/number match print location, scale, and spacing.
  */
 export function ProductCanvas({
   view,
@@ -159,29 +185,22 @@ export function ProductCanvas({
       : view === "three-quarter"
         ? (threeQuarterSrc ?? frontSrc)
         : secondarySrc;
-  // Name arrives pre-sanitized (NFC uppercase, diacritics kept).
-  const displayName = name || "CARTER";
-  const displayNumber = number || "00";
+  const displayName = name;
+  const displayNumber = number;
   const blackout = lettering.surface === "blackout";
-  const nameShadow = blackout
-    ? "0 0 2px #000, 0 1px 0 #000, 0 0 12px rgba(0,0,0,0.85)"
-    : "0 1px 0 #0a0a0a, 0 0 8px rgba(0,0,0,0.45)";
-  const numberShadow = blackout
-    ? "0 0 3px #000, 0 2px 0 #000, 0 0 18px rgba(0,0,0,0.9)"
-    : "0 2px 0 #0a0a0a, 0 0 14px rgba(0,0,0,0.4)";
+  const fill = COLOR.bone;
+  const stroke = blackout ? COLOR.trimBlack : COLOR.garnet;
   const nameChars = Math.max(displayName.replace(/\s/g, "").length, 1);
-  const nameFit = Math.min(1, 6.5 / nameChars) * printScale;
+  const nameFit = Math.min(1, 8 / nameChars) * printScale;
   const numberScale = printScale;
-  const nameTracking = nameChars >= 10 ? "0.04em" : nameChars >= 7 ? "0.08em" : "0.12em";
-  const nameInkBiasEm = useInkBiasEm(displayName, font.cssFamily, nameTracking);
+  const nameTracking = nameChars >= 10 ? "0.01em" : nameChars >= 7 ? "0.035em" : "0.055em";
+  const nameInkBiasEm = useInkBiasEm(displayName || "A", font.cssFamily, nameTracking);
   const numberInkBiasEm =
-    useInkBiasEm(displayNumber, font.cssFamily, "0") + (displayNumber.length === 1 ? 0.05 : 0);
+    useInkBiasEm(displayNumber || "8", font.cssFamily, "0") + (displayNumber.length === 1 ? 0.04 : 0);
   const campaign = tier === "campaign";
-  const aspectClass = campaign ? "aspect-square" : "aspect-[3/4]";
-  const stageBg = campaign ? CAMPAIGN_SHOT.background : "#0a0a0a";
-  const caption = campaign
-    ? `${productLabel} · ${view} · campaign`
-    : `${productLabel} · ${view}${blackout && view === "back" ? " · blackout" : ""} · live preview`;
+  const aspectClass = campaign ? "aspect-square" : "aspect-[529/576]";
+  const stageBg = campaign ? CAMPAIGN_SHOT.background : "color-mix(in oklab, var(--paper) 70%, white)";
+  const [plate, setPlate] = useState<{ w: number; h: number } | null>(null);
 
   useEffect(() => {
     if (!showLettering || view !== "back") return;
@@ -198,73 +217,95 @@ export function ProductCanvas({
     });
   }, [name, number, fontId, showLettering, view, printScale]);
 
+  const letterStyle = {
+    color: fill,
+    WebkitTextStroke: `0.045em ${stroke}`,
+    paintOrder: "stroke fill" as const,
+    textShadow: "none",
+  };
+
   return (
     <figure
       className={`relative overflow-hidden ${className ?? aspectClass} transition-[box-shadow] duration-standard ease-standard ${
         confirmFlash ? "ring-2 ring-garnet ring-offset-2 ring-offset-background" : ""
       }`}
-      style={{ containerType: "size", background: stageBg }}
+      style={{ background: stageBg }}
     >
-      <img
-        key={src}
-        src={src}
-        alt={`${productLabel}, ${view} view`}
-        className="absolute inset-0 h-full w-full object-contain object-center"
-        draggable={false}
-      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="relative max-h-full max-w-full"
+          style={{
+            height: !plate || plate.h >= plate.w ? "100%" : undefined,
+            width: plate && plate.w > plate.h ? "100%" : undefined,
+            aspectRatio: plate ? `${plate.w} / ${plate.h}` : "529 / 576",
+            containerType: "size",
+          }}
+        >
+          <img
+            key={src}
+            src={src}
+            alt={`${productLabel}, ${view} view`}
+            className="absolute inset-0 h-full w-full object-contain object-center"
+            draggable={false}
+            onLoad={(event) => {
+              const el = event.currentTarget;
+              setPlate({ w: el.naturalWidth, h: el.naturalHeight });
+            }}
+          />
 
-      {view === "back" && showLettering && (
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <p
-            className="absolute flex items-center justify-center whitespace-nowrap text-center uppercase text-white"
-            style={{
-              top: `${lettering.name.y}%`,
-              left: `${lettering.centerX}%`,
-              transform: `translateX(calc(-50% - ${nameInkBiasEm}em)) scale(${nameFit})`,
-              transformOrigin: "center center",
-              width: `${lettering.name.maxWidthPct}%`,
-              height: `${lettering.name.heightPct}%`,
-              fontFamily: font.cssFamily,
-              fontSize: `calc(${lettering.name.heightPct} * 0.9cqh)`,
-              letterSpacing: nameTracking,
-              lineHeight: 1,
-              overflow: "visible",
-              textShadow: nameShadow,
-              WebkitTextStroke: blackout ? "0.4px rgba(0,0,0,0.55)" : undefined,
-            }}
-          >
-            <FlatName text={displayName} />
-          </p>
-          <p
-            className="absolute flex items-center justify-center whitespace-nowrap text-center leading-none text-white"
-            style={{
-              top: `${lettering.number.y}%`,
-              left: `${lettering.centerX}%`,
-              transform: `translateX(calc(-50% - ${numberInkBiasEm}em)) scale(${numberScale})`,
-              transformOrigin: "center center",
-              width: "max-content",
-              maxWidth: `${lettering.number.maxWidthPct}%`,
-              height: `${lettering.number.heightPct}%`,
-              fontFamily: font.cssFamily,
-              fontSize: `calc(${lettering.number.heightPct} * 0.88cqh)`,
-              textShadow: numberShadow,
-              WebkitTextStroke: blackout ? "0.6px rgba(0,0,0,0.65)" : undefined,
-            }}
-          >
-            {displayNumber}
-          </p>
+          {view === "back" && showLettering && (
+            <div className="pointer-events-none absolute inset-0" aria-hidden>
+              {displayName ? (
+                <p
+                  className="absolute flex items-end justify-center whitespace-nowrap text-center uppercase"
+                  style={{
+                    top: `${lettering.name.y}%`,
+                    left: `${lettering.centerX}%`,
+                    transform: `translateX(calc(-50% - ${nameInkBiasEm}em)) scale(${nameFit})`,
+                    transformOrigin: "center bottom",
+                    width: `${lettering.name.maxWidthPct}%`,
+                    height: `${lettering.name.heightPct}%`,
+                    fontFamily: font.cssFamily,
+                    fontSize: `calc(${lettering.name.heightPct} * 1cqh)`,
+                    letterSpacing: nameTracking,
+                    lineHeight: 0.86,
+                    overflow: "visible",
+                    ...letterStyle,
+                  }}
+                >
+                  <PrintName text={displayName} archDeg={lettering.name.archDeg} />
+                </p>
+              ) : null}
+              {displayNumber ? (
+                <p
+                  className="absolute flex items-start justify-center whitespace-nowrap text-center leading-none"
+                  style={{
+                    top: `${lettering.number.y}%`,
+                    left: `${lettering.centerX}%`,
+                    transform: `translateX(calc(-50% - ${numberInkBiasEm}em)) scale(${numberScale})`,
+                    transformOrigin: "center top",
+                    width: "max-content",
+                    maxWidth: `${lettering.number.maxWidthPct}%`,
+                    height: `${lettering.number.heightPct}%`,
+                    fontFamily: font.cssFamily,
+                    fontSize: `calc(${lettering.number.heightPct} * 1cqh)`,
+                    overflow: "visible",
+                    ...letterStyle,
+                  }}
+                >
+                  {displayNumber}
+                </p>
+              ) : null}
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       {view === "back" && showNameBadge && (
         <p className="pointer-events-none absolute bottom-10 left-3 z-10 bg-bone px-2.5 py-1.5 font-sans text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-garnet">
           {CAMPAIGN_NAME_BADGE}
         </p>
       )}
-
-      <figcaption className="label-caps absolute bottom-0 left-0 right-0 bg-black/70 px-3 py-2 text-center text-[0.6rem] tracking-[0.14em] text-bone/80">
-        {caption}
-      </figcaption>
     </figure>
   );
 }
