@@ -1,0 +1,89 @@
+# Bayonne store — Ogilvy format (filled)
+
+Ogilvy's rules: the headline does 80% of the work, it states a fact rather than an adjective, and the body is long because people who are actually interested read. Nothing uses "elevate," "premium," or "iconic."
+
+**Legal (purchasable):** Until BOE permission is on file, commerce copy is **Bayonne** — garnet, 1936, Avenue A — not “Bees” / school marks. See `docs/LEGAL_GATE.md`. Pop-up buy: `docs/POPUP_BUY.md`.
+
+---
+
+## The headline
+
+> **Garnet since 1936. Most spirit wear gets the color wrong.**
+
+*Brand lockup (hero-level):* BAYONNE BEES · No Parade F.C. Team Customs  
+*Subhead:* Specified in Bayonne’s actual garnet — not maroon, not burgundy, not cardinal.
+
+---
+
+## The body copy (brackets filled or cut)
+
+> Garnet is a dark, slightly brown-toned red. Maroon is purple-toned. Burgundy is darker still. Put them side by side in a gym and you can see it from the top row.
+>
+> Most spirit wear is printed in whatever red the vendor already had loaded. It looks close on a screen and wrong in person, and it fades a shade further with every wash.
+>
+> We built this store to fix a small problem that has annoyed Bayonne parents for a long time.
+>
+> **Things worth knowing before you order:**
+>
+> **1.** Every garment is specified in one matched garnet (`#5A1626` in our files) and used across the whole store. A crew bought in October matches a jersey ordered in April.
+>
+> **2.** Nothing is printed until you order it. There is no back room of unsold XLs.
+>
+> **3.** Sizes run from adult **2XS to 3XL**. The size chart gives chest and body length in inches — not “runs small.”
+>
+> **4.** The girls soccer program that won the 2024 Hudson County championship has gone by Queen Bees for years. The crest for that name was drawn by hand, in Bayonne, and had never existed as a mark before.
+>
+> **5.** The year can sit inside the collar, where only the player sees it — not decoration, a season stamp.
+>
+> **6.** Order at [noparade-store.com](https://noparade-store.com). Design and customize at `/team`. Ships to any address we fulfill.
+>
+> Cut until true in writing: print process brand-name (DTG vs AOP per blank), exact business-day ship window, booster/% split, free two-way returns, youth sizes, “every sport in the school.”
+
+> The school has been at 669 Avenue A since 1936. Roughly none of the students, and none of their parents, should have to settle for a shirt that is nearly the right red.
+
+---
+
+## Category headers
+
+| Id | Label | Line |
+|---|---|---|
+| `match` | Match | What they wear when the whistle blows |
+| `sideline` | Sideline | For standing outside in November |
+| `warmups` | Warmups | What the team wears before the whistle |
+| `alumni` | Alumni | The years are on the sleeve, or the collar |
+
+---
+
+## Product blurbs (fact first)
+
+Prices from current catalog. Fabric weights cut until measured.
+
+- **Match Jersey** — $115. owayo F6 Hero. Narrow crew ringer (black + bone inner line). Garnet field. Continuous black chest band with BAYONNE. Crest left. Name and number on the back (included).
+- **Match Shorts** — $73. owayo FP6 Hero. Same garnet as the jersey. Single 18mm bone outseam tape (never three stripes). No name or number.
+- **Crest Cap** — $36. Bone pinstripe crown, garnet brim, BB crest up front. Front + on-model preview.
+- **Full Kit Set** — $188. F6 Hero jersey + FP6 Hero shorts. One garnet. One crest. Name/number included.
+- **Hoops Jersey** — $52. Black mesh. Garnet trim. Crest left. Number on the chest.
+- **Jersey Dress** — $72. One-piece sideline cut. Color-block basketball crest. Name and number on the back.
+- **1936 Crewneck** — $64. Garnet body, black geo side panels (front + side). Motif only — no lettering.
+- **Base Layer Sweats** — $58. Black base, garnet geometric side panel you pick (front + side). Motif only.
+- **Long-Sleeve Jersey** — $62. Name and number on the back. Year inside the collar.
+- **Quarter-Zip** — $68. Crest on the left chest. Nothing else on the front.
+- **Alumni Shorts** — $42. Same garnet as the match strip. Single 18mm bone outseam tape (never three stripes).
+
+**Queen Bees Tee** (when listed): Made for the girls soccer program. The crest was drawn for them and had never existed before. Price TBD when the SKU ships.
+
+---
+
+## Editorial imagery (Voice §8 — SPEC PATCH 03)
+
+| Surface | Treatment | Alt text |
+|---|---|---|
+| Lifestyle / story | Location OK when story-led | Place + moment — not a product SKU |
+| Truth plates (Tier 2) | Ghost mannequin, high-key studio | Garment + view (`front` / `side` / `back`) |
+| **Campaign (Tier 1)** | **Studio, not location. Garment is the subject; a person wears it.** | **Names the garment and the view — not the person** |
+
+Campaign shot protocol: `docs/CAMPAIGN_SHOOT.md`. Presentation reference only — no NOCTA/Nike marks, no Venezia orange/green.
+
+**PDP toggle copy (R1):** `Put your name on it` — not Customize, not Personalize, not Configure.
+
+**Fun budget:** spend idiom / one pun per hub at R1–R3; never at checkout, size guide, shipping, errors, or R4. Constants: `src/tokens/fun.ts`.
