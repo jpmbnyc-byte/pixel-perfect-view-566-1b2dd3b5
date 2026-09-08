@@ -129,4 +129,20 @@ describe("Fall 001 assortment", () => {
     expect(shortShots[1]?.src).toBe(IMAGE_REGISTRY["performance-short"].productBack);
     expect(LOOKBOOK_TEASER_IDS).toContain("performance-set");
   });
+
+  it("keeps photo zoom in a portal and locks the page frame", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const gallery = await readFile(resolve(process.cwd(), "src/components/ProductZoomGallery.tsx"), "utf8");
+    const css = await readFile(resolve(process.cwd(), "src/styles.css"), "utf8");
+    const pdp = await readFile(resolve(process.cwd(), "src/routes/team.$slug.$product.tsx"), "utf8");
+    expect(gallery).toContain("createPortal");
+    expect(gallery).toContain("document.body");
+    expect(gallery).toContain("overscroll-x-contain");
+    expect(gallery).not.toContain("zoom-in-95");
+    expect(gallery).not.toContain("scale-[1.85]");
+    expect(css).toContain("overflow-x: clip");
+    expect(pdp).toContain("minmax(0,1.15fr)");
+    expect(pdp).toContain("min-w-0");
+  });
 });

@@ -44,7 +44,7 @@ function TeamLanding() {
   const kit = BAYONNE_BEES_KIT;
 
   return (
-    <div className="bg-paper text-ink">
+    <div className="overflow-x-clip bg-paper text-ink">
       <StoreNav />
       <main>
         <LandingHero />
@@ -67,8 +67,8 @@ function TeamLanding() {
           </div>
         </section>
 
-        <section className="studio-field border-t border-ink/10">
-          <div className="mx-auto w-full max-w-[1280px] px-4 py-16 sm:px-10 sm:py-20">
+        <section className="studio-field overflow-x-clip border-t border-ink/10">
+          <div className="mx-auto w-full min-w-0 max-w-[1280px] px-4 py-16 sm:px-10 sm:py-20">
             <div className="mb-12 flex items-end justify-between gap-6 px-2">
               <div>
                 <p className="place-line">The collection</p>

@@ -57,7 +57,7 @@ export function TeamStorePage({ category, kit }: Props) {
   const heroObjectClass = active.heroFit === "cover" ? "object-cover" : "object-contain";
 
   return (
-    <div className="studio-field min-h-screen text-ink">
+    <div className="studio-field min-h-screen overflow-x-clip text-ink">
       <StoreNav />
       <main>
         <section className="relative isolate min-h-[58dvh] overflow-hidden bg-black sm:min-h-[70dvh]">
