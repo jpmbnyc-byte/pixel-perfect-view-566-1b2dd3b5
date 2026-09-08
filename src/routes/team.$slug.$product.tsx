@@ -14,10 +14,10 @@ import {
   letteringFor,
   productById,
   type FontId,
-  type HatSize,
 } from "@/lib/catalog";
-import { SIZES, SIZE_CHART, sanitizeName, sanitizeNumber, type Size } from "@/lib/kit";
-import { SHOE_SIZES, SOCK_SIZES, storeIsOpen } from "@/lib/checkout";
+import { SIZES, SIZE_CHART, sanitizeName, sanitizeNumber } from "@/lib/kit";
+import { SOCK_SIZES, storeIsOpen } from "@/lib/checkout";
+import { formatShoeOption, shoeRunsFor } from "@/lib/footwear";
 import { createCheckoutSession } from "@/lib/checkout.functions";
 import { campaignForProduct } from "@/media/campaignAssets";
 import { DEPARTMENT_TO } from "@/components/TeamStorePage";
@@ -51,7 +51,6 @@ export const Route = createFileRoute("/team/$slug/$product")({
 });
 
 type GalleryMode = "photos" | "product" | "customize";
-type SelectedSize = Size | HatSize | (typeof SHOE_SIZES)[number] | (typeof SOCK_SIZES)[number] | "";
 
 function ProductListingPage() {
   const { kit } = TeamSlugRoute.useLoaderData();
@@ -65,7 +64,7 @@ function ProductListingPage() {
   const [fontId, setFontId] = useState<FontId>("forge");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [size, setSize] = useState<SelectedSize>("");
+  const [size, setSize] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
   const [checkoutBusy, setCheckoutBusy] = useState(false);
@@ -416,18 +415,45 @@ function ProductListingPage() {
           )}
 
           {product.sizeChart === "shoe" && (
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              {SHOE_SIZES.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => setSize(s)}
-                  className={`border py-3 text-sm font-semibold tabular-nums tap-44 ${size === s ? "border-foreground bg-secondary" : "border-transparent bg-secondary/70"}`}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
+            <>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Men’s US. Women’s is +1.5 — only sizes in stock.
+              </p>
+              {shoeRunsFor(product.id).length === 0 ? (
+                <p className="mt-4 text-sm text-garnet">This pair is currently unavailable.</p>
+              ) : (
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  {shoeRunsFor(product.id).map((row) => (
+                    <button
+                      key={row.upc}
+                      type="button"
+                      onClick={() => setSize(row.men)}
+                      className={`border py-3.5 text-sm font-semibold tabular-nums tap-44 ${size === row.men ? "border-foreground bg-secondary" : "border-transparent bg-secondary/70"}`}
+                    >
+                      {formatShoeOption(row)}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {shoeRunsFor(product.id).length > 0 && (
+                <table className="mt-4 w-full border border-border text-sm">
+                  <thead>
+                    <tr className="bg-secondary">
+                      <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Men</th>
+                      <th className="px-3 py-2 text-left text-xs font-semibold uppercase">Women</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {shoeRunsFor(product.id).map((row) => (
+                      <tr key={row.upc} className="border-t border-border">
+                        <td className="px-3 py-2 font-semibold tabular-nums">{row.men}</td>
+                        <td className="px-3 py-2 tabular-nums text-muted-foreground">{row.women}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </>
           )}
 
           {(product.sizeChart === "apparel" || product.sizeChart === "hat") && (

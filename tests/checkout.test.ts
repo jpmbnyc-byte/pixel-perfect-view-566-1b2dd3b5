@@ -45,4 +45,23 @@ describe("Stripe checkout pricing", () => {
     const harbor = productById("harbor-coach")!;
     expect(unitAmountCents(harbor, false)).toBe(9800);
   });
+
+  it("sells only in-stock footwear sizes with a women’s conversion", () => {
+    const runner = resolveCheckout({ productId: "nb-runner", size: "12.5" });
+    const court = resolveCheckout({ productId: "nb-bbp400", size: "4" });
+    expect(runner.ok).toBe(true);
+    expect(court.ok).toBe(true);
+    if (runner.ok) {
+      expect(runner.value.unitAmount).toBe(15_000);
+      expect(runner.value.description).toContain("12.5M · 14W");
+      expect(runner.value.description).toContain("198689462957");
+    }
+    if (court.ok) {
+      expect(court.value.unitAmount).toBe(14_000);
+      expect(court.value.description).toContain("4M · 5.5W");
+      expect(court.value.description).toContain("198689917464");
+    }
+    expect(resolveCheckout({ productId: "nb-runner", size: "10" }).ok).toBe(false);
+    expect(resolveCheckout({ productId: "nb-bbp400", size: "11" }).ok).toBe(false);
+  });
 });

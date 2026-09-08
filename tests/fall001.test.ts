@@ -40,7 +40,10 @@ describe("Fall 001 assortment", () => {
   it("does not feature unresolved Club Goods photography as the lead", () => {
     const featuredClub = productsInCategory("club")[0];
     expect(featuredClub?.id).toBe("two-tone-cap");
-    expect(productById("nb-runner")?.imageryPending).toBe(true);
+    expect(productById("nb-runner")?.imageryPending).toBe(false);
+    expect(productById("nb-runner")?.name).toBe("New Balance AC Runner");
+    expect(productById("nb-bbp400")?.name).toBe("New Balance P400");
+    expect(LOOKBOOK_TEASER_IDS).toContain("nb-runner");
   });
 
   it("teases only photographed pieces on the landing lookbook", () => {
@@ -58,7 +61,7 @@ describe("Fall 001 assortment", () => {
 
   it("marks only unresolved families as pending photography", () => {
     const pending = PRODUCTS.filter((p) => p.imageryPending).map((p) => p.id).sort();
-    expect(pending).toEqual(["field-cargo", "nb-runner", "pique-polo", "pocket-ls", "womens-raglan"].sort());
+    expect(pending).toEqual(["field-cargo", "pique-polo", "pocket-ls", "womens-raglan"].sort());
     expect(IMAGE_REGISTRY["harbor-coach"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["heritage-jersey"].modelFront).toBeTruthy();
   });

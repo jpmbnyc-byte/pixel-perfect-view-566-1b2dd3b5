@@ -200,8 +200,10 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("two-tone-cap", "bayonne-two-tone-club-cap", "Two-Tone Club Cap", "club", 36, { sizeChart: "hat" }),
   listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie", "club", 34, { sizeChart: "hat" }),
   listing("club-sock", "bayonne-club-sock", "Club Sock", "club", 18, { sizeChart: "sock" }),
-  listing("nb-bbp400", "new-balance-bb-p400", "New Balance BB P400", "club", 140, { sizeChart: "shoe" }),
-  listing("nb-runner", "new-balance-fresh-foam-runner", "New Balance Fresh Foam Runner", "club", 150, { sizeChart: "shoe" }),
+  listing("nb-bbp400", "new-balance-bb-p400", "New Balance P400", "club", 140, { sizeChart: "shoe" }),
+  listing("nb-runner", "new-balance-fresh-foam-runner", "New Balance AC Runner", "club", 150, {
+    sizeChart: "shoe",
+  }),
 ];
 
 export function categoryById(id: CategoryId) {
@@ -222,6 +224,7 @@ export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
   "harbor-coach",
   "two-tone-cap",
   "nb-bbp400",
+  "nb-runner",
 ];
 
 export function productById(id: string) {

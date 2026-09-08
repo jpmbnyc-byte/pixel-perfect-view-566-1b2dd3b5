@@ -40,6 +40,15 @@ import gothicBBeanieModelBack from "@/assets/bayonne/fall001/gothic-b-beanie-mod
 import clubSockFront from "@/assets/bayonne/fall001/club-sock-front.png";
 import clubSockDetail from "@/assets/bayonne/fall001/club-sock-detail.png";
 
+import nbAcRunnerLateral from "@/assets/bayonne/fall001/nb-ac-runner-lateral.jpg";
+import nbAcRunnerAngle from "@/assets/bayonne/fall001/nb-ac-runner-medial.jpg";
+import nbAcRunnerTop from "@/assets/bayonne/fall001/nb-ac-runner-top.jpg";
+import nbAcRunnerOutsole from "@/assets/bayonne/fall001/nb-ac-runner-detail.jpg";
+import nbP400Lateral from "@/assets/bayonne/fall001/nb-p400-lateral.jpg";
+import nbP400ThreeQuarter from "@/assets/bayonne/fall001/nb-p400-three-quarter.jpg";
+import nbP400Top from "@/assets/bayonne/fall001/nb-p400-pair.jpg";
+import nbP400Outsole from "@/assets/bayonne/fall001/nb-p400-outsole.jpg";
+
 export const COMING_SOON = comingSoon;
 
 export type ImageRole =
@@ -168,11 +177,17 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelSecondary: clubSockDetail,
   },
   "nb-bbp400": {
-    productFront: clubGoodsHero,
-    productBack: clubGoodsHero,
-    modelFront: clubGoodsHero,
+    productFront: nbP400Lateral,
+    productBack: nbP400Outsole,
+    modelFront: nbP400ThreeQuarter,
+    modelSecondary: nbP400Top,
   },
-  "nb-runner": { pending: true },
+  "nb-runner": {
+    productFront: nbAcRunnerLateral,
+    productBack: nbAcRunnerOutsole,
+    modelFront: nbAcRunnerAngle,
+    modelSecondary: nbAcRunnerTop,
+  },
 };
 
 export const HEROES = {
@@ -221,10 +236,21 @@ export function campaignViews(id: CanonicalProductId): {
   if (set.pending) return {};
   const front = set.modelFront ?? set.productFront;
   const back = set.modelSecondary ?? set.productBack;
+  const footwearThreeQuarter =
+    (id === "nb-bbp400" || id === "nb-runner") &&
+    set.productFront &&
+    set.productFront !== front &&
+    set.productFront !== back
+      ? set.productFront
+      : undefined;
   return {
     ...(front ? { front } : {}),
     ...(back ? { back } : {}),
-    ...(front && front !== back ? { "three-quarter": front } : {}),
+    ...(footwearThreeQuarter
+      ? { "three-quarter": footwearThreeQuarter }
+      : front && front !== back
+        ? { "three-quarter": front }
+        : {}),
   };
 }
 

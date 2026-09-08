@@ -11,6 +11,7 @@ import {
   storeIsOpen,
   type CheckoutInput,
 } from "@/lib/checkout";
+import { shoeRunFor } from "@/lib/footwear";
 
 const checkoutInput = z.object({
   productId: z.string().min(1),
@@ -64,6 +65,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const origin = originFromRequest();
     const { product, unitAmount, description, size, name, number, fontLabel, personalized } =
       resolved.value;
+    const shoe = product.sizeChart === "shoe" ? shoeRunFor(product.id, size) : undefined;
 
     const stripe = stripeClient();
     if (!stripe) {
@@ -133,6 +135,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         number,
         font: fontLabel ?? "",
         personalized: personalized ? "yes" : "no",
+        upc: shoe?.upc ?? "",
       },
       success_url: `${origin}/order/complete?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/order/cancel?product=${encodeURIComponent(product.id)}`,

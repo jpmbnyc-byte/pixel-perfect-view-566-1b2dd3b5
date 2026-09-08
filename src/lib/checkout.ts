@@ -4,6 +4,7 @@
  */
 
 import { FONTS, HAT_SIZES, productById, type CatalogProduct, type FontId } from "@/lib/catalog";
+import { shoeRunFor, shoeSizeAllowed } from "@/lib/footwear";
 import { SIZES, countdownParts } from "@/lib/kit";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { validatePersonalization } from "@/personalize/validate";
@@ -14,26 +15,6 @@ export const STANDARD_SHIPPING_CENTS = 1_000;
 export const EXPRESS_SHIPPING_CENTS = 2_000;
 /** Dashboard label for this storefront checkout flow. */
 export const INTEGRATION_IDENTIFIER = "bayonne_chk_kfmqrwtx";
-
-export const SHOE_SIZES = [
-  "5",
-  "5.5",
-  "6",
-  "6.5",
-  "7",
-  "7.5",
-  "8",
-  "8.5",
-  "9",
-  "9.5",
-  "10",
-  "10.5",
-  "11",
-  "11.5",
-  "12",
-  "13",
-  "14",
-] as const;
 
 export const SOCK_SIZES = ["7–9.5"] as const;
 
@@ -68,7 +49,7 @@ export function storeIsOpen(now = Date.now()) {
 export function sizeAllowed(product: CatalogProduct, size: string) {
   if (product.sizeChart === "apparel") return (SIZES as readonly string[]).includes(size);
   if (product.sizeChart === "hat") return (HAT_SIZES as readonly string[]).includes(size);
-  if (product.sizeChart === "shoe") return (SHOE_SIZES as readonly string[]).includes(size);
+  if (product.sizeChart === "shoe") return shoeSizeAllowed(product.id, size);
   if (product.sizeChart === "sock") return (SOCK_SIZES as readonly string[]).includes(size);
   return false;
 }
@@ -128,11 +109,13 @@ export function resolveCheckout(input: CheckoutInput): CheckoutResolveResult {
   }
 
   const unitAmount = unitAmountCents(product, personalized);
+  const shoe = product.sizeChart === "shoe" ? shoeRunFor(product.id, size) : undefined;
   const details = [
-    `Size ${size}`,
+    shoe ? `${shoe.men}M · ${shoe.women}W` : `Size ${size}`,
     personalized ? `${name} ${number}` : null,
     fontLabel,
     product.line,
+    shoe ? `UPC ${shoe.upc}` : null,
   ].filter(Boolean);
 
   return {
