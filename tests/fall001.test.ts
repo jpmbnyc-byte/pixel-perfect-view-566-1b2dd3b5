@@ -4,8 +4,8 @@ import { IMAGE_REGISTRY } from "@/lib/imageRegistry";
 import { sourceForProduct } from "@/lib/productSources";
 
 describe("Fall 001 assortment", () => {
-  it("locks 36 live listings including Harbor Division at $98", () => {
-    expect(PRODUCTS).toHaveLength(36);
+  it("locks 34 live listings including Harbor Division at $98", () => {
+    expect(PRODUCTS).toHaveLength(34);
     const harbor = productById("harbor-coach")!;
     expect(harbor.name).toBe("Harbor Division Hooded Coach Jacket");
     expect(harbor.price).toBe(98);
@@ -14,8 +14,6 @@ describe("Fall 001 assortment", () => {
 
   it("keeps the full Bayonne product system in the storefront", () => {
     expect(productById("club-hood")?.name).toBe("Club Hood");
-    expect(productById("collegiate-tee")?.name).toBe("Collegiate Tee");
-    expect(productById("recreation-crew")?.name).toBe("Recreation Crew");
     expect(productById("local-issue-ls")?.name).toBe("Local Issue Longsleeve");
     expect(productById("sideline-shell")?.name).toBe("Sideline Shell");
     expect(productById("field-short-grey")?.name).toBe("Field Short — Grey");
@@ -49,7 +47,7 @@ describe("Fall 001 assortment", () => {
     ]);
     expect(productsInCategory("match")).toHaveLength(6);
     expect(productsInCategory("performance")).toHaveLength(7);
-    expect(productsInCategory("travel")).toHaveLength(10);
+    expect(productsInCategory("travel")).toHaveLength(8);
     expect(productsInCategory("harbor")).toHaveLength(2);
     expect(productsInCategory("club")).toHaveLength(11);
     expect(productsInCategory("club").map((p) => p.id)[0]).toBe("two-tone-cap");
@@ -110,8 +108,6 @@ describe("Fall 001 assortment", () => {
         "womens-raglan",
         "field-cargo",
         "club-hood",
-        "collegiate-tee",
-        "recreation-crew",
         "local-issue-ls",
         "pique-polo",
         "pocket-ls",
