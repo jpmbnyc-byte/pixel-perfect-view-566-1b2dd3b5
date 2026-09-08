@@ -16,8 +16,12 @@ import { Route as TeamSlugRouteImport } from './routes/team.$slug'
 import { Route as TeamSlugIndexRouteImport } from './routes/team.$slug.index'
 import { Route as TeamSlugProductRouteImport } from './routes/team.$slug.$product'
 import { Route as TeamSlugAlumniRouteImport } from './routes/team.$slug.alumni'
+import { Route as TeamSlugClubRouteImport } from './routes/team.$slug.club'
+import { Route as TeamSlugHarborRouteImport } from './routes/team.$slug.harbor'
 import { Route as TeamSlugMatchRouteImport } from './routes/team.$slug.match'
+import { Route as TeamSlugPerformanceRouteImport } from './routes/team.$slug.performance'
 import { Route as TeamSlugSidelineRouteImport } from './routes/team.$slug.sideline'
+import { Route as TeamSlugTravelRouteImport } from './routes/team.$slug.travel'
 import { Route as TeamSlugWarmupsRouteImport } from './routes/team.$slug.warmups'
 
 const IndexRoute = IndexRouteImport.update({
@@ -55,14 +59,34 @@ const TeamSlugAlumniRoute = TeamSlugAlumniRouteImport.update({
   path: '/alumni',
   getParentRoute: () => TeamSlugRoute,
 } as any)
+const TeamSlugClubRoute = TeamSlugClubRouteImport.update({
+  id: '/club',
+  path: '/club',
+  getParentRoute: () => TeamSlugRoute,
+} as any)
+const TeamSlugHarborRoute = TeamSlugHarborRouteImport.update({
+  id: '/harbor',
+  path: '/harbor',
+  getParentRoute: () => TeamSlugRoute,
+} as any)
 const TeamSlugMatchRoute = TeamSlugMatchRouteImport.update({
   id: '/match',
   path: '/match',
   getParentRoute: () => TeamSlugRoute,
 } as any)
+const TeamSlugPerformanceRoute = TeamSlugPerformanceRouteImport.update({
+  id: '/performance',
+  path: '/performance',
+  getParentRoute: () => TeamSlugRoute,
+} as any)
 const TeamSlugSidelineRoute = TeamSlugSidelineRouteImport.update({
   id: '/sideline',
   path: '/sideline',
+  getParentRoute: () => TeamSlugRoute,
+} as any)
+const TeamSlugTravelRoute = TeamSlugTravelRouteImport.update({
+  id: '/travel',
+  path: '/travel',
   getParentRoute: () => TeamSlugRoute,
 } as any)
 const TeamSlugWarmupsRoute = TeamSlugWarmupsRouteImport.update({
@@ -78,8 +102,12 @@ export interface FileRoutesByFullPath {
   '/team/': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
   '/team/$slug/alumni': typeof TeamSlugAlumniRoute
+  '/team/$slug/club': typeof TeamSlugClubRoute
+  '/team/$slug/harbor': typeof TeamSlugHarborRoute
   '/team/$slug/match': typeof TeamSlugMatchRoute
+  '/team/$slug/performance': typeof TeamSlugPerformanceRoute
   '/team/$slug/sideline': typeof TeamSlugSidelineRoute
+  '/team/$slug/travel': typeof TeamSlugTravelRoute
   '/team/$slug/warmups': typeof TeamSlugWarmupsRoute
   '/team/$slug/': typeof TeamSlugIndexRoute
 }
@@ -89,8 +117,12 @@ export interface FileRoutesByTo {
   '/team': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
   '/team/$slug/alumni': typeof TeamSlugAlumniRoute
+  '/team/$slug/club': typeof TeamSlugClubRoute
+  '/team/$slug/harbor': typeof TeamSlugHarborRoute
   '/team/$slug/match': typeof TeamSlugMatchRoute
+  '/team/$slug/performance': typeof TeamSlugPerformanceRoute
   '/team/$slug/sideline': typeof TeamSlugSidelineRoute
+  '/team/$slug/travel': typeof TeamSlugTravelRoute
   '/team/$slug/warmups': typeof TeamSlugWarmupsRoute
   '/team/$slug': typeof TeamSlugIndexRoute
 }
@@ -102,8 +134,12 @@ export interface FileRoutesById {
   '/team/': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
   '/team/$slug/alumni': typeof TeamSlugAlumniRoute
+  '/team/$slug/club': typeof TeamSlugClubRoute
+  '/team/$slug/harbor': typeof TeamSlugHarborRoute
   '/team/$slug/match': typeof TeamSlugMatchRoute
+  '/team/$slug/performance': typeof TeamSlugPerformanceRoute
   '/team/$slug/sideline': typeof TeamSlugSidelineRoute
+  '/team/$slug/travel': typeof TeamSlugTravelRoute
   '/team/$slug/warmups': typeof TeamSlugWarmupsRoute
   '/team/$slug/': typeof TeamSlugIndexRoute
 }
@@ -116,8 +152,12 @@ export interface FileRouteTypes {
     | '/team/'
     | '/team/$slug/$product'
     | '/team/$slug/alumni'
+    | '/team/$slug/club'
+    | '/team/$slug/harbor'
     | '/team/$slug/match'
+    | '/team/$slug/performance'
     | '/team/$slug/sideline'
+    | '/team/$slug/travel'
     | '/team/$slug/warmups'
     | '/team/$slug/'
   fileRoutesByTo: FileRoutesByTo
@@ -127,8 +167,12 @@ export interface FileRouteTypes {
     | '/team'
     | '/team/$slug/$product'
     | '/team/$slug/alumni'
+    | '/team/$slug/club'
+    | '/team/$slug/harbor'
     | '/team/$slug/match'
+    | '/team/$slug/performance'
     | '/team/$slug/sideline'
+    | '/team/$slug/travel'
     | '/team/$slug/warmups'
     | '/team/$slug'
   id:
@@ -139,8 +183,12 @@ export interface FileRouteTypes {
     | '/team/'
     | '/team/$slug/$product'
     | '/team/$slug/alumni'
+    | '/team/$slug/club'
+    | '/team/$slug/harbor'
     | '/team/$slug/match'
+    | '/team/$slug/performance'
     | '/team/$slug/sideline'
+    | '/team/$slug/travel'
     | '/team/$slug/warmups'
     | '/team/$slug/'
   fileRoutesById: FileRoutesById
@@ -203,6 +251,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamSlugAlumniRouteImport
       parentRoute: typeof TeamSlugRoute
     }
+    '/team/$slug/club': {
+      id: '/team/$slug/club'
+      path: '/club'
+      fullPath: '/team/$slug/club'
+      preLoaderRoute: typeof TeamSlugClubRouteImport
+      parentRoute: typeof TeamSlugRoute
+    }
+    '/team/$slug/harbor': {
+      id: '/team/$slug/harbor'
+      path: '/harbor'
+      fullPath: '/team/$slug/harbor'
+      preLoaderRoute: typeof TeamSlugHarborRouteImport
+      parentRoute: typeof TeamSlugRoute
+    }
     '/team/$slug/match': {
       id: '/team/$slug/match'
       path: '/match'
@@ -210,11 +272,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamSlugMatchRouteImport
       parentRoute: typeof TeamSlugRoute
     }
+    '/team/$slug/performance': {
+      id: '/team/$slug/performance'
+      path: '/performance'
+      fullPath: '/team/$slug/performance'
+      preLoaderRoute: typeof TeamSlugPerformanceRouteImport
+      parentRoute: typeof TeamSlugRoute
+    }
     '/team/$slug/sideline': {
       id: '/team/$slug/sideline'
       path: '/sideline'
       fullPath: '/team/$slug/sideline'
       preLoaderRoute: typeof TeamSlugSidelineRouteImport
+      parentRoute: typeof TeamSlugRoute
+    }
+    '/team/$slug/travel': {
+      id: '/team/$slug/travel'
+      path: '/travel'
+      fullPath: '/team/$slug/travel'
+      preLoaderRoute: typeof TeamSlugTravelRouteImport
       parentRoute: typeof TeamSlugRoute
     }
     '/team/$slug/warmups': {
@@ -230,8 +306,12 @@ declare module '@tanstack/react-router' {
 interface TeamSlugRouteChildren {
   TeamSlugProductRoute: typeof TeamSlugProductRoute
   TeamSlugAlumniRoute: typeof TeamSlugAlumniRoute
+  TeamSlugClubRoute: typeof TeamSlugClubRoute
+  TeamSlugHarborRoute: typeof TeamSlugHarborRoute
   TeamSlugMatchRoute: typeof TeamSlugMatchRoute
+  TeamSlugPerformanceRoute: typeof TeamSlugPerformanceRoute
   TeamSlugSidelineRoute: typeof TeamSlugSidelineRoute
+  TeamSlugTravelRoute: typeof TeamSlugTravelRoute
   TeamSlugWarmupsRoute: typeof TeamSlugWarmupsRoute
   TeamSlugIndexRoute: typeof TeamSlugIndexRoute
 }
@@ -239,8 +319,12 @@ interface TeamSlugRouteChildren {
 const TeamSlugRouteChildren: TeamSlugRouteChildren = {
   TeamSlugProductRoute: TeamSlugProductRoute,
   TeamSlugAlumniRoute: TeamSlugAlumniRoute,
+  TeamSlugClubRoute: TeamSlugClubRoute,
+  TeamSlugHarborRoute: TeamSlugHarborRoute,
   TeamSlugMatchRoute: TeamSlugMatchRoute,
+  TeamSlugPerformanceRoute: TeamSlugPerformanceRoute,
   TeamSlugSidelineRoute: TeamSlugSidelineRoute,
+  TeamSlugTravelRoute: TeamSlugTravelRoute,
   TeamSlugWarmupsRoute: TeamSlugWarmupsRoute,
   TeamSlugIndexRoute: TeamSlugIndexRoute,
 }

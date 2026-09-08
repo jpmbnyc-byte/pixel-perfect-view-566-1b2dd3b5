@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useMemo, useRef, useState, type HTMLAttributes } from "react";
 
+import { ComingSoonMedia } from "@/components/ComingSoonMedia";
 import { LiquidBackdrop } from "@/components/LiquidBackdrop";
 import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
@@ -102,7 +103,7 @@ function ProductListingPage() {
   const { product } = Route.useLoaderData();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const campaign = campaignForProduct(product);
+  const campaign = product.imageryPending ? undefined : campaignForProduct(product);
   const [galleryMode, setGalleryMode] = useState<GalleryMode>(campaign?.views.front ? "photos" : "product");
   const [view, setView] = useState<CanvasView>("front");
   const [fontId, setFontId] = useState<FontId>("forge");
@@ -263,7 +264,7 @@ function ProductListingPage() {
       <div className="relative z-10">
         <section className="mt-6 px-5">
           <div className="mb-3 flex gap-2 overflow-x-auto">
-            {campaign?.views.front && (
+            {!product.imageryPending && campaign?.views.front && (
               <button
                 type="button"
                 onClick={() => setMode("photos")}
@@ -290,36 +291,42 @@ function ProductListingPage() {
             )}
           </div>
 
-          <div className={`mb-3 grid gap-2 ${activeViews.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
-            {activeViews.map((v) => (
-              <button
-                key={v}
-                type="button"
-                onClick={() => setView(v)}
-                className={`border px-2 py-2.5 text-center text-sm font-semibold capitalize tap-44 ${view === v ? "border-foreground bg-foreground text-background" : "border-border bg-background"}`}
-              >
-                {v === "three-quarter" ? "¾" : v}
-              </button>
-            ))}
-          </div>
+          {!product.imageryPending && (
+            <div className={`mb-3 grid gap-2 ${activeViews.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
+              {activeViews.map((v) => (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => setView(v)}
+                  className={`border px-2 py-2.5 text-center text-sm font-semibold capitalize tap-44 ${view === v ? "border-foreground bg-foreground text-background" : "border-border bg-background"}`}
+                >
+                  {v === "three-quarter" ? "¾" : v}
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="overflow-hidden border border-border bg-secondary/40">
-            <ProductCanvas
-              view={view}
-              frontSrc={frontSrc}
-              {...(threeQuarterSrc ? { threeQuarterSrc } : {})}
-              secondarySrc={secondarySrc}
-              fontId={fontId}
-              name={name}
-              number={number}
-              productLabel={product.name}
-              showLettering={galleryMode === "customize" && product.nameNumber}
-              lettering={lettering}
-              tier={galleryMode === "photos" ? "campaign" : "truth"}
-              showNameBadge={galleryMode === "photos" && product.nameNumber}
-              printScale={1}
-              confirmFlash={false}
-            />
+            {product.imageryPending ? (
+              <ComingSoonMedia name={product.name} className="aspect-[4/5]" />
+            ) : (
+              <ProductCanvas
+                view={view}
+                frontSrc={frontSrc}
+                {...(threeQuarterSrc ? { threeQuarterSrc } : {})}
+                secondarySrc={secondarySrc}
+                fontId={fontId}
+                name={name}
+                number={number}
+                productLabel={product.name}
+                showLettering={galleryMode === "customize" && product.nameNumber}
+                lettering={lettering}
+                tier={galleryMode === "photos" ? "campaign" : "truth"}
+                showNameBadge={galleryMode === "photos" && product.nameNumber}
+                printScale={1}
+                confirmFlash={false}
+              />
+            )}
           </div>
         </section>
 

@@ -1,3 +1,4 @@
+import { ComingSoonMedia } from "@/components/ComingSoonMedia";
 import { useCallback, useState, type MouseEvent } from "react";
 import type { CatalogProduct } from "@/lib/catalog";
 
@@ -11,7 +12,7 @@ type Props = {
  */
 export function ProductCardMedia({ product }: Props) {
   const secondary = product.previews.secondary;
-  const hasPair = Boolean(secondary && secondary !== product.thumb);
+  const hasPair = Boolean(secondary && secondary !== product.thumb) && !product.imageryPending;
   const [showSecondary, setShowSecondary] = useState(false);
   const label = product.previewPair === "front-side" ? "side" : "back";
 
@@ -24,6 +25,10 @@ export function ProductCardMedia({ product }: Props) {
     },
     [hasPair],
   );
+
+  if (product.imageryPending) {
+    return <ComingSoonMedia name={product.name} />;
+  }
 
   return (
     <div

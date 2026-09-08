@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
+import { ComingSoonMedia } from "@/components/ComingSoonMedia";
 import { NameableFlag } from "@/components/NameableFlag";
 import { ProductCardMedia } from "@/components/ProductCardMedia";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
@@ -12,26 +13,33 @@ import {
   type CatalogProduct,
   type CategoryId,
 } from "@/lib/catalog";
+import { DEPARTMENT_COPY } from "@/copy/collection";
 import { countdownParts, type KitConfig } from "@/lib/kit";
 import { shopifySynced, type ShopifySyncStatus } from "@/lib/shopify";
 
-export const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
+export const CATEGORY_IDS: CategoryId[] = ["match", "performance", "travel", "harbor", "club"];
 
 export const DEPARTMENT_TO: Record<
   CategoryId,
-  "/team/$slug/match" | "/team/$slug/sideline" | "/team/$slug/warmups" | "/team/$slug/alumni"
+  | "/team/$slug/match"
+  | "/team/$slug/performance"
+  | "/team/$slug/travel"
+  | "/team/$slug/harbor"
+  | "/team/$slug/club"
 > = {
   match: "/team/$slug/match",
-  sideline: "/team/$slug/sideline",
-  warmups: "/team/$slug/warmups",
-  alumni: "/team/$slug/alumni",
+  performance: "/team/$slug/performance",
+  travel: "/team/$slug/travel",
+  harbor: "/team/$slug/harbor",
+  club: "/team/$slug/club",
 };
 
 const FEATURED_BY_CATEGORY: Record<CategoryId, string> = {
-  match: "jersey",
-  sideline: "ls-jersey",
-  warmups: "heritage-tee-black",
-  alumni: "nb-runner",
+  match: "heritage-jersey",
+  performance: "performance-ls",
+  travel: "travel-set",
+  harbor: "harbor-coach",
+  club: "two-tone-cap",
 };
 
 function productAction(p: CatalogProduct) {
@@ -55,12 +63,14 @@ export function TeamStorePage({ category, kit, sync }: Props) {
   const catalogReady = shopifySynced(sync);
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
+  const copy = DEPARTMENT_COPY[category];
   const products = useMemo(() => {
     const list = productsInCategory(category);
     return nameableOnly ? list.filter((p) => p.nameNumber) : list;
   }, [category, nameableOnly]);
 
   const featured = productById(FEATURED_BY_CATEGORY[category]);
+  const heroObjectClass = active.heroFit === "cover" ? "object-cover" : "object-contain";
 
   return (
     <main className="studio-field mx-auto min-h-screen w-full max-w-[720px] pb-24 text-ink">
@@ -89,7 +99,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           />
           <div className="min-w-0">
             <h1 className="type-campaign-tight text-[clamp(2rem,9vw,3.2rem)] text-ink">BAYONNE</h1>
-            <p className="place-line mt-3">Athletics · 07002 · Fall 001</p>
+            <p className="place-line mt-3">Athletics · Fall 001 · 07002</p>
           </div>
         </div>
 
@@ -98,12 +108,8 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           <span className="tip-asymmetric-b" />
         </div>
 
-        <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">
-          Performance apparel, club goods and one jersey made personal.
-        </p>
-        <p className="mt-4 max-w-md text-sm leading-relaxed text-ink/60">
-          Bayonne Athletics is built for movement — training, travel, daily wear and the city that gives the collection its name. The 1936 Heritage Jersey is the only customizable piece; the rest of Fall 001 stays fixed and intentional.
-        </p>
+        <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">{copy.title}</p>
+        <p className="mt-4 max-w-md text-sm leading-relaxed text-ink/60">{copy.body}</p>
       </header>
 
       {!catalogReady && (
@@ -122,15 +128,19 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             params={{ slug: kit.slug, product: featured.id }}
             className="group block focus-ring"
           >
-            <div className="relative aspect-[4/5] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]">
+            <div className="relative aspect-[16/9] overflow-hidden bg-ink sm:aspect-[5/4]">
               {featured.nameNumber && <NameableFlag />}
-              <img
-                src={featured.thumb}
-                alt={`${featured.name}, featured view`}
-                width={800}
-                height={1000}
-                className="h-full w-full object-contain motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
-              />
+              {featured.imageryPending ? (
+                <ComingSoonMedia name={featured.name} className="aspect-auto h-full" />
+              ) : (
+                <img
+                  src={featured.thumb}
+                  alt={`${featured.name}, featured view`}
+                  width={1280}
+                  height={720}
+                  className="h-full w-full object-cover object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
+                />
+              )}
             </div>
             <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
               <div>
@@ -178,15 +188,17 @@ export function TeamStorePage({ category, kit, sync }: Props) {
 
         <p className="type-editorial mt-6 max-w-md text-base text-ink/65">{active.description}</p>
 
-        <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
-          <input
-            type="checkbox"
-            checked={nameableOnly}
-            onChange={(e) => setNameableOnly(e.target.checked)}
-            className="size-5 accent-[var(--garnet)] focus-ring"
-          />
-          Customizable jersey only
-        </label>
+        {category === "match" && (
+          <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
+            <input
+              type="checkbox"
+              checked={nameableOnly}
+              onChange={(e) => setNameableOnly(e.target.checked)}
+              className="size-5 accent-[var(--garnet)] focus-ring"
+            />
+            Customizable jersey only
+          </label>
+        )}
       </section>
 
       <section className="mt-10">
@@ -196,7 +208,8 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             alt={`${active.label} campaign`}
             width={1280}
             height={720}
-            className="h-full w-full object-contain object-center opacity-95"
+            className={`h-full w-full ${heroObjectClass} opacity-95`}
+            style={{ objectPosition: active.heroPosition }}
           />
         </div>
         <div className="flex items-baseline justify-between px-6 py-5 sm:px-10">
@@ -237,9 +250,12 @@ export function TeamStorePage({ category, kit, sync }: Props) {
                       {p.sizeChart === "apparel" && (
                         <p className="place-line mt-3 text-ink/40">S · M · L · XL · 2XL</p>
                       )}
+                      {p.imageryPending && (
+                        <p className="place-line mt-3 text-ink/40">Photography in production</p>
+                      )}
                     </div>
                     <span className="shrink-0 font-sans text-lg tabular-nums text-ink">
-                      {p.personalizedPrice ? `$${p.price}+` : `$${p.price}`}
+                      {p.personalizedPrice ? `$${p.price} / $${p.personalizedPrice}` : `$${p.price}`}
                     </span>
                   </div>
                   <p className="place-line mt-5 text-garnet">{productAction(p)} →</p>

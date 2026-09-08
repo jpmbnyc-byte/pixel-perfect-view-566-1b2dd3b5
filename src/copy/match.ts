@@ -74,7 +74,8 @@ export function matchCopyFor(productId: string): MatchProductCopy | null {
 
 export function departmentLine(id: CategoryId): string {
   if (id === "match") return MATCH_DEPARTMENT_COPY.line;
-  if (id === "sideline") return "For November on the bleachers.";
-  if (id === "warmups") return "Before kickoff.";
-  return "1936 — kept close.";
+  if (id === "performance") return "Built to move.";
+  if (id === "travel") return "The everyday uniform.";
+  if (id === "harbor") return "Built on water.";
+  return "Keep the mark close.";
 }
