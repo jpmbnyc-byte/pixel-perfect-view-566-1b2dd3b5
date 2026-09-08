@@ -1,16 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
-import { ComingSoonMedia } from "@/components/ComingSoonMedia";
-import { NameableFlag } from "@/components/NameableFlag";
-import { ProductCardMedia } from "@/components/ProductCardMedia";
+import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { CRESTS } from "@/lib/brandAssets";
 import {
   CATEGORIES,
   productById,
   productsInCategory,
-  type CatalogProduct,
   type CategoryId,
 } from "@/lib/catalog";
 import { DEPARTMENT_COPY } from "@/copy/collection";
@@ -42,14 +39,6 @@ const FEATURED_BY_CATEGORY: Record<CategoryId, string> = {
   club: "two-tone-cap",
 };
 
-function productAction(p: CatalogProduct) {
-  if (p.nameNumber) return "Customize jersey";
-  if (p.sizeChart === "shoe") return "Choose your pair";
-  if (p.sizeChart === "hat") return "View club good";
-  if (p.sizeChart === "sock") return "View club sock";
-  return "View product";
-}
-
 type Props = {
   category: CategoryId;
   kit: KitConfig;
@@ -64,16 +53,22 @@ export function TeamStorePage({ category, kit, sync }: Props) {
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
   const copy = DEPARTMENT_COPY[category];
+  const featuredId = FEATURED_BY_CATEGORY[category];
   const products = useMemo(() => {
     const list = productsInCategory(category);
-    return nameableOnly ? list.filter((p) => p.nameNumber) : list;
-  }, [category, nameableOnly]);
+    const filtered = nameableOnly ? list.filter((p) => p.nameNumber) : list;
+    return [...filtered].sort((a, b) => {
+      if (a.id === featuredId) return -1;
+      if (b.id === featuredId) return 1;
+      return 0;
+    });
+  }, [category, nameableOnly, featuredId]);
 
-  const featured = productById(FEATURED_BY_CATEGORY[category]);
+  const featured = productById(featuredId);
   const heroObjectClass = active.heroFit === "cover" ? "object-cover" : "object-contain";
 
   return (
-    <main className="studio-field mx-auto min-h-screen w-full max-w-[720px] pb-24 text-ink">
+    <main className="studio-field mx-auto min-h-screen w-full max-w-[880px] pb-24 text-ink">
       <header className="px-6 pb-8 pt-8 sm:px-10">
         <div className="flex items-center justify-between gap-4">
           <Link
@@ -121,45 +116,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
         </div>
       )}
 
-      {featured && !closed && (
-        <section className="px-6 sm:px-10">
-          <Link
-            to="/team/$slug/$product"
-            params={{ slug: kit.slug, product: featured.id }}
-            className="group block focus-ring"
-          >
-            <div className="relative aspect-[16/9] overflow-hidden bg-ink sm:aspect-[5/4]">
-              {featured.nameNumber && <NameableFlag />}
-              {featured.imageryPending ? (
-                <ComingSoonMedia name={featured.name} className="aspect-auto h-full" />
-              ) : (
-                <img
-                  src={featured.thumb}
-                  alt={`${featured.name}, featured view`}
-                  width={1280}
-                  height={720}
-                  className="h-full w-full object-cover object-center motion-safe:transition-transform motion-safe:duration-transition motion-safe:ease-standard motion-safe:group-hover:scale-[1.02]"
-                />
-              )}
-            </div>
-            <div className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-6">
-              <div>
-                <p className="place-line">Featured · {active.label}</p>
-                <h2 className="type-campaign mt-2 text-2xl text-ink">{featured.name}</h2>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">{featured.blurb}</p>
-              </div>
-              <span className="font-sans text-xl tabular-nums text-ink">
-                {featured.personalizedPrice
-                  ? `$${featured.price} / $${featured.personalizedPrice}`
-                  : `$${featured.price}`}
-              </span>
-            </div>
-            <p className="place-line mt-4 pb-2 text-garnet">{productAction(featured)} →</p>
-          </Link>
-        </section>
-      )}
-
-      <section className="px-6 pt-12 sm:px-10">
+      <section className="px-6 pt-4 sm:px-10">
         <p className="place-line">Shop</p>
         <div
           className="mt-5 flex gap-2 overflow-x-auto border-b border-ink/10 pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -186,8 +143,6 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           })}
         </div>
 
-        <p className="type-editorial mt-6 max-w-md text-base text-ink/65">{active.description}</p>
-
         {category === "match" && (
           <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
             <input
@@ -201,8 +156,8 @@ export function TeamStorePage({ category, kit, sync }: Props) {
         )}
       </section>
 
-      <section className="mt-10">
-        <div className="relative aspect-[16/9] overflow-hidden bg-ink">
+      <section className="mt-8">
+        <div className="relative aspect-[16/9] overflow-hidden bg-ink sm:aspect-[5/3]">
           <img
             src={active.hero}
             alt={`${active.label} campaign`}
@@ -213,12 +168,19 @@ export function TeamStorePage({ category, kit, sync }: Props) {
           />
         </div>
         <div className="flex items-baseline justify-between px-6 py-5 sm:px-10">
-          <h2 className="type-campaign text-3xl text-ink">{active.label}</h2>
+          <div>
+            <h2 className="type-campaign text-3xl text-ink">{active.label}</h2>
+            {featured && (
+              <p className="place-line mt-2 text-ink/45">
+                {featured.name} · ${featured.price}
+              </p>
+            )}
+          </div>
           <p className="place-line">{products.length} pieces</p>
         </div>
       </section>
 
-      <section>
+      <section className="px-4 pb-4 sm:px-8">
         {products.length === 0 ? (
           <div className="border-y border-ink/10 px-6 py-16 text-center sm:px-10" role="status">
             <p className="type-editorial text-lg text-ink/70">The Heritage Jersey lives in 1936 Match.</p>
@@ -231,38 +193,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             </button>
           </div>
         ) : (
-          <ul className="divide-y divide-ink/10 border-y border-ink/10">
-            {products.map((p) => (
-              <li key={p.id}>
-                <Link
-                  to="/team/$slug/$product"
-                  params={{ slug: kit.slug, product: p.id }}
-                  className="group block px-6 py-8 focus-ring sm:px-10"
-                >
-                  <div className="relative">
-                    {p.nameNumber && <NameableFlag />}
-                    <ProductCardMedia product={p} />
-                  </div>
-                  <div className="mt-5 flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="type-campaign text-xl text-ink">{p.name}</h3>
-                      <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/55">{p.blurb}</p>
-                      {p.sizeChart === "apparel" && (
-                        <p className="place-line mt-3 text-ink/40">S · M · L · XL · 2XL</p>
-                      )}
-                      {p.imageryPending && (
-                        <p className="place-line mt-3 text-ink/40">Photography in production</p>
-                      )}
-                    </div>
-                    <span className="shrink-0 font-sans text-lg tabular-nums text-ink">
-                      {p.personalizedPrice ? `$${p.price} / $${p.personalizedPrice}` : `$${p.price}`}
-                    </span>
-                  </div>
-                  <p className="place-line mt-5 text-garnet">{productAction(p)} →</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <ProductLookbookGrid products={products} slug={kit.slug} />
         )}
       </section>
     </main>

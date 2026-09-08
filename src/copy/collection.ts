@@ -16,6 +16,8 @@ export const COLLECTION_COPY = {
 
 export type ProductCopy = {
   tagline: string;
+  /** Lookbook second line: material · color. Not a manifesto. */
+  line: string;
   body: string;
   card: string;
   cta: string;
@@ -27,6 +29,7 @@ export type ProductCopy = {
 export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "heritage-jersey": {
     tagline: "Heritage made wearable.",
+    line: "Cotton jersey · Black / Garnet",
     body: "Black and garnet club jersey built from the Bayonne 1936 language. Wear it clean or make it yours.\n\nYour name. Your number. Bayonne across the front.",
     card: "Black and garnet club jersey built from the Bayonne 1936 language. Wear it clean or make it yours.",
     cta: "Make it yours →",
@@ -37,6 +40,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "match-short": {
     tagline: "The bottom half of the strip.",
+    line: "Athletic knit · Black / Garnet",
     body: "Clean black match short with restrained garnet club marks and an athletic cut built for movement.",
     card: "Clean black match short with restrained garnet club marks and an athletic cut built for movement.",
     cta: "Choose your size →",
@@ -44,6 +48,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "match-set": {
     tagline: "The complete club uniform.",
+    line: "Jersey + short · Black / Garnet",
     body: "The complete club uniform: Heritage Jersey and Match Short together.",
     card: "The complete club uniform: Heritage Jersey and Match Short together.",
     cta: "Shop the set →",
@@ -51,6 +56,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "performance-ls": {
     tagline: "Built to move.",
+    line: "Technical knit · Black",
     body: "Lightweight technical long sleeve for training, running and cool-weather movement.",
     card: "Lightweight technical long sleeve for training, running and cool-weather movement.",
     cta: "Choose your size →",
@@ -58,6 +64,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "performance-short": {
     tagline: "Seven inches. No extra noise.",
+    line: "Technical knit · Black",
     body: "Seven-inch training short with clean movement, useful storage and minimal Bayonne marking.",
     card: "Seven-inch training short with clean movement, useful storage and minimal Bayonne marking.",
     cta: "Choose your size →",
@@ -65,6 +72,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "mens-raglan": {
     tagline: "The training tee.",
+    line: "Technical jersey · Black",
     body: "Lightweight raglan performance tee with an athletic fit and restrained Bayonne chest mark.",
     card: "Lightweight raglan performance tee with an athletic fit and restrained Bayonne chest mark.",
     cta: "Choose your size →",
@@ -72,6 +80,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "womens-raglan": {
     tagline: "Cut for movement.",
+    line: "Technical jersey · Black",
     body: "Technical raglan tee shaped for movement, breathability and an easy athletic fit.",
     card: "Technical raglan tee shaped for movement, breathability and an easy athletic fit.",
     cta: "Choose your size →",
@@ -79,6 +88,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "performance-set": {
     tagline: "One training uniform.",
+    line: "Long sleeve + short · Black",
     body: "Performance Long Sleeve and seven-inch short paired as one training uniform.",
     card: "Performance Long Sleeve and seven-inch short paired as one training uniform.",
     cta: "Shop the set →",
@@ -86,6 +96,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "max-heavy-full-zip": {
     tagline: "The everyday layer.",
+    line: "Heavyweight fleece · Black",
     body: "Heavyweight full-zip layer with relaxed proportions and quiet Bayonne branding.",
     card: "Heavyweight full-zip layer with relaxed proportions and quiet Bayonne branding.",
     cta: "Choose your size →",
@@ -93,6 +104,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "max-heavy-sweatpant": {
     tagline: "Travel. Recovery. Repeat.",
+    line: "Heavyweight fleece · Black",
     body: "Heavyweight relaxed sweatpant built for travel, recovery and everyday wear.",
     card: "Heavyweight relaxed sweatpant built for travel, recovery and everyday wear.",
     cta: "Choose your size →",
@@ -100,6 +112,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "travel-set": {
     tagline: "One uniform for transit.",
+    line: "Full zip + sweatpant · Black",
     body: "The Max Heavy Full Zip and Sweatpant together. One uniform for transit and off-hours.",
     card: "The Max Heavy Full Zip and Sweatpant together. One uniform for transit and off-hours.",
     cta: "Shop the set →",
@@ -107,6 +120,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "pique-polo": {
     tagline: "Refined. Still Bayonne.",
+    line: "Stretch piqué · Black",
     body: "Heavyweight stretch pique with a refined silhouette and understated Bayonne chest mark.",
     card: "Heavyweight stretch pique with a refined silhouette and understated Bayonne chest mark.",
     cta: "Choose your size →",
@@ -114,6 +128,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "pocket-ls": {
     tagline: "Substantial cotton.",
+    line: "Cotton jersey · Black",
     body: "Substantial cotton jersey, relaxed fit and a restrained pocket-level Bayonne detail.",
     card: "Substantial cotton jersey, relaxed fit and a restrained pocket-level Bayonne detail.",
     cta: "Choose your size →",
@@ -121,6 +136,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "field-cargo": {
     tagline: "Utility, kept quiet.",
+    line: "Utility twill · Black",
     body: "Relaxed utility cargo with practical storage, comfortable volume and minimal club branding.",
     card: "Relaxed utility cargo with practical storage, comfortable volume and minimal club branding.",
     cta: "Choose your size →",
@@ -128,6 +144,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "harbor-coach": {
     tagline: "Built on water.",
+    line: "Matte shell · Black",
     body: "Matte-black hooded coach shell built for the waterfront. Tonal Harbor Division chest mark with the bridge treatment across the back.",
     card: "Matte-black hooded coach shell built for the waterfront. Tonal Harbor Division chest mark with the bridge treatment across the back.",
     cta: "Choose your size →",
@@ -135,6 +152,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "two-tone-cap": {
     tagline: "Keep the mark close.",
+    line: "Cotton twill · Bone / Black",
     body: "Bone crown. Black bill. Garnet Gothic B. The everyday Bayonne club cap.",
     card: "Bone crown. Black bill. Garnet Gothic B. The everyday Bayonne club cap.",
     cta: "View club good →",
@@ -142,6 +160,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "gothic-b-beanie": {
     tagline: "Quiet all-season knit.",
+    line: "Knit · Black / Garnet",
     body: "Textured knit with a single garnet Gothic B and a quiet all-season profile.",
     card: "Textured knit with a single garnet Gothic B and a quiet all-season profile.",
     cta: "View club good →",
@@ -149,6 +168,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "club-sock": {
     tagline: "The mark at the ankle.",
+    line: "Athletic knit · White / Garnet",
     body: "Clean white club sock finished with the garnet Gothic B at the ankle.",
     card: "Clean white club sock finished with the garnet Gothic B at the ankle.",
     cta: "View club sock →",
@@ -156,6 +176,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "nb-bbp400": {
     tagline: "Court-built. Club-selected.",
+    line: "Leather / mesh · Club-selected",
     body: "Court-built New Balance footwear selected to sit naturally inside the Bayonne Athletics uniform.",
     card: "Court-built New Balance footwear selected to sit naturally inside the Bayonne Athletics uniform.",
     cta: "Choose your pair →",
@@ -163,6 +184,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   },
   "nb-runner": {
     tagline: "Daily miles.",
+    line: "Mesh · Club-selected",
     body: "Cushioned everyday runner selected for training days, travel and daily miles.",
     card: "Cushioned everyday runner selected for training days, travel and daily miles.",
     cta: "Choose your pair →",

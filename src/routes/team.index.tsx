@@ -2,7 +2,8 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { CRESTS, SURFACES } from "@/lib/brandAssets";
-import { CATEGORIES, PRODUCTS, productById } from "@/lib/catalog";
+import { CATEGORIES, LOOKBOOK_TEASER_IDS, PRODUCTS, productById } from "@/lib/catalog";
+import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { DEPARTMENT_TO } from "@/components/TeamStorePage";
 import { COLLECTION_COPY, DEPARTMENT_COPY } from "@/copy/collection";
@@ -118,6 +119,30 @@ function TeamLanding() {
         </div>
       </section>
 
+      <section className="studio-field border-t border-ink/10">
+        <div className="mx-auto w-full max-w-[880px] px-4 py-16 sm:px-8 sm:py-20">
+          <div className="mb-10 flex items-end justify-between gap-6 px-2 sm:px-2">
+            <div>
+              <p className="place-line">The collection</p>
+              <h2 className="type-editorial mt-3 text-[clamp(1.5rem,4vw,2rem)] text-ink">
+                Twenty pieces. Five departments.
+              </h2>
+            </div>
+            <Link
+              to="/team/$slug/match"
+              params={{ slug: kit.slug }}
+              className="place-line shrink-0 text-ink/55 transition-opacity hover:opacity-100"
+            >
+              Shop all →
+            </Link>
+          </div>
+          <ProductLookbookGrid
+            products={LOOKBOOK_TEASER_IDS.map((id) => productById(id)!)}
+            slug={kit.slug}
+          />
+        </div>
+      </section>
+
       {(
         [
           ["match", SURFACES.categoryHero.match, jersey, HERO_CROP.match],
@@ -140,7 +165,7 @@ function TeamLanding() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/40 to-black/25" />
             </div>
-            <div className="relative z-10 mx-auto flex min-h-[78dvh] w-full max-w-[720px] flex-col justify-end px-6 py-16 sm:px-10">
+            <div className="relative z-10 mx-auto flex min-h-[62dvh] w-full max-w-[720px] flex-col justify-end px-6 py-16 sm:px-10">
               <p className="place-line text-bone">{dept.line}</p>
               <h2 className="type-editorial mt-4 max-w-md text-[clamp(1.8rem,5.5vw,2.5rem)] text-bone">
                 {dept.title}

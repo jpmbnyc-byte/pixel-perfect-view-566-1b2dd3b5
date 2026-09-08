@@ -30,6 +30,8 @@ export type CatalogProduct = {
   handle: string;
   name: string;
   blurb: string;
+  /** Lookbook caption: material · color. */
+  line: string;
   category: CategoryId;
   price: number;
   personalizedPrice?: number;
@@ -153,6 +155,7 @@ function listing(
     handle,
     name,
     blurb: copy.card,
+    line: copy.line,
     category,
     price,
     customizable: false,
@@ -208,6 +211,18 @@ export function categoryById(id: CategoryId) {
 export function productsInCategory(id: CategoryId) {
   return PRODUCTS.filter((p) => p.category === id);
 }
+
+/** Pieces with photography, for campaign lookbooks. */
+export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
+  "heritage-jersey",
+  "match-short",
+  "performance-ls",
+  "mens-raglan",
+  "travel-set",
+  "harbor-coach",
+  "two-tone-cap",
+  "nb-bbp400",
+];
 
 export function productById(id: string) {
   const canonical = PRODUCT_ID_ALIASES[id] ?? id;

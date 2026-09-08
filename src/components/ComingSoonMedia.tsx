@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 type Props = {
   name: string;
   className?: string;
@@ -7,7 +9,10 @@ type Props = {
 export function ComingSoonMedia({ name, className }: Props) {
   return (
     <div
-      className={`relative flex aspect-[5/4] flex-col items-center justify-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_92%,white)] ${className ?? ""}`}
+      className={cn(
+        "relative flex flex-col items-center justify-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_92%,white)]",
+        className ?? "aspect-[5/4]",
+      )}
     >
       <p className="place-line text-ink/40">Fall 001 · 07002</p>
       <p className="type-editorial mt-4 max-w-[14rem] text-center text-lg text-ink">{name}</p>

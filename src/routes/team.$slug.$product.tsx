@@ -28,6 +28,8 @@ import {
 import { campaignForProduct } from "@/media/campaignAssets";
 import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
 import { DEPARTMENT_TO } from "@/components/TeamStorePage";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { productCopyFor } from "@/copy/collection";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
 export const Route = createFileRoute("/team/$slug/$product")({
@@ -104,6 +106,7 @@ function ProductListingPage() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const campaign = product.imageryPending ? undefined : campaignForProduct(product);
+  const copy = productCopyFor(product.id);
   const [galleryMode, setGalleryMode] = useState<GalleryMode>(campaign?.views.front ? "photos" : "product");
   const [view, setView] = useState<CanvasView>("front");
   const [fontId, setFontId] = useState<FontId>("forge");
@@ -255,7 +258,7 @@ function ProductListingPage() {
             ? `$${product.price} · $${product.personalizedPrice} personalized`
             : `$${product.price}`}
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{product.blurb}</p>
+        <p className="place-line mt-3 text-muted-foreground">{product.line}</p>
         {product.sizeChart === "apparel" && (
           <p className="label-caps mt-4 text-muted-foreground">Sizes S · M · L · XL · 2XL</p>
         )}
@@ -328,6 +331,32 @@ function ProductListingPage() {
               />
             )}
           </div>
+        </section>
+
+        <section className="mt-6 px-5">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="description" className="border-border">
+              <AccordionTrigger className="place-line text-xs uppercase tracking-[0.14em] hover:no-underline">
+                Description
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                  {copy?.body ?? product.blurb}
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="shipping" className="border-border">
+              <AccordionTrigger className="place-line text-xs uppercase tracking-[0.14em] hover:no-underline">
+                Shipping & returns
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Made to order for Fall 001. Personalized pieces cannot be changed after checkout.
+                  Standard pieces follow the same production window.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </section>
 
         {product.nameNumber && (

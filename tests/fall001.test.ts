@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, PRODUCTS, productById, productsInCategory } from "@/lib/catalog";
+import { CATEGORIES, LOOKBOOK_TEASER_IDS, PRODUCTS, productById, productsInCategory } from "@/lib/catalog";
 import { IMAGE_REGISTRY } from "@/lib/imageRegistry";
 
 describe("Fall 001 assortment", () => {
@@ -41,6 +41,19 @@ describe("Fall 001 assortment", () => {
     const featuredClub = productsInCategory("club")[0];
     expect(featuredClub?.id).toBe("two-tone-cap");
     expect(productById("nb-runner")?.imageryPending).toBe(true);
+  });
+
+  it("teases only photographed pieces on the landing lookbook", () => {
+    for (const id of LOOKBOOK_TEASER_IDS) {
+      expect(productById(id)?.imageryPending).not.toBe(true);
+    }
+  });
+
+  it("gives every listing a lookbook material line", () => {
+    for (const p of PRODUCTS) {
+      expect(p.line).toMatch(/·/);
+      expect(p.line.length).toBeGreaterThan(8);
+    }
   });
 
   it("marks only unresolved families as pending photography", () => {
