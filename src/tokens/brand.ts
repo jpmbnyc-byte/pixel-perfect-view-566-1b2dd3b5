@@ -4,14 +4,20 @@
  * IDENTITY = digital storefront (brand sheet).
  * COLOR = kit / dye-sub manufacturing lock. Do not restyle print tests
  * onto identity hex — owayo still submits `#5A1626` as a Pantone.
+ * See docs/OWAYO_F6_HERO.md.
  */
 
 /** Site chrome — Represent × Dior Mens execution of the identity sheet. */
 export const IDENTITY = {
+  /** Strength, passion, heritage. Primary brand. */
   garnet: "#4B0F17",
+  /** Discipline, focus, timeless. */
   black: "#0B0B0B",
+  /** Balance, clarity, versatility. Ground of the site. */
   bone: "#EDE9E1",
+  /** Resilience, movement, structure. */
   concrete: "#6B6B6B",
+  /** Progress, elevation, detail. */
   silver: "#C0C0C0",
 } as const;
 

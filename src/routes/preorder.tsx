@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { MotionMark, Wordmark } from "@/components/brand/BrandMarks";
+import { StoreFooter } from "@/components/brand/StoreFooter";
 import setFront from "@/assets/bayonne/campaign/nylon-set-front.jpg";
 import setBack from "@/assets/bayonne/campaign/nylon-set-back.jpg";
 import setDetail from "@/assets/bayonne/campaign/nylon-set-detail.jpg";
@@ -47,7 +48,7 @@ function PreorderPage() {
   const pct = Math.round((RUN_TAKEN / RUN_TOTAL) * 100);
 
   return (
-    <main className="bg-black text-bone">
+    <div className="bg-black text-bone">
       {/* —— Hero —— */}
       <section className="relative isolate min-h-dvh overflow-hidden">
         <img
@@ -62,7 +63,7 @@ function PreorderPage() {
           aria-hidden
         />
 
-        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[720px] flex-col px-6 pb-14 pt-8 sm:px-10">
+        <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[1280px] flex-col px-6 pb-14 pt-8 sm:px-10">
           <header className="flex items-start justify-between gap-6">
             <Link to="/team" className="text-bone focus-ring">
               <Wordmark variant="compact" align="left" />
@@ -120,10 +121,7 @@ function PreorderPage() {
           <h2 className="type-editorial mt-6 max-w-lg text-[clamp(1.75rem,5vw,2.4rem)] text-ink">
             Nylon that sounds right when you move.
           </h2>
-          <div className="tip-asymmetric mt-8">
-            <span className="tip-asymmetric-a" />
-            <span className="tip-asymmetric-b" />
-          </div>
+          <MotionMark className="mt-8 block text-garnet" />
 
           <img
             src={setDetail}
@@ -289,6 +287,7 @@ function PreorderPage() {
           </p>
         </div>
       </section>
-    </main>
+      <StoreFooter inverted />
+    </div>
   );
 }

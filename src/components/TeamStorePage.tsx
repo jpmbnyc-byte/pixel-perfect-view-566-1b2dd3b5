@@ -4,30 +4,30 @@ import { useMemo, useState } from "react";
 import { MotionMark } from "@/components/brand/BrandMarks";
 import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
-import { NameableFlag } from "@/components/NameableFlag";
-import { ProductCardMedia } from "@/components/ProductCardMedia";
+import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import {
   CATEGORIES,
+  productById,
   productsInCategory,
-  type CatalogProduct,
   type CategoryId,
 } from "@/lib/catalog";
 import { DEPARTMENT_TO } from "@/lib/departments";
+import { DEPARTMENT_COPY } from "@/copy/collection";
 import { countdownParts, type KitConfig } from "@/lib/kit";
-import { shopifySynced, type ShopifySyncStatus } from "@/lib/shopify";
+import type { ShopifySyncStatus } from "@/lib/shopify";
 
-export const CATEGORY_IDS: CategoryId[] = ["match", "sideline", "warmups", "alumni"];
+export const CATEGORY_IDS: CategoryId[] = ["match", "performance", "travel", "harbor", "club"];
 
 export { DEPARTMENT_TO };
 
-function productAction(p: CatalogProduct) {
-  if (p.nameNumber) return "Customize jersey";
-  if (p.sizeChart === "shoe") return "Choose your pair";
-  if (p.sizeChart === "hat") return "View club good";
-  if (p.sizeChart === "sock") return "View club sock";
-  return "View product";
-}
+const FEATURED_BY_CATEGORY: Record<CategoryId, string> = {
+  match: "heritage-jersey",
+  performance: "performance-ls",
+  travel: "travel-set",
+  harbor: "harbor-coach",
+  club: "two-tone-cap",
+};
 
 type Props = {
   category: CategoryId;
@@ -35,41 +35,58 @@ type Props = {
   sync: ShopifySyncStatus;
 };
 
-export function TeamStorePage({ category, kit, sync }: Props) {
+export function TeamStorePage({ category, kit }: Props) {
   const [nameableOnly, setNameableOnly] = useState(false);
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
-  const catalogReady = shopifySynced(sync);
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
+  const copy = DEPARTMENT_COPY[category];
+  const featuredId = FEATURED_BY_CATEGORY[category];
   const products = useMemo(() => {
     const list = productsInCategory(category);
-    return nameableOnly ? list.filter((p) => p.nameNumber) : list;
-  }, [category, nameableOnly]);
+    const filtered = nameableOnly ? list.filter((p) => p.nameNumber) : list;
+    return [...filtered].sort((a, b) => {
+      if (a.id === featuredId) return -1;
+      if (b.id === featuredId) return 1;
+      return 0;
+    });
+  }, [category, nameableOnly, featuredId]);
+
+  const featured = productById(featuredId);
+  const heroObjectClass = active.heroFit === "cover" ? "object-cover" : "object-contain";
 
   return (
     <div className="studio-field min-h-screen text-ink">
       <StoreNav />
       <main>
-        <section className="relative isolate min-h-[52dvh] overflow-hidden bg-black sm:min-h-[62dvh]">
+        <section className="relative isolate min-h-[58dvh] overflow-hidden bg-black sm:min-h-[70dvh]">
           <img
             src={active.hero}
             alt=""
             width={1600}
             height={900}
-            className="absolute inset-0 h-full w-full object-contain object-center"
+            className={`absolute inset-0 h-full w-full ${heroObjectClass}`}
+            style={{ objectPosition: active.heroPosition }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
-          <div className="relative z-10 mx-auto flex min-h-[52dvh] w-full max-w-[1280px] flex-col justify-end px-6 py-12 sm:min-h-[62dvh] sm:px-10">
-            <p className="place-line text-bone">{active.label}</p>
-            <h1 className="type-editorial mt-4 max-w-xl text-[clamp(2rem,5vw,3.4rem)] text-bone">
-              Performance apparel, club goods and one jersey made personal.
+          <div className="relative z-10 mx-auto flex min-h-[58dvh] w-full max-w-[1280px] flex-col justify-end px-6 py-12 sm:min-h-[70dvh] sm:px-10 sm:py-16">
+            <p className="place-line text-bone">{copy.line}</p>
+            <h1 className="type-editorial mt-4 max-w-xl text-[clamp(2.2rem,6vw,4rem)] text-bone">
+              {copy.title}
             </h1>
             <MotionMark className="mt-6 text-bone" />
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-bone/75">
-              {active.description}
-            </p>
-            <div className="mt-8">
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-bone/75">{copy.body}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              {featured ? (
+                <Link
+                  to="/team/$slug/$product"
+                  params={{ slug: kit.slug, product: featured.id }}
+                  className="place-line text-bone/70 transition-opacity hover:opacity-100"
+                >
+                  {featured.name} · ${featured.price}
+                </Link>
+              ) : null}
               {closed ? (
                 <p className="place-line text-bone/50">Closed</p>
               ) : (
@@ -78,15 +95,6 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             </div>
           </div>
         </section>
-
-        {!catalogReady && (
-          <div
-            className="mx-auto w-full max-w-[1280px] border-y border-ink/10 px-6 py-3 text-sm leading-snug text-ink/60 sm:px-10"
-            role="status"
-          >
-            Product design and sizing are live. Checkout activates as synced listings become available.
-          </div>
-        )}
 
         <section className="mx-auto w-full max-w-[1280px] px-4 pt-8 sm:px-10">
           <div
@@ -114,16 +122,22 @@ export function TeamStorePage({ category, kit, sync }: Props) {
             })}
           </div>
 
-          <label className="mt-6 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
-            <input
-              type="checkbox"
-              checked={nameableOnly}
-              onChange={(e) => setNameableOnly(e.target.checked)}
-              className="size-4 accent-[var(--garnet)] focus-ring"
-            />
-            Customizable jersey only
-          </label>
-          <p className="place-line mt-6">{products.length} pieces</p>
+          {category === "match" && (
+            <label className="mt-6 flex min-h-11 cursor-pointer items-center gap-3 place-line text-ink/55">
+              <input
+                type="checkbox"
+                checked={nameableOnly}
+                onChange={(e) => setNameableOnly(e.target.checked)}
+                className="size-4 accent-[var(--garnet)] focus-ring"
+              />
+              Customizable jersey only
+            </label>
+          )}
+
+          <div className="mt-8 flex items-baseline justify-between gap-4">
+            <h2 className="sr-only">{active.label}</h2>
+            <p className="place-line">{products.length} pieces</p>
+          </div>
         </section>
 
         <section className="mx-auto w-full max-w-[1280px] px-4 pb-20 sm:px-10">
@@ -139,29 +153,7 @@ export function TeamStorePage({ category, kit, sync }: Props) {
               </button>
             </div>
           ) : (
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-8 sm:gap-y-16 lg:grid-cols-3">
-              {products.map((p) => (
-                <li key={p.id}>
-                  <Link
-                    to="/team/$slug/$product"
-                    params={{ slug: kit.slug, product: p.id }}
-                    className="group block focus-ring"
-                  >
-                    <div className="relative">
-                      {p.nameNumber && <NameableFlag />}
-                      <ProductCardMedia product={p} />
-                    </div>
-                    <div className="mt-4 space-y-1">
-                      <h3 className="font-display text-[1.05rem] font-medium tracking-[0.04em] text-ink">
-                        {p.name}
-                      </h3>
-                      <p className="font-sans text-sm tabular-nums">${p.personalizedPrice ? `${p.price}+` : p.price}</p>
-                    </div>
-                    <p className="place-line mt-3">{productAction(p)} →</p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <ProductLookbookGrid products={products} slug={kit.slug} />
           )}
         </section>
       </main>

@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { DepartmentPage, departmentHead } from "./team.$slug.index";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/team/$slug/alumni")({
-  head: () => departmentHead("alumni"),
-  component: () => <DepartmentPage category="alumni" />,
+  beforeLoad: ({ params }) => {
+    throw redirect({ to: "/team/$slug/club", params, replace: true });
+  },
+  component: () => null,
 });

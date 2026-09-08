@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Photography in final production</title>
+  <desc id="desc">Neutral Bayonne Athletics placeholder while final product photography is completed.</desc>
+  <rect width="800" height="1000" fill="#F4F1F0"/>
+  <rect x="80" y="80" width="640" height="840" fill="none" stroke="#5A1626" stroke-opacity="0.18" stroke-width="1"/>
+  <text x="400" y="470" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#0A0A0A">Bayonne Athletics</text>
+  <text x="400" y="512" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" letter-spacing="3" fill="#5A1626">FALL 001 · 07002</text>
+  <text x="400" y="560" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#0A0A0A" fill-opacity="0.45">Final photography in production</text>
+</svg>

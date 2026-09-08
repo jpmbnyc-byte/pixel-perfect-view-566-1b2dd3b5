@@ -42,8 +42,11 @@
  * Bone ground, ink type, garnet as the only saturated accent.
  * Kit lettering faces stay local OTFs above; they must not drive site chrome.
  *
- * Print lock: COLOR.garnet #5A1626 · COLOR.bone #F4F1F0 · COLOR.trimBlack #0A0A0A
- * Site lock:  garnet #4B0F17 · black #0B0B0B · bone #EDE9E1 · concrete #6B6B6B · silver #C0C0C0
+ * Print lock (owayo F6/FP6 — submit as Pantone, not screen preset):
+ *   COLOR.garnet #5A1626 · COLOR.bone #F4F1F0 · COLOR.trimBlack #0A0A0A
+ * Site lock (IDENTITY):
+ *   garnet #4B0F17 · black #0B0B0B · bone #EDE9E1 · concrete #6B6B6B · silver #C0C0C0
+ * See src/tokens/brand.ts.
  */
 
 @theme inline {
@@ -320,6 +323,7 @@
   color: color-mix(in oklab, currentColor 55%, transparent);
 }
 
+/* —— Storefront display: serif wordmark language, not kit Forge —— */
 @utility type-campaign {
   font-family: var(--font-display);
   font-weight: 500;

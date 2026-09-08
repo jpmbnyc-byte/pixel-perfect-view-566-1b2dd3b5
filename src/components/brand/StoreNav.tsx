@@ -17,14 +17,19 @@ import { cn } from "@/lib/utils";
 
 const SLUG = BAYONNE_BEES_KIT.slug;
 
-export function StoreNav({ className }: { className?: string }) {
+type Props = {
+  className?: string;
+  /** Overlay a dark hero without a bone bar. */
+  inverted?: boolean;
+};
+
+export function StoreNav({ className, inverted = false }: Props) {
+  const tone = inverted
+    ? "border-bone/15 bg-black/30 text-bone backdrop-blur-md"
+    : "border-ink/10 bg-paper/95 text-ink backdrop-blur-md";
+
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b border-ink/10 bg-paper/95 text-ink backdrop-blur-md",
-        className,
-      )}
-    >
+    <header className={cn("sticky top-0 z-50 border-b", tone, className)}>
       <div className="mx-auto grid h-[4.25rem] w-full max-w-[1280px] grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-8">
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Departments">
           {CATEGORIES.map((c) => (

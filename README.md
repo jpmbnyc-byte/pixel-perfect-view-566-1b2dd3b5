@@ -1,43 +1,25 @@
-# Bayonne Bees Team Kit — No Parade F.C.
+# Bayonne Athletics — Fall 001
 
-Team Customs configurator for Bayonne Bees / Queen Bees crest build. Built with [Lovable](https://lovable.dev).
+Storefront for the Bayonne Athletics Fall 001 collection: 1936 Match, Performance, Travel + Core, Harbor Division, and Club Goods.
 
-**Live app**: https://pixel-perfect-view-566.lovable.app  
-**Shopify store**: https://noparade-store.com  
-**Editor**: https://lovable.dev/projects/290b33e3-813e-41ff-8ac0-7450ef80c116  
-**Listing map & placement**: [docs/LISTING_MAP.md](docs/LISTING_MAP.md)
+The site is a **Represent Clo × Dior Mens** lookbook: bone ground (`#EDE9E1`), ink (`#0B0B0B`), identity garnet (`#4B0F17`), serif wordmark, wide-tracked nav, and airy two- and three-column merchandising. Kit print colors (`#5A1626` / `#F4F1F0`) stay on the manufacturing tokens and are not used as site chrome.
 
-## Order path
+**Live app**: https://pixel-perfect-view-566.lovable.app
 
-```text
-Configurator (/team/bayonne-bees)
-  → POST noparade-store.com/cart/add
-       (fulfillment-synced variant ID
-        + properties Name / Number / Size / _ArtSpec / _Confirmed)
-  → Shopify Checkout (payment)
-  → Shopify Order (line properties stored)
-  → Fulfillment partner imports order
-  → Name + Number applied from line properties → print → ship
-```
-
-Products must be created/synced **from the print partner → Shopify**. Shopify-only products will accept cart/checkout but never trigger print fulfillment.
-
-## Launch setup
-
-1. In the **print partner**: build Jersey / Shorts / Full Set (Garnet/Black) with crest + panel accents; enable Name + Number personalization where supported.
-2. **Push/sync** those products to Shopify into collection **Team Customs**.
-3. Publish with handles in the [listing map](docs/LISTING_MAP.md) (auto-resolved), or paste static variant IDs into `src/lib/kits/bayonne-bees.ts`.
-4. Keep the configurator as the only add-to-cart path for customizable Team Customs SKUs.
-5. Ops: every custom order → fulfillment → confirm Name/Number from Shopify properties → fulfill same-day when possible.
+Checkout is **Stripe-hosted** (no Shopify cart, no plugins). The product page creates a Checkout Session and redirects; Stripe collects email, shipping, Apple Pay / Google Pay / card, then returns to `/order/complete`.
 
 ## Development
 
 ```sh
-bun install   # or npm i
-bun run dev   # or npm run dev
+bun install
+cp .env.example .env.local   # then set STRIPE_SECRET_KEY
+bun run dev
 ```
 
-Kit config: `src/lib/kits/bayonne-bees.ts`  
-Shopify helpers: `src/lib/shopify.ts`  
-Order UI: `src/routes/team.$slug.tsx`  
-Brand assets: `src/assets/bayonne/`
+`STRIPE_SECRET_KEY` must be a restricted or secret key (`rk_`, `rkcs_`, or `sk_test_`). Never prefix it with `VITE_`. Without a key, checkout still redirects to a local confirmation so the UI can be reviewed.
+
+Test card: `4242 4242 4242 4242`, any future expiry, any CVC.
+
+Canonical imagery lives in `src/assets/bayonne/fall001/`. The live catalog is `src/lib/catalog.ts`. Apparel sizing is S–2XL. Footwear shows **only in-stock sizes** (men’s US, women’s = +1.5) — never a full empty run.
+
+Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary standard over $175.

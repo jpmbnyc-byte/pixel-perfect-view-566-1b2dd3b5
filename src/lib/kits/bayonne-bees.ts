@@ -5,12 +5,11 @@ import type { KitConfig } from "../kit";
  *
  * Commerce rule:
  * - Heritage Jersey base: $78
- * - Heritage Jersey personalized: $98 (separate Shopify price/variant required)
+ * - Heritage Jersey personalized: $98 (priced on the server, never trusted from the client)
  * - Match Short: $48
  * - Match Set: $118
  *
- * The storefront blocks personalized checkout until the $98 commerce variant is
- * synced, preventing a custom jersey from being charged at the $78 base price.
+ * Checkout is Stripe-hosted. Shopify variant maps are unused for payment.
  */
 export const BAYONNE_BEES_KIT: KitConfig = {
   slug: "bayonne-bees",

@@ -1,3 +1,6 @@
+# Local agent scratch
+agent-tools/
+
 # Logs
 logs
 *.log

@@ -8,14 +8,20 @@ import {
   Numeric201,
   Wordmark,
 } from "@/components/brand/BrandMarks";
-import { CATEGORIES } from "@/lib/catalog";
 import { DEPARTMENT_TO } from "@/lib/departments";
+import { COLLECTION_COPY } from "@/copy/collection";
+import { CATEGORIES } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { cn } from "@/lib/utils";
 
 const SLUG = BAYONNE_BEES_KIT.slug;
 
-export function StoreFooter({ className, inverted = false }: { className?: string; inverted?: boolean }) {
+type Props = {
+  className?: string;
+  inverted?: boolean;
+};
+
+export function StoreFooter({ className, inverted = false }: Props) {
   return (
     <footer
       className={cn(
@@ -27,8 +33,8 @@ export function StoreFooter({ className, inverted = false }: { className?: strin
       <div className="mx-auto grid w-full max-w-[1280px] gap-12 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[1.1fr_1fr_0.8fr]">
         <div>
           <Wordmark variant="primary" align="left" />
-          <p className="place-line mt-8">Train · Compete · Represent</p>
-          <p className="type-editorial mt-5 max-w-sm text-xl text-current/80">Built different.</p>
+          <p className="place-line mt-8">{COLLECTION_COPY.motto}</p>
+          <p className="type-editorial mt-5 max-w-sm text-xl text-current/80">{COLLECTION_COPY.lockup}</p>
           <MotionMark className="mt-6 block text-garnet" />
         </div>
 
@@ -56,7 +62,7 @@ export function StoreFooter({ className, inverted = false }: { className?: strin
             <GlobeMark className="h-10 w-10 opacity-80" />
             <Numeric201 className="text-5xl" />
           </div>
-          <p className="place-line">Fall 001 · 07002</p>
+          <p className="place-line">{COLLECTION_COPY.season}</p>
         </div>
       </div>
     </footer>

@@ -31,11 +31,10 @@ export const LETTERED_CAMPAIGN_SKUS = [
 export type LetteredCampaignSku = (typeof LETTERED_CAMPAIGN_SKUS)[number];
 
 export const STOREFRONT_TO_LETTERED: Record<string, LetteredCampaignSku> = {
+  "heritage-jersey": "BB-MJ-REP",
   jersey: "BB-MJ-REP",
+  "match-set": "BB-MJ-REP",
   "full-set": "BB-MJ-REP",
-  "ls-jersey": "BB-LSJ",
-  "hoops-jersey": "BB-HOOPS",
-  "jersey-dress": "BB-DRESS",
 };
 
 export type CampaignViolation = {

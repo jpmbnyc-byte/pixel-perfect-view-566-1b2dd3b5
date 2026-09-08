@@ -16,8 +16,8 @@ export const Route = createFileRoute("/team/$slug")({
         meta: [{ title: "Team store unavailable" }, { name: "robots", content: "noindex" }],
       };
     }
-    const title = `Bayonne store — garnet, not maroon | No Parade F.C.`;
-    const description = `Bayonne has worn garnet and white since 1936. Match, sideline, warmups, and alumni — printed on demand in the actual garnet.`;
+    const title = `Bayonne Athletics — Fall 001 · 07002`;
+    const description = `Match pieces. Training layers. Heavyweight travel goods. Waterfront outerwear. The cap you keep by the door.`;
     return {
       meta: [
         { title },

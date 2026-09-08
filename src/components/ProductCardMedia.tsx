@@ -1,19 +1,22 @@
+import { ComingSoonMedia } from "@/components/ComingSoonMedia";
 import { useCallback, useState, type MouseEvent } from "react";
 import type { CatalogProduct } from "@/lib/catalog";
 
 type Props = {
   product: CatalogProduct;
+  aspect?: "landscape" | "portrait";
 };
 
 /**
  * Hover (pointer:fine): reveal secondary plate.
  * Touch: tap cycles primary ↔ secondary — never a dead hover-only state.
  */
-export function ProductCardMedia({ product }: Props) {
+export function ProductCardMedia({ product, aspect = "landscape" }: Props) {
   const secondary = product.previews.secondary;
-  const hasPair = Boolean(secondary && secondary !== product.thumb);
+  const hasPair = Boolean(secondary && secondary !== product.thumb) && !product.imageryPending;
   const [showSecondary, setShowSecondary] = useState(false);
   const label = product.previewPair === "front-side" ? "side" : "back";
+  const aspectClass = aspect === "portrait" ? "aspect-[3/4]" : "aspect-[5/4]";
 
   const onTouchToggle = useCallback(
     (e: MouseEvent) => {
@@ -25,9 +28,13 @@ export function ProductCardMedia({ product }: Props) {
     [hasPair],
   );
 
+  if (product.imageryPending) {
+    return <ComingSoonMedia name={product.name} className={aspectClass} />;
+  }
+
   return (
     <div
-      className="relative aspect-[5/4] overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)]"
+      className={`relative overflow-hidden bg-[color-mix(in_oklab,var(--paper)_85%,white)] ${aspectClass}`}
       onMouseEnter={() => hasPair && setShowSecondary(true)}
       onMouseLeave={() => setShowSecondary(false)}
     >
@@ -35,7 +42,7 @@ export function ProductCardMedia({ product }: Props) {
         src={product.thumb}
         alt={`${product.name}, front view`}
         width={800}
-        height={640}
+        height={aspect === "portrait" ? 1067 : 640}
         className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-standard ease-standard ${
           showSecondary && hasPair ? "opacity-0" : "opacity-100"
         }`}
@@ -46,7 +53,7 @@ export function ProductCardMedia({ product }: Props) {
           src={secondary}
           alt={`${product.name}, ${label} view`}
           width={800}
-          height={640}
+          height={aspect === "portrait" ? 1067 : 640}
           className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-standard ease-standard ${
             showSecondary ? "opacity-100" : "opacity-0"
           }`}
