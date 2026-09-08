@@ -1,17 +1,33 @@
 import { describe, expect, it } from "vitest";
 import { CATEGORIES, LOOKBOOK_TEASER_IDS, PRODUCTS, productById, productsInCategory } from "@/lib/catalog";
 import { IMAGE_REGISTRY } from "@/lib/imageRegistry";
+import { sourceForProduct } from "@/lib/productSources";
 
 describe("Fall 001 assortment", () => {
-  it("locks 24 live listings including Harbor Division at $98", () => {
-    expect(PRODUCTS).toHaveLength(24);
+  it("locks 36 live listings including Harbor Division at $98", () => {
+    expect(PRODUCTS).toHaveLength(36);
     const harbor = productById("harbor-coach")!;
     expect(harbor.name).toBe("Harbor Division Hooded Coach Jacket");
     expect(harbor.price).toBe(98);
     expect(harbor.category).toBe("harbor");
   });
 
-  it("uses canonical product ids, not retired garment names", () => {
+  it("keeps the full Bayonne product system in the storefront", () => {
+    expect(productById("club-hood")?.name).toBe("Club Hood");
+    expect(productById("collegiate-tee")?.name).toBe("Collegiate Tee");
+    expect(productById("recreation-crew")?.name).toBe("Recreation Crew");
+    expect(productById("local-issue-ls")?.name).toBe("Local Issue Longsleeve");
+    expect(productById("sideline-shell")?.name).toBe("Sideline Shell");
+    expect(productById("field-short-grey")?.name).toBe("Field Short — Grey");
+    expect(productById("field-short-bone")?.name).toBe("Field Short — Bone");
+    expect(productById("market-tote")?.name).toBe("Market Tote");
+    expect(productById("club-sock-4pk")?.price).toBe(60);
+    expect(productById("broadway-21-jersey")?.name).toBe("Broadway 21 Club Jersey");
+    expect(productById("broadway-club-short")?.name).toBe("Broadway Club Short");
+    expect(productById("broadway-21-set")?.name).toBe("Broadway 21 Match Set");
+  });
+
+  it("uses canonical product ids and preserves useful old URLs", () => {
     const ids = PRODUCTS.map((p) => p.id);
     expect(ids).not.toContain("heritage-tee-garnet");
     expect(ids).not.toContain("quarter-zip");
@@ -19,6 +35,8 @@ describe("Fall 001 assortment", () => {
     expect(ids).not.toContain("crewneck");
     expect(productById("jersey")?.id).toBe("heritage-jersey");
     expect(productById("aop-hat")?.id).toBe("two-tone-cap");
+    expect(productById("harbor-jacket")?.id).toBe("harbor-coach");
+    expect(productById("tote-bag")?.id).toBe("market-tote");
   });
 
   it("keeps apparel on S–2XL and five departments", () => {
@@ -29,12 +47,27 @@ describe("Fall 001 assortment", () => {
       "harbor",
       "club",
     ]);
-    expect(productsInCategory("match")).toHaveLength(3);
-    expect(productsInCategory("harbor")).toHaveLength(1);
+    expect(productsInCategory("match")).toHaveLength(6);
+    expect(productsInCategory("performance")).toHaveLength(7);
+    expect(productsInCategory("travel")).toHaveLength(10);
+    expect(productsInCategory("harbor")).toHaveLength(2);
+    expect(productsInCategory("club")).toHaveLength(11);
     expect(productsInCategory("club").map((p) => p.id)[0]).toBe("two-tone-cap");
     for (const p of PRODUCTS.filter((item) => item.sizeChart === "apparel")) {
       expect(p.sizeChart).toBe("apparel");
     }
+  });
+
+  it("uses verified OpenTip and Foot Locker details without exposing sources in product copy", () => {
+    expect(sourceForProduct("club-sock")?.supplier).toBe("OpenTip");
+    expect(sourceForProduct("harbor-coach")?.facts.join(" ")).toMatch(/10,000 mm/);
+    expect(sourceForProduct("two-tone-cap")?.facts.join(" ")).toMatch(/cotton twill/i);
+    expect(sourceForProduct("nb-bbp400")?.supplier).toBe("Foot Locker");
+    expect(sourceForProduct("nb-bbp400")?.facts.join(" ")).toMatch(/Fresh Foam X/);
+    expect(productById("nb-bbp400")?.price).toBe(130);
+    expect(productById("nb-p400-chalk")?.price).toBe(130);
+    expect(productById("nb-p400-volt")?.price).toBe(130);
+    expect(productById("club-sock")?.details.length).toBeGreaterThan(0);
   });
 
   it("does not feature unresolved Club Goods photography as the lead", () => {
@@ -64,10 +97,29 @@ describe("Fall 001 assortment", () => {
     }
   });
 
-  it("marks only unresolved families as pending photography", () => {
+  it("marks unresolved families as pending photography", () => {
     const pending = PRODUCTS.filter((p) => p.imageryPending).map((p) => p.id).sort();
     expect(pending).toEqual(
-      ["field-cargo", "mens-raglan", "nb-p400-chalk", "pique-polo", "pocket-ls", "womens-raglan"].sort(),
+      [
+        "broadway-21-jersey",
+        "broadway-club-short",
+        "broadway-21-set",
+        "field-short-grey",
+        "field-short-bone",
+        "mens-raglan",
+        "womens-raglan",
+        "field-cargo",
+        "club-hood",
+        "collegiate-tee",
+        "recreation-crew",
+        "local-issue-ls",
+        "pique-polo",
+        "pocket-ls",
+        "sideline-shell",
+        "club-sock-4pk",
+        "market-tote",
+        "nb-p400-chalk",
+      ].sort(),
     );
     expect(IMAGE_REGISTRY["harbor-coach"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["heritage-jersey"].modelFront).toBeTruthy();
