@@ -2,18 +2,22 @@
 
 Storefront for the Bayonne Athletics Fall 001 collection: 1936 Match, Performance, Travel + Core, Harbor Division, and Club Goods.
 
-**Live app**: https://pixel-perfect-view-566.lovable.app  
-**Shopify store**: https://noparade-store.com
+**Live app**: https://pixel-perfect-view-566.lovable.app
 
-The 1936 Heritage Jersey is the only customizable piece. Checkout stays gated until Shopify variants are synced — visual work is independent of commerce.
+Checkout is **Stripe-hosted** (no Shopify cart, no plugins). The product page creates a Checkout Session and redirects; Stripe collects email, shipping, Apple Pay / Google Pay / card, then returns to `/order/complete`.
 
 ## Development
 
 ```sh
 bun install
+cp .env.example .env.local   # then set STRIPE_SECRET_KEY
 bun run dev
 ```
 
-Canonical imagery lives in `src/assets/bayonne/fall001/`. Raw GUID uploads are archived in `src/assets/bayonne/archive/`. The live catalog is `src/lib/catalog.ts` with the image registry in `src/lib/imageRegistry.ts`.
+`STRIPE_SECRET_KEY` must be a restricted or secret key (`rk_`, `rkcs_`, or `sk_test_`). Never prefix it with `VITE_`. Without a key, checkout still redirects to a local confirmation so the UI can be reviewed.
 
-Apparel sizing is S–2XL across the live site.
+Test card: `4242 4242 4242 4242`, any future expiry, any CVC.
+
+Canonical imagery lives in `src/assets/bayonne/fall001/`. The live catalog is `src/lib/catalog.ts`. Apparel sizing is S–2XL.
+
+Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary standard over $175.

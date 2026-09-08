@@ -1,5 +1,6 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { useMemo, useRef, useState, type HTMLAttributes } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useMemo, useState, type HTMLAttributes } from "react";
 
 import { ComingSoonMedia } from "@/components/ComingSoonMedia";
 import { LiquidBackdrop } from "@/components/LiquidBackdrop";
@@ -15,18 +16,10 @@ import {
   type FontId,
   type HatSize,
 } from "@/lib/catalog";
-import {
-  SIZES,
-  SIZE_CHART,
-  buildArtSpec,
-  encodeArtSpec,
-  sanitizeName,
-  sanitizeNumber,
-  variantIdFor,
-  type Size,
-} from "@/lib/kit";
+import { SIZES, SIZE_CHART, sanitizeName, sanitizeNumber, type Size } from "@/lib/kit";
+import { SHOE_SIZES, SOCK_SIZES, storeIsOpen } from "@/lib/checkout";
+import { createCheckoutSession } from "@/lib/checkout.functions";
 import { campaignForProduct } from "@/media/campaignAssets";
-import { cartAddAction, itemSyncReady, type ShopifySyncStatus } from "@/lib/shopify";
 import { DEPARTMENT_TO } from "@/components/TeamStorePage";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { productCopyFor } from "@/copy/collection";
@@ -58,52 +51,12 @@ export const Route = createFileRoute("/team/$slug/$product")({
 });
 
 type GalleryMode = "photos" | "product" | "customize";
-type ShoeSize =
-  | "5"
-  | "5.5"
-  | "6"
-  | "6.5"
-  | "7"
-  | "7.5"
-  | "8"
-  | "8.5"
-  | "9"
-  | "9.5"
-  | "10"
-  | "10.5"
-  | "11"
-  | "11.5"
-  | "12"
-  | "13"
-  | "14";
-type SockSize = "7–9.5";
-type SelectedSize = Size | HatSize | ShoeSize | SockSize | "";
-
-const SHOE_SIZES: ShoeSize[] = [
-  "5",
-  "5.5",
-  "6",
-  "6.5",
-  "7",
-  "7.5",
-  "8",
-  "8.5",
-  "9",
-  "9.5",
-  "10",
-  "10.5",
-  "11",
-  "11.5",
-  "12",
-  "13",
-  "14",
-];
-const SOCK_SIZES: SockSize[] = ["7–9.5"];
+type SelectedSize = Size | HatSize | (typeof SHOE_SIZES)[number] | (typeof SOCK_SIZES)[number] | "";
 
 function ProductListingPage() {
-  const { kit, sync } = TeamSlugRoute.useLoaderData();
+  const { kit } = TeamSlugRoute.useLoaderData();
   const { product } = Route.useLoaderData();
-  const formRef = useRef<HTMLFormElement>(null);
+  const startCheckout = useServerFn(createCheckoutSession);
 
   const campaign = product.imageryPending ? undefined : campaignForProduct(product);
   const copy = productCopyFor(product.id);
@@ -115,12 +68,13 @@ function ProductListingPage() {
   const [size, setSize] = useState<SelectedSize>("");
   const [confirmed, setConfirmed] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
+  const [checkoutBusy, setCheckoutBusy] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const font = fontById(fontId);
   const lettering = letteringFor(product);
   const nameMax = kit.rules.nameMaxChars;
-  const shopifyItem = product.shopifyItem;
-  const itemReady = shopifyItem ? itemSyncReady(sync, shopifyItem) : false;
+  const open = storeIsOpen();
 
   const hasPersonalization = Boolean(name || number);
   const numberValue = Number(number);
@@ -133,24 +87,7 @@ function ProductListingPage() {
   const displayedPrice =
     hasPersonalization && product.personalizedPrice ? product.personalizedPrice : product.price;
 
-  const apparelSize = product.sizeChart === "apparel" && size ? (size as Size) : "";
-  const variantId = apparelSize && shopifyItem ? variantIdFor(kit, shopifyItem, apparelSize) : null;
-
-  /**
-   * Personalized pricing needs its own commerce variant/add-on. Until that is
-   * synced, the engine stays fully usable but cannot accidentally charge the
-   * $78 blank/base price for a $98 personalized jersey.
-   */
-  const personalizedCommerceReady = !hasPersonalization || !product.personalizedPrice;
-  const checkoutReady = Boolean(
-    personalizationComplete &&
-      size &&
-      confirmed &&
-      shopifyItem &&
-      variantId &&
-      itemReady &&
-      personalizedCommerceReady,
-  );
+  const checkoutReady = Boolean(personalizationComplete && size && confirmed && open);
 
   const photoViews = useMemo<CanvasView[]>(() => {
     if (!campaign) return ["front"];
@@ -182,46 +119,16 @@ function ProductListingPage() {
       ? campaign.views["three-quarter"]
       : undefined;
 
-  const artSpec = useMemo(() => {
-    const base = {
-      v: 3,
-      kit: kit.slug,
-      product: product.id,
-      handle: product.handle,
-      font: product.typography ? fontId : null,
-      name: product.typography ? name : "",
-      number: product.typography ? number : "",
-      size: size || null,
-      displayedPrice,
-      personalized: hasPersonalization,
-    };
-    if (!apparelSize || !shopifyItem) return base;
-    return {
-      ...buildArtSpec({
-        kit,
-        item: shopifyItem,
-        name: product.typography ? name : "",
-        number: product.typography ? number : "",
-        size: apparelSize,
-      }),
-      ...base,
-    };
-  }, [kit, product, shopifyItem, fontId, name, number, size, apparelSize, displayedPrice, hasPersonalization]);
-
   const nextLabel = (() => {
+    if (!open) return "Store closed";
+    if (checkoutBusy) return "Redirecting to checkout";
     if (hasPersonalization && !personalizationComplete) return "Complete name + number";
     if (!size) return "Choose a size";
     if (!confirmed) return "Confirm selection";
-    if (!shopifyItem || !itemReady) return "Checkout opening soon";
-    if (!personalizedCommerceReady) return "Personalized checkout opening soon";
     return `Checkout · $${displayedPrice}`;
   })();
 
-  const goNext = () => {
-    if (checkoutReady) {
-      formRef.current?.submit();
-      return;
-    }
+  const goNext = async () => {
     if (hasPersonalization && !personalizationComplete) {
       document.getElementById("field-personalize")?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
@@ -232,6 +139,26 @@ function ProductListingPage() {
     }
     if (!confirmed) {
       document.getElementById("field-confirm")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    if (!checkoutReady) return;
+
+    setCheckoutBusy(true);
+    setCheckoutError(null);
+    try {
+      const session = await startCheckout({
+        data: {
+          productId: product.id,
+          size,
+          name: product.nameNumber ? name : undefined,
+          number: product.nameNumber ? number : undefined,
+          fontId: product.typography ? fontId : undefined,
+        },
+      });
+      window.location.assign(session.url);
+    } catch (error) {
+      setCheckoutBusy(false);
+      setCheckoutError(error instanceof Error ? error.message : "Checkout could not start.");
     }
   };
 
@@ -351,8 +278,9 @@ function ProductListingPage() {
               </AccordionTrigger>
               <AccordionContent>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Made to order for Fall 001. Personalized pieces cannot be changed after checkout.
-                  Standard pieces follow the same production window.
+                  Standard $10 (5–8 business days). Express $20 (2–3). Complimentary standard over $175.
+                  Made to order — ships after Fall 001 production. Personalized pieces cannot be changed
+                  after checkout.
                 </p>
               </AccordionContent>
             </AccordionItem>
@@ -444,20 +372,16 @@ function ProductListingPage() {
 
           {product.sizeChart === "apparel" && (
             <div className="mt-4 grid grid-cols-5 gap-2">
-              {SIZES.map((s) => {
-                const available = shopifyItem ? Boolean(variantIdFor(kit, shopifyItem, s)) : true;
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    disabled={!available && Boolean(shopifyItem)}
-                    onClick={() => setSize(s)}
-                    className={`border py-3 text-sm font-semibold tap-44 ${size === s ? "border-foreground bg-secondary" : "border-transparent bg-secondary/70"} disabled:cursor-not-allowed disabled:opacity-35`}
-                  >
-                    {s}
-                  </button>
-                );
-              })}
+              {SIZES.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setSize(s)}
+                  className={`border py-3 text-sm font-semibold tap-44 ${size === s ? "border-foreground bg-secondary" : "border-transparent bg-secondary/70"}`}
+                >
+                  {s}
+                </button>
+              ))}
             </div>
           )}
 
@@ -565,35 +489,11 @@ function ProductListingPage() {
                 : "I’ve checked the product and size selection."}
             </span>
           </label>
-
-          <form
-            ref={formRef}
-            method="POST"
-            action={cartAddAction(kit.shopify.domain)}
-            target="_top"
-            className="hidden"
-            acceptCharset="UTF-8"
-          >
-            <input type="hidden" name="id" value={variantId ?? ""} />
-            <input type="hidden" name="quantity" value="1" />
-            <input type="hidden" name="return_to" value="/checkout" />
-            <input type="hidden" name="properties[Team]" value={kit.teamName} />
-            <input type="hidden" name="properties[Collection]" value="Bayonne Athletics Fall 001" />
-            <input type="hidden" name="properties[Product]" value={product.name} />
-            {product.typography && <input type="hidden" name="properties[Font]" value={font.label} />}
-            {product.typography && <input type="hidden" name="properties[Name]" value={name} />}
-            {product.typography && <input type="hidden" name="properties[Number]" value={number} />}
-            <input type="hidden" name="properties[Size]" value={size} />
-            <input type="hidden" name="properties[Displayed Price]" value={`$${displayedPrice}`} />
-            <input type="hidden" name="properties[_ArtSpec]" value={encodeArtSpec(artSpec)} />
-            <input type="hidden" name="properties[_Confirmed]" value="yes" />
-          </form>
-
-          <SyncNote
-            sync={sync}
-            hasShopifyItem={Boolean(shopifyItem)}
-            personalizedBlocked={hasPersonalization && !personalizedCommerceReady}
-          />
+          {checkoutError && (
+            <p className="mt-4 text-sm text-garnet" role="alert">
+              {checkoutError}
+            </p>
+          )}
         </section>
       </div>
 
@@ -601,16 +501,16 @@ function ProductListingPage() {
         <div className="mx-auto flex w-full max-w-[560px] flex-col gap-1.5 px-5 py-3">
           <button
             type="button"
-            disabled={Boolean((shopifyItem && !itemReady) || (hasPersonalization && !personalizedCommerceReady)) && Boolean(size && confirmed)}
-            onClick={goNext}
+            disabled={checkoutBusy || !open}
+            onClick={() => void goNext()}
             className="w-full bg-foreground py-4 text-sm font-bold uppercase tracking-wide text-background transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
           >
             {nextLabel}
           </button>
           <p className="text-center text-xs leading-snug text-muted-foreground">
             {product.nameNumber
-              ? "Base jersey $78 · personalized jersey $98 · preview updates as you type"
-              : "Fall 001 · product selection saved when checkout listing opens"}
+              ? "Base $78 · personalized $98 · Stripe checkout"
+              : "Standard $10 · Express $20 · free standard over $175"}
           </p>
         </div>
       </div>
@@ -664,36 +564,5 @@ function OutlinedField({
         {counter}
       </span>
     </label>
-  );
-}
-
-function SyncNote({
-  sync,
-  hasShopifyItem,
-  personalizedBlocked,
-}: {
-  sync: ShopifySyncStatus;
-  hasShopifyItem: boolean;
-  personalizedBlocked: boolean;
-}) {
-  if (personalizedBlocked) {
-    return (
-      <p className="mt-4 text-center text-sm text-muted-foreground">
-        Your personalized design is ready. The $98 personalized checkout variant still needs to be synced before ordering.
-      </p>
-    );
-  }
-  if (!hasShopifyItem) {
-    return (
-      <p className="mt-4 text-center text-sm text-muted-foreground">
-        This product page is ready. Checkout unlocks when its listing is synced.
-      </p>
-    );
-  }
-  if (sync.top || sync.bottom || sync.set) return null;
-  return (
-    <p className="mt-4 text-center text-sm text-muted-foreground">
-      Core apparel sizes are still opening. You can finish the selection now.
-    </p>
   );
 }

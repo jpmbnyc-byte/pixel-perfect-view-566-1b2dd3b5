@@ -12,7 +12,7 @@ import {
 } from "@/lib/catalog";
 import { DEPARTMENT_COPY } from "@/copy/collection";
 import { countdownParts, type KitConfig } from "@/lib/kit";
-import { shopifySynced, type ShopifySyncStatus } from "@/lib/shopify";
+import type { ShopifySyncStatus } from "@/lib/shopify";
 
 export const CATEGORY_IDS: CategoryId[] = ["match", "performance", "travel", "harbor", "club"];
 
@@ -45,11 +45,10 @@ type Props = {
   sync: ShopifySyncStatus;
 };
 
-export function TeamStorePage({ category, kit, sync }: Props) {
+export function TeamStorePage({ category, kit }: Props) {
   const [nameableOnly, setNameableOnly] = useState(false);
   const countdown = countdownParts(kit.closesAt, Date.now());
   const closed = kit.status !== "live" || countdown === null;
-  const catalogReady = shopifySynced(sync);
 
   const active = useMemo(() => CATEGORIES.find((c) => c.id === category)!, [category]);
   const copy = DEPARTMENT_COPY[category];
@@ -106,15 +105,6 @@ export function TeamStorePage({ category, kit, sync }: Props) {
         <p className="type-editorial mt-8 max-w-md text-lg text-ink/75">{copy.title}</p>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-ink/60">{copy.body}</p>
       </header>
-
-      {!catalogReady && (
-        <div
-          className="border-y border-ink/10 px-6 py-3 text-sm leading-snug text-ink/60 sm:px-10"
-          role="status"
-        >
-          Product design and sizing are live. Checkout activates as synced listings become available.
-        </div>
-      )}
 
       <section className="px-6 pt-4 sm:px-10">
         <p className="place-line">Shop</p>

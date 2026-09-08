@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PreorderRouteImport } from './routes/preorder'
+import { Route as OrderCancelRouteImport } from './routes/order.cancel'
+import { Route as OrderCompleteRouteImport } from './routes/order.complete'
 import { Route as TeamIndexRouteImport } from './routes/team.index'
 import { Route as TeamSlugRouteImport } from './routes/team.$slug'
 import { Route as TeamSlugIndexRouteImport } from './routes/team.$slug.index'
@@ -32,6 +34,16 @@ const IndexRoute = IndexRouteImport.update({
 const PreorderRoute = PreorderRouteImport.update({
   id: '/preorder',
   path: '/preorder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderCancelRoute = OrderCancelRouteImport.update({
+  id: '/order/cancel',
+  path: '/order/cancel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderCompleteRoute = OrderCompleteRouteImport.update({
+  id: '/order/complete',
+  path: '/order/complete',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeamIndexRoute = TeamIndexRouteImport.update({
@@ -98,6 +110,8 @@ const TeamSlugWarmupsRoute = TeamSlugWarmupsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/preorder': typeof PreorderRoute
+  '/order/cancel': typeof OrderCancelRoute
+  '/order/complete': typeof OrderCompleteRoute
   '/team/$slug': typeof TeamSlugRouteWithChildren
   '/team/': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
@@ -114,6 +128,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/preorder': typeof PreorderRoute
+  '/order/cancel': typeof OrderCancelRoute
+  '/order/complete': typeof OrderCompleteRoute
   '/team': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
   '/team/$slug/alumni': typeof TeamSlugAlumniRoute
@@ -130,6 +146,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/preorder': typeof PreorderRoute
+  '/order/cancel': typeof OrderCancelRoute
+  '/order/complete': typeof OrderCompleteRoute
   '/team/$slug': typeof TeamSlugRouteWithChildren
   '/team/': typeof TeamIndexRoute
   '/team/$slug/$product': typeof TeamSlugProductRoute
@@ -148,6 +166,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/preorder'
+    | '/order/cancel'
+    | '/order/complete'
     | '/team/$slug'
     | '/team/'
     | '/team/$slug/$product'
@@ -164,6 +184,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/preorder'
+    | '/order/cancel'
+    | '/order/complete'
     | '/team'
     | '/team/$slug/$product'
     | '/team/$slug/alumni'
@@ -179,6 +201,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/preorder'
+    | '/order/cancel'
+    | '/order/complete'
     | '/team/$slug'
     | '/team/'
     | '/team/$slug/$product'
@@ -196,6 +220,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PreorderRoute: typeof PreorderRoute
+  OrderCancelRoute: typeof OrderCancelRoute
+  OrderCompleteRoute: typeof OrderCompleteRoute
   TeamSlugRoute: typeof TeamSlugRouteWithChildren
   TeamIndexRoute: typeof TeamIndexRoute
 }
@@ -214,6 +240,20 @@ declare module '@tanstack/react-router' {
       path: '/preorder'
       fullPath: '/preorder'
       preLoaderRoute: typeof PreorderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order/cancel': {
+      id: '/order/cancel'
+      path: '/order/cancel'
+      fullPath: '/order/cancel'
+      preLoaderRoute: typeof OrderCancelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order/complete': {
+      id: '/order/complete'
+      path: '/order/complete'
+      fullPath: '/order/complete'
+      preLoaderRoute: typeof OrderCompleteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/team/': {
@@ -336,6 +376,8 @@ const TeamSlugRouteWithChildren = TeamSlugRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PreorderRoute: PreorderRoute,
+  OrderCancelRoute: OrderCancelRoute,
+  OrderCompleteRoute: OrderCompleteRoute,
   TeamSlugRoute: TeamSlugRouteWithChildren,
   TeamIndexRoute: TeamIndexRoute,
 }
