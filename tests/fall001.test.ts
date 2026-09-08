@@ -41,10 +41,11 @@ describe("Fall 001 assortment", () => {
     const featuredClub = productsInCategory("club")[0];
     expect(featuredClub?.id).toBe("two-tone-cap");
     expect(productById("nb-runner")?.imageryPending).toBe(false);
-    expect(productById("nb-runner")?.name).toBe("New Balance AC Runner");
-    expect(productById("nb-bbp400")?.name).toBe("New Balance P400");
+    expect(productById("nb-runner")?.name).toBe("New Balance Fresh Foam Runner");
+    expect(productById("nb-bbp400")?.name).toBe("New Balance BB P400");
     expect(LOOKBOOK_TEASER_IDS).toContain("nb-runner");
-    expect(LOOKBOOK_TEASER_IDS).toContain("nb-runner-heat");
+    expect(LOOKBOOK_TEASER_IDS).toContain("gothic-b-beanie");
+    expect(LOOKBOOK_TEASER_IDS).not.toContain("mens-raglan");
     expect(productById("nb-runner-heat")?.line).toMatch(/Pink Heat/);
     expect(productById("nb-runner-cardinal")?.line).toMatch(/Cardinal/);
     expect(productById("nb-p400-volt")?.line).toMatch(/Afterglow/);
@@ -66,9 +67,25 @@ describe("Fall 001 assortment", () => {
   it("marks only unresolved families as pending photography", () => {
     const pending = PRODUCTS.filter((p) => p.imageryPending).map((p) => p.id).sort();
     expect(pending).toEqual(
-      ["field-cargo", "nb-p400-chalk", "pique-polo", "pocket-ls", "womens-raglan"].sort(),
+      ["field-cargo", "mens-raglan", "nb-p400-chalk", "pique-polo", "pocket-ls", "womens-raglan"].sort(),
     );
     expect(IMAGE_REGISTRY["harbor-coach"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["heritage-jersey"].modelFront).toBeTruthy();
+    expect(IMAGE_REGISTRY["match-set"].modelFront).toBe(IMAGE_REGISTRY["heritage-jersey"].modelFront);
+    expect(IMAGE_REGISTRY["match-set"].modelSecondary).toBe(IMAGE_REGISTRY["match-short"].modelFront);
+    expect(IMAGE_REGISTRY["performance-short"].modelFront).not.toBe(
+      IMAGE_REGISTRY["performance-ls"].modelFront,
+    );
+  });
+
+  it("does not import expired mascot, boxing-kit, or corrupt plates", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const src = await readFile(resolve(process.cwd(), "src/lib/imageRegistry.ts"), "utf8");
+    expect(src).not.toContain("match-hero-stadium");
+    expect(src).not.toContain("match-set-front");
+    expect(src).not.toContain("local-issue-tee");
+    expect(src).not.toContain("performance-male-hero");
+    expect(src).not.toContain("boxing-bee");
   });
 });

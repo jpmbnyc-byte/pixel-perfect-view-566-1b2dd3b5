@@ -4,12 +4,14 @@
  * Every live product has four possible roles:
  *   product-front, product-back/detail, model-front, model-secondary.
  * Heroes are a fifth, separate role. Filenames are human-readable.
- * Do not import GUID hashes or retired garment aliases from routes.
+ *
+ * Do not import GUID hashes, retired Bees garments, the stadium mascot
+ * plate, the boxing-kit match-set mockup, or the corrupt local-issue webp.
+ * Those files live under src/assets/bayonne/archive/ and are not storefront plates.
  */
 
 import comingSoon from "@/assets/bayonne/fall001/coming-soon.svg";
 
-import matchHeroStadium from "@/assets/bayonne/fall001/match-hero-stadium.png";
 import heritageJerseyProductFront from "@/assets/bayonne/fall001/heritage-jersey-product-front.jpg";
 import heritageJerseyProductBack from "@/assets/bayonne/fall001/heritage-jersey-product-back.png";
 import heritageJerseyModelFront from "@/assets/bayonne/fall001/heritage-jersey-model-front.jpg";
@@ -18,14 +20,12 @@ import heritageJerseyModelBack from "@/assets/bayonne/fall001/heritage-jersey-mo
 import matchShortFront from "@/assets/bayonne/fall001/match-short-front.jpg";
 import matchShortThreeQuarter from "@/assets/bayonne/fall001/match-short-three-quarter.png";
 import matchShortBack from "@/assets/bayonne/fall001/match-short-back.png";
-import matchSetFront from "@/assets/bayonne/fall001/match-set-front.png";
 
 import performanceHero from "@/assets/bayonne/fall001/performance-hero.jpg";
 import performanceLsModel from "@/assets/bayonne/fall001/performance-ls-model.jpg";
 import performanceLsFront from "@/assets/bayonne/fall001/performance-ls-front.jpg";
 import performanceLsBack from "@/assets/bayonne/fall001/performance-ls-back.jpg";
 import performanceShortFront from "@/assets/bayonne/fall001/performance-short-front.jpg";
-import mensRaglanBack from "@/assets/bayonne/fall001/local-issue-tee-back.webp";
 
 import maxHeavyFullZipFront from "@/assets/bayonne/fall001/max-heavy-full-zip-front.png";
 import maxHeavySweatpantBack from "@/assets/bayonne/fall001/max-heavy-sweatpant-back.png";
@@ -120,10 +120,10 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelSecondary: matchShortBack,
   },
   "match-set": {
-    productFront: matchSetFront,
-    productBack: heritageJerseyProductBack,
-    modelFront: matchHeroStadium,
-    modelSecondary: heritageJerseyModelBack,
+    productFront: heritageJerseyProductFront,
+    productBack: matchShortFront,
+    modelFront: heritageJerseyModelFront,
+    modelSecondary: matchShortThreeQuarter,
   },
   "performance-ls": {
     productFront: performanceLsFront,
@@ -134,15 +134,10 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "performance-short": {
     productFront: performanceShortFront,
     productBack: performanceShortFront,
-    modelFront: performanceHero,
-    modelSecondary: performanceLsBack,
+    modelFront: performanceShortFront,
+    modelSecondary: performanceShortFront,
   },
-  "mens-raglan": {
-    productFront: mensRaglanBack,
-    productBack: mensRaglanBack,
-    modelFront: mensRaglanBack,
-    modelSecondary: mensRaglanBack,
-  },
+  "mens-raglan": { pending: true },
   "womens-raglan": { pending: true },
   "performance-set": {
     productFront: performanceLsFront,
@@ -153,13 +148,13 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "max-heavy-full-zip": {
     productFront: maxHeavyFullZipFront,
     productBack: maxHeavyFullZipFront,
-    modelFront: travelSetThreeQuarter,
+    modelFront: maxHeavyFullZipFront,
     modelSecondary: maxHeavyFullZipFront,
   },
   "max-heavy-sweatpant": {
     productFront: maxHeavySweatpantBack,
     productBack: maxHeavySweatpantBack,
-    modelFront: travelSetModelFront,
+    modelFront: maxHeavySweatpantBack,
     modelSecondary: maxHeavySweatpantBack,
   },
   "travel-set": {
@@ -228,26 +223,26 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
 };
 
 export const HEROES = {
-  landing: matchHeroStadium,
+  landing: heritageJerseyModelFront,
   match: heritageJerseyModelBack,
   performance: performanceHero,
   travel: travelSetThreeQuarter,
   harbor: harborCoachFront,
   club: clubGoodsHero,
-  og: matchHeroStadium,
+  og: heritageJerseyModelFront,
 } as const;
 
 export const HERO_CROP: Record<
   keyof typeof HEROES,
   { fit: "cover" | "contain"; position: string }
 > = {
-  landing: { fit: "cover", position: "center 28%" },
+  landing: { fit: "cover", position: "center 18%" },
   match: { fit: "cover", position: "center 18%" },
   performance: { fit: "cover", position: "center 58%" },
   travel: { fit: "cover", position: "center 16%" },
   harbor: { fit: "cover", position: "center 42%" },
   club: { fit: "cover", position: "center 10%" },
-  og: { fit: "cover", position: "center 28%" },
+  og: { fit: "cover", position: "center 18%" },
 };
 
 export function imagesFor(id: CanonicalProductId): ProductImageSet {
@@ -290,5 +285,3 @@ export function campaignViews(id: CanonicalProductId): {
         : {}),
   };
 }
-
-export { matchHeroStadium };

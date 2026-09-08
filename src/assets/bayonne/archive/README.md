@@ -23,3 +23,10 @@ GUID filenames as committed from camera/Photos. The storefront imports only huma
 | 0D0FA75B-E204-495B-ADCC-6F9FC6E74436.png | gothic-b-beanie-model-back.png |
 
 Corrupt 15KB blobs that were not valid WebP (`performance-male-hero.webp`, `performance-male-back.webp`, `heritage-jersey-model-*.webp`) are archived here and not imported by the storefront.
+
+Do not use as live Fall 001 plates:
+
+- `match-hero-stadium.png` — stadium tunnel with the retired Bees mascot
+- `match-set-front.png` — boxing-bee / #21 soccer-kit mockup, not the black/garnet Heritage Jersey
+- `local-issue-tee-back.webp` — corrupt ~10KB file, not Men’s Raglan photography
+
