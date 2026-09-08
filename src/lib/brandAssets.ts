@@ -79,6 +79,7 @@ export type PlateProductId = keyof typeof PLATES;
 
 export const SURFACES = {
   landingHero: HEROES.landing,
+  landingHeroModel: HEROES.landingModel,
   landingMatchJersey: campaignViews("heritage-jersey").front ?? platePair("heritage-jersey").front,
   landingSideline: HEROES.performance,
   landingTravel: HEROES.travel,

@@ -1,8 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import { MotionMark, Numeric201, Wordmark } from "@/components/brand/BrandMarks";
+import { MotionMark, Numeric201 } from "@/components/brand/BrandMarks";
 import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
+import { LandingHero } from "@/components/LandingHero";
 import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { SURFACES } from "@/lib/brandAssets";
@@ -46,37 +47,7 @@ function TeamLanding() {
     <div className="bg-paper text-ink">
       <StoreNav />
       <main>
-        <section className="relative isolate min-h-[88dvh] overflow-hidden bg-black text-bone">
-          <div className="absolute inset-0" aria-hidden>
-            <img
-              src={SURFACES.landingHero}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ objectPosition: HERO_CROP.landing.position }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
-          </div>
-
-          <div className="relative z-10 mx-auto flex min-h-[88dvh] w-full max-w-[1280px] flex-col items-center justify-center px-6 py-20 text-center">
-            <p className="place-line text-bone">{COLLECTION_COPY.season}</p>
-            <Wordmark variant="primary" className="mt-10 text-bone" />
-            <h1 className="type-editorial mt-10 max-w-xl text-[clamp(1.8rem,4.5vw,3.1rem)] text-bone">
-              {COLLECTION_COPY.lockup}
-            </h1>
-            <MotionMark className="mt-6 text-bone" />
-            <p className="mt-8 max-w-md text-sm leading-relaxed text-bone/70">
-              {COLLECTION_COPY.title} From ${LOWEST}.
-            </p>
-            <Link
-              to="/team/$slug/$product"
-              params={{ slug: kit.slug, product: jersey.id }}
-              className="place-line mt-10 inline-flex items-center gap-3 border-b border-bone/40 pb-2 text-bone transition-colors hover:border-bone"
-            >
-              1936 Match Jersey · ${jersey.price}
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
-        </section>
+        <LandingHero />
 
         <section className="studio-field">
           <div className="mx-auto grid w-full max-w-[1280px] gap-12 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">

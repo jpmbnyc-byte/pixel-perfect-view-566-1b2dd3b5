@@ -29,5 +29,6 @@ describe("storefront identity", () => {
   it("carries the identity lockup, not the old Bees motto", () => {
     expect(COLLECTION_COPY.lockup).toBe("Built different.");
     expect(COLLECTION_COPY.motto).toBe("Train · Compete · Represent");
+    expect(COLLECTION_COPY.standard).toBe("Athletics for a higher standard.");
   });
 });

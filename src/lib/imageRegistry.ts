@@ -12,6 +12,9 @@
 
 import comingSoon from "@/assets/bayonne/fall001/coming-soon.svg";
 
+import landingHero from "@/assets/bayonne/fall001/landing-hero.png";
+import landingHeroModel from "@/assets/bayonne/fall001/landing-hero-model.png";
+
 import matchJerseyKitFront from "@/assets/bayonne/fall001/match-jersey-kit-front.png";
 import matchJerseyBackBlank from "@/assets/bayonne/fall001/match-jersey-back-blank.jpg";
 import matchJerseyStadium from "@/assets/bayonne/fall001/match-jersey-stadium.png";
@@ -229,7 +232,8 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
 };
 
 export const HEROES = {
-  landing: performanceWomenFront,
+  landing: landingHero,
+  landingModel: landingHeroModel,
   match: matchJerseyKitFront,
   performance: performanceMenThreeQuarter,
   travel: travelSetThreeQuarter,
@@ -242,7 +246,8 @@ export const HERO_CROP: Record<
   keyof typeof HEROES,
   { fit: "cover" | "contain"; position: string }
 > = {
-  landing: { fit: "cover", position: "center 14%" },
+  landing: { fit: "contain", position: "center" },
+  landingModel: { fit: "cover", position: "center 12%" },
   match: { fit: "contain", position: "center 12%" },
   performance: { fit: "cover", position: "center 18%" },
   travel: { fit: "cover", position: "center 16%" },

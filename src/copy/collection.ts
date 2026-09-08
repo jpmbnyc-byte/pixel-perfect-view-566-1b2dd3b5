@@ -9,10 +9,12 @@ export const COLLECTION_COPY = {
   brand: "Bayonne Athletics",
   season: "Fall 001 · 07002",
   lockup: "Built different.",
+  standard: "Athletics for a higher standard.",
   motto: "Train · Compete · Represent",
   title: "Made for movement. Made for the city that gives the collection its name.",
   body: "Bayonne Athletics is built around the things a uniform does when the game is over.\n\nMatch pieces. Training layers. Heavyweight travel goods. Waterfront outerwear. The cap you keep by the door.",
   cta: "Enter Fall 001",
+  shopCta: "Shop the collection",
 } as const;
 
 export type ProductCopy = {

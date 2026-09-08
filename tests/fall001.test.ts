@@ -111,8 +111,12 @@ describe("Fall 001 assortment", () => {
 
   it("uses the new women’s and men’s Performance studio plates", async () => {
     const { galleryShots, HEROES } = await import("@/lib/imageRegistry");
-    expect(HEROES.landing).toBe(IMAGE_REGISTRY["performance-set"].modelFront);
+    expect(HEROES.landing).not.toBe(IMAGE_REGISTRY["performance-set"].modelFront);
     expect(HEROES.performance).toBe(IMAGE_REGISTRY["performance-set"].modelSecondary);
+    const registry = await import("node:fs/promises").then((fs) =>
+      fs.readFile(new URL("../src/lib/imageRegistry.ts", import.meta.url), "utf8"),
+    );
+    expect(registry).toContain("landing-hero.png");
     const setShots = galleryShots("performance-set");
     const lsShots = galleryShots("performance-ls");
     const shortShots = galleryShots("performance-short");
