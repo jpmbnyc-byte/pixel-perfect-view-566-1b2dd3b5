@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { MotionMark } from "@/components/brand/BrandMarks";
 
 type Props = {
   name: string;
@@ -15,7 +16,8 @@ export function ComingSoonMedia({ name, className }: Props) {
       )}
     >
       <p className="place-line text-ink/40">Fall 001 · 07002</p>
-      <p className="type-editorial mt-4 max-w-[14rem] text-center text-lg text-ink">{name}</p>
+      <MotionMark className="mt-5 text-garnet" />
+      <p className="type-editorial mt-5 max-w-[14rem] text-center text-2xl text-ink">{name}</p>
       <p className="mt-3 max-w-[16rem] text-center text-sm leading-relaxed text-ink/45">
         Final photography in production.
       </p>

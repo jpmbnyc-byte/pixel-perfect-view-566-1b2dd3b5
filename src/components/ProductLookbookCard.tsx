@@ -21,8 +21,10 @@ export function ProductLookbookCard({ product, slug }: CardProps) {
         {product.nameNumber && <NameableFlag />}
         <ProductCardMedia product={product} aspect="portrait" />
       </div>
-      <div className="mt-3 space-y-1">
-        <h3 className="font-sans text-[0.92rem] leading-snug tracking-wide text-ink">{product.name}</h3>
+      <div className="mt-5 space-y-1.5">
+        <h3 className="font-display text-[1.05rem] font-medium leading-snug tracking-[0.04em] text-ink">
+          {product.name}
+        </h3>
         <p className="place-line text-ink/45">{product.line}</p>
         <p className="font-sans text-sm tabular-nums text-ink">${product.price}</p>
       </div>
@@ -40,7 +42,7 @@ type GridProps = {
 
 export function ProductLookbookGrid({ products, slug }: GridProps) {
   return (
-    <ul className="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 sm:gap-y-12">
+    <ul className="grid grid-cols-2 gap-x-3 gap-y-12 sm:gap-x-8 sm:gap-y-16 lg:grid-cols-3 lg:gap-x-10">
       {products.map((p) => (
         <li key={p.id}>
           <ProductLookbookCard product={p} slug={slug} />

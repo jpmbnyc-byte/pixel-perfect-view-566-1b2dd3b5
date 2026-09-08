@@ -8,10 +8,11 @@ type CategoryId = "match" | "performance" | "travel" | "harbor" | "club";
 export const COLLECTION_COPY = {
   brand: "Bayonne Athletics",
   season: "Fall 001 · 07002",
-  lockup: "Train. Belong. Endure.",
+  lockup: "Built different.",
+  motto: "Train · Compete · Represent",
   title: "Made for movement. Made for the city that gives the collection its name.",
   body: "Bayonne Athletics is built around the things a uniform does when the game is over.\n\nMatch pieces. Training layers. Heavyweight travel goods. Waterfront outerwear. The cap you keep by the door.",
-  cta: "Enter Fall 001 →",
+  cta: "Enter Fall 001",
 } as const;
 
 export type ProductCopy = {

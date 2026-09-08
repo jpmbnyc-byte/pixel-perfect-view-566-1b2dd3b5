@@ -38,15 +38,15 @@
 }
 
 /*
- * BAYONNE BEES × NO PARADE F.C.
- * Luxury editorial constraint (Venezia-adjacent): paper / ink / one garnet accent.
- * Cool bone — not warm cream. No manufacturer marks. All colors are oklch tokens.
+ * BAYONNE ATHLETICS — digital identity (brand sheet).
+ * Bone ground, ink type, garnet as the only saturated accent.
+ * Kit lettering faces stay local OTFs above; they must not drive site chrome.
  *
- * Manufacturing hex lock (owayo F6/FP6 — submit garnet as Pantone, not screen preset):
- *   --garnet: #5A1626
- *   --black:  #0A0A0A
- *   --bone:   #F4F1F0
- * See docs/OWAYO_F6_HERO.md and src/tokens/brand.ts.
+ * Print lock (owayo F6/FP6 — submit as Pantone, not screen preset):
+ *   COLOR.garnet #5A1626 · COLOR.bone #F4F1F0 · COLOR.trimBlack #0A0A0A
+ * Site lock (IDENTITY):
+ *   garnet #4B0F17 · black #0B0B0B · bone #EDE9E1 · concrete #6B6B6B · silver #C0C0C0
+ * See src/tokens/brand.ts.
  */
 
 @theme inline {
@@ -81,75 +81,79 @@
   --color-maroon: var(--maroon);
   --color-garnet: var(--garnet);
   --color-harbor: var(--harbor);
-  --font-display: "Forge", "Barlow Condensed", system-ui, sans-serif;
-  --font-sans: "Barlow Condensed", system-ui, sans-serif;
-  --font-kit: "Forge", "Barlow Condensed", sans-serif;
-  --font-editorial: "Instrument Serif", "Times New Roman", serif;
+  --color-concrete: var(--concrete);
+  --color-silver: var(--silver);
+  --font-display: "Bodoni Moda", "Times New Roman", serif;
+  --font-sans: "Barlow", system-ui, sans-serif;
+  --font-kit: "Forge", "Barlow", sans-serif;
+  --font-editorial: "Cormorant Garamond", "Times New Roman", serif;
+  --font-numeric: "Oswald", "Barlow Condensed", sans-serif;
+  --font-script: "Great Vibes", "Palatino", cursive;
 }
 
 :root {
   --radius: 0;
-  /* Cool paper field — editorial, not warm cream */
-  --paper: oklch(0.965 0.006 95);
-  --ink: oklch(0.18 0.012 20);
+  --paper: #ede9e1;
+  --ink: #0b0b0b;
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: oklch(0.99 0.003 95);
+  --card: color-mix(in oklab, var(--paper) 88%, white);
   --card-foreground: var(--ink);
-  --popover: oklch(0.99 0.003 95);
+  --popover: color-mix(in oklab, var(--paper) 88%, white);
   --popover-foreground: var(--ink);
-  /* Garnet brand (darker than supplier "maroon") */
-  --primary: oklch(0.34 0.12 18);
-  --primary-foreground: oklch(0.98 0.005 30);
-  --secondary: oklch(0.93 0.008 95);
+  --primary: #4b0f17;
+  --primary-foreground: #ede9e1;
+  --secondary: color-mix(in oklab, var(--paper) 82%, #0b0b0b);
   --secondary-foreground: var(--ink);
-  --muted: oklch(0.94 0.006 95);
-  --muted-foreground: oklch(0.45 0.02 20);
-  --accent: oklch(0.34 0.12 18);
-  --accent-foreground: oklch(0.98 0.005 30);
-  --destructive: oklch(0.5 0.18 25);
-  --destructive-foreground: oklch(0.98 0.005 30);
-  --border: oklch(0.86 0.01 95);
-  --input: oklch(0.86 0.01 95);
-  --ring: oklch(0.4 0.12 18);
-  /* Metallic / highlight (was gold in No Parade system) */
-  --gold: oklch(0.86 0.04 90);
-  --gold-foreground: oklch(0.18 0.02 20);
-  --bone: oklch(0.97 0.005 95);
-  --garnet: oklch(0.34 0.12 18);
-  --maroon: var(--garnet); /* alias — prefer garnet in new copy */
-  /* Kill van Kull / peninsula water — steel, not sky-blue */
-  --harbor: oklch(0.42 0.04 230);
+  --muted: color-mix(in oklab, var(--paper) 90%, #6b6b6b);
+  --muted-foreground: #6b6b6b;
+  --accent: #4b0f17;
+  --accent-foreground: #ede9e1;
+  --destructive: #4b0f17;
+  --destructive-foreground: #ede9e1;
+  --border: color-mix(in oklab, #0b0b0b 14%, var(--paper));
+  --input: color-mix(in oklab, #0b0b0b 14%, var(--paper));
+  --ring: #4b0f17;
+  --gold: #c0c0c0;
+  --gold-foreground: #0b0b0b;
+  --bone: #ede9e1;
+  --garnet: #4b0f17;
+  --maroon: var(--garnet);
+  --harbor: #6b6b6b;
+  --concrete: #6b6b6b;
+  --silver: #c0c0c0;
 }
 
 .dark {
-  --paper: oklch(0.16 0.012 20);
-  --ink: oklch(0.96 0.005 95);
+  --paper: #0b0b0b;
+  --ink: #ede9e1;
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: oklch(0.18 0.015 20);
+  --card: #161616;
   --card-foreground: var(--ink);
-  --popover: oklch(0.18 0.015 20);
+  --popover: #161616;
   --popover-foreground: var(--ink);
-  --primary: oklch(0.96 0.005 30);
-  --primary-foreground: oklch(0.22 0.08 18);
-  --secondary: oklch(0.22 0.03 18);
+  --primary: #ede9e1;
+  --primary-foreground: #0b0b0b;
+  --secondary: #1a1a1a;
   --secondary-foreground: var(--ink);
-  --muted: oklch(0.22 0.03 18);
-  --muted-foreground: oklch(0.72 0.02 30);
-  --accent: oklch(0.45 0.14 18);
-  --accent-foreground: oklch(0.98 0.005 30);
-  --destructive: oklch(0.58 0.18 25);
-  --destructive-foreground: oklch(0.98 0.005 30);
-  --border: oklch(1 0 0 / 14%);
-  --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.55 0.12 18);
-  --gold: oklch(0.86 0.04 90);
-  --gold-foreground: oklch(0.14 0.015 20);
-  --bone: oklch(0.97 0.005 95);
-  --garnet: oklch(0.45 0.14 18);
+  --muted: #1a1a1a;
+  --muted-foreground: #c0c0c0;
+  --accent: #4b0f17;
+  --accent-foreground: #ede9e1;
+  --destructive: #c0c0c0;
+  --destructive-foreground: #0b0b0b;
+  --border: rgb(237 233 225 / 14%);
+  --input: rgb(237 233 225 / 18%);
+  --ring: #c0c0c0;
+  --gold: #c0c0c0;
+  --gold-foreground: #0b0b0b;
+  --bone: #ede9e1;
+  --garnet: #4b0f17;
   --maroon: var(--garnet);
-  --harbor: oklch(0.48 0.045 230);
+  --harbor: #6b6b6b;
+  --concrete: #6b6b6b;
+  --silver: #c0c0c0;
 }
 
 @layer base {
@@ -168,9 +172,9 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: none;
   }
 }
 
@@ -314,24 +318,25 @@
   text-transform: uppercase;
   letter-spacing: 0.28em;
   font-size: 0.625rem;
+  font-weight: 500;
   line-height: 1.3;
-  color: color-mix(in oklab, currentColor 45%, transparent);
+  color: color-mix(in oklab, currentColor 55%, transparent);
 }
 
-/* —— Luxury editorial display (Venezia-adjacent restraint) —— */
+/* —— Storefront display: serif wordmark language, not kit Forge —— */
 @utility type-campaign {
-  font-family: var(--font-kit);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   line-height: 0.95;
 }
 
 @utility type-campaign-tight {
-  font-family: var(--font-kit);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
   line-height: 0.9;
 }
 
@@ -339,7 +344,23 @@
   font-family: var(--font-editorial);
   font-weight: 400;
   letter-spacing: 0.01em;
-  line-height: 1.35;
+  line-height: 1.28;
+  text-transform: none;
+}
+
+@utility type-numeric {
+  font-family: var(--font-numeric);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.85;
+  text-transform: none;
+}
+
+@utility type-script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
   text-transform: none;
 }
 

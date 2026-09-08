@@ -3,7 +3,9 @@ import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState, type HTMLAttributes } from "react";
 
 import { ComingSoonMedia } from "@/components/ComingSoonMedia";
-import { LiquidBackdrop } from "@/components/LiquidBackdrop";
+import { MotionMark } from "@/components/brand/BrandMarks";
+import { StoreFooter } from "@/components/brand/StoreFooter";
+import { StoreNav } from "@/components/brand/StoreNav";
 import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
   FONTS,
@@ -20,7 +22,7 @@ import { SOCK_SIZES, storeIsOpen } from "@/lib/checkout";
 import { formatShoeOption, shoeRunsFor } from "@/lib/footwear";
 import { createCheckoutSession } from "@/lib/checkout.functions";
 import { campaignForProduct } from "@/media/campaignAssets";
-import { DEPARTMENT_TO } from "@/components/TeamStorePage";
+import { DEPARTMENT_TO } from "@/lib/departments";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { productCopyFor } from "@/copy/collection";
 import { Route as TeamSlugRoute } from "./team.$slug";
@@ -162,105 +164,104 @@ function ProductListingPage() {
   };
 
   return (
-    <main className="relative mx-auto min-h-screen w-full max-w-[560px] overflow-hidden bg-background pb-28 font-sans">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] opacity-[0.55]" aria-hidden>
-        <LiquidBackdrop intensity="soft" />
-      </div>
-
-      <header className="relative z-10 px-5 pb-2 pt-5">
-        <Link
-          to={DEPARTMENT_TO[product.category]}
-          params={{ slug: kit.slug }}
-          className="place-line tap-44 inline-flex items-center text-muted-foreground transition-colors duration-micro ease-standard hover:text-foreground focus-ring"
-        >
-          ← Bayonne Athletics
-        </Link>
-        <p className="label-caps mt-4 text-muted-foreground">07002 · Fall 001</p>
-        <h1 className="mt-2 font-kit text-[clamp(1.85rem,7vw,2.5rem)] leading-none tracking-wide">
-          {product.name}
-        </h1>
-        <p className="mt-2 font-sans text-lg font-semibold tabular-nums text-garnet">
-          {product.personalizedPrice
-            ? `$${product.price} · $${product.personalizedPrice} personalized`
-            : `$${product.price}`}
+    <div className="studio-field min-h-screen text-ink">
+      <StoreNav />
+      <main className="mx-auto w-full max-w-[1280px] px-4 pb-28 sm:px-10 lg:pb-16">
+        <p className="place-line pt-6">
+          <Link
+            to={DEPARTMENT_TO[product.category]}
+            params={{ slug: kit.slug }}
+            className="tap-44 inline-flex items-center text-ink/45 transition-colors duration-micro ease-standard hover:text-ink focus-ring"
+          >
+            {product.category === "match" ? "1936 Match" : product.line.split(" · ")[0]}
+          </Link>
         </p>
-        <p className="place-line mt-3 text-muted-foreground">{product.line}</p>
-        {product.sizeChart === "apparel" && (
-          <p className="label-caps mt-4 text-muted-foreground">Sizes S · M · L · XL · 2XL</p>
-        )}
-      </header>
 
-      <div className="relative z-10">
-        <section className="mt-6 px-5">
-          <div className="mb-3 flex gap-2 overflow-x-auto">
-            {!product.imageryPending && campaign?.views.front && (
-              <button
-                type="button"
-                onClick={() => setMode("photos")}
-                className={`tap-44 shrink-0 border px-4 py-2 text-sm font-semibold ${galleryMode === "photos" ? "border-foreground bg-foreground text-background" : "border-border bg-background"}`}
-              >
-                Model
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={() => setMode("product")}
-              className={`tap-44 shrink-0 border px-4 py-2 text-sm font-semibold ${galleryMode === "product" ? "border-foreground bg-foreground text-background" : "border-border bg-background"}`}
-            >
-              Product
-            </button>
-            {product.nameNumber && (
-              <button
-                type="button"
-                onClick={() => setMode("customize")}
-                className={`tap-44 shrink-0 border px-4 py-2 text-sm font-semibold ${galleryMode === "customize" ? "border-foreground bg-foreground text-background" : "border-border bg-background"}`}
-              >
-                Customize
-              </button>
-            )}
-          </div>
-
-          {!product.imageryPending && (
-            <div className={`mb-3 grid gap-2 ${activeViews.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
-              {activeViews.map((v) => (
+        <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-16">
+          <section className="lg:sticky lg:top-24">
+            <div className="mb-3 flex gap-2 overflow-x-auto">
+              {!product.imageryPending && campaign?.views.front && (
                 <button
-                  key={v}
                   type="button"
-                  onClick={() => setView(v)}
-                  className={`border px-2 py-2.5 text-center text-sm font-semibold capitalize tap-44 ${view === v ? "border-foreground bg-foreground text-background" : "border-border bg-background"}`}
+                  onClick={() => setMode("photos")}
+                  className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode === "photos" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
                 >
-                  {v === "three-quarter" ? "¾" : v}
+                  Look
                 </button>
-              ))}
+              )}
+              <button
+                type="button"
+                onClick={() => setMode("product")}
+                className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode === "product" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
+              >
+                Product
+              </button>
+              {product.nameNumber && (
+                <button
+                  type="button"
+                  onClick={() => setMode("customize")}
+                  className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode === "customize" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
+                >
+                  Customize
+                </button>
+              )}
             </div>
-          )}
 
-          <div className="overflow-hidden border border-border bg-secondary/40">
-            {product.imageryPending ? (
-              <ComingSoonMedia name={product.name} className="aspect-[4/5]" />
-            ) : (
-              <ProductCanvas
-                view={view}
-                frontSrc={frontSrc}
-                {...(threeQuarterSrc ? { threeQuarterSrc } : {})}
-                secondarySrc={secondarySrc}
-                fontId={fontId}
-                name={name}
-                number={number}
-                productLabel={product.name}
-                showLettering={galleryMode === "customize" && product.nameNumber}
-                lettering={lettering}
-                tier={galleryMode === "photos" ? "campaign" : "truth"}
-                showNameBadge={galleryMode === "photos" && product.nameNumber}
-                printScale={1}
-                confirmFlash={false}
-              />
+            {!product.imageryPending && (
+              <div className={`mb-3 grid gap-2 ${activeViews.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
+                {activeViews.map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setView(v)}
+                    className={`border px-2 py-2.5 text-center text-sm capitalize tap-44 ${view === v ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
+                  >
+                    {v === "three-quarter" ? "¾" : v}
+                  </button>
+                ))}
+              </div>
             )}
-          </div>
-        </section>
 
-        <section className="mt-6 px-5">
-          <Accordion type="single" collapsible className="w-full">
+            <div className="overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)]">
+              {product.imageryPending ? (
+                <ComingSoonMedia name={product.name} className="aspect-[4/5]" />
+              ) : (
+                <ProductCanvas
+                  view={view}
+                  frontSrc={frontSrc}
+                  {...(threeQuarterSrc ? { threeQuarterSrc } : {})}
+                  secondarySrc={secondarySrc}
+                  fontId={fontId}
+                  name={name}
+                  number={number}
+                  productLabel={product.name}
+                  showLettering={galleryMode === "customize" && product.nameNumber}
+                  lettering={lettering}
+                  tier={galleryMode === "photos" ? "campaign" : "truth"}
+                  showNameBadge={galleryMode === "photos" && product.nameNumber}
+                  printScale={1}
+                  confirmFlash={false}
+                />
+              )}
+            </div>
+          </section>
+
+          <section className="lg:pt-2">
+            <p className="place-line">07002 · Fall 001</p>
+            <h1 className="type-editorial mt-3 text-[clamp(2rem,4.5vw,3.1rem)] leading-[1.05] text-ink">
+              {product.name}
+            </h1>
+            <p className="mt-4 font-sans text-lg tabular-nums text-ink">
+              {product.personalizedPrice
+                ? `$${product.price} · $${product.personalizedPrice} personalized`
+                : `$${product.price}`}
+            </p>
+            <p className="place-line mt-4">{product.line}</p>
+            <MotionMark className="mt-6 block text-garnet" />
+            {product.sizeChart === "apparel" && (
+              <p className="place-line mt-6">Sizes S · M · L · XL · 2XL</p>
+            )}
+            <Accordion type="single" collapsible className="mt-8 w-full">
             <AccordionItem value="description" className="border-border">
               <AccordionTrigger className="place-line text-xs uppercase tracking-[0.14em] hover:no-underline">
                 Description
@@ -284,12 +285,11 @@ function ProductListingPage() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </section>
 
         {product.nameNumber && (
-          <section id="field-personalize" className="mt-8 px-5">
+          <section id="field-personalize" className="mt-10">
             <div className="flex items-baseline justify-between gap-4">
-              <h2 className="text-xl font-bold tracking-tight">Make the jersey yours.</h2>
+              <h2 className="type-editorial text-2xl text-ink">Make the jersey yours.</h2>
               <span className="text-sm font-semibold tabular-nums text-garnet">
                 {hasPersonalization ? `$${product.personalizedPrice ?? product.price}` : `+$${(product.personalizedPrice ?? product.price) - product.price}`}
               </span>
@@ -339,7 +339,7 @@ function ProductListingPage() {
             </button>
 
             <div className="mt-8">
-              <h3 className="text-lg font-bold tracking-tight">Lettering font</h3>
+              <h3 className="type-editorial text-xl text-ink">Lettering font</h3>
               <p className="mt-1 text-sm text-muted-foreground">Four kit faces. Forge is the USA-style default.</p>
               <div className="mt-4 grid grid-cols-2 gap-2">
                 {FONTS.map((f) => {
@@ -366,8 +366,8 @@ function ProductListingPage() {
           </section>
         )}
 
-        <section id="field-size" className="mt-8 px-5">
-          <h2 className="text-xl font-bold tracking-tight">Choose your size.</h2>
+        <section id="field-size" className="mt-10">
+          <h2 className="type-editorial text-2xl text-ink">Choose your size.</h2>
 
           {product.sizeChart === "apparel" && (
             <div className="mt-4 grid grid-cols-5 gap-2">
@@ -501,7 +501,7 @@ function ProductListingPage() {
           )}
         </section>
 
-        <section id="field-confirm" className="mt-8 border-t border-border px-5 pb-4 pt-6">
+        <section id="field-confirm" className="mt-10 border-t border-ink/10 pb-4 pt-6">
           <label className="flex items-start gap-3 text-sm leading-snug">
             <input
               type="checkbox"
@@ -521,26 +521,45 @@ function ProductListingPage() {
             </p>
           )}
         </section>
-      </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-[560px] flex-col gap-1.5 px-5 py-3">
+            <div className="mt-8 hidden lg:block">
+              <button
+                type="button"
+                disabled={checkoutBusy || !open}
+                onClick={() => void goNext()}
+                className="w-full bg-ink py-4 font-sans text-xs font-medium uppercase tracking-[0.22em] text-bone transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
+              >
+                {nextLabel}
+              </button>
+              <p className="mt-3 text-center text-xs leading-snug text-ink/45">
+                {product.nameNumber
+                  ? "Base $78 · personalized $98 · Stripe checkout"
+                  : "Standard $10 · Express $20 · free standard over $175"}
+              </p>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-paper/95 backdrop-blur-md lg:hidden">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-1.5 px-5 py-3">
           <button
             type="button"
             disabled={checkoutBusy || !open}
             onClick={() => void goNext()}
-            className="w-full bg-foreground py-4 text-sm font-bold uppercase tracking-wide text-background transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
+            className="w-full bg-ink py-4 font-sans text-xs font-medium uppercase tracking-[0.22em] text-bone transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
           >
             {nextLabel}
           </button>
-          <p className="text-center text-xs leading-snug text-muted-foreground">
+          <p className="text-center text-xs leading-snug text-ink/45">
             {product.nameNumber
               ? "Base $78 · personalized $98 · Stripe checkout"
               : "Standard $10 · Express $20 · free standard over $175"}
           </p>
         </div>
       </div>
-    </main>
+      <StoreFooter className="hidden lg:block" />
+    </div>
   );
 }
 

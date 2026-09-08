@@ -1,11 +1,25 @@
 /**
- * Bayonne Bees brand color tokens.
- * Garnet is the only saturated accent on any screen (chroma budget).
+ * Bayonne Athletics color tokens.
  *
- * owayo print note: `#5A1626` must be submitted as a Pantone for their color
- * profile — not selected from their 152 screen presets. Screen ≠ print.
+ * IDENTITY = digital storefront (brand sheet).
+ * COLOR = kit / dye-sub manufacturing lock. Do not restyle print tests
+ * onto identity hex — owayo still submits `#5A1626` as a Pantone.
  * See docs/OWAYO_F6_HERO.md.
  */
+
+/** Site chrome — Represent × Dior Mens execution of the identity sheet. */
+export const IDENTITY = {
+  /** Strength, passion, heritage. Primary brand. */
+  garnet: "#4B0F17",
+  /** Discipline, focus, timeless. */
+  black: "#0B0B0B",
+  /** Balance, clarity, versatility. Ground of the site. */
+  bone: "#EDE9E1",
+  /** Resilience, movement, structure. */
+  concrete: "#6B6B6B",
+  /** Progress, elevation, detail. */
+  silver: "#C0C0C0",
+} as const;
 
 export const COLOR = {
   /** Primary. Low-chroma dark red — hardest zone for dye-sub / owayo Pantone. */
@@ -21,7 +35,7 @@ export const COLOR = {
   trimBlack: "#0A0A0A",
   /** Piping, lettering, paper field accents, shorts outseam tape. */
   bone: "#F4F1F0",
-  /** Site background — warm paper (Bureau Borsche 3% deviation). */
+  /** Print / campaign paper — not the storefront bone field. */
   paper: "#EDEAE7",
 } as const;
 

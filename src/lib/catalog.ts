@@ -262,5 +262,5 @@ export function letteringFor(product: CatalogProduct): LetteringLayout {
 }
 
 export function fontsStylesheetHref() {
-  return "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap";
+  return "https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Oswald:wght@600;700&display=swap";
 }

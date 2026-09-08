@@ -15,6 +15,9 @@ import {
 } from "./imageRegistry";
 
 export const CRESTS = {
+  /** Kit / manufacturing crest (boxing bee). Not storefront chrome. */
+  kit: boxingBee,
+  /** @deprecated Storefront uses BrandMarks — kept for production docs. */
   primary: boxingBee,
   queen: queenCrest,
 } as const;

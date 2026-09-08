@@ -14,17 +14,17 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-paper px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <h1 className="type-numeric text-7xl text-ink">404</h1>
+        <h2 className="type-editorial mt-4 text-2xl text-ink">Page not found</h2>
+        <p className="mt-2 text-sm text-ink/55">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="place-line inline-flex items-center border-b border-ink/30 pb-2 text-ink"
           >
             Go home
           </Link>
@@ -81,14 +81,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Bayonne Athletics Fall 001. Train. Belong. Endure. Match, performance, travel, Harbor Division and club goods.",
+          "Bayonne Athletics Fall 001. Built different. Match, performance, travel, Harbor Division and club goods.",
       },
       { name: "author", content: "Bayonne Athletics" },
       { property: "og:title", content: "Bayonne Athletics — Fall 001" },
       {
         property: "og:description",
         content:
-          "Bayonne Athletics Fall 001. Train. Belong. Endure. Match, performance, travel, Harbor Division and club goods.",
+          "Bayonne Athletics Fall 001. Built different. Match, performance, travel, Harbor Division and club goods.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -103,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         /* UI chrome only — kit lettering faces are local OTFs in styles.css */
-        href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Oswald:wght@500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
