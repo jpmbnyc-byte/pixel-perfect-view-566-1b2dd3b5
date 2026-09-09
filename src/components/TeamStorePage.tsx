@@ -62,7 +62,7 @@ export function TeamStorePage({ category, kit }: Props) {
     <div className="studio-field min-h-screen overflow-x-clip text-ink">
       <StoreNav />
       <main>
-        <section className="relative isolate min-h-[58dvh] overflow-hidden bg-black sm:min-h-[70dvh]">
+        <section className="relative isolate min-h-[40dvh] overflow-hidden bg-black sm:min-h-[58dvh] lg:min-h-[70dvh]">
           <img
             src={active.hero}
             alt=""
@@ -72,7 +72,7 @@ export function TeamStorePage({ category, kit }: Props) {
             style={{ objectPosition: active.heroPosition }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
-          <div className="relative z-10 mx-auto flex min-h-[58dvh] w-full max-w-[1280px] flex-col justify-end px-6 py-12 sm:min-h-[70dvh] sm:px-10 sm:py-16">
+          <div className="relative z-10 mx-auto flex min-h-[40dvh] w-full max-w-[1280px] flex-col justify-end px-6 py-10 sm:min-h-[58dvh] sm:px-10 sm:py-16 lg:min-h-[70dvh]">
             <p className="place-line text-bone">{copy.line}</p>
             <h1 className="type-editorial mt-4 max-w-xl text-[clamp(2.2rem,6vw,4rem)] text-bone">
               {copy.title}

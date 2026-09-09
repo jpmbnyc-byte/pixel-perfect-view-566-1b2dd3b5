@@ -109,7 +109,7 @@ export function HeroSlideshow({ slides, slug }: Props) {
               data-slide
               to="/team/$slug/$product"
               params={{ slug, product: product.id }}
-              className="group relative w-[min(72vw,22rem)] shrink-0 snap-start focus-ring sm:w-[min(38vw,26rem)]"
+              className="group relative w-[min(58vw,18rem)] shrink-0 snap-start focus-ring sm:w-[min(38vw,26rem)]"
               onFocus={() => {
                 pausedRef.current = true;
               }}

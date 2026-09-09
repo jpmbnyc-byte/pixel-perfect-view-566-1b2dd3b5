@@ -165,7 +165,7 @@ export function ProductZoomGallery({ shots, productName }: Props) {
     <>
       <div className="w-full min-w-0">
         <div
-          className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden"
+          className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain overscroll-y-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [touch-action:pan-x_pan-y] [&::-webkit-scrollbar]:hidden"
           role="list"
           aria-label={`${productName} images`}
         >
@@ -179,7 +179,7 @@ export function ProductZoomGallery({ shots, productName }: Props) {
                 setActive(index, true);
                 setOpenIndex(index);
               }}
-              className="relative aspect-[3/4] w-full min-w-full max-w-full shrink-0 snap-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)] focus-ring"
+              className="relative h-[min(42dvh,20rem)] w-full min-w-full max-w-full shrink-0 snap-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)] focus-ring sm:h-[min(52dvh,28rem)] lg:aspect-[3/4] lg:h-auto"
               aria-label={`View ${shot.alt || productName}, tap to zoom`}
             >
               <img

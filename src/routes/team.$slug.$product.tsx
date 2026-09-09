@@ -17,6 +17,7 @@ import {
   fontById,
   letteringFor,
   productById,
+  type CatalogProduct,
   type FontId,
 } from "@/lib/catalog";
 import { SIZES, SIZE_CHART, sanitizeName, sanitizeNumber } from "@/lib/kit";
@@ -141,8 +142,8 @@ function ProductListingPage() {
   return (
     <div className="studio-field min-h-screen overflow-x-clip text-ink">
       <StoreNav />
-      <main className="mx-auto w-full min-w-0 max-w-[1280px] px-4 pb-28 sm:px-10 lg:pb-16">
-        <p className="place-line pt-6">
+      <main className="mx-auto w-full min-w-0 max-w-[1280px] px-4 pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))] sm:px-10 lg:pb-16">
+        <p className="place-line pt-4 sm:pt-6">
           <Link
             to={DEPARTMENT_TO[product.category]}
             params={{ slug: kit.slug }}
@@ -152,7 +153,11 @@ function ProductListingPage() {
           </Link>
         </p>
 
-        <div className="mt-6 grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start lg:gap-16">
+        <div className="mt-4 grid min-w-0 gap-6 sm:mt-6 sm:gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start lg:gap-16">
+          <header className="min-w-0 lg:hidden">
+            <ProductListingHeading product={product} />
+          </header>
+
           <section className="min-w-0 lg:sticky lg:top-24">
             {product.nameNumber && (
               <div className="mb-3 flex gap-2 overflow-x-auto">
@@ -175,7 +180,7 @@ function ProductListingPage() {
 
             <div className="min-w-0 bg-[color-mix(in_oklab,var(--paper)_70%,white)]">
               {product.imageryPending ? (
-                <ComingSoonMedia name={product.name} className="aspect-[4/5]" />
+                <ComingSoonMedia name={product.name} className="aspect-[4/5] max-h-[42dvh] lg:max-h-none" />
               ) : galleryMode === "customize" && product.nameNumber ? (
                 <ProductCanvas
                   view="back"
@@ -191,7 +196,7 @@ function ProductListingPage() {
                   showNameBadge={false}
                   printScale={printScaleForSize(size)}
                   confirmFlash={false}
-                  className="aspect-[529/576] w-full"
+                  className="aspect-[529/576] max-h-[42dvh] w-full lg:max-h-none"
                 />
               ) : (
                 <ProductZoomGallery
@@ -209,17 +214,10 @@ function ProductListingPage() {
           </section>
 
           <section className="min-w-0 lg:pt-2">
-            <p className="place-line">07002 · Fall 001</p>
-            <h1 className="type-editorial mt-3 text-[clamp(2rem,4.5vw,3.1rem)] leading-[1.05] text-ink">
-              {product.name}
-            </h1>
-            <p className="mt-4 font-sans text-lg tabular-nums text-ink">
-              {product.personalizedPrice
-                ? `$${product.price} · $${product.personalizedPrice} personalized`
-                : `$${product.price}`}
-            </p>
-            <p className="place-line mt-4">{product.line}</p>
-            <MotionMark className="mt-6 block text-garnet" />
+            <div className="hidden lg:block">
+              <ProductListingHeading product={product} />
+            </div>
+            <MotionMark className="mt-4 block text-garnet lg:mt-6" />
             {product.sizeChart === "apparel" && (
               <p className="place-line mt-6">Sizes S · M · L · XL · 2XL</p>
             )}
@@ -512,25 +510,37 @@ function ProductListingPage() {
         </div>
       </main>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-paper/95 backdrop-blur-md lg:hidden">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-1.5 px-5 py-3">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-paper/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md lg:hidden">
+        <div className="mx-auto w-full max-w-[1280px] px-4 py-2.5">
           <button
             type="button"
             disabled={checkoutBusy || !open}
             onClick={() => void goNext()}
-            className="w-full bg-ink py-4 font-sans text-xs font-medium uppercase tracking-[0.22em] text-bone transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
+            className="w-full bg-ink py-3.5 font-sans text-xs font-medium uppercase tracking-[0.22em] text-bone transition-opacity duration-micro ease-standard hover:opacity-90 focus-ring disabled:cursor-not-allowed disabled:opacity-45 tap-44"
           >
             {nextLabel}
           </button>
-          <p className="text-center text-xs leading-snug text-ink/45">
-            {product.nameNumber
-              ? "Base $78 · personalized $98 · Stripe checkout"
-              : "Standard $10 · Express $20 · free standard over $175"}
-          </p>
         </div>
       </div>
       <StoreFooter className="hidden lg:block" />
     </div>
+  );
+}
+
+function ProductListingHeading({ product }: { product: CatalogProduct }) {
+  return (
+    <>
+      <p className="place-line">07002 · Fall 001</p>
+      <h1 className="type-editorial mt-2 text-[clamp(1.65rem,6.4vw,3.1rem)] leading-[1.05] text-ink sm:mt-3">
+        {product.name}
+      </h1>
+      <p className="mt-3 font-sans text-lg tabular-nums text-ink">
+        {product.personalizedPrice
+          ? `$${product.price} · $${product.personalizedPrice} personalized`
+          : `$${product.price}`}
+      </p>
+      <p className="place-line mt-3">{product.line}</p>
+    </>
   );
 }
 

@@ -252,12 +252,18 @@ describe("Fall 001 assortment", () => {
     expect(gallery).toContain("overscroll-x-contain");
     expect(gallery).toContain("IntersectionObserver");
     expect(gallery).toContain("data-active-shot");
+    expect(gallery).toContain("[touch-action:pan-x_pan-y]");
+    expect(gallery).toContain("42dvh");
     expect(gallery).not.toContain("zoomed && index === openIndex");
     expect(gallery).not.toContain("zoom-in-95");
     expect(gallery).not.toContain("scale-[1.85]");
     expect(css).toContain("overflow-x: clip");
+    expect(css).toContain("overflow-y: auto");
     expect(pdp).toContain("minmax(0,1.15fr)");
     expect(pdp).toContain("min-w-0");
+    expect(pdp).toContain("ProductListingHeading");
+    expect(pdp).toContain("lg:hidden");
+    expect(pdp).toContain("safe-area-inset-bottom");
   });
 
   it("does not stamp BACK on product thumbs", async () => {

@@ -163,6 +163,7 @@
 
   html {
     overflow-x: clip;
+    overflow-y: auto;
     overscroll-behavior-x: none;
   }
 
@@ -173,7 +174,9 @@
     -webkit-font-smoothing: antialiased;
     max-width: 100%;
     overflow-x: clip;
+    overflow-y: auto;
     overscroll-behavior-x: none;
+    -webkit-overflow-scrolling: touch;
   }
 
   h1,
