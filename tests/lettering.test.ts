@@ -16,7 +16,7 @@ describe("ref print area — Match Jersey", () => {
     expect(L.number.heightPct).toBeGreaterThan(L.name.heightPct * 3);
   });
 
-  it("places a chest number on the blank front, matching the back font surface", () => {
+  it("places a chest number below the club marks on the front, matching the back font surface", () => {
     const jersey = productById("heritage-jersey")!;
     const front = letteringFrontFor(jersey);
     expect(front).toEqual(LETTERING_MATCH_JERSEY_FRONT);
@@ -25,6 +25,7 @@ describe("ref print area — Match Jersey", () => {
     expect(front?.number.heightPct).toBeGreaterThan(20);
     expect(front?.number.heightPct).toBeLessThan(LETTERING_MATCH_JERSEY.number.heightPct);
     expect(front?.name.heightPct).toBe(0);
+    expect(front?.number.y).toBeGreaterThan(32);
   });
 
   it("renders name and number on the plate bounds, not a square crop", async () => {

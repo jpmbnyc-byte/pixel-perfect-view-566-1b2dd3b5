@@ -187,15 +187,15 @@ describe("Fall 001 assortment", () => {
   });
 
   it("uses the new Match Jersey kit and blank back for the customizer", async () => {
-    const { galleryShots, matchJerseyFrontBlank } = await import("@/lib/imageRegistry");
+    const { galleryShots, matchJerseyFrontMarks } = await import("@/lib/imageRegistry");
     const jersey = productById("heritage-jersey")!;
     const shots = galleryShots("heritage-jersey");
     expect(jersey.name).toBe("1936 Match Jersey");
     expect(shots[0]?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productFront);
     expect(shots.at(-1)?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
     expect(jersey.previews.secondary).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
-    expect(IMAGE_REGISTRY["heritage-jersey"].customizeFront).toBe(matchJerseyFrontBlank);
-    expect(shots.map((shot) => shot.src)).not.toContain(matchJerseyFrontBlank);
+    expect(IMAGE_REGISTRY["heritage-jersey"].customizeFront).toBe(matchJerseyFrontMarks);
+    expect(shots.map((shot) => shot.src)).not.toContain(matchJerseyFrontMarks);
   });
 
   it("keeps the Match Jersey customizer on a front/back live preview", async () => {

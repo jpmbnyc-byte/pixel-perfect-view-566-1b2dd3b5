@@ -16,7 +16,7 @@ import landingHero from "@/assets/bayonne/fall001/landing-hero.png";
 import landingHeroModel from "@/assets/bayonne/fall001/landing-hero-model.png";
 
 import matchJerseyKitFront from "@/assets/bayonne/fall001/match-jersey-kit-front.png";
-import matchJerseyFrontBlank from "@/assets/bayonne/fall001/match-jersey-front-blank.jpg";
+import matchJerseyFrontMarks from "@/assets/bayonne/fall001/match-jersey-front-marks.png";
 import matchJerseyBackBlank from "@/assets/bayonne/fall001/match-jersey-back-blank.jpg";
 import matchJerseyStadium from "@/assets/bayonne/fall001/match-jersey-stadium.png";
 import matchJerseyStudioFront from "@/assets/bayonne/fall001/match-jersey-studio-front.png";
@@ -163,7 +163,7 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     productBack: matchJerseyBackBlank,
     modelFront: matchJerseyStudioFront,
     modelSecondary: matchJerseyStudioBack,
-    customizeFront: matchJerseyFrontBlank,
+    customizeFront: matchJerseyFrontMarks,
   },
   "match-short": {
     productFront: matchShortFront,
@@ -459,7 +459,7 @@ export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   return shots;
 }
 
-export { matchJerseyBackBlank, matchJerseyFrontBlank };
+export { matchJerseyBackBlank, matchJerseyFrontMarks };
 
 export function imagesFor(id: CanonicalProductId): ProductImageSet {
   return IMAGE_REGISTRY[id];

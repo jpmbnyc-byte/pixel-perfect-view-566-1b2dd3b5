@@ -37,11 +37,11 @@ export const LETTERING_MATCH_JERSEY: LetteringLayout = {
   surface: "blackout",
 };
 
-/** Chest number only on the blank 1936 Match Jersey front plate. Name stays on the back. */
+/** Chest number on the 1936 Match Jersey front plate, below the club marks. Name stays on the back. */
 export const LETTERING_MATCH_JERSEY_FRONT: LetteringLayout = {
   centerX: 50,
   name: { y: 0, heightPct: 0, maxWidthPct: 0 },
-  number: { y: 28.8, heightPct: 26, maxWidthPct: 36 },
+  number: { y: 35.2, heightPct: 23, maxWidthPct: 34 },
   surface: "blackout",
 };
 

@@ -44,6 +44,7 @@ GUID filenames as committed from camera/Photos. The storefront imports only huma
 | 0df76fc4-1fdb-4196-a00b-1ff8bcabaded.png | harbor-pullover-model-profile.png |
 | 362fbed3-464c-43cb-8251-305e3a6e394c.png | harbor-pullover-model-back.png |
 | 40858c7c-2bd0-4050-8da1-2fc9c7899bd0.jpg | match-jersey-front-blank.jpg |
+| bb2c795e-ed9f-4cf1-bfda-6bb269c5ad7d.png | match-jersey-front-marks.png |
 
 Corrupt 15KB blobs that were not valid WebP (`performance-male-hero.webp`, `performance-male-back.webp`, `heritage-jersey-model-*.webp`) are archived here and not imported by the storefront.
 
