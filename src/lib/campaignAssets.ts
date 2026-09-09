@@ -29,6 +29,7 @@ const LIVE_IDS: CanonicalProductId[] = [
   "harbor-pullover",
   "harbor-sweatpant-grey",
   "two-tone-cap",
+  "area-code-cap",
   "gothic-b-beanie",
   "gothic-b-beanie-brown",
   "club-sock",

@@ -28,7 +28,7 @@ const FEATURED_BY_CATEGORY: Record<CategoryId, string> = {
   performance: "performance-set",
   travel: "travel-set",
   harbor: "harbor-coach",
-  club: "two-tone-cap",
+  club: "area-code-cap",
 };
 
 type Props = {

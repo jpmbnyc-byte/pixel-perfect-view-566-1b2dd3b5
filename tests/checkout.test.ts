@@ -31,6 +31,9 @@ describe("Stripe checkout pricing", () => {
     );
     expect(resolveCheckout({ productId: "not-a-sku", size: "M" }).ok).toBe(false);
     expect(resolveCheckout({ productId: "two-tone-cap", size: "XL" }).ok).toBe(false);
+    const area = resolveCheckout({ productId: "area-code-cap", size: "ONE SIZE" });
+    expect(area.ok).toBe(true);
+    if (area.ok) expect(area.value.unitAmount).toBe(4800);
   });
 
   it("unlocks complimentary standard shipping at $175", () => {

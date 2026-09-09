@@ -19,7 +19,7 @@ import { HERO_SLIDES } from "@/lib/heroSlideshow";
 const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
 const jersey = productById("heritage-jersey")!;
 const travelSet = productById("travel-set")!;
-const cap = productById("two-tone-cap")!;
+const cap = productById("area-code-cap")!;
 const harbor = productById("harbor-coach")!;
 const performanceSet = productById("performance-set")!;
 
@@ -53,21 +53,32 @@ function TeamLanding() {
         <LandingHero />
         <HeroSlideshow slides={HERO_SLIDES} slug={kit.slug} />
         <PeoplePlaces />
-
         <section className="studio-field">
-          <div className="mx-auto grid w-full max-w-[1280px] gap-12 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div className="mx-auto grid w-full max-w-[1280px] items-center gap-10 px-6 py-16 sm:px-10 sm:py-24 lg:grid-cols-2">
+            <Link
+              to="/team/$slug/$product"
+              params={{ slug: kit.slug, product: cap.id }}
+              className="block overflow-hidden bg-[color-mix(in_oklab,var(--paper)_80%,white)]"
+            >
+              <img
+                src={cap.previews.front}
+                alt={cap.name}
+                className="w-full object-cover"
+              />
+            </Link>
             <div>
-              <p className="place-line">{COLLECTION_COPY.motto}</p>
-              <h2 className="type-editorial mt-6 max-w-xl text-[clamp(2rem,5vw,3.4rem)] text-ink">
-                {COLLECTION_COPY.title}
-              </h2>
-              <MotionMark className="mt-8 block text-garnet" />
-            </div>
-            <div>
-              <p className="max-w-md whitespace-pre-line text-[0.95rem] leading-relaxed text-ink/65">
-                {COLLECTION_COPY.body}
-              </p>
-              <p className="place-line mt-10">{COLLECTION_COPY.lockup}</p>
+              <p className="place-line">Now trending</p>
+              <h2 className="type-editorial mt-4 text-[clamp(2rem,5vw,3.4rem)] text-ink">{cap.name}</h2>
+              <p className="place-line mt-4">{cap.line}</p>
+              <p className="mt-6 max-w-md text-sm leading-relaxed text-ink/65">{cap.blurb}</p>
+              <p className="mt-6 font-sans text-lg tabular-nums">${cap.price}</p>
+              <Link
+                to="/team/$slug/$product"
+                params={{ slug: kit.slug, product: cap.id }}
+                className="place-line mt-8 inline-flex items-center justify-center bg-ink px-10 py-4 text-bone transition-opacity hover:opacity-90"
+              >
+                Shop the 201
+              </Link>
             </div>
           </div>
         </section>
@@ -102,7 +113,7 @@ function TeamLanding() {
             ["performance", SURFACES.landingSideline, performanceSet, HERO_CROP.performance],
             ["travel", SURFACES.landingTravel, travelSet, HERO_CROP.travel],
             ["harbor", SURFACES.landingHarbor, harbor, HERO_CROP.harbor],
-            ["club", SURFACES.landingClub, cap, HERO_CROP.club],
+            ["club", SURFACES.categoryHero.club, cap, HERO_CROP.club],
           ] as const
         ).map(([id, hero, featured, crop]) => {
           const dept = DEPARTMENT_COPY[id];
@@ -167,13 +178,14 @@ function TeamLanding() {
             <div className="flex flex-col items-start gap-8 lg:items-end">
               <Numeric201 className="text-7xl text-ink sm:text-8xl" />
               <Link
-                to="/team/$slug/match"
-                params={{ slug: kit.slug }}
+                to="/team/$slug/$product"
+                params={{ slug: kit.slug, product: cap.id }}
                 className="place-line inline-flex items-center justify-center bg-ink px-10 py-4 text-bone transition-opacity hover:opacity-90"
               >
-                {COLLECTION_COPY.cta} · from ${LOWEST}
+                Shop 201 · ${cap.price}
               </Link>
               <StoreCloseCountdown closesAt={kit.closesAt} className="text-ink/50" />
+              <p className="place-line text-ink/40">Fall 001 from ${LOWEST}</p>
             </div>
           </div>
         </section>

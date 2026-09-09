@@ -1,12 +1,9 @@
 /**
  * Neighborhood film for the landing hero.
  *
- * Etnies pattern we are translating: full-bleed muted autoplay loop,
- * quiet overlay type, pause control, still fallback — hometown, not a PDP.
- * Bayonne version uses the 07002 waterfront plate as the poster.
- *
- * Drop a short muted H.264 loop at public/bayonne/neighborhood.mp4
- * and the hero lights up. No hotlinked or scraped third-party film.
+ * Full-bleed muted autoplay loop, quiet overlay, pause control,
+ * still fallback. The 201 Area Code treatment loop lives at
+ * public/bayonne/neighborhood.mp4. No hotlinked or scraped film.
  */
 
 export const NEIGHBORHOOD_FILM_SRC = "/bayonne/neighborhood.mp4";

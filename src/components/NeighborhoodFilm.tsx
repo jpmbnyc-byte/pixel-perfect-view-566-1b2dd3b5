@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { COLLECTION_COPY } from "@/copy/collection";
 import { SURFACES } from "@/lib/brandAssets";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
-import { HERO_CROP } from "@/lib/imageRegistry";
+import { AREA_CODE_STILLS, HERO_CROP } from "@/lib/imageRegistry";
 import {
   NEIGHBORHOOD_FILM_SRC,
   probeNeighborhoodFilm,
@@ -87,9 +87,8 @@ export function NeighborhoodFilm() {
         {showVideo ? (
           <video
             ref={videoRef}
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: HERO_CROP.landing.position }}
-            poster={SURFACES.landingHero}
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            poster={AREA_CODE_STILLS.church}
             autoPlay={!reduced}
             muted
             loop
@@ -107,21 +106,31 @@ export function NeighborhoodFilm() {
           className={`pointer-events-none absolute inset-0 ${showVideo && playing ? "opacity-0" : "opacity-100"}`}
           aria-hidden
         >
-          <img
-            src={SURFACES.landingHero}
-            alt=""
-            width={1536}
-            height={864}
-            className="absolute inset-0 hidden h-full w-full object-cover md:block"
-            style={{ objectPosition: HERO_CROP.landing.position }}
-          />
-          <img
-            src={SURFACES.landingHeroModel}
-            alt=""
-            width={1122}
-            height={1402}
-            className="absolute inset-0 block h-full w-full object-cover object-[center_18%] md:hidden"
-          />
+          {showVideo ? (
+            <img
+              src={AREA_CODE_STILLS.church}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+          ) : (
+            <>
+              <img
+                src={SURFACES.landingHero}
+                alt=""
+                width={1536}
+                height={864}
+                className="absolute inset-0 hidden h-full w-full object-cover md:block"
+                style={{ objectPosition: HERO_CROP.landing.position }}
+              />
+              <img
+                src={SURFACES.landingHeroModel}
+                alt=""
+                width={1122}
+                height={1402}
+                className="absolute inset-0 block h-full w-full object-cover object-[center_18%] md:hidden"
+              />
+            </>
+          )}
         </div>
 
         {filmFrame ? (
@@ -144,18 +153,40 @@ export function NeighborhoodFilm() {
         <div className="absolute inset-0 flex items-end md:items-center">
           <div className="mx-auto w-full min-w-0 max-w-[1280px] px-6 pb-14 sm:px-10 md:px-10 md:pb-0">
             <p className="place-line text-bone">{COLLECTION_COPY.place}</p>
-            <p className="type-editorial mt-5 max-w-md text-[clamp(2.3rem,8vw,4.2rem)] leading-[0.92] text-bone md:mt-6">
+            <p className="type-numeric mt-3 text-[clamp(2.6rem,9vw,5.8rem)] leading-none text-bone">201</p>
+            <p className="type-editorial mt-3 max-w-md text-[clamp(2rem,7vw,3.6rem)] leading-[0.92] text-bone">
               {COLLECTION_COPY.lockup}
             </p>
-            <p className="place-line mt-5 max-w-sm text-bone/80 md:mt-6">{COLLECTION_COPY.community}</p>
-            <Link
-              to="/team/$slug/match"
-              params={{ slug: SLUG }}
-              className="place-line mt-7 inline-flex items-center gap-3 bg-ink px-6 py-3.5 text-bone md:mt-8"
-            >
-              {COLLECTION_COPY.shopCta}
-              <span aria-hidden>→</span>
-            </Link>
+            <p className="place-line mt-5 max-w-sm text-bone/80">
+              Same ground. Different people. One place.
+            </p>
+            <div className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                to="/team/$slug/$product"
+                params={{ slug: SLUG, product: "area-code-cap" }}
+                className="place-line inline-flex items-center justify-center bg-bone px-7 py-3.5 text-ink"
+              >
+                Shop Now
+              </Link>
+              {showVideo ? (
+                <button
+                  type="button"
+                  className="place-line inline-flex items-center justify-center border border-bone/50 px-7 py-3.5 text-bone"
+                  onClick={togglePlayback}
+                  aria-pressed={playing}
+                >
+                  {playing ? COLLECTION_COPY.filmPause : "Watch Now"}
+                </button>
+              ) : null}
+              <Link
+                to="/team/$slug/match"
+                params={{ slug: SLUG }}
+                className="place-line text-bone/70"
+              >
+                {COLLECTION_COPY.shopCta}
+                <span aria-hidden> →</span>
+              </Link>
+            </div>
           </div>
         </div>
 

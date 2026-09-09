@@ -4,8 +4,8 @@ import { IMAGE_REGISTRY } from "@/lib/imageRegistry";
 import { sourceForProduct } from "@/lib/productSources";
 
 describe("Fall 001 assortment", () => {
-  it("locks 37 live listings including Harbor Division at $98", () => {
-    expect(PRODUCTS).toHaveLength(37);
+  it("locks 38 live listings including the 201 Area Code Cap", () => {
+    expect(PRODUCTS).toHaveLength(38);
     const harbor = productById("harbor-coach")!;
     expect(harbor.name).toBe("Harbor Division Hooded Coach Jacket");
     expect(harbor.price).toBe(98);
@@ -15,6 +15,11 @@ describe("Fall 001 assortment", () => {
     expect(pullover.price).toBe(88);
     expect(pullover.category).toBe("harbor");
     expect(pullover.imageryPending).toBe(false);
+    const cap = productById("area-code-cap")!;
+    expect(cap.name).toBe("201 Area Code Cap");
+    expect(cap.price).toBe(48);
+    expect(cap.sizeChart).toBe("hat");
+    expect(cap.imageryPending).not.toBe(true);
   });
 
   it("keeps the full Bayonne product system in the storefront", () => {
@@ -58,8 +63,8 @@ describe("Fall 001 assortment", () => {
     expect(productsInCategory("performance")).toHaveLength(7);
     expect(productsInCategory("travel")).toHaveLength(8);
     expect(productsInCategory("harbor")).toHaveLength(4);
-    expect(productsInCategory("club")).toHaveLength(12);
-    expect(productsInCategory("club").map((p) => p.id)[0]).toBe("two-tone-cap");
+    expect(productsInCategory("club")).toHaveLength(13);
+    expect(productsInCategory("club").map((p) => p.id)[0]).toBe("area-code-cap");
     for (const p of PRODUCTS.filter((item) => item.sizeChart === "apparel")) {
       expect(p.sizeChart).toBe("apparel");
     }
@@ -79,7 +84,8 @@ describe("Fall 001 assortment", () => {
 
   it("does not feature unresolved Club Goods photography as the lead", () => {
     const featuredClub = productsInCategory("club")[0];
-    expect(featuredClub?.id).toBe("two-tone-cap");
+    expect(featuredClub?.id).toBe("area-code-cap");
+    expect(LOOKBOOK_TEASER_IDS[0]).toBe("area-code-cap");
     expect(productById("nb-runner")?.imageryPending).toBe(false);
     expect(productById("nb-runner")?.name).toBe("New Balance Fresh Foam Runner");
     expect(productById("nb-bbp400")?.name).toBe("New Balance BB P400");

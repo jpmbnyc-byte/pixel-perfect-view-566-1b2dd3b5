@@ -59,6 +59,16 @@ import harborSweatpantGreyWaist from "@/assets/bayonne/fall001/harbor-sweatpant-
 import harborSweatpantGreyModel from "@/assets/bayonne/fall001/harbor-sweatpant-grey-model.png";
 
 import clubGoodsHero from "@/assets/bayonne/fall001/club-goods-hero.png";
+import areaCodeCapFront from "@/assets/bayonne/fall001/area-code-cap-product-front.png";
+import areaCodeCapSide from "@/assets/bayonne/fall001/area-code-cap-product-side.png";
+import areaCodeCapBack from "@/assets/bayonne/fall001/area-code-cap-product-back.png";
+import areaCodeCapDetail from "@/assets/bayonne/fall001/area-code-cap-product-detail.png";
+import areaCodeCapModel from "@/assets/bayonne/fall001/area-code-cap-model-front.jpg";
+import areaCodeCapWorn from "@/assets/bayonne/fall001/area-code-cap-model-detail.jpg";
+import areaCodeHeroChurch from "@/assets/bayonne/fall001/area-code-hero-church.jpg";
+import areaCodeHeroBridge from "@/assets/bayonne/fall001/area-code-hero-bridge.jpg";
+import areaCodeHeroPortrait from "@/assets/bayonne/fall001/area-code-hero-portrait.jpg";
+import areaCodeHeroHat from "@/assets/bayonne/fall001/area-code-hero-hat.jpg";
 import gothicBBeanieBlackFront from "@/assets/bayonne/fall001/gothic-b-beanie-black-front.png";
 import gothicBBeanieBlackLogo from "@/assets/bayonne/fall001/gothic-b-beanie-black-logo.png";
 import gothicBBeanieBlackModel from "@/assets/bayonne/fall001/gothic-b-beanie-black-model.png";
@@ -94,8 +104,6 @@ import nbP400VoltLateral from "@/assets/bayonne/fall001/nb-p400-volt-lateral.jpg
 import nbP400VoltAngle from "@/assets/bayonne/fall001/nb-p400-volt-angle.jpg";
 import nbP400VoltTop from "@/assets/bayonne/fall001/nb-p400-volt-top.jpg";
 import nbP400VoltPair from "@/assets/bayonne/fall001/nb-p400-volt-pair.jpg";
-
-import { isFootwearId } from "./footwear";
 
 export const COMING_SOON = comingSoon;
 
@@ -145,6 +153,7 @@ export type CanonicalProductId =
   | "harbor-sweatpant-black"
   | "harbor-sweatpant-grey"
   | "two-tone-cap"
+  | "area-code-cap"
   | "gothic-b-beanie"
   | "gothic-b-beanie-brown"
   | "club-sock"
@@ -252,6 +261,12 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelFront: clubGoodsHero,
     modelSecondary: clubGoodsHero,
   },
+  "area-code-cap": {
+    productFront: areaCodeCapFront,
+    productBack: areaCodeCapBack,
+    modelFront: areaCodeCapModel,
+    modelSecondary: areaCodeCapWorn,
+  },
   "gothic-b-beanie": {
     productFront: gothicBBeanieBlackFront,
     productBack: gothicBBeanieBack,
@@ -312,9 +327,23 @@ export const HEROES = {
   performance: performanceMenThreeQuarter,
   travel: travelCouple,
   harbor: harborCoachFront,
-  club: clubGoodsHero,
+  club: areaCodeCapWorn,
   og: matchJerseyKitFront,
 } as const;
+
+export const AREA_CODE_STILLS = {
+  church: areaCodeHeroChurch,
+  bridge: areaCodeHeroBridge,
+  portrait: areaCodeHeroPortrait,
+  hat: areaCodeHeroHat,
+  worn: areaCodeCapWorn,
+  model: areaCodeCapModel,
+  front: areaCodeCapFront,
+  side: areaCodeCapSide,
+  detail: areaCodeCapDetail,
+} as const;
+
+export const HERO_LOOP_SRC = "/media/area-code-hero-loop.mp4";
 
 export const HERO_CROP: Record<
   keyof typeof HEROES,
@@ -326,7 +355,7 @@ export const HERO_CROP: Record<
   performance: { fit: "cover", position: "center 18%" },
   travel: { fit: "cover", position: "center 18%" },
   harbor: { fit: "cover", position: "center 42%" },
-  club: { fit: "cover", position: "center 10%" },
+  club: { fit: "cover", position: "center 35%" },
   og: { fit: "contain", position: "center" },
 };
 
@@ -432,8 +461,20 @@ const HARBOR_SWEATPANT_GREY_GALLERY: GalleryShot[] = [
   { src: harborSweatpantGreyWaist, alt: "Harbor Sweatpant in heather grey, waist and drawcord" },
 ];
 
+const AREA_CODE_CAP_GALLERY: GalleryShot[] = [
+  { src: areaCodeCapFront, alt: "201 Area Code Cap, charcoal wool and garnet brim, front" },
+  { src: areaCodeCapSide, alt: "201 Area Code Cap, BAYONNE ATHLETICS side mark" },
+  { src: areaCodeCapBack, alt: "201 Area Code Cap, snapback closure" },
+  { src: areaCodeCapDetail, alt: "201 Area Code Cap, 201 and New Jersey embroidery" },
+  { src: areaCodeCapModel, alt: "201 Area Code Cap, worn" },
+  { src: areaCodeCapWorn, alt: "201 Area Code Cap, crown close-up" },
+  { src: areaCodeHeroChurch, alt: "201 Area Code Cap, worn at the parish" },
+  { src: areaCodeHeroHat, alt: "201 Area Code Cap, crown in the 201" },
+];
+
 /** Ordered storefront gallery. Never the customizer overlay bases except the dedicated blank back. */
 export function galleryShots(id: CanonicalProductId): GalleryShot[] {
+  if (id === "area-code-cap") return AREA_CODE_CAP_GALLERY;
   if (id === "heritage-jersey") return MATCH_JERSEY_GALLERY;
   if (id === "performance-set") return PERFORMANCE_SET_GALLERY;
   if (id === "performance-ls") return PERFORMANCE_LS_GALLERY;
@@ -484,8 +525,7 @@ export function campaignViews(id: CanonicalProductId): {
   if (set.pending) return {};
   const front = set.modelFront ?? set.productFront;
   const back = set.modelSecondary ?? set.productBack;
-  const footwearThreeQuarter =
-    isFootwearId(id) &&
+  const extraThreeQuarter =
     set.productFront &&
     set.productFront !== front &&
     set.productFront !== back
@@ -494,8 +534,8 @@ export function campaignViews(id: CanonicalProductId): {
   return {
     ...(front ? { front } : {}),
     ...(back ? { back } : {}),
-    ...(footwearThreeQuarter
-      ? { "three-quarter": footwearThreeQuarter }
+    ...(extraThreeQuarter
+      ? { "three-quarter": extraThreeQuarter }
       : front && front !== back
         ? { "three-quarter": front }
         : {}),

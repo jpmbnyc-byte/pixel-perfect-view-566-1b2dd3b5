@@ -31,7 +31,6 @@ export type PlatePair = {
 const CANONICAL_PLATES = Object.fromEntries(
   (Object.keys(IMAGE_REGISTRY) as CanonicalProductId[]).map((id) => [id, platePair(id)]),
 ) as Record<CanonicalProductId, PlatePair>;
-
 /** Legacy plate keys used by internal build-map SKUs. */
 export const PLATES = {
   ...CANONICAL_PLATES,

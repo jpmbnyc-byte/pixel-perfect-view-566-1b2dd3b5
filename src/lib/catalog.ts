@@ -221,6 +221,9 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("harbor-sweatpant-black", "bayonne-harbor-sweatpant-black", "Harbor Sweatpant — Black / Garnet", "harbor", 88),
   listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 88),
 
+  listing("area-code-cap", "bayonne-201-area-code-cap", "201 Area Code Cap", "club", 48, {
+    sizeChart: "hat",
+  }),
   listing("two-tone-cap", "bayonne-two-tone-club-cap", "Two-Tone Club Cap", "club", 36, { sizeChart: "hat" }),
   listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie — Black", "club", 34, { sizeChart: "hat" }),
   listing("gothic-b-beanie-brown", "bayonne-gothic-b-beanie-brown", "Gothic B Beanie — Brown", "club", 34, {
@@ -257,6 +260,7 @@ export function productsInCategory(id: CategoryId) {
 
 /** Pieces with photography, for campaign lookbooks. */
 export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
+  "area-code-cap",
   "heritage-jersey",
   "match-short",
   "performance-set",
