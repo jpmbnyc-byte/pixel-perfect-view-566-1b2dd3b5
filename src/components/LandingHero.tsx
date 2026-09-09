@@ -21,8 +21,7 @@ const CAMPAIGNS = [
     to: "/team/$slug/match" as const,
     desktop: SURFACES.landingHero,
     mobile: SURFACES.landingHeroModel,
-    desktopPosition: "center 18%",
-    mobilePosition: "center 18%",
+    positionClass: "object-[center_18%]",
   },
   {
     id: "performance",
@@ -33,8 +32,7 @@ const CAMPAIGNS = [
     to: "/team/$slug/performance" as const,
     desktop: SURFACES.landingSideline,
     mobile: SURFACES.landingSideline,
-    desktopPosition: "center 18%",
-    mobilePosition: "center 18%",
+    positionClass: "object-[center_18%]",
   },
   {
     id: "travel",
@@ -45,8 +43,7 @@ const CAMPAIGNS = [
     to: "/team/$slug/travel" as const,
     desktop: SURFACES.landingTravel,
     mobile: SURFACES.landingTravel,
-    desktopPosition: "center 24%",
-    mobilePosition: "center 18%",
+    positionClass: "object-[center_18%] md:object-[center_24%]",
   },
 ] as const;
 
@@ -113,13 +110,7 @@ export function LandingHero() {
                 height={index === 0 ? 864 : 1402}
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchPriority={index === 0 ? "high" : "low"}
-                className={`absolute inset-0 size-full object-cover ${isActive ? "animate-hero-campaign" : ""}`}
-                style={{
-                  objectPosition:
-                    typeof window === "undefined" || window.innerWidth >= 768
-                      ? campaign.desktopPosition
-                      : campaign.mobilePosition,
-                }}
+                className={`absolute inset-0 size-full object-cover ${campaign.positionClass} ${isActive ? "animate-hero-campaign" : ""}`}
               />
             </picture>
             <div className="absolute inset-0 bg-[linear-gradient(90deg,color-mix(in_oklab,var(--ink)_78%,transparent)_0%,color-mix(in_oklab,var(--ink)_42%,transparent)_44%,transparent_76%)] max-md:bg-[linear-gradient(0deg,color-mix(in_oklab,var(--ink)_88%,transparent)_0%,color-mix(in_oklab,var(--ink)_28%,transparent)_58%,color-mix(in_oklab,var(--ink)_12%,transparent)_100%)]" />
@@ -155,23 +146,27 @@ export function LandingHero() {
       <div className="absolute inset-x-0 bottom-0 z-20 mx-auto flex w-full max-w-[1280px] items-center justify-between gap-6 px-6 pb-7 sm:px-10 sm:pb-8">
         <div className="flex items-center gap-3" role="tablist" aria-label="Choose campaign">
           {CAMPAIGNS.map((campaign, index) => (
-            <button
+            <Button
               key={campaign.id}
               type="button"
+              variant="ghost"
+              size="icon"
               role="tab"
               aria-selected={index === active}
               aria-label={`Show ${campaign.title}`}
-              className="group flex h-11 w-12 items-end py-3 focus-ring sm:w-16"
+              className="group h-11 w-12 items-end rounded-none p-0 py-3 text-bone hover:bg-transparent sm:w-16"
               onClick={() => show(index)}
             >
               <span className="h-px w-full overflow-hidden bg-bone/35">
                 <span
                   className={`block h-full origin-left bg-bone ${
-                    index === active && !paused ? "animate-hero-progress" : index === active ? "scale-x-100" : "scale-x-0"
+                    index === active
+                      ? `animate-hero-progress ${paused ? "[animation-play-state:paused]" : ""}`
+                      : "scale-x-0"
                   }`}
                 />
               </span>
-            </button>
+            </Button>
           ))}
           <span className="place-line ml-1 tabular-nums text-bone/75" aria-live="polite">
             {String(active + 1).padStart(2, "0")} / {String(CAMPAIGNS.length).padStart(2, "0")}
