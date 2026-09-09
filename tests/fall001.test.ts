@@ -269,4 +269,27 @@ describe("Fall 001 assortment", () => {
     expect(thumbs).not.toContain("Front");
     expect(thumbs.toLowerCase()).not.toMatch(/["'`]back["'`]/);
   });
+
+  it("places a lookbook slideshow under the hero that opens product pages", async () => {
+    const { HERO_SLIDES, slidesForCategory } = await import("@/lib/heroSlideshow");
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const rail = await readFile(resolve(process.cwd(), "src/components/HeroSlideshow.tsx"), "utf8");
+    const landing = await readFile(resolve(process.cwd(), "src/routes/team.index.tsx"), "utf8");
+    const department = await readFile(resolve(process.cwd(), "src/components/TeamStorePage.tsx"), "utf8");
+    expect(HERO_SLIDES).toHaveLength(7);
+    for (const slide of HERO_SLIDES) {
+      expect(productById(slide.productId)).toBeTruthy();
+    }
+    expect(slidesForCategory("travel").length).toBeGreaterThan(0);
+    expect(slidesForCategory("harbor").map((s) => s.productId)).toEqual(["harbor-coach"]);
+    expect(slidesForCategory("match")).toHaveLength(0);
+    expect(rail).toContain('to="/team/$slug/$product"');
+    expect(rail).toContain("fetchPriority");
+    expect(rail).toContain("prefers-reduced-motion");
+    expect(rail).toContain("setInterval");
+    expect(landing).toContain("<HeroSlideshow");
+    expect(department).toContain("slidesForCategory(category)");
+    expect(IMAGE_REGISTRY["harbor-coach"].modelFront).not.toBe(IMAGE_REGISTRY["harbor-coach"].productFront);
+  });
 });

@@ -4,6 +4,7 @@ import { MotionMark, Numeric201 } from "@/components/brand/BrandMarks";
 import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
 import { LandingHero } from "@/components/LandingHero";
+import { HeroSlideshow } from "@/components/HeroSlideshow";
 import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { SURFACES } from "@/lib/brandAssets";
@@ -12,6 +13,7 @@ import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { DEPARTMENT_TO } from "@/lib/departments";
 import { COLLECTION_COPY, DEPARTMENT_COPY } from "@/copy/collection";
 import { HERO_CROP } from "@/lib/imageRegistry";
+import { HERO_SLIDES } from "@/lib/heroSlideshow";
 
 const LOWEST = Math.min(...PRODUCTS.map((p) => p.price));
 const jersey = productById("heritage-jersey")!;
@@ -48,6 +50,7 @@ function TeamLanding() {
       <StoreNav />
       <main>
         <LandingHero />
+        <HeroSlideshow slides={HERO_SLIDES} slug={kit.slug} />
 
         <section className="studio-field">
           <div className="mx-auto grid w-full max-w-[1280px] gap-12 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">

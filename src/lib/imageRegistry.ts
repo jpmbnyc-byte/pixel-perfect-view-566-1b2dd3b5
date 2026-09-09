@@ -44,6 +44,7 @@ import travelWomenSeated from "@/assets/bayonne/fall001/travel-women-seated.png"
 import travelCouple from "@/assets/bayonne/fall001/travel-couple.png";
 
 import harborCoachFront from "@/assets/bayonne/fall001/harbor-coach-front.png";
+import harborCoachWorn from "@/assets/bayonne/fall001/harbor-coach-worn.png";
 import harborPulloverFront from "@/assets/bayonne/fall001/harbor-pullover-front.png";
 import harborPulloverBack from "@/assets/bayonne/fall001/harbor-pullover-back.png";
 import harborPulloverModelFront from "@/assets/bayonne/fall001/harbor-pullover-model-front.png";
@@ -225,7 +226,8 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "harbor-coach": {
     productFront: harborCoachFront,
     productBack: harborCoachFront,
-    modelFront: harborCoachFront,
+    modelFront: harborCoachWorn,
+    modelSecondary: harborCoachFront,
   },
   "harbor-pullover": {
     productFront: harborPulloverFront,

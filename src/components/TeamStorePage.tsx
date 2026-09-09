@@ -5,6 +5,7 @@ import { MotionMark } from "@/components/brand/BrandMarks";
 import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
 import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
+import { HeroSlideshow } from "@/components/HeroSlideshow";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import {
   CATEGORIES,
@@ -14,6 +15,7 @@ import {
 } from "@/lib/catalog";
 import { DEPARTMENT_TO } from "@/lib/departments";
 import { DEPARTMENT_COPY } from "@/copy/collection";
+import { slidesForCategory } from "@/lib/heroSlideshow";
 import { countdownParts, type KitConfig } from "@/lib/kit";
 import type { ShopifySyncStatus } from "@/lib/shopify";
 
@@ -95,6 +97,8 @@ export function TeamStorePage({ category, kit }: Props) {
             </div>
           </div>
         </section>
+
+        <HeroSlideshow slides={slidesForCategory(category)} slug={kit.slug} />
 
         <section className="mx-auto w-full max-w-[1280px] px-4 pt-8 sm:px-10">
           <div
