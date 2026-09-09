@@ -189,24 +189,57 @@ function ProductListingPage() {
               {product.imageryPending ? (
                 <ComingSoonMedia name={product.name} className="aspect-[4/5] max-h-[42dvh] lg:max-h-none" />
               ) : galleryMode === "customize" && product.nameNumber ? (
-                <ProductCanvas
-                  view={customizeView}
-                  frontSrc={customizePlates.customizeFront ?? product.previews.front}
-                  secondarySrc={product.previews.secondary}
-                  fontId={fontId}
-                  name={name}
-                  number={number}
-                  productLabel={product.name}
-                  showLettering
-                  lettering={
-                    customizeView === "front" ? (letteringFront ?? lettering) : lettering
-                  }
-                  tier="truth"
-                  showNameBadge={false}
-                  printScale={printScaleForSize(size)}
-                  confirmFlash={false}
-                  className="aspect-[529/576] max-h-[42dvh] w-full lg:max-h-none"
-                />
+                <div className="relative">
+                  <ProductCanvas
+                    view={customizeView}
+                    frontSrc={customizePlates.customizeFront ?? product.previews.front}
+                    secondarySrc={product.previews.secondary}
+                    fontId={fontId}
+                    name={name}
+                    number={number}
+                    productLabel={product.name}
+                    showLettering
+                    lettering={
+                      customizeView === "front" ? (letteringFront ?? lettering) : lettering
+                    }
+                    tier="truth"
+                    showNameBadge={false}
+                    printScale={printScaleForSize(size)}
+                    confirmFlash={false}
+                    className="aspect-[529/576] max-h-[42dvh] w-full lg:max-h-none"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 z-10 flex items-baseline justify-between gap-3 bg-gradient-to-t from-[color-mix(in_oklab,var(--paper)_92%,white)] to-transparent px-3 pb-2.5 pt-8">
+                    <div className="flex items-baseline gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setCustomizeView("front")}
+                        aria-pressed={customizeView === "front"}
+                        className={`place-line tap-44 border-0 bg-transparent px-0 py-1 tracking-[0.22em] ${
+                          customizeView === "front"
+                            ? "text-ink underline decoration-ink/50 underline-offset-4"
+                            : "text-ink/40"
+                        }`}
+                      >
+                        Front
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCustomizeView("back")}
+                        aria-pressed={customizeView === "back"}
+                        className={`place-line tap-44 border-0 bg-transparent px-0 py-1 tracking-[0.22em] ${
+                          customizeView === "back"
+                            ? "text-ink underline decoration-ink/50 underline-offset-4"
+                            : "text-ink/40"
+                        }`}
+                      >
+                        Back
+                      </button>
+                    </div>
+                    <p className="place-line text-ink/40">
+                      {customizeView === "front" ? "Live number" : "Live name and number"}
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <ProductZoomGallery
                   shots={shots.map((shot) => ({
@@ -217,39 +250,6 @@ function ProductListingPage() {
                 />
               )}
             </div>
-            {galleryMode === "customize" && product.nameNumber && (
-              <div className="mt-3 flex items-baseline justify-between gap-4">
-                <div className="flex items-baseline gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setCustomizeView("front")}
-                    aria-pressed={customizeView === "front"}
-                    className={`place-line tap-44 border-0 bg-transparent px-0 py-1 tracking-[0.22em] ${
-                      customizeView === "front"
-                        ? "text-ink underline decoration-ink/40 underline-offset-4"
-                        : "text-ink/35"
-                    }`}
-                  >
-                    Front
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCustomizeView("back")}
-                    aria-pressed={customizeView === "back"}
-                    className={`place-line tap-44 border-0 bg-transparent px-0 py-1 tracking-[0.22em] ${
-                      customizeView === "back"
-                        ? "text-ink underline decoration-ink/40 underline-offset-4"
-                        : "text-ink/35"
-                    }`}
-                  >
-                    Back
-                  </button>
-                </div>
-                <p className="place-line text-ink/40">
-                  {customizeView === "front" ? "Live number" : "Live name and number"}
-                </p>
-              </div>
-            )}
           </section>
 
           <section className="min-w-0 lg:pt-2">
