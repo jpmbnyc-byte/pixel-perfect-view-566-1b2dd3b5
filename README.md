@@ -22,4 +22,6 @@ Test card: `4242 4242 4242 4242`, any future expiry, any CVC.
 
 Canonical imagery lives in `src/assets/bayonne/fall001/`. The live catalog is `src/lib/catalog.ts`. Apparel sizing is S–2XL. Footwear shows **only in-stock sizes** (men’s US, women’s = +1.5) — never a full empty run.
 
+Neighborhood film: drop a muted H.264 loop at `public/bayonne/neighborhood.mp4`. The landing hero autoplays it (paused when `prefers-reduced-motion`); until then the 07002 waterfront still sits in a film frame.
+
 Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary standard over $175.

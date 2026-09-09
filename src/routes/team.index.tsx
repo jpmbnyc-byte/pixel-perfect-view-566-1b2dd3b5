@@ -5,6 +5,7 @@ import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
 import { LandingHero } from "@/components/LandingHero";
 import { HeroSlideshow } from "@/components/HeroSlideshow";
+import { PeoplePlaces } from "@/components/PeoplePlaces";
 import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { SURFACES } from "@/lib/brandAssets";
@@ -51,6 +52,7 @@ function TeamLanding() {
       <main>
         <LandingHero />
         <HeroSlideshow slides={HERO_SLIDES} slug={kit.slug} />
+        <PeoplePlaces />
 
         <section className="studio-field">
           <div className="mx-auto grid w-full max-w-[1280px] gap-12 px-6 py-20 sm:px-10 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">

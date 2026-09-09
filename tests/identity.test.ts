@@ -32,5 +32,8 @@ describe("storefront identity", () => {
     expect(COLLECTION_COPY.standard).toBe("Athletics for a higher standard.");
     expect(COLLECTION_COPY.place).toBe("Bayonne · 07002");
     expect(COLLECTION_COPY.community).toBe("The city on the water. Represent.");
+    expect(COLLECTION_COPY.peopleLine).toBe("People & places");
+    expect(COLLECTION_COPY.peopleTitle).toBe("The city. The kit. The people.");
+    expect(COLLECTION_COPY.filmStill).toBe("Still · 07002");
   });
 });

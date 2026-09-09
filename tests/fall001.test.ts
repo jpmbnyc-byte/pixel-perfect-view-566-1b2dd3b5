@@ -308,7 +308,61 @@ describe("Fall 001 assortment", () => {
     expect(rail).toContain("prefers-reduced-motion");
     expect(rail).toContain("setInterval");
     expect(landing).toContain("<HeroSlideshow");
+    expect(landing).toContain("<PeoplePlaces");
     expect(department).toContain("slidesForCategory(category)");
     expect(IMAGE_REGISTRY["harbor-coach"].modelFront).not.toBe(IMAGE_REGISTRY["harbor-coach"].productFront);
+  });
+
+  it("wires a neighborhood film hero with an honest still until an mp4 is dropped in", async () => {
+    const { NEIGHBORHOOD_FILM_SRC, isNeighborhoodFilmResponse } = await import("@/lib/neighborhoodFilm");
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const film = await readFile(resolve(process.cwd(), "src/components/NeighborhoodFilm.tsx"), "utf8");
+    const hero = await readFile(resolve(process.cwd(), "src/components/LandingHero.tsx"), "utf8");
+    const readme = await readFile(resolve(process.cwd(), "README.md"), "utf8");
+    expect(NEIGHBORHOOD_FILM_SRC).toBe("/bayonne/neighborhood.mp4");
+    expect(hero).toContain("NeighborhoodFilm");
+    expect(film).toContain("muted");
+    expect(film).toContain("playsInline");
+    expect(film).toContain("loop");
+    expect(film).toContain("autoPlay");
+    expect(film).toContain("prefers-reduced-motion");
+    expect(film).toContain("COLLECTION_COPY.filmPause");
+    expect(film).toContain("COLLECTION_COPY.filmPlay");
+    expect(film).toContain("COLLECTION_COPY.filmStill");
+    expect(film).not.toContain("etnies.com");
+    expect(readme).toContain("public/bayonne/neighborhood.mp4");
+    expect(
+      isNeighborhoodFilmResponse({
+        ok: true,
+        headers: { get: () => "text/html" },
+      }),
+    ).toBe(false);
+    expect(
+      isNeighborhoodFilmResponse({
+        ok: true,
+        headers: { get: () => "video/mp4" },
+      }),
+    ).toBe(true);
+  });
+
+  it("places a people-and-places editorial under the lookbook using existing photography", async () => {
+    const { PEOPLE_PLACES } = await import("@/lib/peoplePlaces");
+    const { COLLECTION_COPY } = await import("@/copy/collection");
+    const copy = `${COLLECTION_COPY.peopleLine} ${COLLECTION_COPY.peopleTitle} ${COLLECTION_COPY.peopleBody} ${PEOPLE_PLACES.map((p) => `${p.place} ${p.caption} ${p.alt}`).join(" ")}`;
+    expect(PEOPLE_PLACES.length).toBeGreaterThanOrEqual(6);
+    expect(PEOPLE_PLACES.map((p) => p.place)).toEqual(
+      expect.arrayContaining(["Stadium tunnel", "On the steps", "Two fits", "Harbor Division"]),
+    );
+    expect(copy).toMatch(/07002/);
+    expect(copy).toMatch(/tunnel/i);
+    expect(copy).not.toMatch(/Welcome to your app/i);
+    expect(copy).not.toMatch(/lorem/i);
+    expect(copy).not.toMatch(/OpenTip|A4 |DTF|COGS|blank/i);
+    expect(copy).not.toMatch(/\b(Marcus|Aisha|Jayden|Weronika|Sofia)\b/);
+    for (const plate of PEOPLE_PLACES) {
+      expect(productById(plate.productId)).toBeTruthy();
+      expect(plate.src).toBeTruthy();
+    }
   });
 });

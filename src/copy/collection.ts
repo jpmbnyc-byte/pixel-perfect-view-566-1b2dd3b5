@@ -17,6 +17,13 @@ export const COLLECTION_COPY = {
   body: "Bayonne Athletics is built around the things a uniform does when the game is over.\n\nMatch pieces. Training layers. Heavyweight travel goods. Waterfront outerwear. The cap you keep by the door.",
   cta: "Enter Fall 001",
   shopCta: "Shop the collection",
+  filmStill: "Still · 07002",
+  filmPlay: "Play",
+  filmPause: "Pause",
+  peopleLine: "People & places",
+  peopleTitle: "The city. The kit. The people.",
+  peopleBody:
+    "The tunnel. The steps. Travel weight on a couple and on solos. Harbor Division, worn. Bayonne · 07002.",
 } as const;
 
 export type ProductCopy = {
