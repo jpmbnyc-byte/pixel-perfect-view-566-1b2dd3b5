@@ -4,11 +4,11 @@ import { useState, type HTMLAttributes } from "react";
 
 import { ProductZoomGallery } from "@/components/ProductZoomGallery";
 import { ComingSoonMedia } from "@/components/ComingSoonMedia";
-import { galleryShots } from "@/lib/imageRegistry";
+import { galleryShots, imagesFor } from "@/lib/imageRegistry";
 import { MotionMark } from "@/components/brand/BrandMarks";
 import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
-import { ProductCanvas } from "@/components/ProductCanvas";
+import { ProductCanvas, type CanvasView } from "@/components/ProductCanvas";
 import {
   FONTS,
   HAT_SIZE_CHART,
@@ -16,6 +16,7 @@ import {
   fontsStylesheetHref,
   fontById,
   letteringFor,
+  letteringFrontFor,
   productById,
   type CatalogProduct,
   type FontId,
@@ -65,6 +66,7 @@ function ProductListingPage() {
   const copy = productCopyFor(product.id);
   const shots = product.imageryPending ? [] : galleryShots(product.id);
   const [galleryMode, setGalleryMode] = useState<GalleryMode>("photos");
+  const [customizeView, setCustomizeView] = useState<Extract<CanvasView, "front" | "back">>("front");
   const [fontId, setFontId] = useState<FontId>("forge");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -76,6 +78,8 @@ function ProductListingPage() {
 
   const font = fontById(fontId);
   const lettering = letteringFor(product);
+  const letteringFront = letteringFrontFor(product);
+  const customizePlates = imagesFor(product.id);
   const nameMax = kit.rules.nameMaxChars;
   const open = storeIsOpen();
 
@@ -170,7 +174,10 @@ function ProductListingPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setMode("customize")}
+                  onClick={() => {
+                    setCustomizeView("front");
+                    setMode("customize");
+                  }}
                   className={`tap-44 shrink-0 border px-4 py-2 text-sm ${galleryMode === "customize" ? "border-ink bg-ink text-bone" : "border-ink/20 bg-transparent"}`}
                 >
                   Put your name on it
@@ -183,15 +190,17 @@ function ProductListingPage() {
                 <ComingSoonMedia name={product.name} className="aspect-[4/5] max-h-[42dvh] lg:max-h-none" />
               ) : galleryMode === "customize" && product.nameNumber ? (
                 <ProductCanvas
-                  view="back"
-                  frontSrc={product.previews.front}
+                  view={customizeView}
+                  frontSrc={customizePlates.customizeFront ?? product.previews.front}
                   secondarySrc={product.previews.secondary}
                   fontId={fontId}
                   name={name}
                   number={number}
                   productLabel={product.name}
                   showLettering
-                  lettering={lettering}
+                  lettering={
+                    customizeView === "front" ? (letteringFront ?? lettering) : lettering
+                  }
                   tier="truth"
                   showNameBadge={false}
                   printScale={printScaleForSize(size)}
@@ -209,7 +218,37 @@ function ProductListingPage() {
               )}
             </div>
             {galleryMode === "customize" && product.nameNumber && (
-              <p className="place-line mt-3 text-ink/40">Blank back · live name and number</p>
+              <div className="mt-3 flex items-baseline justify-between gap-4">
+                <div className="flex items-baseline gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setCustomizeView("front")}
+                    aria-pressed={customizeView === "front"}
+                    className={`place-line tap-44 border-0 bg-transparent px-0 py-1 tracking-[0.22em] ${
+                      customizeView === "front"
+                        ? "text-ink underline decoration-ink/40 underline-offset-4"
+                        : "text-ink/35"
+                    }`}
+                  >
+                    Front
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCustomizeView("back")}
+                    aria-pressed={customizeView === "back"}
+                    className={`place-line tap-44 border-0 bg-transparent px-0 py-1 tracking-[0.22em] ${
+                      customizeView === "back"
+                        ? "text-ink underline decoration-ink/40 underline-offset-4"
+                        : "text-ink/35"
+                    }`}
+                  >
+                    Back
+                  </button>
+                </div>
+                <p className="place-line text-ink/40">
+                  {customizeView === "front" ? "Live number" : "Live name and number"}
+                </p>
+              </div>
             )}
           </section>
 
@@ -258,7 +297,7 @@ function ProductListingPage() {
             </div>
             <p className="mt-2 text-sm leading-snug text-muted-foreground">
               {copy?.personalizeHelper ??
-                "Add the name and number exactly as you want them printed on the back. Letters, spaces, hyphens and apostrophes. Leave both blank for the $78 club jersey."}
+                "Number on the front and back. Name across the back. Same digits, same font. Letters, spaces, hyphens and apostrophes. Leave both blank for the $78 club jersey."}
             </p>
 
             <div className="mt-5 grid grid-cols-[7rem_1fr] gap-3">
@@ -271,6 +310,7 @@ function ProductListingPage() {
                 placeholder="21"
                 onChange={(v) => {
                   setNumber(sanitizeNumber(v));
+                  setCustomizeView("front");
                   setMode("customize");
                 }}
                 counter={`${number.length} / 2`}

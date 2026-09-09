@@ -16,6 +16,7 @@ import landingHero from "@/assets/bayonne/fall001/landing-hero.png";
 import landingHeroModel from "@/assets/bayonne/fall001/landing-hero-model.png";
 
 import matchJerseyKitFront from "@/assets/bayonne/fall001/match-jersey-kit-front.png";
+import matchJerseyFrontBlank from "@/assets/bayonne/fall001/match-jersey-front-blank.jpg";
 import matchJerseyBackBlank from "@/assets/bayonne/fall001/match-jersey-back-blank.jpg";
 import matchJerseyStadium from "@/assets/bayonne/fall001/match-jersey-stadium.png";
 import matchJerseyStudioFront from "@/assets/bayonne/fall001/match-jersey-studio-front.png";
@@ -109,6 +110,8 @@ export type ProductImageSet = {
   productBack?: string;
   modelFront?: string;
   modelSecondary?: string;
+  /** Customize-only overlay plate. Never used in the public gallery. */
+  customizeFront?: string;
   /** True when the garment still needs dedicated photography. */
   pending?: boolean;
 };
@@ -160,6 +163,7 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     productBack: matchJerseyBackBlank,
     modelFront: matchJerseyStudioFront,
     modelSecondary: matchJerseyStudioBack,
+    customizeFront: matchJerseyFrontBlank,
   },
   "match-short": {
     productFront: matchShortFront,
@@ -428,7 +432,7 @@ const HARBOR_SWEATPANT_GREY_GALLERY: GalleryShot[] = [
   { src: harborSweatpantGreyWaist, alt: "Harbor Sweatpant in heather grey, waist and drawcord" },
 ];
 
-/** Ordered storefront gallery. Never the customizer overlay base except the dedicated blank back. */
+/** Ordered storefront gallery. Never the customizer overlay bases except the dedicated blank back. */
 export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "heritage-jersey") return MATCH_JERSEY_GALLERY;
   if (id === "performance-set") return PERFORMANCE_SET_GALLERY;
@@ -455,7 +459,7 @@ export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   return shots;
 }
 
-export { matchJerseyBackBlank };
+export { matchJerseyBackBlank, matchJerseyFrontBlank };
 
 export function imagesFor(id: CanonicalProductId): ProductImageSet {
   return IMAGE_REGISTRY[id];

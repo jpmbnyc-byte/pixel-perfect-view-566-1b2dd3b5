@@ -201,9 +201,11 @@ export function ProductCanvas({
   const aspectClass = campaign ? "aspect-square" : "aspect-[529/576]";
   const stageBg = campaign ? CAMPAIGN_SHOT.background : "color-mix(in oklab, var(--paper) 70%, white)";
   const [plate, setPlate] = useState<{ w: number; h: number } | null>(null);
+  const showNameLayer = showLettering && view === "back" && Boolean(displayName);
+  const showNumberLayer = showLettering && (view === "back" || view === "front") && Boolean(displayNumber);
 
   useEffect(() => {
-    if (!showLettering || view !== "back") return;
+    if (!showLettering || (view !== "back" && view !== "front")) return;
     performance.mark("lettering-paint-start");
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -253,9 +255,9 @@ export function ProductCanvas({
             }}
           />
 
-          {view === "back" && showLettering && (
+          {(showNameLayer || showNumberLayer) && (
             <div className="pointer-events-none absolute inset-0" aria-hidden>
-              {displayName ? (
+              {showNameLayer ? (
                 <p
                   className="absolute flex items-end justify-center whitespace-nowrap text-center uppercase"
                   style={{
@@ -276,7 +278,7 @@ export function ProductCanvas({
                   <PrintName text={displayName} archDeg={lettering.name.archDeg} />
                 </p>
               ) : null}
-              {displayNumber ? (
+              {showNumberLayer ? (
                 <p
                   className="absolute flex items-start justify-center whitespace-nowrap text-center leading-none"
                   style={{

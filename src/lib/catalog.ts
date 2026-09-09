@@ -5,7 +5,13 @@
  * productById for existing URLs, but never define identity.
  */
 
-import { LETTERING, LETTERING_MATCH_JERSEY, type Item, type LetteringLayout } from "./kit";
+import {
+  LETTERING,
+  LETTERING_MATCH_JERSEY,
+  LETTERING_MATCH_JERSEY_FRONT,
+  type Item,
+  type LetteringLayout,
+} from "./kit";
 import {
   HEROES,
   HERO_CROP,
@@ -42,6 +48,8 @@ export type CatalogProduct = {
   previewPair: PreviewPair;
   sizeChart: SizeChartKind;
   lettering?: LetteringLayout;
+  /** Front-plate number geometry when the customizer has a dedicated blank front. */
+  letteringFront?: LetteringLayout;
   thumb: string;
   previews: ProductPreviews;
   imageryPending?: boolean;
@@ -183,6 +191,7 @@ export const PRODUCTS: CatalogProduct[] = [
     nameNumber: true,
     typography: true,
     lettering: LETTERING_MATCH_JERSEY,
+    letteringFront: LETTERING_MATCH_JERSEY_FRONT,
   }),
   listing("match-short", "bayonne-match-short", "Match Short", "match", 48, { shopifyItem: "bottom" }),
   listing("match-set", "bayonne-1936-match-set", "1936 Match Set", "match", 118, { shopifyItem: "set" }),
@@ -285,6 +294,10 @@ export function previewViewsFor(product: CatalogProduct): Array<"front" | "back"
 
 export function letteringFor(product: CatalogProduct): LetteringLayout {
   return product.lettering ?? LETTERING;
+}
+
+export function letteringFrontFor(product: CatalogProduct): LetteringLayout | undefined {
+  return product.letteringFront;
 }
 
 export function fontsStylesheetHref() {

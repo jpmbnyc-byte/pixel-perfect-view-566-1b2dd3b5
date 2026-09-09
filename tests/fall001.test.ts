@@ -187,13 +187,26 @@ describe("Fall 001 assortment", () => {
   });
 
   it("uses the new Match Jersey kit and blank back for the customizer", async () => {
-    const { galleryShots } = await import("@/lib/imageRegistry");
+    const { galleryShots, matchJerseyFrontBlank } = await import("@/lib/imageRegistry");
     const jersey = productById("heritage-jersey")!;
     const shots = galleryShots("heritage-jersey");
     expect(jersey.name).toBe("1936 Match Jersey");
     expect(shots[0]?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productFront);
     expect(shots.at(-1)?.src).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
     expect(jersey.previews.secondary).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
+    expect(IMAGE_REGISTRY["heritage-jersey"].customizeFront).toBe(matchJerseyFrontBlank);
+    expect(shots.map((shot) => shot.src)).not.toContain(matchJerseyFrontBlank);
+  });
+
+  it("keeps the Match Jersey customizer on a front/back live preview", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const pdp = await readFile(resolve(process.cwd(), "src/routes/team.$slug.$product.tsx"), "utf8");
+    expect(pdp).toContain('setCustomizeView("front")');
+    expect(pdp).toContain('setCustomizeView("back")');
+    expect(pdp).toContain("customizeFront");
+    expect(pdp).toContain("Live number");
+    expect(pdp).not.toContain("Blank back");
   });
 
   it("uses the new women’s and men’s Performance studio plates", async () => {
