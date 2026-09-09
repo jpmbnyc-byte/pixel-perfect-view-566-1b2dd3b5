@@ -422,6 +422,32 @@
   }
 }
 
+@keyframes hero-campaign-drift {
+  from {
+    transform: scale(1.01);
+  }
+  to {
+    transform: scale(1.055);
+  }
+}
+
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@utility animate-hero-campaign {
+  animation: hero-campaign-drift 5.6s linear both;
+}
+
+@utility animate-hero-progress {
+  animation: hero-progress 5.6s linear both;
+}
+
 @utility animate-team-kenburns {
   /* Entrance-only kenburns once — no infinite replay */
   animation: team-kenburns calc(var(--dur-transition) * 8) var(--ease-standard) both;
