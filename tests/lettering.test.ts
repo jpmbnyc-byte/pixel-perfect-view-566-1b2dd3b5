@@ -12,7 +12,7 @@ describe("ref print area — Match Jersey", () => {
     expect(L).toEqual(LETTERING_MATCH_JERSEY);
     expect(L.centerX).toBeCloseTo(50, 1);
     expect(L.number.y).toBeGreaterThan(L.name.y + L.name.heightPct + 4);
-    expect(L.name.archDeg).toBeGreaterThan(0);
+    expect(L.name.archDeg).toBeFalsy();
     expect(L.number.heightPct).toBeGreaterThan(L.name.heightPct * 3);
   });
 
@@ -39,5 +39,8 @@ describe("ref print area — Match Jersey", () => {
     expect(canvas).toContain('view === "front"');
     expect(canvas).not.toContain('name || "CARTER"');
     expect(canvas).not.toContain("figcaption");
+    expect(canvas).not.toContain("archDeg");
+    expect(canvas).not.toContain("translateY(${-lift}");
+    expect(canvas).not.toMatch(/rotate\(\$\{rot\}deg\)/);
   });
 });

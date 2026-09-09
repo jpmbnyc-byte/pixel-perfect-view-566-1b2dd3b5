@@ -32,7 +32,7 @@ export const LETTERING: LetteringLayout = {
 /** Print overlay on the blank 1936 Match Jersey back plate. */
 export const LETTERING_MATCH_JERSEY: LetteringLayout = {
   centerX: 50,
-  name: { y: 13.8, heightPct: 6.8, maxWidthPct: 48, archDeg: 8 },
+  name: { y: 13.8, heightPct: 6.8, maxWidthPct: 48, archDeg: 0 },
   number: { y: 27.2, heightPct: 30, maxWidthPct: 40 },
   surface: "blackout",
 };

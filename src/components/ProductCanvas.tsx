@@ -126,34 +126,9 @@ function useInkBiasEm(text: string, fontFamily: string, letterSpacing: string) {
   return biasEm;
 }
 
-/** Name follows a mild bridge arch when the layout asks for it — print-accurate, not decorative. */
-function PrintName({ text, archDeg = 0 }: { text: string; archDeg?: number }) {
-  const chars = Array.from(text);
-  if (!archDeg || chars.length < 3) {
-    return <span className="inline-block whitespace-nowrap align-baseline">{text}</span>;
-  }
-  const mid = (chars.length - 1) / 2;
-  return (
-    <span className="inline-flex items-end justify-center">
-      {chars.map((ch, i) => {
-        const t = mid === 0 ? 0 : (i - mid) / mid;
-        const rot = t * archDeg;
-        const lift = (1 - t * t) * (archDeg / 36);
-        return (
-          <span
-            key={`${i}-${ch}`}
-            className="inline-block"
-            style={{
-              transform: `rotate(${rot}deg) translateY(${-lift}em)`,
-              transformOrigin: "center bottom",
-            }}
-          >
-            {ch === " " ? "\u00a0" : ch}
-          </span>
-        );
-      })}
-    </span>
-  );
+/** Name sits on one straight baseline — never per-character rotate or lift. */
+function PrintName({ text }: { text: string }) {
+  return <span className="inline-block whitespace-nowrap align-baseline">{text}</span>;
 }
 
 /**
@@ -275,7 +250,7 @@ export function ProductCanvas({
                     ...letterStyle,
                   }}
                 >
-                  <PrintName text={displayName} archDeg={lettering.name.archDeg} />
+                  <PrintName text={displayName} />
                 </p>
               ) : null}
               {showNumberLayer ? (
