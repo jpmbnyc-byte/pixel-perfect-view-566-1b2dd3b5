@@ -4,7 +4,7 @@ Storefront for the Bayonne Athletics Fall 001 collection: 1936 Match, Performanc
 
 The site is a **Represent Clo × Dior Mens** lookbook: bone ground (`#EDE9E1`), ink (`#0B0B0B`), identity garnet (`#4B0F17`), serif wordmark, wide-tracked nav, and airy two- and three-column merchandising. Kit print colors (`#5A1626` / `#F4F1F0`) stay on the manufacturing tokens and are not used as site chrome.
 
-Production is **Cloudflare Workers** (free `*.workers.dev`, then your own domain). Lovable is not the live host.
+Production is **https://noparadestore.com** on Cloudflare Workers. Lovable is not the live host.
 
 Checkout is **Stripe-hosted** (no Shopify cart, no plugins). The product page creates a Checkout Session and redirects; Stripe collects email, shipping, Apple Pay / Google Pay / card, then returns to `/order/complete`.
 
@@ -26,24 +26,39 @@ Neighborhood film: muted H.264 loop at `public/bayonne/neighborhood.mp4` (parish
 
 Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary standard over $175.
 
-## Production (Cloudflare, free)
+## Production (Cloudflare + noparadestore.com)
 
-Main deploy is Cloudflare Workers. Do not use Lovable as production.
+Live hostname is **https://noparadestore.com**. Checkout uses the request origin, so Stripe return URLs become that domain automatically once DNS is on the Worker.
+
+Lovable is not the live host. Shopify is only the old store being taken down.
+
+### 1. Deploy the Worker
 
 ```sh
 bun install
 bun run deploy
-```
-
-The first time, Wrangler will ask you to log in to Cloudflare (free account). After that you get a `*.workers.dev` URL. Point a custom domain at the Worker from the Cloudflare dashboard if you want `bayonneathletics.com` (or similar) on the same free plan.
-
-Put the Stripe key on the Worker, not in the client:
-
-```sh
 bunx wrangler secret put STRIPE_SECRET_KEY
 ```
 
-GitHub: add repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and `STRIPE_SECRET_KEY`. Pushes to `main` deploy via `.github/workflows/deploy-cloudflare.yml`.
+Wrangler logs you into Cloudflare. You get a temporary `*.workers.dev` URL for a smoke test before touching DNS.
 
-Create the API token at Cloudflare → **My Profile → API Tokens → Edit Cloudflare Workers**.
+### 2. Move DNS off Shopify onto Cloudflare
+
+Do this at the registrar that currently points `noparadestore.com` at Shopify (often GoDaddy, Namecheap, Google Domains / Squarespace, or Cloudflare already).
+
+1. In Cloudflare: **Add a site** → `noparadestore.com` (Free plan). Copy the two nameservers Cloudflare gives you (like `ada.ns.cloudflare.com`).
+2. In the registrar: replace Shopify’s nameservers (or Shopify A records) with those Cloudflare nameservers. Do not delete the domain.
+3. Wait until Cloudflare says the zone is **Active** (often minutes, sometimes a few hours).
+4. In Cloudflare: **Workers & Pages** → `bayonne-athletics-07002` → **Settings → Domains** → add `noparadestore.com` and `www.noparadestore.com`. Cloudflare will create the apex + www records and issue SSL.
+5. Optional: page rule / redirect `www` → apex (or the reverse). One canonical host is enough.
+
+`wrangler.jsonc` already lists both hostnames as custom domains. If deploy errors with “zone not found”, finish step 2 first, then `bun run deploy` again.
+
+### 3. After DNS is live
+
+- Open https://noparadestore.com — you should see this storefront, not Shopify.
+- Stripe Dashboard → add `https://noparadestore.com` as a checkout / website domain if asked.
+- Shopify Admin → **Settings → Domains** → remove `noparadestore.com` so Shopify stops claiming it. Leave the shop password-protected or close the store when you are done.
+
+GitHub auto-deploy: repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `STRIPE_SECRET_KEY`. Token: Cloudflare → **My Profile → API Tokens → Edit Cloudflare Workers**.
 

@@ -3,6 +3,7 @@
   "name": "bayonne-athletics-07002",
   "compatibility_date": "2026-09-10",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
   "main": ".output/server/index.mjs",
   "assets": {
     "directory": ".output/public",
@@ -10,5 +11,13 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "vars": {
+    "SITE_URL": "https://noparadestore.com"
+  },
+  "routes": [
+    { "pattern": "noparadestore.com", "custom_domain": true },
+    { "pattern": "www.noparadestore.com", "custom_domain": true }
+  ]
 }
+
