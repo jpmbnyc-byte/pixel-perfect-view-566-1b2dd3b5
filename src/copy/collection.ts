@@ -268,8 +268,8 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "area-code-cap": {
     tagline: "Same ground. Different people. One place.",
     line: "Wool felt · Charcoal / Garnet / Bone",
-    body: "The 201 Area Code snapback. Charcoal wool crown, garnet brim, bone varsity 2 and 1 with the New Jersey mark between them — Hudson County under the 2, Bergen County under the 1. BAYONNE ATHLETICS on the side. Built for the 201.",
-    card: "Charcoal wool. Garnet brim. 201 with the New Jersey mark. Hudson County / Bergen County.",
+    body: "The 201 Area Code snapback. Charcoal wool crown, garnet brim, bone varsity 2 and 1 with a bone outline of New Jersey between them — charcoal showing through, garnet northeast star. Hudson County under the 2, Bergen County under the 1. BAYONNE ATHLETICS on the side. Built for the 201.",
+    card: "Charcoal wool. Garnet brim. Bone 2 and 1 with a New Jersey outline. Hudson County / Bergen County.",
     cta: "Shop the 201 →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
   },

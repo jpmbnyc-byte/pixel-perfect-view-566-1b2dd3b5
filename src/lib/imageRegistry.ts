@@ -462,10 +462,11 @@ const HARBOR_SWEATPANT_GREY_GALLERY: GalleryShot[] = [
 ];
 
 const AREA_CODE_CAP_GALLERY: GalleryShot[] = [
-  { src: areaCodeCapFront, alt: "201 Area Code Cap, charcoal wool and garnet brim, front" },
+  { src: areaCodeCapFront, alt: "201 Area Code Cap, charcoal wool and garnet brim, bone New Jersey outline" },
   { src: areaCodeCapSide, alt: "201 Area Code Cap, BAYONNE ATHLETICS side mark" },
   { src: areaCodeCapBack, alt: "201 Area Code Cap, snapback closure" },
-  { src: areaCodeCapDetail, alt: "201 Area Code Cap, 201 and New Jersey embroidery" },
+  { src: areaCodeCapDetail, alt: "201 Area Code Cap, bone outline of New Jersey between the 2 and 1" },
+  { src: areaCodeHeroBridge, alt: "201 Area Code Cap, worn walking a dog on the Bayonne waterfront" },
   { src: areaCodeCapModel, alt: "201 Area Code Cap, worn" },
   { src: areaCodeCapWorn, alt: "201 Area Code Cap, crown close-up" },
   { src: areaCodeHeroChurch, alt: "201 Area Code Cap, worn at the parish" },
