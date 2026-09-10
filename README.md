@@ -4,7 +4,7 @@ Storefront for the Bayonne Athletics Fall 001 collection: 1936 Match, Performanc
 
 The site is a **Represent Clo × Dior Mens** lookbook: bone ground (`#EDE9E1`), ink (`#0B0B0B`), identity garnet (`#4B0F17`), serif wordmark, wide-tracked nav, and airy two- and three-column merchandising. Kit print colors (`#5A1626` / `#F4F1F0`) stay on the manufacturing tokens and are not used as site chrome.
 
-Production is **https://noparade-store.com** on Cloudflare Workers. Lovable is not the live host.
+Current preview is **Lovable via GitHub `main`**. Production will move to **https://noparade-store.com** on Cloudflare when you are ready to change DNS. Do not switch nameservers until that cutover.
 
 Checkout is **Stripe-hosted** (no Shopify cart, no plugins). The product page creates a Checkout Session and redirects; Stripe collects email, shipping, Apple Pay / Google Pay / card, then returns to `/order/complete`.
 
@@ -28,9 +28,9 @@ Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary
 
 ## Production (Cloudflare + noparade-store.com)
 
-Live hostname is **https://noparade-store.com**. Checkout uses the request origin, so Stripe return URLs become that domain automatically once DNS is on the Worker.
+Live hostname **after DNS cutover** is **https://noparade-store.com**. Until then, keep shipping to GitHub `main` so Lovable stays current. Checkout uses the request origin, so Stripe return URLs follow whatever host is serving the site.
 
-Lovable is not the live host. Shopify is only the old store being taken down.
+Lovable is the preview host while we build. Shopify still holds the custom domain until you move nameservers.
 
 ### 1. Deploy the Worker
 
