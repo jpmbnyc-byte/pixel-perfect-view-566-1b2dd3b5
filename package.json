@@ -16,7 +16,9 @@
     "test:matrix": "vitest run tests/matrix.test.ts",
     "test:campaign": "vitest run tests/campaign.test.ts",
     "test:sublimation": "vitest run tests/sublimation.test.ts",
-    "render:catalog": "tsx scripts/render-catalog.ts"
+    "render:catalog": "tsx scripts/render-catalog.ts",
+    "deploy": "NITRO_PRESET=cloudflare-module bun run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
