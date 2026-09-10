@@ -3,6 +3,8 @@ import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
 import { fontsStylesheetHref } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { resolveKitShopify } from "@/lib/shopify";
+import { shareHome } from "@/copy/share";
+import { shareHead } from "@/lib/shareHead";
 
 export const Route = createFileRoute("/team/$slug")({
   loader: async ({ params }) => {
@@ -16,18 +18,10 @@ export const Route = createFileRoute("/team/$slug")({
         meta: [{ title: "Team store unavailable" }, { name: "robots", content: "noindex" }],
       };
     }
-    const title = `Bayonne Athletics — Fall 001 · 07002`;
-    const description = `Match pieces. Training layers. Heavyweight travel goods. Waterfront outerwear. The cap you keep by the door.`;
+    const shared = shareHead(shareHome());
     return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-      links: [{ rel: "stylesheet", href: fontsStylesheetHref() }],
+      meta: shared.meta,
+      links: [...shared.links, { rel: "stylesheet", href: fontsStylesheetHref() }],
     };
   },
   component: TeamSlugLayout,

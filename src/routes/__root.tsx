@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { shareHead } from "../lib/shareHead";
+import { shareHome } from "../copy/share";
 
 function NotFoundComponent() {
   return (
@@ -73,41 +75,30 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Bayonne Athletics — Fall 001" },
-      {
-        name: "description",
-        content:
-          "Bayonne Athletics Fall 001. Built different. Match, performance, travel, Harbor Division and club goods.",
-      },
-      { name: "author", content: "Bayonne Athletics" },
-      { property: "og:title", content: "Bayonne Athletics — Fall 001" },
-      {
-        property: "og:description",
-        content:
-          "Bayonne Athletics Fall 001. Built different. Match, performance, travel, Harbor Division and club goods.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        /* UI chrome only — kit lettering faces are local OTFs in styles.css */
-        href: "https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Oswald:wght@500;600;700&display=swap",
-      },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-    ],
-  }),
+  head: () => {
+    const shared = shareHead(shareHome());
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "author", content: "Bayonne Athletics" },
+        { name: "theme-color", content: "#4B0F17" },
+        ...shared.meta,
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Oswald:wght@500;600;700&display=swap",
+        },
+        { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+        { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
+        { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      ],
+    };
+  },
 
   shellComponent: RootShell,
   component: RootComponent,

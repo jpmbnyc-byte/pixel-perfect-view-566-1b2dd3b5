@@ -1,7 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { CATEGORY_IDS, DEPARTMENT_TO, TeamStorePage } from "@/components/TeamStorePage";
-import { categoryById, type CategoryId } from "@/lib/catalog";
+import type { CategoryId } from "@/lib/catalog";
+import { shareDepartment } from "@/copy/share";
+import { shareHead } from "@/lib/shareHead";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
 const HASH_ALIASES: Record<string, CategoryId> = {
@@ -25,17 +27,7 @@ export const Route = createFileRoute("/team/$slug/")({
 });
 
 export function departmentHead(categoryId: CategoryId) {
-  const cat = categoryById(categoryId)!;
-  const title = `${cat.label} — Bayonne Athletics Fall 001`;
-  const description = cat.description;
-  return {
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  };
+  return shareHead(shareDepartment(categoryId));
 }
 
 export function DepartmentPage({ category }: { category: CategoryId }) {

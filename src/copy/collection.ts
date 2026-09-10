@@ -24,6 +24,10 @@ export const COLLECTION_COPY = {
   peopleTitle: "The city. The kit. The people.",
   peopleBody:
     "The tunnel. The steps. Travel weight on a couple and on solos. Harbor Division, worn. Bayonne · 07002.",
+  localLine: "Broadway · 07002",
+  localTitle: "After the whistle.",
+  localBody:
+    "Fluffies under the tracks. Hot chicken, frankie rolls, the walk home. The same block the kit is named for.",
 } as const;
 
 export type ProductCopy = {

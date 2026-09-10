@@ -29,6 +29,9 @@ import { createCheckoutSession } from "@/lib/checkout.functions";
 import { DEPARTMENT_TO } from "@/lib/departments";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { productCopyFor } from "@/copy/collection";
+import { shareProduct } from "@/copy/share";
+import { shareHead } from "@/lib/shareHead";
+import { ShareMark } from "@/components/ShareMark";
 import { Route as TeamSlugRoute } from "./team.$slug";
 
 export const Route = createFileRoute("/team/$slug/$product")({
@@ -41,16 +44,10 @@ export const Route = createFileRoute("/team/$slug/$product")({
     if (!loaderData) {
       return { meta: [{ title: "Product unavailable" }, { name: "robots", content: "noindex" }] };
     }
-    const title = `${loaderData.product.name} — Bayonne Athletics`;
-    const description = loaderData.product.blurb;
+    const shared = shareHead(shareProduct(loaderData.product), { type: "product" });
     return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-      ],
-      links: [{ rel: "stylesheet", href: fontsStylesheetHref() }],
+      meta: shared.meta,
+      links: [...shared.links, { rel: "stylesheet", href: fontsStylesheetHref() }],
     };
   },
   component: ProductListingPage,
@@ -580,6 +577,7 @@ function ProductListingHeading({ product }: { product: CatalogProduct }) {
           : `$${product.price}`}
       </p>
       <p className="place-line mt-3">{product.line}</p>
+      <ShareMark payload={shareProduct(product)} className="mt-5" />
     </>
   );
 }

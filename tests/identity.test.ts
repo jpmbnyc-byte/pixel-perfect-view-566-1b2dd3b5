@@ -35,5 +35,7 @@ describe("storefront identity", () => {
     expect(COLLECTION_COPY.peopleLine).toBe("People & places");
     expect(COLLECTION_COPY.peopleTitle).toBe("The city. The kit. The people.");
     expect(COLLECTION_COPY.filmStill).toBe("Still · 07002");
+    expect(COLLECTION_COPY.localLine).toBe("Broadway · 07002");
+    expect(COLLECTION_COPY.localTitle).toBe("After the whistle.");
   });
 });

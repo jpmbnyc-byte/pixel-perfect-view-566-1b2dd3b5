@@ -7,22 +7,21 @@ import setFront from "@/assets/bayonne/campaign/nylon-set-front.jpg";
 import setBack from "@/assets/bayonne/campaign/nylon-set-back.jpg";
 import setDetail from "@/assets/bayonne/campaign/nylon-set-detail.jpg";
 
+import { shareHead } from "@/lib/shareHead";
+
 export const Route = createFileRoute("/preorder")({
-  head: () => {
-    const title = "Avenue A Nylon Set — Bayonne Athletics";
-    const description =
-      "Premium crinkle-nylon unisex tracksuit set in Bayonne garnet and black. Limited first run of 120. Reserve your size — $60 holds it, $300 at delivery.";
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "product" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-    };
-  },
+  head: () =>
+    shareHead(
+      {
+        title: "Avenue A Nylon Set — Bayonne Athletics",
+        description:
+          "Premium crinkle-nylon unisex tracksuit set in Bayonne garnet and black. Limited first run of 120. Reserve your size — $60 holds it, $300 at delivery.",
+        caption:
+          "Built different.\nAvenue A Nylon Set — Bayonne Athletics\nTrain · Compete · Represent",
+        path: "/preorder",
+      },
+      { type: "product" },
+    ),
   component: PreorderPage,
 });
 

@@ -5,14 +5,18 @@ import { StoreFooter } from "@/components/brand/StoreFooter";
 import { StoreNav } from "@/components/brand/StoreNav";
 import { LandingHero } from "@/components/LandingHero";
 import { HeroSlideshow } from "@/components/HeroSlideshow";
+import { LocalGround } from "@/components/LocalGround";
 import { PeoplePlaces } from "@/components/PeoplePlaces";
+import { ShareMark } from "@/components/ShareMark";
 import { ProductLookbookGrid } from "@/components/ProductLookbookCard";
 import { StoreCloseCountdown } from "@/components/StoreCloseCountdown";
 import { SURFACES } from "@/lib/brandAssets";
 import { CATEGORIES, LOOKBOOK_TEASER_IDS, PRODUCTS, productById } from "@/lib/catalog";
 import { BAYONNE_BEES_KIT } from "@/lib/kits/bayonne-bees";
 import { DEPARTMENT_TO } from "@/lib/departments";
-import { COLLECTION_COPY, DEPARTMENT_COPY } from "@/copy/collection";
+import { DEPARTMENT_COPY } from "@/copy/collection";
+import { shareHome } from "@/copy/share";
+import { shareHead } from "@/lib/shareHead";
 import { HERO_CROP } from "@/lib/imageRegistry";
 import { HERO_SLIDES } from "@/lib/heroSlideshow";
 
@@ -24,22 +28,7 @@ const harbor = productById("harbor-coach")!;
 const performanceSet = productById("performance-set")!;
 
 export const Route = createFileRoute("/team/")({
-  head: () => {
-    const title = "Bayonne Athletics — Fall 001 · 07002";
-    const description = `${COLLECTION_COPY.lockup} ${COLLECTION_COPY.title} Match Jersey from $${jersey.price}.`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { property: "og:image", content: SURFACES.ogImage },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:image", content: SURFACES.ogImage },
-      ],
-    };
-  },
+  head: () => shareHead(shareHome()),
   component: TeamLanding,
 });
 
@@ -53,6 +42,7 @@ function TeamLanding() {
         <LandingHero />
         <HeroSlideshow slides={HERO_SLIDES} slug={kit.slug} />
         <PeoplePlaces />
+        <LocalGround />
         <section className="studio-field">
           <div className="mx-auto grid w-full max-w-[1280px] items-center gap-10 px-6 py-16 sm:px-10 sm:py-24 lg:grid-cols-2">
             <Link
@@ -177,6 +167,7 @@ function TeamLanding() {
             </div>
             <div className="flex flex-col items-start gap-8 lg:items-end">
               <Numeric201 className="text-7xl text-ink sm:text-8xl" />
+              <ShareMark payload={shareHome()} />
               <Link
                 to="/team/$slug/$product"
                 params={{ slug: kit.slug, product: cap.id }}

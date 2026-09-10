@@ -16,6 +16,8 @@ import {
 import { DEPARTMENT_TO } from "@/lib/departments";
 import { DEPARTMENT_COPY } from "@/copy/collection";
 import { slidesForCategory } from "@/lib/heroSlideshow";
+import { shareDepartment } from "@/copy/share";
+import { ShareMark } from "@/components/ShareMark";
 import { countdownParts, type KitConfig } from "@/lib/kit";
 import type { ShopifySyncStatus } from "@/lib/shopify";
 
@@ -80,6 +82,7 @@ export function TeamStorePage({ category, kit }: Props) {
             <MotionMark className="mt-6 text-bone" />
             <p className="mt-6 max-w-md text-sm leading-relaxed text-bone/75">{copy.body}</p>
             <div className="mt-8 flex flex-wrap items-center gap-6">
+              <ShareMark payload={shareDepartment(category)} tone="bone" />
               {featured ? (
                 <Link
                   to="/team/$slug/$product"

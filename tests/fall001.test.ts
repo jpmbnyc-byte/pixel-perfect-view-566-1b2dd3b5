@@ -315,6 +315,7 @@ describe("Fall 001 assortment", () => {
     expect(rail).toContain("setInterval");
     expect(landing).toContain("<HeroSlideshow");
     expect(landing).toContain("<PeoplePlaces");
+    expect(landing).toContain("<LocalGround");
     expect(department).toContain("slidesForCategory(category)");
     expect(IMAGE_REGISTRY["harbor-coach"].modelFront).not.toBe(IMAGE_REGISTRY["harbor-coach"].productFront);
   });

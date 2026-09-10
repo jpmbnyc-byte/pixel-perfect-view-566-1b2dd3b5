@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 
-import { MotionMark, Numeric201, Wordmark } from "@/components/brand/BrandMarks";
+import { MotionMark, Numeric201, Wordmark, Monogram } from "@/components/brand/BrandMarks";
 import {
   Sheet,
   SheetClose,
@@ -86,10 +86,11 @@ export function StoreNav({ className, inverted = false }: Props) {
 
         <Link
           to="/team"
-          className="justify-self-center focus-ring"
+          className="flex items-center gap-2 justify-self-center focus-ring sm:gap-3"
           aria-label="Bayonne Athletics home"
         >
-          <Wordmark variant="compact" />
+          <Monogram className="h-8 w-9 text-garnet sm:h-9 sm:w-10" />
+          <Wordmark variant="compact" className="hidden sm:inline-flex" />
         </Link>
 
         <div className="flex items-center justify-end gap-5">
