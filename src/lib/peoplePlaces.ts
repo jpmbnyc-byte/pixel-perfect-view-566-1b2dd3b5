@@ -11,7 +11,7 @@ import travelCouple from "@/assets/bayonne/fall001/travel-couple.png";
 import travelMenFront from "@/assets/bayonne/fall001/travel-men-front.png";
 import travelWomenSeated from "@/assets/bayonne/fall001/lookbook-travel-women-seated.jpg";
 import harborCoachWorn from "@/assets/bayonne/fall001/harbor-coach-worn.png";
-import twoToneCap from "@/assets/bayonne/fall001/lookbook-two-tone-cap.jpg";
+import twoToneCap from "@/assets/bayonne/fall001/two-tone-cap-model-front.png";
 
 export type PlacePlate = {
   id: string;
@@ -84,7 +84,7 @@ export const PEOPLE_PLACES: PlacePlate[] = [
     productId: "two-tone-cap",
     place: "Club cap",
     caption: "Bone crown. Black bill. Garnet B.",
-    alt: "Two-Tone Club Cap, worn against a neighborhood wall",
+    alt: "Two-Tone Club Cap, worn, bone crown and black bill",
     span: "standard",
   },
 ];

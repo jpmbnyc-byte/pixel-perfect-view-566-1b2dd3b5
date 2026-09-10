@@ -176,6 +176,28 @@ describe("Fall 001 assortment", () => {
     expect(productById("gothic-b-beanie-brown")?.line).toMatch(/Brown \/ Garnet/);
   });
 
+  it("gives the Two-Tone Club Cap its own front, worn, and back plates", async () => {
+    const { galleryShots } = await import("@/lib/imageRegistry");
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const shots = galleryShots("two-tone-cap");
+    const cap = IMAGE_REGISTRY["two-tone-cap"];
+    const registry = await readFile(resolve(process.cwd(), "src/lib/imageRegistry.ts"), "utf8");
+    expect(cap.pending).not.toBe(true);
+    expect(shots).toHaveLength(3);
+    expect(shots[0]?.src).toBe(cap.productFront);
+    expect(shots[1]?.src).toBe(cap.modelFront);
+    expect(shots[2]?.src).toBe(cap.productBack);
+    expect(new Set(shots.map((s) => s.src)).size).toBe(3);
+    expect(shots[0]?.alt).toMatch(/Gothic B/i);
+    expect(registry).toContain("two-tone-cap-product-front.png");
+    expect(registry).toContain("two-tone-cap-product-back.png");
+    expect(registry).toContain("two-tone-cap-model-front.png");
+    expect(registry).not.toContain("club-goods-hero");
+    expect(productById("two-tone-cap")?.imageryPending).not.toBe(true);
+    expect(productById("two-tone-cap")?.line).toMatch(/Bone \/ Black/);
+  });
+
   it("does not import expired mascot, boxing-kit, or corrupt plates", async () => {
     const { readFile } = await import("node:fs/promises");
     const { resolve } = await import("node:path");

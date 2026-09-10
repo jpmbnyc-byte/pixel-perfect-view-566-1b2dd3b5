@@ -8,7 +8,7 @@ import type { CategoryId } from "@/lib/catalog";
 
 import lookbookMaxHeavyClose from "@/assets/bayonne/fall001/lookbook-max-heavy-close.jpg";
 import lookbookTravelWomenSeated from "@/assets/bayonne/fall001/lookbook-travel-women-seated.jpg";
-import lookbookTwoToneCap from "@/assets/bayonne/fall001/lookbook-two-tone-cap.jpg";
+import lookbookTwoToneCap from "@/assets/bayonne/fall001/two-tone-cap-model-front.png";
 import lookbookFieldCargoProfile from "@/assets/bayonne/fall001/lookbook-field-cargo-profile.jpg";
 import lookbookFieldCargoBack from "@/assets/bayonne/fall001/lookbook-field-cargo-back.jpg";
 import lookbookHarborCoachWorn from "@/assets/bayonne/fall001/lookbook-harbor-coach-worn.jpg";
@@ -42,7 +42,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     src: lookbookTwoToneCap,
     productId: "two-tone-cap",
     category: "club",
-    alt: "Two-Tone Club Cap with collegiate tee, worn",
+    alt: "Two-Tone Club Cap, bone crown, black bill, garnet Gothic B, worn",
   },
   {
     id: "field-cargo-profile",

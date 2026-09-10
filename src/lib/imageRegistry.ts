@@ -58,7 +58,9 @@ import harborSweatpantGreyMark from "@/assets/bayonne/fall001/harbor-sweatpant-g
 import harborSweatpantGreyWaist from "@/assets/bayonne/fall001/harbor-sweatpant-grey-waist.png";
 import harborSweatpantGreyModel from "@/assets/bayonne/fall001/harbor-sweatpant-grey-model.png";
 
-import clubGoodsHero from "@/assets/bayonne/fall001/club-goods-hero.png";
+import twoToneCapFront from "@/assets/bayonne/fall001/two-tone-cap-product-front.png";
+import twoToneCapBack from "@/assets/bayonne/fall001/two-tone-cap-product-back.png";
+import twoToneCapModel from "@/assets/bayonne/fall001/two-tone-cap-model-front.png";
 import areaCodeCapFront from "@/assets/bayonne/fall001/area-code-cap-product-front.png";
 import areaCodeCapSide from "@/assets/bayonne/fall001/area-code-cap-product-side.png";
 import areaCodeCapBack from "@/assets/bayonne/fall001/area-code-cap-product-back.png";
@@ -256,10 +258,10 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     modelSecondary: harborSweatpantGreyMark,
   },
   "two-tone-cap": {
-    productFront: clubGoodsHero,
-    productBack: clubGoodsHero,
-    modelFront: clubGoodsHero,
-    modelSecondary: clubGoodsHero,
+    productFront: twoToneCapFront,
+    productBack: twoToneCapBack,
+    modelFront: twoToneCapModel,
+    modelSecondary: twoToneCapFront,
   },
   "area-code-cap": {
     productFront: areaCodeCapFront,
@@ -473,8 +475,15 @@ const AREA_CODE_CAP_GALLERY: GalleryShot[] = [
   { src: areaCodeHeroHat, alt: "201 Area Code Cap, crown in the 201" },
 ];
 
+const TWO_TONE_CAP_GALLERY: GalleryShot[] = [
+  { src: twoToneCapFront, alt: "Two-Tone Club Cap, bone crown, black bill, garnet Gothic B" },
+  { src: twoToneCapModel, alt: "Two-Tone Club Cap, worn" },
+  { src: twoToneCapBack, alt: "Two-Tone Club Cap, self-fabric strap and metal buckle" },
+];
+
 /** Ordered storefront gallery. Never the customizer overlay bases except the dedicated blank back. */
 export function galleryShots(id: CanonicalProductId): GalleryShot[] {
+  if (id === "two-tone-cap") return TWO_TONE_CAP_GALLERY;
   if (id === "area-code-cap") return AREA_CODE_CAP_GALLERY;
   if (id === "heritage-jersey") return MATCH_JERSEY_GALLERY;
   if (id === "performance-set") return PERFORMANCE_SET_GALLERY;

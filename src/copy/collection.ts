@@ -264,7 +264,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "two-tone-cap": {
     tagline: "Keep the mark close.",
     line: "Cotton twill · Bone / Black",
-    body: "Bone crown. Black bill. Garnet Gothic B. Garment-washed cotton twill in a low, unstructured profile with an adjustable self-fabric strap and brass buckle.",
+    body: "Bone crown. Black bill. Garnet Gothic B. Garment-washed cotton twill in a low, unstructured profile with an adjustable self-fabric strap and metal buckle.",
     card: "Bone-and-black cotton-twill club cap with garnet Gothic B.",
     cta: "View club good →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",

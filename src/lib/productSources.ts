@@ -50,7 +50,7 @@ export const PRODUCT_SOURCES: Record<string, ProductSource> = {
       "100% cotton twill",
       "Garment-washed pigment-dyed finish",
       "Unstructured low profile",
-      "Self-fabric slide closure with brass buckle and grommet",
+      "Self-fabric slide closure with metal buckle and grommet",
       "One size",
     ],
   },
