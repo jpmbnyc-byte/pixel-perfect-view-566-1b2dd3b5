@@ -49,6 +49,9 @@ describe("local ground + monogram", () => {
     const root = await readFile(resolve(process.cwd(), "src/routes/__root.tsx"), "utf8");
     const favicon = await readFile(resolve(process.cwd(), "public/favicon.svg"), "utf8");
     expect(ground).toContain("fluffies-broadway");
+    expect(ground).toContain("fluffies-reverse");
+    expect(ground).toContain("grayscale");
+    expect(ground).toContain("animate-local-defocus");
     expect(ground).toContain("Monogram");
     expect(ground).toContain("text-garnet");
     expect(ground).toContain("ShareMark");

@@ -27,7 +27,7 @@ export const COLLECTION_COPY = {
   localLine: "Broadway · 07002",
   localTitle: "After the whistle.",
   localBody:
-    "Fluffies under the tracks. Hot chicken, frankie rolls, the walk home. The same block the kit is named for.",
+    "The 201 to the back. Walking in. The shop goes soft. Broadway after dark.",
 } as const;
 
 export type ProductCopy = {

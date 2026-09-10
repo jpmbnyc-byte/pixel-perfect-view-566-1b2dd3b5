@@ -248,8 +248,32 @@
   animation: team-rise var(--dur-transition) var(--ease-entrance) both;
 }
 
-@utility animate-team-logo-in {
-  animation: team-logo-in var(--dur-transition) var(--ease-entrance) both;
+@keyframes local-defocus {
+  from {
+    filter: grayscale(1) blur(0);
+    opacity: 0.7;
+  }
+  to {
+    filter: grayscale(1) blur(28px);
+    opacity: 0.22;
+  }
+}
+
+@keyframes local-hat-hold {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1.02);
+  }
+}
+
+@utility animate-local-defocus {
+  animation: local-defocus 2.8s var(--ease-entrance, ease) forwards;
+}
+
+@utility animate-local-hat-hold {
+  animation: local-hat-hold 18s linear alternate infinite;
 }
 
 /* —— Liquid harbor field (Bayonne peninsula water) —— */

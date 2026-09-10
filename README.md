@@ -20,9 +20,9 @@ bun run dev
 
 Test card: `4242 4242 4242 4242`, any future expiry, any CVC.
 
-Canonical imagery lives in `src/assets/bayonne/fall001/`. Neighborhood plates (Fluffies on Broadway) live in `src/assets/bayonne/places/`. The live catalog is `src/lib/catalog.ts`. Apparel sizing is S–2XL. Footwear shows **only in-stock sizes** (men’s US, women’s = +1.5) — never a full empty run. The **201 Area Code Cap** is the current landing drop: charcoal wool, garnet brim, bone 201 with a New Jersey outline (not a filled white state).
+Canonical imagery lives in `src/assets/bayonne/fall001/`. Neighborhood plates live in `src/assets/bayonne/places/`. The live catalog is `src/lib/catalog.ts`. Apparel sizing is S–2XL. Footwear shows **only in-stock sizes** (men’s US, women’s = +1.5) — never a full empty run. The **201 Area Code Cap** is the current landing drop: charcoal wool, garnet brim, bone 201 with a New Jersey outline (not a filled white state).
 
-The garnet **BA** monogram is the mark in the nav, on the Broadway night band, and in `public/favicon.svg`. Sharing uses **Pass it on** (`src/copy/share.ts`): native share sheet on phones, copy-with-caption on desktop. Link previews all use `public/og.jpg` — Fluffies with the BA stamp and “Built different.”
+The Broadway band racks the shop sign out of focus onto a black-and-white reverse of the 201 worn backwards, walking in. The garnet **BA** monogram is the mark in the nav, on that band, and in `public/favicon.svg`. Sharing uses **Pass it on** (`src/copy/share.ts`): native share sheet on phones, copy-with-caption on desktop. Link previews all use `public/og.jpg` — Fluffies with the BA stamp and “Built different.”
 
 Neighborhood film: muted H.264 loop at `public/bayonne/neighborhood.mp4` (parish → Bayonne Bridge → portrait → crown). The landing hero autoplays it, with Shop Now / Watch Now over the frame. Paused when `prefers-reduced-motion`.
 

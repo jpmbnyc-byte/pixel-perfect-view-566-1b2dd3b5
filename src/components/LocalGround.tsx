@@ -3,6 +3,7 @@ import { ShareMark } from "@/components/ShareMark";
 import { COLLECTION_COPY } from "@/copy/collection";
 import { shareHome } from "@/copy/share";
 import fluffiesBroadway from "@/assets/bayonne/places/fluffies-broadway.jpg";
+import fluffiesReverse from "@/assets/bayonne/places/fluffies-reverse.jpg";
 
 export function LocalGround() {
   return (
@@ -16,9 +17,16 @@ export function LocalGround() {
           alt=""
           width={1600}
           height={1200}
-          className="h-full w-full object-cover object-[18%_center]"
+          className="absolute inset-0 h-full w-full object-cover object-[18%_center] grayscale animate-local-defocus motion-reduce:hidden"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/25" />
+        <img
+          src={fluffiesReverse}
+          alt=""
+          width={1920}
+          height={1080}
+          className="absolute inset-0 h-full w-full object-cover object-[center_32%] grayscale animate-local-hat-hold motion-reduce:animate-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/20" />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-[78dvh] w-full max-w-[1280px] flex-col justify-between px-6 py-12 sm:px-10 sm:py-16">
