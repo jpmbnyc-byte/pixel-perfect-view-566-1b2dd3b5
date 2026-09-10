@@ -319,24 +319,23 @@ describe("Fall 001 assortment", () => {
     expect(IMAGE_REGISTRY["harbor-coach"].modelFront).not.toBe(IMAGE_REGISTRY["harbor-coach"].productFront);
   });
 
-  it("wires a neighborhood film hero with an honest still until an mp4 is dropped in", async () => {
+  it("opens the campaign slider on a looping 201 film with Shop Now and Watch Now", async () => {
     const { NEIGHBORHOOD_FILM_SRC, isNeighborhoodFilmResponse } = await import("@/lib/neighborhoodFilm");
     const { readFile } = await import("node:fs/promises");
     const { resolve } = await import("node:path");
-    const film = await readFile(resolve(process.cwd(), "src/components/NeighborhoodFilm.tsx"), "utf8");
     const hero = await readFile(resolve(process.cwd(), "src/components/LandingHero.tsx"), "utf8");
     const readme = await readFile(resolve(process.cwd(), "README.md"), "utf8");
     expect(NEIGHBORHOOD_FILM_SRC).toBe("/bayonne/neighborhood.mp4");
-    expect(hero).toContain("NeighborhoodFilm");
-    expect(film).toContain("muted");
-    expect(film).toContain("playsInline");
-    expect(film).toContain("loop");
-    expect(film).toContain("autoPlay");
-    expect(film).toContain("prefers-reduced-motion");
-    expect(film).toContain("COLLECTION_COPY.filmPause");
-    expect(film).toContain("COLLECTION_COPY.filmPlay");
-    expect(film).toContain("COLLECTION_COPY.filmStill");
-    expect(film).not.toContain("etnies.com");
+    expect(hero).toContain("NEIGHBORHOOD_FILM_SRC");
+    expect(hero).toContain("muted");
+    expect(hero).toContain("playsInline");
+    expect(hero).toContain("loop");
+    expect(hero).toContain("autoPlay");
+    expect(hero).toContain("prefers-reduced-motion");
+    expect(hero).toContain("Shop Now");
+    expect(hero).toContain("Watch Now");
+    expect(hero).toContain("area-code-cap");
+    expect(hero).not.toContain("etnies.com");
     expect(readme).toContain("public/bayonne/neighborhood.mp4");
     expect(
       isNeighborhoodFilmResponse({
