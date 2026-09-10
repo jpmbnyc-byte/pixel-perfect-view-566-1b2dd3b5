@@ -7,6 +7,10 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Pin Nitro to Vercel for Git/CI builds. Lovable's own sandbox still forces
+  // cloudflare-module; do not add a second nitro() plugin (the wrapper already
+  // registers one).
+  nitro: { preset: "vercel" },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this

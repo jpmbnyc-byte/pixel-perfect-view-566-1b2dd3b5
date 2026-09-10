@@ -18,6 +18,18 @@ bun run dev
 
 `STRIPE_SECRET_KEY` must be a restricted or secret key (`rk_`, `rkcs_`, or `sk_test_`). Never prefix it with `VITE_`. Without a key, checkout still redirects to a local confirmation so the UI can be reviewed.
 
+### Vercel
+
+GitHub `main` is the production branch. Vercel should build from that Git connection (`bun install` + TanStack Start / Nitro). In the project: **Settings → Environment Variables**, add:
+
+| Name | Notes |
+| --- | --- |
+| `STRIPE_SECRET_KEY` | Restricted or secret key (`rk_` / `rkcs_` / `sk_live_` / `sk_test_`). **Do not** name it `VITE_STRIPE_SECRET_KEY`. Production, Preview, and Development as needed. |
+
+Redeploy after adding the key. If it is missing, checkout still completes on a confirmation page so the storefront can be reviewed.
+
+Confirm the framework preset is **TanStack Start**. The repo has `bun.lock`, so the installer should stay Bun (also set as `installCommand` in `vercel.json`). Node 22+ is sufficient; Vercel’s current default (22 or 24) is fine.
+
 Test card: `4242 4242 4242 4242`, any future expiry, any CVC.
 
 Canonical imagery lives in `src/assets/bayonne/fall001/`. The live catalog is `src/lib/catalog.ts`. Apparel sizing is S–2XL. Footwear shows **only in-stock sizes** (men’s US, women’s = +1.5) — never a full empty run. The **201 Area Code Cap** is the current landing drop: charcoal wool, garnet brim, bone 201 with the New Jersey mark.
