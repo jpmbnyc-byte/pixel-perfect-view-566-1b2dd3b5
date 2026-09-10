@@ -4,7 +4,7 @@ Storefront for the Bayonne Athletics Fall 001 collection: 1936 Match, Performanc
 
 The site is a **Represent Clo × Dior Mens** lookbook: bone ground (`#EDE9E1`), ink (`#0B0B0B`), identity garnet (`#4B0F17`), serif wordmark, wide-tracked nav, and airy two- and three-column merchandising. Kit print colors (`#5A1626` / `#F4F1F0`) stay on the manufacturing tokens and are not used as site chrome.
 
-Production is **https://noparadestore.com** on Cloudflare Workers. Lovable is not the live host.
+Production is **https://noparade-store.com** on Cloudflare Workers. Lovable is not the live host.
 
 Checkout is **Stripe-hosted** (no Shopify cart, no plugins). The product page creates a Checkout Session and redirects; Stripe collects email, shipping, Apple Pay / Google Pay / card, then returns to `/order/complete`.
 
@@ -26,9 +26,9 @@ Neighborhood film: muted H.264 loop at `public/bayonne/neighborhood.mp4` (parish
 
 Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary standard over $175.
 
-## Production (Cloudflare + noparadestore.com)
+## Production (Cloudflare + noparade-store.com)
 
-Live hostname is **https://noparadestore.com**. Checkout uses the request origin, so Stripe return URLs become that domain automatically once DNS is on the Worker.
+Live hostname is **https://noparade-store.com**. Checkout uses the request origin, so Stripe return URLs become that domain automatically once DNS is on the Worker.
 
 Lovable is not the live host. Shopify is only the old store being taken down.
 
@@ -44,21 +44,21 @@ Wrangler logs you into Cloudflare. You get a temporary `*.workers.dev` URL for a
 
 ### 2. Move DNS off Shopify onto Cloudflare
 
-Do this at the registrar that currently points `noparadestore.com` at Shopify (often GoDaddy, Namecheap, Google Domains / Squarespace, or Cloudflare already).
+Do this at the registrar that currently points `noparade-store.com` at Shopify (often GoDaddy, Namecheap, Google Domains / Squarespace, or Cloudflare already).
 
-1. In Cloudflare: **Add a site** → `noparadestore.com` (Free plan). Copy the two nameservers Cloudflare gives you (like `ada.ns.cloudflare.com`).
+1. In Cloudflare: **Add a site** → `noparade-store.com` (Free plan). Copy the two nameservers Cloudflare gives you (like `ada.ns.cloudflare.com`).
 2. In the registrar: replace Shopify’s nameservers (or Shopify A records) with those Cloudflare nameservers. Do not delete the domain.
 3. Wait until Cloudflare says the zone is **Active** (often minutes, sometimes a few hours).
-4. In Cloudflare: **Workers & Pages** → `bayonne-athletics-07002` → **Settings → Domains** → add `noparadestore.com` and `www.noparadestore.com`. Cloudflare will create the apex + www records and issue SSL.
+4. In Cloudflare: **Workers & Pages** → `bayonne-athletics-07002` → **Settings → Domains** → add `noparade-store.com` and `www.noparade-store.com`. Cloudflare will create the apex + www records and issue SSL.
 5. Optional: page rule / redirect `www` → apex (or the reverse). One canonical host is enough.
 
 `wrangler.jsonc` already lists both hostnames as custom domains. If deploy errors with “zone not found”, finish step 2 first, then `bun run deploy` again.
 
 ### 3. After DNS is live
 
-- Open https://noparadestore.com — you should see this storefront, not Shopify.
-- Stripe Dashboard → add `https://noparadestore.com` as a checkout / website domain if asked.
-- Shopify Admin → **Settings → Domains** → remove `noparadestore.com` so Shopify stops claiming it. Leave the shop password-protected or close the store when you are done.
+- Open https://noparade-store.com — you should see this storefront, not Shopify.
+- Stripe Dashboard → add `https://noparade-store.com` as a checkout / website domain if asked.
+- Shopify Admin → **Settings → Domains** → remove `noparade-store.com` so Shopify stops claiming it. Leave the shop password-protected or close the store when you are done.
 
 GitHub auto-deploy: repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `STRIPE_SECRET_KEY`. Token: Cloudflare → **My Profile → API Tokens → Edit Cloudflare Workers**.
 

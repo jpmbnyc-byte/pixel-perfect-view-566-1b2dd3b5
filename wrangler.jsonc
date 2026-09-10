@@ -13,11 +13,11 @@
     "enabled": true
   },
   "vars": {
-    "SITE_URL": "https://noparadestore.com"
+    "SITE_URL": "https://noparade-store.com"
   },
   "routes": [
-    { "pattern": "noparadestore.com", "custom_domain": true },
-    { "pattern": "www.noparadestore.com", "custom_domain": true }
+    { "pattern": "noparade-store.com", "custom_domain": true },
+    { "pattern": "www.noparade-store.com", "custom_domain": true }
   ]
 }
 

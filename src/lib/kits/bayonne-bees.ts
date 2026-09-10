@@ -34,7 +34,7 @@ export const BAYONNE_BEES_KIT: KitConfig = {
   pricing: { top: 78, bottom: 48, set: 118, currency: "USD" },
   mode: "both",
   shopify: {
-    domain: "https://noparadestore.com",
+    domain: "https://noparade-store.com",
     productHandles: {
       top: "bayonne-1936-heritage-jersey",
       bottom: "bayonne-match-short",
