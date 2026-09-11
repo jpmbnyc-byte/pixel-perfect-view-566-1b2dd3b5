@@ -24,7 +24,6 @@ import matchJerseyChest from "@/assets/bayonne/fall001/match-jersey-chest.png";
 import matchJerseyStudioBall from "@/assets/bayonne/fall001/match-jersey-studio-ball.png";
 import matchJerseyStudioBack from "@/assets/bayonne/fall001/match-jersey-studio-back.png";
 
-import matchShortFront from "@/assets/bayonne/fall001/match-short-front.jpg";
 import matchShortThreeQuarter from "@/assets/bayonne/fall001/match-short-three-quarter.png";
 import matchShortBack from "@/assets/bayonne/fall001/match-short-back.png";
 
@@ -206,14 +205,14 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     customizeFront: matchJerseyFrontMarks,
   },
   "match-short": {
-    productFront: matchShortFront,
+    productFront: matchShortThreeQuarter,
     productBack: matchShortBack,
-    modelFront: matchShortThreeQuarter,
-    modelSecondary: matchShortBack,
+    modelFront: matchJerseyStudioFront,
+    modelSecondary: matchJerseyKitFront,
   },
   "match-set": {
     productFront: matchJerseyKitFront,
-    productBack: matchShortFront,
+    productBack: matchShortThreeQuarter,
     modelFront: matchJerseyKitFront,
     modelSecondary: matchJerseyStudioBall,
   },
@@ -396,6 +395,13 @@ export const HERO_CROP: Record<
 };
 
 export type GalleryShot = { src: string; alt: string; fit?: "contain" | "cover" };
+
+const MATCH_SHORT_GALLERY: GalleryShot[] = [
+  { src: matchShortThreeQuarter, alt: "Match Short, black with garnet Gothic B and BAYONNE ATHLETICS 07002" },
+  { src: matchShortBack, alt: "Match Short, product back" },
+  { src: matchJerseyKitFront, alt: "Match Short with 1936 Match Jersey" },
+  { src: matchJerseyStudioFront, alt: "Match Short, worn with 1936 Match Jersey" },
+];
 
 const MATCH_JERSEY_GALLERY: GalleryShot[] = [
   { src: matchJerseyKitFront, alt: "1936 Match Jersey and Match Short, front" },
@@ -592,6 +598,7 @@ export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "two-tone-cap") return TWO_TONE_CAP_GALLERY;
   if (id === "area-code-cap") return AREA_CODE_CAP_GALLERY;
   if (id === "heritage-jersey") return MATCH_JERSEY_GALLERY;
+  if (id === "match-short") return MATCH_SHORT_GALLERY;
   if (id === "performance-set") return PERFORMANCE_SET_GALLERY;
   if (id === "performance-ls") return PERFORMANCE_LS_GALLERY;
   if (id === "performance-short") return PERFORMANCE_SHORT_GALLERY;

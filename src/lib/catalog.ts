@@ -199,7 +199,14 @@ export const PRODUCTS: CatalogProduct[] = [
     lettering: LETTERING_MATCH_JERSEY,
     letteringFront: LETTERING_MATCH_JERSEY_FRONT,
   }),
-  listing("match-short", "bayonne-match-short", "Match Short", "match", 48, { shopifyItem: "bottom" }),
+  listing("match-short", "bayonne-match-short", "Match Short", "match", 48, {
+    shopifyItem: "bottom",
+    thumb: imagesFor("match-short").productFront!,
+    previews: {
+      front: imagesFor("match-short").productFront!,
+      secondary: imagesFor("match-short").productBack!,
+    },
+  }),
   listing("match-set", "bayonne-1936-match-set", "1936 Match Set", "match", 118, { shopifyItem: "set" }),
   listing("broadway-21-jersey", "bayonne-broadway-21-club-jersey", "Broadway 21 Club Jersey", "match", 78),
   listing("broadway-club-short", "bayonne-broadway-club-short", "Broadway Club Short", "match", 48),

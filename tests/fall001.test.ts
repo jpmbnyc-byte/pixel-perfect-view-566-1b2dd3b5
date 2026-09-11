@@ -231,6 +231,7 @@ describe("Fall 001 assortment", () => {
     expect(src).not.toContain("performance-ls-model.jpg");
     expect(src).not.toContain("performance-short-front.jpg");
     expect(src).not.toContain("boxing-bee");
+    expect(src).not.toContain("match-short-front.jpg");
   });
 
   it("uses the new Match Jersey kit and blank back for the customizer", async () => {
@@ -243,6 +244,22 @@ describe("Fall 001 assortment", () => {
     expect(jersey.previews.secondary).toBe(IMAGE_REGISTRY["heritage-jersey"].productBack);
     expect(IMAGE_REGISTRY["heritage-jersey"].customizeFront).toBe(matchJerseyFrontMarks);
     expect(shots.map((shot) => shot.src)).not.toContain(matchJerseyFrontMarks);
+  });
+
+  it("sells the black Match Short, not the boxing-bee short", async () => {
+    const { galleryShots } = await import("@/lib/imageRegistry");
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const plate = IMAGE_REGISTRY["match-short"];
+    const listing = productById("match-short")!;
+    const shots = galleryShots("match-short");
+    const registry = await readFile(resolve(process.cwd(), "src/lib/imageRegistry.ts"), "utf8");
+    expect(listing.thumb).toBe(plate.productFront);
+    expect(listing.previews.secondary).toBe(plate.productBack);
+    expect(shots[0]?.src).toBe(plate.productFront);
+    expect(shots[0]?.alt).toMatch(/Gothic B/i);
+    expect(registry).not.toContain("match-short-front.jpg");
+    expect(IMAGE_REGISTRY["match-set"].productBack).toBe(plate.productFront);
   });
 
   it("keeps the Match Jersey customizer on a front/back live preview", async () => {

@@ -52,6 +52,7 @@ Do not use as live Fall 001 plates:
 
 - `match-hero-stadium.png` — stadium tunnel with the retired Bees mascot
 - `match-set-front.png` — boxing-bee / #21 soccer-kit mockup, not the black/garnet Heritage Jersey
+- `match-short-front-boxing-bee.jpg` — garnet boxing-bee short with bone side tape; not a Fall 001 SKU
 - `local-issue-tee-back.webp` — corrupt ~10KB file, not Men’s Raglan photography
 - `performance-hero.jpg`, `performance-ls-front.jpg`, `performance-ls-back.jpg`, `performance-ls-model.jpg`, `performance-short-front.jpg` — retired Performance plates, replaced by the women’s and men’s studio set
 
