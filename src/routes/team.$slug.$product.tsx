@@ -19,10 +19,11 @@ import {
   letteringFor,
   letteringFrontFor,
   productById,
+  sizeRunFor,
   type CatalogProduct,
   type FontId,
 } from "@/lib/catalog";
-import { SIZES, SIZE_CHART, sanitizeName, sanitizeNumber } from "@/lib/kit";
+import { sanitizeName, sanitizeNumber } from "@/lib/kit";
 import { printScaleForSize } from "@/lib/printScale";
 import { SOCK_SIZES, storeIsOpen } from "@/lib/checkout";
 import { formatShoeOption, shoeRunsFor } from "@/lib/footwear";
@@ -80,6 +81,7 @@ function ProductListingPage() {
   const customizePlates = imagesFor(product.id);
   const nameMax = kit.rules.nameMaxChars;
   const open = storeIsOpen();
+  const sizeRun = sizeRunFor(product);
 
   const hasPersonalization = Boolean(name || number);
   const numberValue = Number(number);
@@ -257,7 +259,9 @@ function ProductListingPage() {
             </div>
             <MotionMark className="mt-4 block text-garnet lg:mt-6" />
             {product.sizeChart === "apparel" && (
-              <p className="place-line mt-6">Sizes S · M · L · XL · 2XL</p>
+              <p className="place-line mt-6">
+                {sizeRun.label} · Sizes {sizeRun.sizes.join(" · ")}
+              </p>
             )}
             <Accordion type="single" collapsible className="mt-8 w-full">
             <AccordionItem value="description" className="border-border">
@@ -392,8 +396,10 @@ function ProductListingPage() {
           <h2 className="type-editorial text-2xl text-ink">Choose your size.</h2>
 
           {product.sizeChart === "apparel" && (
+            <>
+            <p className="mt-2 text-sm text-muted-foreground">{sizeRun.note}</p>
             <div className="mt-4 grid grid-cols-5 gap-2">
-              {SIZES.map((s) => (
+              {sizeRun.sizes.map((s) => (
                 <button
                   key={s}
                   type="button"
@@ -404,6 +410,7 @@ function ProductListingPage() {
                 </button>
               ))}
             </div>
+            </>
           )}
 
           {product.sizeChart === "hat" && (
@@ -498,7 +505,7 @@ function ProductListingPage() {
                 </tr>
               </thead>
               <tbody>
-                {SIZE_CHART.map((row) => (
+                {sizeRun.chart.map((row) => (
                   <tr key={row.size} className="border-t border-border">
                     <td className="px-3 py-2 font-semibold">{row.size}</td>
                     <td className="px-3 py-2 text-muted-foreground">{row.chest}</td>

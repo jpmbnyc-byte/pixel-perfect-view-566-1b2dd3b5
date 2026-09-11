@@ -7,9 +7,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 const cloudflare = Boolean(
-  process.env.NITRO_PRESET === "cloudflare-module" ||
-    process.env.CLOUDFLARE ||
-    process.env.CF_PAGES,
+  process.env['NITRO_PRESET'] === "cloudflare-module" ||
+    process.env['CLOUDFLARE'] ||
+    process.env['CF_PAGES'],
 );
 
 export default defineConfig({

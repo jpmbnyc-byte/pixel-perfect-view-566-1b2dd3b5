@@ -14,7 +14,7 @@ function lookItems(productId: string): CatalogProduct[] {
   if (!look) return [];
   return look.pieces
     .map((id) => productById(id))
-    .filter((item): item is CatalogProduct => Boolean(item) && item.imageryPending !== true);
+    .filter((item): item is CatalogProduct => Boolean(item) && item!.imageryPending !== true);
 }
 
 /** Studio plate for look chips — never a coming-soon placeholder. */

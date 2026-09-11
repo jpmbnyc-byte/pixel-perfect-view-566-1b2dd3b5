@@ -6,6 +6,12 @@
  */
 
 import {
+  MENS_SIZES,
+  MENS_SIZE_CHART,
+  SIZES,
+  SIZE_CHART,
+  WOMENS_SIZES,
+  WOMENS_SIZE_CHART,
   LETTERING,
   LETTERING_MATCH_JERSEY,
   LETTERING_MATCH_JERSEY_FRONT,
@@ -39,6 +45,8 @@ export type CatalogProduct = {
   /** Lookbook caption: material · color. */
   line: string;
   category: CategoryId;
+  /** Garment grade. Men's and women's cuts are separate listings with separate size runs. */
+  fit?: "mens" | "womens" | "unisex";
   price: number;
   personalizedPrice?: number;
   shopifyItem?: Item;
@@ -133,11 +141,14 @@ export const PRODUCT_ID_ALIASES: Record<string, CanonicalProductId> = {
   jersey: "heritage-jersey",
   shorts: "match-short",
   "full-set": "match-set",
-  "ls-jersey": "performance-ls",
-  "geo-shorts": "performance-short",
+  "ls-jersey": "performance-ls-mens",
+  "geo-shorts": "performance-short-mens",
+  "performance-ls": "performance-ls-mens",
+  "performance-short": "performance-short-mens",
+  "performance-set": "performance-set-mens",
   "quarter-zip": "mens-raglan",
   crewneck: "womens-raglan",
-  "baggy-sweats-black": "performance-set",
+  "baggy-sweats-black": "performance-set-mens",
   "heritage-tee-black": "max-heavy-full-zip",
   sweatpants: "max-heavy-sweatpant",
   "baggy-sweats-garnet": "travel-set",
@@ -212,13 +223,28 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("broadway-club-short", "bayonne-broadway-club-short", "Broadway Club Short", "match", 48),
   listing("broadway-21-set", "bayonne-broadway-21-match-set", "Broadway 21 Match Set", "match", 118),
 
-  listing("performance-ls", "bayonne-performance-long-sleeve", "Performance Long Sleeve", "performance", 64),
-  listing("performance-short", "bayonne-performance-short", '7" Performance Short', "performance", 58),
-  listing("mens-raglan", "bayonne-mens-tech-tee", "Men’s Raglan Tech Tee", "performance", 58),
-  listing("womens-raglan", "bayonne-womens-tech-tee", "Women’s Raglan Tech Tee", "performance", 52),
-  listing("performance-set", "bayonne-performance-set", "Performance Set", "performance", 112),
-  listing("field-short-grey", "bayonne-field-short-grey", "Field Short — Grey", "performance", 58),
-  listing("field-short-bone", "bayonne-field-short-bone", "Field Short — Bone", "performance", 58),
+  listing("performance-ls-mens", "bayonne-performance-long-sleeve-mens", "Performance Long Sleeve — Men’s", "performance", 64, {
+    fit: "mens",
+  }),
+  listing("performance-ls-womens", "bayonne-performance-long-sleeve-womens", "Performance Long Sleeve — Women’s", "performance", 64, {
+    fit: "womens",
+  }),
+  listing("performance-short-mens", "bayonne-performance-short-mens", 'Performance Short 7" — Men’s', "performance", 58, {
+    fit: "mens",
+  }),
+  listing("performance-short-womens", "bayonne-performance-short-womens", 'Performance Short 5.5" — Women’s', "performance", 58, {
+    fit: "womens",
+  }),
+  listing("performance-set-mens", "bayonne-performance-set-mens", "Performance Set — Men’s", "performance", 112, {
+    fit: "mens",
+  }),
+  listing("performance-set-womens", "bayonne-performance-set-womens", "Performance Set — Women’s", "performance", 112, {
+    fit: "womens",
+  }),
+  listing("mens-raglan", "bayonne-mens-tech-tee", "Men’s Raglan Tech Tee", "performance", 58, { fit: "mens" }),
+  listing("womens-raglan", "bayonne-womens-tech-tee", "Women’s Raglan Tech Tee", "performance", 52, { fit: "womens" }),
+  listing("field-short-grey", "bayonne-field-short-grey", "Field Short — Grey", "performance", 58, { fit: "mens" }),
+  listing("field-short-bone", "bayonne-field-short-bone", "Field Short — Bone", "performance", 58, { fit: "mens" }),
 
   listing("max-heavy-full-zip", "bayonne-max-heavy-full-zip", "Max Heavy Full Zip", "travel", 98),
   listing("max-heavy-sweatpant", "bayonne-max-heavy-sweatpant", "Max Heavy Sweatpant", "travel", 88),
@@ -300,9 +326,12 @@ export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
   "area-code-cap",
   "heritage-jersey",
   "match-short",
-  "performance-set",
-  "performance-ls",
-  "performance-short",
+  "performance-set-womens",
+  "performance-set-mens",
+  "performance-ls-mens",
+  "performance-ls-womens",
+  "performance-short-mens",
+  "performance-short-womens",
   "travel-set",
   "max-heavy-full-zip",
   "max-heavy-sweatpant",
@@ -332,6 +361,43 @@ export function motifById(id: MotifId) {
 
 export function previewViewsFor(product: CatalogProduct): Array<"front" | "back" | "side"> {
   return product.previewPair === "front-side" ? ["front", "side"] : ["front", "back"];
+}
+
+export type SizeRun = {
+  fit: "mens" | "womens" | "unisex";
+  label: string;
+  sizes: readonly string[];
+  chart: { size: string; chest: string; length: string }[];
+  note: string;
+};
+
+/** Apparel size run for a listing. Men's and women's cuts are graded separately. */
+export function sizeRunFor(product: CatalogProduct): SizeRun {
+  if (product.fit === "womens") {
+    return {
+      fit: "womens",
+      label: "Women’s cut",
+      sizes: WOMENS_SIZES,
+      chart: WOMENS_SIZE_CHART,
+      note: "Women’s grade · XS–XL. Shorter body, shaped through the waist.",
+    };
+  }
+  if (product.fit === "mens") {
+    return {
+      fit: "mens",
+      label: "Men’s cut",
+      sizes: MENS_SIZES,
+      chart: MENS_SIZE_CHART,
+      note: "Men’s grade · S–2XL. Straight body, full chest room.",
+    };
+  }
+  return {
+    fit: "unisex",
+    label: "Unisex",
+    sizes: SIZES,
+    chart: SIZE_CHART,
+    note: "Unisex grade · S–2XL.",
+  };
 }
 
 export function letteringFor(product: CatalogProduct): LetteringLayout {

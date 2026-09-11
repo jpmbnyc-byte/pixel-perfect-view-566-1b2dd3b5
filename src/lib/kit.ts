@@ -107,6 +107,21 @@ export const SIZE_CHART: { size: Size; chest: string; length: string }[] = [
   { size: "2XL", chest: '48–50"', length: '31"' },
 ];
 
+/** Men's cut run — same as the club apparel run. */
+export const MENS_SIZES: Size[] = SIZES;
+export const MENS_SIZE_CHART = SIZE_CHART;
+
+/** Women's cut run. Graded separately: shorter body, shaped through the waist. */
+export type WomensSize = "XS" | "S" | "M" | "L" | "XL";
+export const WOMENS_SIZES: WomensSize[] = ["XS", "S", "M", "L", "XL"];
+export const WOMENS_SIZE_CHART: { size: WomensSize; chest: string; length: string }[] = [
+  { size: "XS", chest: '31–32"', length: '24"' },
+  { size: "S", chest: '33–34"', length: '24.5"' },
+  { size: "M", chest: '35–36"', length: '25"' },
+  { size: "L", chest: '37–39"', length: '25.5"' },
+  { size: "XL", chest: '40–42"', length: '26"' },
+];
+
 export function variantIdFor(kit: KitConfig, item: Item, size: Size) {
   const table =
     item === "top"
