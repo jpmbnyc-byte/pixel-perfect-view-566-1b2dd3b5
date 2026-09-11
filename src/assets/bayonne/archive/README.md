@@ -31,9 +31,9 @@ GUID filenames as committed from camera/Photos. The storefront imports only huma
 | 27036BA1-86CF-420C-AF03-48DC3F450F9D.png | gothic-b-beanie-brown-back.png |
 | 5E9F3FC3-57EE-4AFA-A679-A2B980CB2022.png | gothic-b-beanie-brown-model.png |
 | F749BFF5-9890-4453-BBCF-6F13E4C58771.png | gothic-b-beanie-brown-model-three-quarter.png |
-| 7F8FC317-078B-4C55-BADB-A92937E28968.png | harbor-sweatpant-grey-mark.png |
-| 9FA35E35-0128-49E6-940C-EBD5B40D5C7A.png | harbor-sweatpant-grey-waist.png |
-| 65949BC9-94FA-48B6-B04C-F8C97DD5CE4D.png | harbor-sweatpant-grey-model.png |
+| 7F8FC317-078B-4C55-BADB-A92937E28968.png | retired harbor-sweatpant-grey-mark.png (waist/mark crop — not live) |
+| 9FA35E35-0128-49E6-940C-EBD5B40D5C7A.png | retired harbor-sweatpant-grey-waist.png (not live) |
+| 65949BC9-94FA-48B6-B04C-F8C97DD5CE4D.png | retired harbor-sweatpant-grey-model.png (not live) |
 | 7d63985d-721a-4ce7-893d-dd47425c26f2.png | travel collage source (couple + male/female solos) |
 | 97628c9e-5923-41c3-b297-c9d6862d0df9.png | harbor-pullover-front.png |
 | 14a20d7a-f10c-4d75-bddd-7b8628cd58e1.png | harbor-pullover-back.png |

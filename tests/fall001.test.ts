@@ -491,26 +491,40 @@ describe("Fall 001 assortment", () => {
     expect(plate.modelFront).not.toBe(plate.productFront);
     expect(plate.modelSecondary).not.toBe(plate.modelFront);
     expect(shots[0]?.src).toBe(plate.productFront);
-    expect(shots).toHaveLength(7);
-    expect(new Set(srcs).size).toBe(7);
+    expect(shots).toHaveLength(5);
+    expect(new Set(srcs).size).toBe(5);
     expect(shots.some((shot) => /BAYONNE ATHLETICS 07002/i.test(shot.alt))).toBe(true);
     expect(shots.some((shot) => /men’s Harbor Division look/i.test(shot.alt))).toBe(true);
     expect(shots.some((shot) => /women’s Harbor Division look/i.test(shot.alt))).toBe(true);
-    expect(shots.map((shot) => shot.alt).join(" ")).not.toMatch(/drawcord|drawstring/i);
+    expect(shots.map((shot) => shot.alt).join(" ")).not.toMatch(/drawcord/i);
     expect(srcs).toContain(plate.productBack);
     expect(srcs).toContain(plate.modelFront);
     expect(srcs).toContain(plate.modelSecondary);
+    expect(String(plate.modelFront)).toContain("harbor-sweatpant-grey-model-women");
+    expect(String(plate.modelSecondary)).toContain("harbor-sweatpant-grey-model-men");
     for (const name of [
       "harbor-sweatpant-grey-front.png",
       "harbor-sweatpant-grey-back.png",
       "harbor-sweatpant-grey-three-quarter.png",
-      "harbor-sweatpant-grey-rear-three-quarter.png",
-      "harbor-sweatpant-grey-mark.png",
       "harbor-sweatpant-grey-model-men.png",
       "harbor-sweatpant-grey-model-women.png",
     ]) {
       const file = await stat(resolve(process.cwd(), "src/assets/bayonne/fall001", name));
-      expect(file.size).toBeGreaterThan(80_000);
+      expect(file.size).toBeGreaterThan(1_000_000);
+    }
+    const leftover = [
+      "harbor-sweatpant-grey-rear-three-quarter.png",
+      "harbor-sweatpant-grey-mark.png",
+      "harbor-sweatpant-grey-look-crop.png",
+      "harbor-sweatpant-grey-model-crop.png",
+      "harbor-sweatpant-grey-model.png",
+      "harbor-sweatpant-grey-side.png",
+      "harbor-sweatpant-grey-waist.png",
+    ];
+    for (const name of leftover) {
+      await expect(stat(resolve(process.cwd(), "src/assets/bayonne/fall001", name))).rejects.toMatchObject({
+        code: "ENOENT",
+      });
     }
   });
 

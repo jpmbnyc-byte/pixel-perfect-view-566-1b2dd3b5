@@ -60,8 +60,6 @@ import harborPulloverModelBack from "@/assets/bayonne/fall001/harbor-pullover-mo
 import harborSweatpantGreyFront from "@/assets/bayonne/fall001/harbor-sweatpant-grey-front.png";
 import harborSweatpantGreyBack from "@/assets/bayonne/fall001/harbor-sweatpant-grey-back.png";
 import harborSweatpantGreyThreeQuarter from "@/assets/bayonne/fall001/harbor-sweatpant-grey-three-quarter.png";
-import harborSweatpantGreyRearThreeQuarter from "@/assets/bayonne/fall001/harbor-sweatpant-grey-rear-three-quarter.png";
-import harborSweatpantGreyMark from "@/assets/bayonne/fall001/harbor-sweatpant-grey-mark.png";
 import harborSweatpantGreyModelMen from "@/assets/bayonne/fall001/harbor-sweatpant-grey-model-men.png";
 import harborSweatpantGreyModelWomen from "@/assets/bayonne/fall001/harbor-sweatpant-grey-model-women.png";
 
@@ -279,8 +277,8 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "harbor-sweatpant-grey": {
     productFront: harborSweatpantGreyFront,
     productBack: harborSweatpantGreyBack,
-    modelFront: harborSweatpantGreyModelMen,
-    modelSecondary: harborSweatpantGreyModelWomen,
+    modelFront: harborSweatpantGreyModelWomen,
+    modelSecondary: harborSweatpantGreyModelMen,
   },
   "two-tone-cap": {
     productFront: twoToneCapFront,
@@ -503,12 +501,10 @@ const HARBOR_PULLOVER_GALLERY: GalleryShot[] = [
 
 const HARBOR_SWEATPANT_GREY_GALLERY: GalleryShot[] = [
   { src: harborSweatpantGreyFront, alt: "Harbor Sweatpant in heather grey, product front, small garnet BAYONNE ATHLETICS 07002" },
-  { src: harborSweatpantGreyThreeQuarter, alt: "Harbor Sweatpant in heather grey, three-quarter" },
-  { src: harborSweatpantGreyBack, alt: "Harbor Sweatpant in heather grey, product back" },
-  { src: harborSweatpantGreyRearThreeQuarter, alt: "Harbor Sweatpant in heather grey, rear three-quarter" },
-  { src: harborSweatpantGreyMark, alt: "Harbor Sweatpant in heather grey, garnet BAYONNE ATHLETICS 07002" },
-  { src: harborSweatpantGreyModelMen, alt: "Harbor Sweatpant in heather grey, worn, men’s Harbor Division look" },
+  { src: harborSweatpantGreyThreeQuarter, alt: "Harbor Sweatpant in heather grey, three-quarter, small garnet BAYONNE ATHLETICS 07002" },
+  { src: harborSweatpantGreyBack, alt: "Harbor Sweatpant in heather grey, product back, elastic waist, no drawstring" },
   { src: harborSweatpantGreyModelWomen, alt: "Harbor Sweatpant in heather grey, worn, women’s Harbor Division look" },
+  { src: harborSweatpantGreyModelMen, alt: "Harbor Sweatpant in heather grey, worn, men’s Harbor Division look" },
 ];
 
 const AREA_CODE_CAP_GALLERY: GalleryShot[] = [
