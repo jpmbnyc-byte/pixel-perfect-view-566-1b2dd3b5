@@ -35,6 +35,30 @@ export const SHOP_LOOKS: Record<string, ShopLook> = {
     productId: "performance-set",
     pieces: ["club-sock", "nb-runner-heat", "gothic-b-beanie"],
   },
+  "performance-ls-mens": {
+    productId: "performance-ls-mens",
+    pieces: ["performance-short-mens", "club-sock", "nb-runner-cardinal"],
+  },
+  "performance-ls-womens": {
+    productId: "performance-ls-womens",
+    pieces: ["performance-short-womens", "club-sock", "nb-runner-heat"],
+  },
+  "performance-short-mens": {
+    productId: "performance-short-mens",
+    pieces: ["performance-ls-mens", "club-sock", "nb-runner-cardinal"],
+  },
+  "performance-short-womens": {
+    productId: "performance-short-womens",
+    pieces: ["performance-ls-womens", "club-sock", "nb-runner-heat"],
+  },
+  "performance-set-mens": {
+    productId: "performance-set-mens",
+    pieces: ["club-sock", "nb-runner-cardinal", "gothic-b-beanie"],
+  },
+  "performance-set-womens": {
+    productId: "performance-set-womens",
+    pieces: ["club-sock", "nb-runner-heat", "gothic-b-beanie"],
+  },
   "max-heavy-full-zip": {
     productId: "max-heavy-full-zip",
     pieces: ["max-heavy-sweatpant", "club-sock", "two-tone-cap"],
