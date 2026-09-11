@@ -1,6 +1,6 @@
 import { OG_IMAGE, SHARE_COPY, type SharePayload } from "@/copy/share";
 
-/** Stable public card. Locals know the block; the BA stamp is ours. */
+/** Stable public card — Harbor shop at night, BA lockup, Harbor Sweatpant. */
 export function shareHead(payload: SharePayload, opts?: { type?: "website" | "product"; image?: string }) {
   const image = opts?.image ?? OG_IMAGE;
   const type = opts?.type ?? "website";

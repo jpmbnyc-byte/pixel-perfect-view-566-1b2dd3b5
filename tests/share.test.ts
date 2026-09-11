@@ -30,13 +30,16 @@ describe("share language", () => {
     expect(shareDepartment("club").path).toBe("/team/bayonne-bees/club");
   });
 
-  it("stamps every card with the Broadway OG plate", () => {
+  it("stamps every card with the Harbor shop OG plate", async () => {
+    const { stat } = await import("node:fs/promises");
     const meta = shareHead(shareHome()).meta;
     const keys = meta.map((entry) => ("property" in entry ? entry.property : entry.name));
     expect(keys).toContain("og:image");
     expect(keys).toContain("twitter:image");
     expect(meta.some((entry) => "content" in entry && entry.content === OG_IMAGE)).toBe(true);
+    expect(SHARE_COPY.ogAlt).toMatch(/Harbor Sweatpant/i);
     expect(existsSync(resolve(process.cwd(), "public/og.jpg"))).toBe(true);
+    expect((await stat(resolve(process.cwd(), "public/og.jpg"))).size).toBeGreaterThan(180_000);
     expect(existsSync(resolve(process.cwd(), "public/favicon.svg"))).toBe(true);
     expect(existsSync(resolve(process.cwd(), "public/apple-touch-icon.png"))).toBe(true);
   });
