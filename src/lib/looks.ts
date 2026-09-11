@@ -59,6 +59,10 @@ export const SHOP_LOOKS: Record<string, ShopLook> = {
     productId: "harbor-sweatpant-grey",
     pieces: ["harbor-pullover", "gothic-b-beanie", "club-sock"],
   },
+  "harbor-sweatpant-black": {
+    productId: "harbor-sweatpant-black",
+    pieces: ["harbor-pullover", "gothic-b-beanie", "club-sock"],
+  },
   "area-code-cap": {
     productId: "area-code-cap",
     pieces: ["heritage-jersey", "club-sock", "harbor-coach"],

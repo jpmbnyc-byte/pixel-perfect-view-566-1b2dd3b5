@@ -80,6 +80,20 @@ describe("Fall 001 assortment", () => {
     expect(productById("nb-p400-chalk")?.price).toBe(130);
     expect(productById("nb-p400-volt")?.price).toBe(130);
     expect(productById("club-sock")?.details.length).toBeGreaterThan(0);
+    expect(sourceForProduct("harbor-sweatpant-grey")?.sourceName).toMatch(/C2 Sport 557700/);
+    expect(sourceForProduct("harbor-sweatpant-black")?.sourceUrl).toMatch(/C2-Sport-557700/);
+    for (const id of ["harbor-sweatpant-grey", "harbor-sweatpant-black"] as const) {
+      const listing = productById(id)!;
+      const facts = listing.details.join(" ");
+      expect(listing.price).toBe(38);
+      expect(listing.imageryPending).not.toBe(true);
+      expect(facts).toMatch(/8 oz ringspun 60\/40/);
+      expect(facts).toMatch(/Covered 1\.5 in elastic waistband/);
+      expect(facts).toMatch(/Two side-seam pockets/);
+      expect(facts).toMatch(/Open bottom with double-needle hem/);
+      expect(facts).toMatch(/BAYONNE ATHLETICS 07002/);
+      expect(`${listing.blurb} ${listing.line}`).not.toMatch(/C2|OpenTip|557700/i);
+    }
   });
 
   it("does not feature unresolved Club Goods photography as the lead", () => {
@@ -93,6 +107,7 @@ describe("Fall 001 assortment", () => {
     expect(LOOKBOOK_TEASER_IDS).toContain("gothic-b-beanie");
     expect(LOOKBOOK_TEASER_IDS).toContain("gothic-b-beanie-brown");
     expect(LOOKBOOK_TEASER_IDS).toContain("harbor-sweatpant-grey");
+    expect(LOOKBOOK_TEASER_IDS).toContain("harbor-sweatpant-black");
     expect(LOOKBOOK_TEASER_IDS).toContain("harbor-pullover");
     expect(LOOKBOOK_TEASER_IDS).not.toContain("mens-raglan");
     expect(productById("nb-runner-heat")?.line).toMatch(/Pink Heat/);
@@ -129,7 +144,6 @@ describe("Fall 001 assortment", () => {
         "local-issue-ls",
         "pique-polo",
         "pocket-ls",
-        "harbor-sweatpant-black",
         "club-sock-4pk",
         "market-tote",
       ].sort(),
@@ -151,6 +165,8 @@ describe("Fall 001 assortment", () => {
     );
     expect(IMAGE_REGISTRY["gothic-b-beanie-brown"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["harbor-sweatpant-grey"].productFront).toBeTruthy();
+    expect(IMAGE_REGISTRY["harbor-sweatpant-black"].productFront).toBeTruthy();
+    expect(IMAGE_REGISTRY["harbor-sweatpant-black"].pending).not.toBe(true);
     expect(IMAGE_REGISTRY["harbor-pullover"].productFront).toBeTruthy();
     expect(IMAGE_REGISTRY["harbor-pullover"].productBack).not.toBe(
       IMAGE_REGISTRY["harbor-pullover"].productFront,
@@ -496,7 +512,8 @@ describe("Fall 001 assortment", () => {
     expect(shots.some((shot) => /BAYONNE ATHLETICS 07002/i.test(shot.alt))).toBe(true);
     expect(shots.some((shot) => /men’s Harbor Division look/i.test(shot.alt))).toBe(true);
     expect(shots.some((shot) => /women’s Harbor Division look/i.test(shot.alt))).toBe(true);
-    expect(shots.map((shot) => shot.alt).join(" ")).not.toMatch(/drawcord/i);
+    expect(listing.price).toBe(38);
+    expect(listing.details.join(" ")).toMatch(/8 oz ringspun 60\/40/);
     expect(srcs).toContain(plate.productBack);
     expect(srcs).toContain(plate.modelFront);
     expect(srcs).toContain(plate.modelSecondary);
@@ -528,6 +545,39 @@ describe("Fall 001 assortment", () => {
     }
   });
 
+  it("fills Harbor Sweatpant black from the same 8 oz base at $38", async () => {
+    const { galleryShots } = await import("@/lib/imageRegistry");
+    const { PRODUCT_COPY } = await import("@/copy/collection");
+    const { stat } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const plate = IMAGE_REGISTRY["harbor-sweatpant-black"];
+    const listing = productById("harbor-sweatpant-black")!;
+    const shots = galleryShots("harbor-sweatpant-black");
+    const copy = `${PRODUCT_COPY["harbor-sweatpant-black"]!.body} ${PRODUCT_COPY["harbor-sweatpant-grey"]!.body}`;
+    expect(plate.pending).not.toBe(true);
+    expect(listing.imageryPending).not.toBe(true);
+    expect(listing.price).toBe(38);
+    expect(listing.thumb).toBe(plate.productFront);
+    expect(listing.previews.secondary).toBe(plate.modelFront);
+    expect(shots).toHaveLength(5);
+    expect(new Set(shots.map((shot) => shot.src)).size).toBe(5);
+    expect(String(plate.modelFront)).toContain("harbor-sweatpant-black-model-women");
+    expect(copy).toMatch(/8 oz ringspun 60\/40/);
+    expect(copy).toMatch(/Covered 1\.5-inch elastic waistband/);
+    expect(copy).toMatch(/open bottom with a double-needle hem/i);
+    expect(copy).not.toMatch(/C2|OpenTip|557700|drawcord|drawstring/i);
+    for (const name of [
+      "harbor-sweatpant-black-front.png",
+      "harbor-sweatpant-black-back.png",
+      "harbor-sweatpant-black-three-quarter.png",
+      "harbor-sweatpant-black-model-men.png",
+      "harbor-sweatpant-black-model-women.png",
+    ]) {
+      const file = await stat(resolve(process.cwd(), "src/assets/bayonne/fall001", name));
+      expect(file.size).toBeGreaterThan(80_000);
+    }
+  });
+
   it("pairs every live product with a shop-this-look of live plates", async () => {
     const { COMING_SOON, galleryShots } = await import("@/lib/imageRegistry");
     const { SHOP_LOOKS, lookFor } = await import("@/lib/looks");
@@ -540,6 +590,7 @@ describe("Fall 001 assortment", () => {
     expect(card).not.toContain('sizeChart === "shoe" &&');
     expect(pdp).toContain("ShopThisLook");
     expect(pdp).toContain("product.imageryPending ? null");
+    expect(pdp).toContain('value="details"');
     expect(chips).toContain("lookThumb");
     expect(chips).toContain("COMING_SOON");
     const live = PRODUCTS.filter((product) => product.imageryPending !== true);

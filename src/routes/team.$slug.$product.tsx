@@ -270,6 +270,20 @@ function ProductListingPage() {
                 </p>
               </AccordionContent>
             </AccordionItem>
+            {product.details.length > 0 ? (
+              <AccordionItem value="details" className="border-border">
+                <AccordionTrigger className="place-line text-xs uppercase tracking-[0.14em] hover:no-underline">
+                  Details
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+                    {product.details.map((fact) => (
+                      <li key={fact}>{fact}</li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            ) : null}
             <AccordionItem value="shipping" className="border-border">
               <AccordionTrigger className="place-line text-xs uppercase tracking-[0.14em] hover:no-underline">
                 Shipping & returns

@@ -14,6 +14,17 @@ export type ProductSource = {
   facts: string[];
 };
 
+/** C2 Sport 557700 mill facts, customer-facing — never the mill name. */
+const HARBOR_SWEATPANT_FACTS = [
+  "8 oz ringspun 60/40 cotton-polyester athletic fleece",
+  "Covered 1.5 in elastic waistband",
+  "Two side-seam pockets",
+  "Open bottom with double-needle hem",
+  "Relaxed unisex athletic fit",
+  "Soft mid-weight coverage for travel and warmups",
+  "Small garnet BAYONNE ATHLETICS 07002 on the left thigh",
+] as const;
+
 export const PRODUCT_SOURCES: Record<string, ProductSource> = {
   "club-sock": {
     supplier: "OpenTip",
@@ -120,6 +131,20 @@ export const PRODUCT_SOURCES: Record<string, ProductSource> = {
       "Elastic cuffs and underarm grommets",
       "Drawcord at hood and hem",
     ],
+  },
+  "harbor-sweatpant-grey": {
+    supplier: "OpenTip",
+    sourceName: "C2 Sport 557700 C2 Fleece Pant",
+    sourceUrl: "https://www.opentip.com/C2-Sport-557700-C2-Fleece-Pant-p-9586325.html",
+    verifiedOn: "2026-09-11",
+    facts: [...HARBOR_SWEATPANT_FACTS],
+  },
+  "harbor-sweatpant-black": {
+    supplier: "OpenTip",
+    sourceName: "C2 Sport 557700 C2 Fleece Pant",
+    sourceUrl: "https://www.opentip.com/C2-Sport-557700-C2-Fleece-Pant-p-9586325.html",
+    verifiedOn: "2026-09-11",
+    facts: [...HARBOR_SWEATPANT_FACTS],
   },
   "field-short-grey": {
     supplier: "OpenTip",

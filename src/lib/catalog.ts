@@ -237,8 +237,14 @@ export const PRODUCTS: CatalogProduct[] = [
     },
   }),
   listing("harbor-pullover", "bayonne-harbor-division-pullover", "Harbor Division Pullover", "harbor", 88),
-  listing("harbor-sweatpant-black", "bayonne-harbor-sweatpant-black", "Harbor Sweatpant — Black / Garnet", "harbor", 88),
-  listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 88, {
+  listing("harbor-sweatpant-black", "bayonne-harbor-sweatpant-black", "Harbor Sweatpant — Black / Garnet", "harbor", 38, {
+    thumb: imagesFor("harbor-sweatpant-black").productFront!,
+    previews: {
+      front: imagesFor("harbor-sweatpant-black").productFront!,
+      secondary: imagesFor("harbor-sweatpant-black").modelFront!,
+    },
+  }),
+  listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 38, {
     thumb: imagesFor("harbor-sweatpant-grey").productFront!,
     previews: {
       front: imagesFor("harbor-sweatpant-grey").productFront!,
@@ -303,6 +309,7 @@ export const LOOKBOOK_TEASER_IDS: CanonicalProductId[] = [
   "harbor-coach",
   "harbor-pullover",
   "harbor-sweatpant-grey",
+  "harbor-sweatpant-black",
   "two-tone-cap",
   "gothic-b-beanie",
   "gothic-b-beanie-brown",
