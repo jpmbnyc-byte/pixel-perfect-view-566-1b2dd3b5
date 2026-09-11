@@ -162,10 +162,16 @@ export type CanonicalProductId =
   | "broadway-club-short"
   | "broadway-21-set"
   | "performance-ls"
+  | "performance-ls-mens"
+  | "performance-ls-womens"
   | "performance-short"
+  | "performance-short-mens"
+  | "performance-short-womens"
   | "mens-raglan"
   | "womens-raglan"
   | "performance-set"
+  | "performance-set-mens"
+  | "performance-set-womens"
   | "field-short-grey"
   | "field-short-bone"
   | "max-heavy-full-zip"
@@ -229,6 +235,42 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
     productFront: performanceShortWomen,
     productBack: performanceShortMen,
     modelFront: performanceMenTight,
+    modelSecondary: performanceWomenTight,
+  },
+  "performance-ls-mens": {
+    productFront: performanceLsMen,
+    productBack: performanceMenTight,
+    modelFront: performanceMenTight,
+    modelSecondary: performanceMenThreeQuarter,
+  },
+  "performance-ls-womens": {
+    productFront: performanceLsWomen,
+    productBack: performanceWomenTight,
+    modelFront: performanceWomenTight,
+    modelSecondary: performanceWomenFront,
+  },
+  "performance-short-mens": {
+    productFront: performanceShortMen,
+    productBack: performanceMenThreeQuarter,
+    modelFront: performanceMenThreeQuarter,
+    modelSecondary: performanceMenTight,
+  },
+  "performance-short-womens": {
+    productFront: performanceShortWomen,
+    productBack: performanceWomenFront,
+    modelFront: performanceWomenFront,
+    modelSecondary: performanceWomenTight,
+  },
+  "performance-set-mens": {
+    productFront: performanceMenThreeQuarter,
+    productBack: performanceMenTight,
+    modelFront: performanceMenThreeQuarter,
+    modelSecondary: performanceMenTight,
+  },
+  "performance-set-womens": {
+    productFront: performanceWomenFront,
+    productBack: performanceWomenTight,
+    modelFront: performanceWomenFront,
     modelSecondary: performanceWomenTight,
   },
   "mens-raglan": { pending: true },
@@ -445,6 +487,44 @@ const PERFORMANCE_SHORT_GALLERY: GalleryShot[] = [
   { src: performanceMenTight, alt: "7\" Performance Short, men’s crop" },
 ];
 
+const PERFORMANCE_LS_MENS_GALLERY: GalleryShot[] = [
+  { src: performanceLsMen, alt: "Performance Long Sleeve, men’s cut, product shot" },
+  { src: performanceMenThreeQuarter, alt: "Performance Long Sleeve, men’s cut, three-quarter view" },
+  { src: performanceMenTight, alt: "Performance Long Sleeve, men’s cut, crop" },
+];
+
+const PERFORMANCE_LS_WOMENS_GALLERY: GalleryShot[] = [
+  { src: performanceLsWomen, alt: "Performance Long Sleeve, women’s cut, product shot" },
+  { src: performanceWomenFront, alt: "Performance Long Sleeve, women’s cut, front view" },
+  { src: performanceWomenTight, alt: "Performance Long Sleeve, women’s cut, crop" },
+];
+
+const PERFORMANCE_SHORT_MENS_GALLERY: GalleryShot[] = [
+  { src: performanceShortMen, alt: "7\" Performance Short, men’s cut, product shot" },
+  { src: performanceMenThreeQuarter, alt: "7\" Performance Short, men’s cut, three-quarter view" },
+  { src: performanceMenTight, alt: "7\" Performance Short, men’s cut, crop" },
+];
+
+const PERFORMANCE_SHORT_WOMENS_GALLERY: GalleryShot[] = [
+  { src: performanceShortWomen, alt: "7\" Performance Short, women’s cut, product shot" },
+  { src: performanceWomenFront, alt: "7\" Performance Short, women’s cut, front view" },
+  { src: performanceWomenTight, alt: "7\" Performance Short, women’s cut, crop" },
+];
+
+const PERFORMANCE_SET_MENS_GALLERY: GalleryShot[] = [
+  { src: performanceMenThreeQuarter, alt: "Performance Set, men’s cut, three-quarter view" },
+  { src: performanceMenTight, alt: "Performance Set, men’s cut, crop" },
+  { src: performanceLsMen, alt: "Performance Long Sleeve, men’s cut, product shot" },
+  { src: performanceShortMen, alt: "7\" Performance Short, men’s cut, product shot" },
+];
+
+const PERFORMANCE_SET_WOMENS_GALLERY: GalleryShot[] = [
+  { src: performanceWomenFront, alt: "Performance Set, women’s cut, front view" },
+  { src: performanceWomenTight, alt: "Performance Set, women’s cut, crop" },
+  { src: performanceLsWomen, alt: "Performance Long Sleeve, women’s cut, product shot" },
+  { src: performanceShortWomen, alt: "7\" Performance Short, women’s cut, product shot" },
+];
+
 const GOTHIC_B_BEANIE_BLACK_GALLERY: GalleryShot[] = [
   { src: gothicBBeanieBlackFront, alt: "Gothic B Beanie in black, front with garnet B" },
   { src: gothicBBeanieBlackModel, alt: "Gothic B Beanie in black, worn" },
@@ -608,6 +688,12 @@ export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "performance-set") return PERFORMANCE_SET_GALLERY;
   if (id === "performance-ls") return PERFORMANCE_LS_GALLERY;
   if (id === "performance-short") return PERFORMANCE_SHORT_GALLERY;
+  if (id === "performance-ls-mens") return PERFORMANCE_LS_MENS_GALLERY;
+  if (id === "performance-ls-womens") return PERFORMANCE_LS_WOMENS_GALLERY;
+  if (id === "performance-short-mens") return PERFORMANCE_SHORT_MENS_GALLERY;
+  if (id === "performance-short-womens") return PERFORMANCE_SHORT_WOMENS_GALLERY;
+  if (id === "performance-set-mens") return PERFORMANCE_SET_MENS_GALLERY;
+  if (id === "performance-set-womens") return PERFORMANCE_SET_WOMENS_GALLERY;
   if (id === "travel-set") return TRAVEL_SET_GALLERY;
   if (id === "max-heavy-full-zip") return MAX_HEAVY_FULL_ZIP_GALLERY;
   if (id === "max-heavy-sweatpant") return MAX_HEAVY_SWEATPANT_GALLERY;
