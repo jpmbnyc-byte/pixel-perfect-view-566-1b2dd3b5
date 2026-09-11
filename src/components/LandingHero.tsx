@@ -232,7 +232,7 @@ export function LandingHero() {
                     >
                       {campaign.cta}
                     </Link>
-                  ) : campaign.to !== "/team/$slug/$product" ? (
+                  ) : (
                     <Link
                       to={campaign.to}
                       params={{ slug: SLUG }}
@@ -242,7 +242,7 @@ export function LandingHero() {
                       {campaign.cta}
                       <ArrowRight className="size-4" strokeWidth={1.5} aria-hidden />
                     </Link>
-                  ) : null}
+                  )}
                   {campaign.film && showFilm && isActive ? (
                     <button
                       type="button"
