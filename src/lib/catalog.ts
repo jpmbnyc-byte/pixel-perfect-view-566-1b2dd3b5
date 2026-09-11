@@ -224,7 +224,13 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("area-code-cap", "bayonne-201-area-code-cap", "201 Area Code Cap", "club", 48, {
     sizeChart: "hat",
   }),
-  listing("two-tone-cap", "bayonne-two-tone-club-cap", "Two-Tone Club Cap", "club", 36, { sizeChart: "hat" }),
+  listing("two-tone-cap", "bayonne-two-tone-club-cap", "Two-Tone Club Cap", "club", 36, {
+    sizeChart: "hat",
+    previews: {
+      front: imagesFor("two-tone-cap").productFront!,
+      secondary: imagesFor("two-tone-cap").productFront!,
+    },
+  }),
   listing("gothic-b-beanie", "bayonne-gothic-b-beanie", "Gothic B Beanie — Black", "club", 34, { sizeChart: "hat" }),
   listing("gothic-b-beanie-brown", "bayonne-gothic-b-beanie-brown", "Gothic B Beanie — Brown", "club", 34, {
     sizeChart: "hat",

@@ -61,6 +61,7 @@ import harborSweatpantGreyModel from "@/assets/bayonne/fall001/harbor-sweatpant-
 import twoToneCapFront from "@/assets/bayonne/fall001/two-tone-cap-product-front.png";
 import twoToneCapBack from "@/assets/bayonne/fall001/two-tone-cap-product-back.png";
 import twoToneCapModel from "@/assets/bayonne/fall001/two-tone-cap-model-front.png";
+import twoToneCapHat from "@/assets/bayonne/fall001/two-tone-cap-model-hat.png";
 import areaCodeCapFront from "@/assets/bayonne/fall001/area-code-cap-product-front.png";
 import areaCodeCapSide from "@/assets/bayonne/fall001/area-code-cap-product-side.png";
 import areaCodeCapBack from "@/assets/bayonne/fall001/area-code-cap-product-back.png";
@@ -260,8 +261,8 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "two-tone-cap": {
     productFront: twoToneCapFront,
     productBack: twoToneCapBack,
-    modelFront: twoToneCapModel,
-    modelSecondary: twoToneCapFront,
+    modelFront: twoToneCapHat,
+    modelSecondary: twoToneCapModel,
   },
   "area-code-cap": {
     productFront: areaCodeCapFront,
@@ -476,9 +477,10 @@ const AREA_CODE_CAP_GALLERY: GalleryShot[] = [
 ];
 
 const TWO_TONE_CAP_GALLERY: GalleryShot[] = [
+  { src: twoToneCapHat, alt: "Two-Tone Club Cap, worn, Gothic B on the crown" },
   { src: twoToneCapFront, alt: "Two-Tone Club Cap, bone crown, black bill, garnet Gothic B" },
-  { src: twoToneCapModel, alt: "Two-Tone Club Cap, worn" },
   { src: twoToneCapBack, alt: "Two-Tone Club Cap, self-fabric strap and metal buckle" },
+  { src: twoToneCapModel, alt: "Two-Tone Club Cap, worn" },
 ];
 
 /** Ordered storefront gallery. Never the customizer overlay bases except the dedicated blank back. */

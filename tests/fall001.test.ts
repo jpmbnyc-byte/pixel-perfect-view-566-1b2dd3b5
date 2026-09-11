@@ -178,24 +178,44 @@ describe("Fall 001 assortment", () => {
 
   it("gives the Two-Tone Club Cap its own front, worn, and back plates", async () => {
     const { galleryShots } = await import("@/lib/imageRegistry");
-    const { readFile } = await import("node:fs/promises");
+    const { readFile, stat } = await import("node:fs/promises");
     const { resolve } = await import("node:path");
     const shots = galleryShots("two-tone-cap");
     const cap = IMAGE_REGISTRY["two-tone-cap"];
+    const listing = productById("two-tone-cap")!;
     const registry = await readFile(resolve(process.cwd(), "src/lib/imageRegistry.ts"), "utf8");
+    const lookbook = await readFile(resolve(process.cwd(), "src/lib/heroSlideshow.ts"), "utf8");
+    const places = await readFile(resolve(process.cwd(), "src/lib/peoplePlaces.ts"), "utf8");
     expect(cap.pending).not.toBe(true);
-    expect(shots).toHaveLength(3);
-    expect(shots[0]?.src).toBe(cap.productFront);
-    expect(shots[1]?.src).toBe(cap.modelFront);
+    expect(shots).toHaveLength(4);
+    expect(shots[0]?.src).toBe(cap.modelFront);
+    expect(shots[1]?.src).toBe(cap.productFront);
     expect(shots[2]?.src).toBe(cap.productBack);
-    expect(new Set(shots.map((s) => s.src)).size).toBe(3);
+    expect(shots[3]?.src).toBe(cap.modelSecondary);
+    expect(new Set(shots.map((s) => s.src)).size).toBe(4);
     expect(shots[0]?.alt).toMatch(/Gothic B/i);
+    expect(shots[1]?.alt).toMatch(/Gothic B/i);
+    expect(listing.thumb).toBe(cap.modelFront);
+    expect(listing.previews.front).toBe(cap.productFront);
+    expect(listing.previews.secondary).toBe(cap.productFront);
+    expect(registry).toContain("two-tone-cap-model-hat.png");
     expect(registry).toContain("two-tone-cap-product-front.png");
     expect(registry).toContain("two-tone-cap-product-back.png");
     expect(registry).toContain("two-tone-cap-model-front.png");
+    expect(lookbook).toContain("two-tone-cap-model-hat.png");
+    expect(places).toContain("two-tone-cap-model-hat.png");
     expect(registry).not.toContain("club-goods-hero");
-    expect(productById("two-tone-cap")?.imageryPending).not.toBe(true);
-    expect(productById("two-tone-cap")?.line).toMatch(/Bone \/ Black/);
+    expect(listing.imageryPending).not.toBe(true);
+    expect(listing.line).toMatch(/Bone \/ Black/);
+    for (const name of [
+      "two-tone-cap-model-hat.png",
+      "two-tone-cap-product-front.png",
+      "two-tone-cap-product-back.png",
+      "two-tone-cap-model-front.png",
+    ]) {
+      const info = await stat(resolve(process.cwd(), "src/assets/bayonne/fall001", name));
+      expect(info.size).toBeGreaterThan(80_000);
+    }
   });
 
   it("does not import expired mascot, boxing-kit, or corrupt plates", async () => {
