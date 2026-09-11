@@ -436,6 +436,8 @@ describe("Fall 001 assortment", () => {
     expect(srcs).toContain(plate.productFront);
     expect(srcs).toContain(plate.productBack);
     expect(srcs).toContain(plate.modelSecondary);
+    expect(shots.some((shot) => /Harbor Division/i.test(shot.alt) && /Bayonne Bridge/i.test(shot.alt))).toBe(true);
+    expect(shots.some((shot) => /Hudson County/i.test(shot.alt))).toBe(true);
     const gallery = await readFile(resolve(process.cwd(), "src/components/ProductZoomGallery.tsx"), "utf8");
     expect(gallery).toContain("aspect-[3/4]");
     for (const name of [
@@ -448,6 +450,12 @@ describe("Fall 001 assortment", () => {
       const file = await stat(resolve(process.cwd(), "src/assets/bayonne/fall001", name));
       expect(file.size).toBeGreaterThan(80_000);
     }
+    expect(
+      (await stat(resolve(process.cwd(), "src/assets/bayonne/fall001/harbor-coach-back.png"))).size,
+    ).toBeGreaterThan(1_000_000);
+    expect(
+      (await stat(resolve(process.cwd(), "src/assets/bayonne/fall001/harbor-coach-worn-back.png"))).size,
+    ).toBeGreaterThan(1_000_000);
   });
 
   it("pairs every live product with a shop-this-look of live plates", async () => {

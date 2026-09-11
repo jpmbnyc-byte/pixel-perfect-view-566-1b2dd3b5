@@ -475,8 +475,8 @@ const HARBOR_COACH_GALLERY: GalleryShot[] = [
   { src: harborCoachWornFull, alt: "Harbor Division Hooded Coach Jacket, worn full-length" },
   { src: harborCoachWornThreeQuarter, alt: "Harbor Division Hooded Coach Jacket, worn three-quarter" },
   { src: harborCoachFront, alt: "Harbor Division Hooded Coach Jacket, product front" },
-  { src: harborCoachBack, alt: "Harbor Division Hooded Coach Jacket, product back, bridge treatment" },
-  { src: harborCoachWornBack, alt: "Harbor Division Hooded Coach Jacket, worn from behind" },
+  { src: harborCoachBack, alt: "Harbor Division Hooded Coach Jacket, product back, BAYONNE Harbor Division, Hudson County, 07002, Bayonne Bridge" },
+  { src: harborCoachWornBack, alt: "Harbor Division Hooded Coach Jacket, worn from behind, Harbor Division lockup and Bayonne Bridge" },
   { src: harborCoachDetail, alt: "Harbor Division Hooded Coach Jacket, tonal BAYONNE ATHLETICS 07002" },
 ];
 

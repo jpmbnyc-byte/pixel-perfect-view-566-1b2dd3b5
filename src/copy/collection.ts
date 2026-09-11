@@ -232,8 +232,8 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "harbor-coach": {
     tagline: "Built on water.",
     line: "Water-resistant nylon · Black / Black",
-    body: "Black hooded coach shell built for the waterfront: durable nylon with an interior water-resistant coating, snap front, elastic cuffs, underarm grommets and drawcord adjustment at the hood and hem. Tonal Harbor Division chest mark with the bridge treatment across the back.",
-    card: "Water-resistant black hooded coach shell with Harbor Division chest mark and bridge back treatment.",
+    body: "Black hooded coach shell built for the waterfront: durable nylon with an interior water-resistant coating, snap front, elastic cuffs, underarm grommets and drawcord adjustment at the hood and hem. Tonal Harbor Division chest mark. Across the back: arched BAYONNE, HARBOR DIVISION, HUDSON COUNTY, NJ, 07002, and the Bayonne Bridge.",
+    card: "Water-resistant black hooded coach shell with Harbor Division chest mark and Bayonne Bridge back.",
     cta: "Choose your size →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",
   },
