@@ -256,7 +256,7 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
   "harbor-sweatpant-grey": {
     tagline: "Harbor fleece, heather.",
     line: "Fleece · Heather Grey / Garnet",
-    body: "Heather grey Harbor Division fleece with the garnet BAYONNE ATHLETICS 07002 mark on the thigh, elastic waist, braided drawcord and side-seam pockets. Cuffed at the ankle.",
+    body: "Heather grey Harbor Division fleece with a small garnet BAYONNE ATHLETICS 07002 mark on the thigh, elastic waist and side-seam pockets. Cuffed at the ankle. No drawstring.",
     card: "Heather grey Harbor Division fleece with a garnet 07002 mark.",
     cta: "Choose your size →",
     confirm: "I’ve checked my size. I understand made-to-order pieces can’t be changed after checkout.",

@@ -242,7 +242,7 @@ export const PRODUCTS: CatalogProduct[] = [
     thumb: imagesFor("harbor-sweatpant-grey").productFront!,
     previews: {
       front: imagesFor("harbor-sweatpant-grey").productFront!,
-      secondary: imagesFor("harbor-sweatpant-grey").modelSecondary!,
+      secondary: imagesFor("harbor-sweatpant-grey").modelFront!,
     },
   }),
 
