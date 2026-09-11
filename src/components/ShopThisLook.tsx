@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
 import { productById, type CatalogProduct } from "@/lib/catalog";
-import { imagesFor } from "@/lib/imageRegistry";
+import { COMING_SOON, imagesFor } from "@/lib/imageRegistry";
 import { lookFor } from "@/lib/looks";
 
 type Props = {
@@ -17,7 +17,16 @@ function lookItems(productId: string): CatalogProduct[] {
     .filter((item): item is CatalogProduct => Boolean(item) && item.imageryPending !== true);
 }
 
-/** Compact chips under a sneaker PLP card — outside the main product link. */
+/** Studio plate for look chips — never a coming-soon placeholder. */
+function lookThumb(item: CatalogProduct): string {
+  const plate = imagesFor(item.id);
+  if (plate.pending || !plate.productFront || plate.productFront === COMING_SOON) {
+    return item.thumb;
+  }
+  return plate.productFront;
+}
+
+/** Compact chips under a PLP card — outside the main product link. */
 export function ShopLookChips({ product, slug }: Props) {
   const items = lookItems(product.id);
   if (items.length === 0) return null;
@@ -35,7 +44,7 @@ export function ShopLookChips({ product, slug }: Props) {
               aria-label={`${item.name}, $${item.price}`}
             >
               <img
-                src={item.thumb}
+                src={lookThumb(item)}
                 alt=""
                 width={96}
                 height={96}
@@ -53,7 +62,15 @@ export function ShopLookChips({ product, slug }: Props) {
 /** PDP complete-the-look: lifestyle plate + companion listings. */
 export function ShopThisLook({ product, slug }: Props) {
   const look = lookFor(product.id);
-  const lifestyle = imagesFor(product.id).modelFront;
+  const plate = imagesFor(product.id);
+  const lifestyle =
+    plate.pending || (!plate.modelFront && !plate.productFront)
+      ? undefined
+      : plate.modelFront && plate.modelFront !== COMING_SOON
+        ? plate.modelFront
+        : plate.productFront !== COMING_SOON
+          ? plate.productFront
+          : undefined;
   const items = lookItems(product.id);
   if (!look || !lifestyle || items.length === 0) return null;
 
@@ -83,7 +100,7 @@ export function ShopThisLook({ product, slug }: Props) {
               >
                 <div className="size-20 shrink-0 overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)] sm:size-24">
                   <img
-                    src={item.thumb}
+                    src={lookThumb(item)}
                     alt=""
                     width={192}
                     height={192}

@@ -38,7 +38,7 @@ export function ProductLookbookCard({ product, slug }: CardProps) {
           <p className="place-line mt-2 text-ink/35">Photography in production</p>
         )}
       </Link>
-      {shoe && !product.imageryPending ? <ShopLookChips product={product} slug={slug} /> : null}
+      {!product.imageryPending ? <ShopLookChips product={product} slug={slug} /> : null}
     </div>
   );
 }

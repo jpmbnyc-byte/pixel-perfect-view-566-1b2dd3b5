@@ -11,7 +11,7 @@ import lookbookTravelWomenSeated from "@/assets/bayonne/fall001/lookbook-travel-
 import lookbookTwoToneCap from "@/assets/bayonne/fall001/two-tone-cap-model-hat.png";
 import lookbookFieldCargoProfile from "@/assets/bayonne/fall001/lookbook-field-cargo-profile.jpg";
 import lookbookFieldCargoBack from "@/assets/bayonne/fall001/lookbook-field-cargo-back.jpg";
-import lookbookHarborCoachWorn from "@/assets/bayonne/fall001/lookbook-harbor-coach-worn.jpg";
+import lookbookHarborCoachWorn from "@/assets/bayonne/fall001/harbor-coach-worn-full.png";
 import lookbookPerformanceWomen from "@/assets/bayonne/fall001/lookbook-performance-women.jpg";
 
 export type HeroSlide = {
@@ -63,7 +63,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     src: lookbookHarborCoachWorn,
     productId: "harbor-coach",
     category: "harbor",
-    alt: "Harbor Division Hooded Coach Jacket, worn",
+    alt: "Harbor Division Hooded Coach Jacket, worn full-length",
   },
   {
     id: "performance-women",

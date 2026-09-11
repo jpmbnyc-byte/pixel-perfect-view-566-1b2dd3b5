@@ -10,7 +10,7 @@ import beanieOnSteps from "@/assets/bayonne/fall001/gothic-b-beanie-black-lifest
 import travelCouple from "@/assets/bayonne/fall001/travel-couple.png";
 import travelMenFront from "@/assets/bayonne/fall001/travel-men-front.png";
 import travelWomenSeated from "@/assets/bayonne/fall001/lookbook-travel-women-seated.jpg";
-import harborCoachWorn from "@/assets/bayonne/fall001/harbor-coach-worn.png";
+import harborCoachWorn from "@/assets/bayonne/fall001/harbor-coach-worn-full.png";
 import twoToneCap from "@/assets/bayonne/fall001/two-tone-cap-model-hat.png";
 
 export type PlacePlate = {
@@ -75,7 +75,7 @@ export const PEOPLE_PLACES: PlacePlate[] = [
     productId: "harbor-coach",
     place: "Harbor Division",
     caption: "07002 on the chest. Worn.",
-    alt: "Harbor Division Hooded Coach Jacket, worn",
+    alt: "Harbor Division Hooded Coach Jacket, worn full-length",
     span: "standard",
   },
   {

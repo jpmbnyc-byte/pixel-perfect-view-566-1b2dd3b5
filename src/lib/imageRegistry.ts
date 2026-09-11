@@ -45,7 +45,11 @@ import travelWomenSeated from "@/assets/bayonne/fall001/travel-women-seated.png"
 import travelCouple from "@/assets/bayonne/fall001/travel-couple.png";
 
 import harborCoachFront from "@/assets/bayonne/fall001/harbor-coach-front.png";
-import harborCoachWorn from "@/assets/bayonne/fall001/harbor-coach-worn.png";
+import harborCoachBack from "@/assets/bayonne/fall001/harbor-coach-back.png";
+import harborCoachWornFull from "@/assets/bayonne/fall001/harbor-coach-worn-full.png";
+import harborCoachWornBack from "@/assets/bayonne/fall001/harbor-coach-worn-back.png";
+import harborCoachWornThreeQuarter from "@/assets/bayonne/fall001/harbor-coach-worn-three-quarter.png";
+import harborCoachDetail from "@/assets/bayonne/fall001/harbor-coach-detail.png";
 import harborPulloverFront from "@/assets/bayonne/fall001/harbor-pullover-front.png";
 import harborPulloverBack from "@/assets/bayonne/fall001/harbor-pullover-back.png";
 import harborPulloverModelFront from "@/assets/bayonne/fall001/harbor-pullover-model-front.png";
@@ -258,9 +262,9 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "local-issue-ls": { pending: true },
   "harbor-coach": {
     productFront: harborCoachFront,
-    productBack: harborCoachFront,
-    modelFront: harborCoachWorn,
-    modelSecondary: harborCoachFront,
+    productBack: harborCoachBack,
+    modelFront: harborCoachWornFull,
+    modelSecondary: harborCoachWornThreeQuarter,
   },
   "harbor-pullover": {
     productFront: harborPulloverFront,
@@ -351,7 +355,7 @@ export const HEROES = {
   match: matchJerseyKitFront,
   performance: performanceMenThreeQuarter,
   travel: travelCouple,
-  harbor: harborCoachFront,
+  harbor: harborCoachWornFull,
   club: areaCodeCapWorn,
   og: matchJerseyKitFront,
 } as const;
@@ -379,7 +383,7 @@ export const HERO_CROP: Record<
   match: { fit: "contain", position: "center 12%" },
   performance: { fit: "cover", position: "center 18%" },
   travel: { fit: "cover", position: "center 18%" },
-  harbor: { fit: "cover", position: "center 42%" },
+  harbor: { fit: "cover", position: "center 18%" },
   club: { fit: "cover", position: "center 35%" },
   og: { fit: "contain", position: "center" },
 };
@@ -465,6 +469,15 @@ const MAX_HEAVY_SWEATPANT_GALLERY: GalleryShot[] = [
   { src: travelMenBack, alt: "Max Heavy Sweatpant, men’s back view" },
   { src: travelCouple, alt: "Max Heavy Sweatpant, couple studio shot" },
   { src: travelWomenSeated, alt: "Max Heavy Sweatpant, women’s seated studio shot" },
+];
+
+const HARBOR_COACH_GALLERY: GalleryShot[] = [
+  { src: harborCoachWornFull, alt: "Harbor Division Hooded Coach Jacket, worn full-length" },
+  { src: harborCoachWornThreeQuarter, alt: "Harbor Division Hooded Coach Jacket, worn three-quarter" },
+  { src: harborCoachFront, alt: "Harbor Division Hooded Coach Jacket, product front" },
+  { src: harborCoachBack, alt: "Harbor Division Hooded Coach Jacket, product back, bridge treatment" },
+  { src: harborCoachWornBack, alt: "Harbor Division Hooded Coach Jacket, worn from behind" },
+  { src: harborCoachDetail, alt: "Harbor Division Hooded Coach Jacket, tonal BAYONNE ATHLETICS 07002" },
 ];
 
 const HARBOR_PULLOVER_GALLERY: GalleryShot[] = [
@@ -573,6 +586,7 @@ export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "max-heavy-sweatpant") return MAX_HEAVY_SWEATPANT_GALLERY;
   if (id === "gothic-b-beanie") return GOTHIC_B_BEANIE_BLACK_GALLERY;
   if (id === "gothic-b-beanie-brown") return GOTHIC_B_BEANIE_BROWN_GALLERY;
+  if (id === "harbor-coach") return HARBOR_COACH_GALLERY;
   if (id === "harbor-pullover") return HARBOR_PULLOVER_GALLERY;
   if (id === "harbor-sweatpant-grey") return HARBOR_SWEATPANT_GREY_GALLERY;
   if (id === "nb-bbp400") return NB_P400_GALLERY;

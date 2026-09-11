@@ -548,7 +548,7 @@ function ProductListingPage() {
           </section>
         </div>
 
-        {product.sizeChart === "shoe" ? <ShopThisLook product={product} slug={kit.slug} /> : null}
+        {product.imageryPending ? null : <ShopThisLook product={product} slug={kit.slug} />}
       </main>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-paper/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md lg:hidden">

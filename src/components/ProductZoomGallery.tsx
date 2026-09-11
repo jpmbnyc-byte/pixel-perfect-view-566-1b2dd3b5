@@ -184,7 +184,7 @@ export function ProductZoomGallery({ shots, productName, frame = "portrait" }: P
                 "relative w-full min-w-full max-w-full shrink-0 snap-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)] focus-ring",
                 frame === "square"
                   ? "aspect-square h-auto"
-                  : "h-[min(42dvh,20rem)] sm:h-[min(52dvh,28rem)] lg:aspect-[3/4] lg:h-auto",
+                  : "aspect-[3/4] h-auto",
               )}
               aria-label={`View ${shot.alt || productName}, tap to zoom`}
             >

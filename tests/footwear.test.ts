@@ -42,8 +42,8 @@ describe("footwear inventory", () => {
     expect(card).toContain('aspect={shoe ? "square"');
     expect(pdp).toContain("ShopThisLook");
     expect(gallery).toContain("aspect-square");
-    expect(Object.keys(SHOP_LOOKS).sort()).toEqual([...FOOTWEAR_IDS].sort());
     for (const id of FOOTWEAR_IDS) {
+      expect(SHOP_LOOKS[id]).toBeTruthy();
       const listing = productById(id)!;
       const set = IMAGE_REGISTRY[id];
       const shots = galleryShots(id);

@@ -313,7 +313,8 @@ describe("Fall 001 assortment", () => {
     expect(gallery).toContain("IntersectionObserver");
     expect(gallery).toContain("data-active-shot");
     expect(gallery).toContain("[touch-action:pan-x_pan-y]");
-    expect(gallery).toContain("42dvh");
+    expect(gallery).toContain("aspect-[3/4]");
+    expect(gallery).toContain("100dvh");
     expect(gallery).not.toContain("zoomed && index === openIndex");
     expect(gallery).not.toContain("zoom-in-95");
     expect(gallery).not.toContain("scale-[1.85]");
@@ -410,6 +411,77 @@ describe("Fall 001 assortment", () => {
     for (const plate of PEOPLE_PLACES) {
       expect(productById(plate.productId)).toBeTruthy();
       expect(plate.src).toBeTruthy();
+    }
+  });
+
+  it("presents the Harbor coach like a Moncler PDP with extra matched views", async () => {
+    const { galleryShots, HEROES } = await import("@/lib/imageRegistry");
+    const { readFile, stat } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const plate = IMAGE_REGISTRY["harbor-coach"];
+    const listing = productById("harbor-coach")!;
+    const shots = galleryShots("harbor-coach");
+    const srcs = shots.map((shot) => shot.src);
+    expect(plate.pending).not.toBe(true);
+    expect(plate.productBack).not.toBe(plate.productFront);
+    expect(plate.modelFront).not.toBe(plate.productFront);
+    expect(plate.modelSecondary).not.toBe(plate.modelFront);
+    expect(listing.thumb).toBe(plate.modelFront);
+    expect(listing.previews.front).toBe(plate.productFront);
+    expect(listing.previews.secondary).toBe(plate.productBack);
+    expect(HEROES.harbor).toBe(plate.modelFront);
+    expect(shots.length).toBeGreaterThanOrEqual(6);
+    expect(new Set(srcs).size).toBe(shots.length);
+    expect(shots[0]?.src).toBe(plate.modelFront);
+    expect(srcs).toContain(plate.productFront);
+    expect(srcs).toContain(plate.productBack);
+    expect(srcs).toContain(plate.modelSecondary);
+    const gallery = await readFile(resolve(process.cwd(), "src/components/ProductZoomGallery.tsx"), "utf8");
+    expect(gallery).toContain("aspect-[3/4]");
+    for (const name of [
+      "harbor-coach-back.png",
+      "harbor-coach-worn-full.png",
+      "harbor-coach-worn-three-quarter.png",
+      "harbor-coach-worn-back.png",
+      "harbor-coach-detail.png",
+    ]) {
+      const file = await stat(resolve(process.cwd(), "src/assets/bayonne/fall001", name));
+      expect(file.size).toBeGreaterThan(80_000);
+    }
+  });
+
+  it("pairs every live product with a shop-this-look of live plates", async () => {
+    const { COMING_SOON, galleryShots } = await import("@/lib/imageRegistry");
+    const { SHOP_LOOKS, lookFor } = await import("@/lib/looks");
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const card = await readFile(resolve(process.cwd(), "src/components/ProductLookbookCard.tsx"), "utf8");
+    const pdp = await readFile(resolve(process.cwd(), "src/routes/team.$slug.$product.tsx"), "utf8");
+    const chips = await readFile(resolve(process.cwd(), "src/components/ShopThisLook.tsx"), "utf8");
+    expect(card).toContain("ShopLookChips");
+    expect(card).not.toContain('sizeChart === "shoe" &&');
+    expect(pdp).toContain("ShopThisLook");
+    expect(pdp).toContain("product.imageryPending ? null");
+    expect(chips).toContain("lookThumb");
+    expect(chips).toContain("COMING_SOON");
+    const live = PRODUCTS.filter((product) => product.imageryPending !== true);
+    expect(live.map((product) => product.id).sort()).toEqual(Object.keys(SHOP_LOOKS).sort());
+    for (const product of live) {
+      const look = lookFor(product.id);
+      expect(look).toBeTruthy();
+      expect(look!.productId).toBe(product.id);
+      expect(look!.pieces).toHaveLength(3);
+      expect(look!.pieces).not.toContain(product.id);
+      for (const pieceId of look!.pieces) {
+        const piece = productById(pieceId)!;
+        const set = IMAGE_REGISTRY[pieceId];
+        expect(piece.imageryPending).not.toBe(true);
+        expect(set.pending).not.toBe(true);
+        expect(piece.thumb).not.toBe(COMING_SOON);
+        expect(set.productFront).toBeTruthy();
+        expect(set.productFront).not.toBe(COMING_SOON);
+        expect(galleryShots(pieceId).length).toBeGreaterThan(0);
+      }
     }
   });
 });

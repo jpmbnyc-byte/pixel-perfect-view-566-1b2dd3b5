@@ -222,7 +222,13 @@ export const PRODUCTS: CatalogProduct[] = [
   listing("club-hood", "bayonne-club-hood", "Club Hood", "travel", 88),
   listing("local-issue-ls", "bayonne-local-issue-long-sleeve", "Local Issue Longsleeve", "travel", 54),
 
-  listing("harbor-coach", "bayonne-harbor-division-hooded-coach", "Harbor Division Hooded Coach Jacket", "harbor", 98),
+  listing("harbor-coach", "bayonne-harbor-division-hooded-coach", "Harbor Division Hooded Coach Jacket", "harbor", 98, {
+    thumb: imagesFor("harbor-coach").modelFront!,
+    previews: {
+      front: imagesFor("harbor-coach").productFront!,
+      secondary: imagesFor("harbor-coach").productBack!,
+    },
+  }),
   listing("harbor-pullover", "bayonne-harbor-division-pullover", "Harbor Division Pullover", "harbor", 88),
   listing("harbor-sweatpant-black", "bayonne-harbor-sweatpant-black", "Harbor Sweatpant — Black / Garnet", "harbor", 88),
   listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 88),
