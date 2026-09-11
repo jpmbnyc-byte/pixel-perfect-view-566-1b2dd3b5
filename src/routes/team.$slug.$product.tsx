@@ -2,6 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState, type HTMLAttributes } from "react";
 
+import { ShopThisLook } from "@/components/ShopThisLook";
 import { ProductZoomGallery } from "@/components/ProductZoomGallery";
 import { ComingSoonMedia } from "@/components/ComingSoonMedia";
 import { galleryShots, imagesFor } from "@/lib/imageRegistry";
@@ -244,6 +245,7 @@ function ProductListingPage() {
                     alt: shot.alt || `${product.name}`,
                   }))}
                   productName={product.name}
+                  frame={product.sizeChart === "shoe" ? "square" : "portrait"}
                 />
               )}
             </div>
@@ -545,6 +547,8 @@ function ProductListingPage() {
             </div>
           </section>
         </div>
+
+        {product.sizeChart === "shoe" ? <ShopThisLook product={product} slug={kit.slug} /> : null}
       </main>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-paper/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md lg:hidden">

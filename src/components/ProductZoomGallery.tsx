@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   shots: GalleryShot[];
   productName: string;
+  frame?: "portrait" | "square";
 };
 
 /**
@@ -16,7 +17,7 @@ type Props = {
  * Vertical lightbox scroll updates the active shot — tap-to-zoom follows
  * the photo on screen, not the one that opened the overlay.
  */
-export function ProductZoomGallery({ shots, productName }: Props) {
+export function ProductZoomGallery({ shots, productName, frame = "portrait" }: Props) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [zoomed, setZoomed] = useState(false);
@@ -179,13 +180,21 @@ export function ProductZoomGallery({ shots, productName }: Props) {
                 setActive(index, true);
                 setOpenIndex(index);
               }}
-              className="relative h-[min(42dvh,20rem)] w-full min-w-full max-w-full shrink-0 snap-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)] focus-ring sm:h-[min(52dvh,28rem)] lg:aspect-[3/4] lg:h-auto"
+              className={cn(
+                "relative w-full min-w-full max-w-full shrink-0 snap-center overflow-hidden bg-[color-mix(in_oklab,var(--paper)_70%,white)] focus-ring",
+                frame === "square"
+                  ? "aspect-square h-auto"
+                  : "h-[min(42dvh,20rem)] sm:h-[min(52dvh,28rem)] lg:aspect-[3/4] lg:h-auto",
+              )}
               aria-label={`View ${shot.alt || productName}, tap to zoom`}
             >
               <img
                 src={shot.src}
                 alt={shot.alt || `${productName}`}
-                className="h-full w-full object-contain object-center"
+                className={cn(
+                  "h-full w-full object-center",
+                  shot.fit === "cover" ? "object-cover" : "object-contain",
+                )}
                 draggable={false}
               />
             </button>

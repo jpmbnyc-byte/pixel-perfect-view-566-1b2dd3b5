@@ -4,7 +4,7 @@ import type { CatalogProduct } from "@/lib/catalog";
 
 type Props = {
   product: CatalogProduct;
-  aspect?: "landscape" | "portrait";
+  aspect?: "landscape" | "portrait" | "square";
 };
 
 /**
@@ -15,7 +15,8 @@ export function ProductCardMedia({ product, aspect = "landscape" }: Props) {
   const secondary = product.previews.secondary;
   const hasPair = Boolean(secondary && secondary !== product.thumb) && !product.imageryPending;
   const [showSecondary, setShowSecondary] = useState(false);
-  const aspectClass = aspect === "portrait" ? "aspect-[3/4]" : "aspect-[5/4]";
+  const aspectClass =
+    aspect === "portrait" ? "aspect-[3/4]" : aspect === "square" ? "aspect-square" : "aspect-[5/4]";
 
   if (product.imageryPending) {
     return <ComingSoonMedia name={product.name} className={aspectClass} />;

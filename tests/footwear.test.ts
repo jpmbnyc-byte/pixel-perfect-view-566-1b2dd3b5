@@ -6,6 +6,9 @@ import {
   shoeRunsFor,
   womenUsFromMen,
 } from "@/lib/footwear";
+import { IMAGE_REGISTRY, galleryShots } from "@/lib/imageRegistry";
+import { productById } from "@/lib/catalog";
+import { SHOP_LOOKS, lookFor } from "@/lib/looks";
 
 describe("footwear inventory", () => {
   it("converts women’s US as men’s + 1.5", () => {
@@ -27,5 +30,34 @@ describe("footwear inventory", () => {
     expect(FOOTWEAR_RUNS["nb-runner-cardinal"][0]?.men).toBe("11.5");
     expect(FOOTWEAR_RUNS["nb-bbp400"][0]?.men).toBe("4");
     expect(shoeRunsFor("heritage-jersey")).toEqual([]);
+  });
+
+  it("fills sneaker plates and pairs each colorway with a shop-this-look", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const card = await readFile(resolve(process.cwd(), "src/components/ProductLookbookCard.tsx"), "utf8");
+    const pdp = await readFile(resolve(process.cwd(), "src/routes/team.$slug.$product.tsx"), "utf8");
+    const gallery = await readFile(resolve(process.cwd(), "src/components/ProductZoomGallery.tsx"), "utf8");
+    expect(card).toContain("ShopLookChips");
+    expect(card).toContain('aspect={shoe ? "square"');
+    expect(pdp).toContain("ShopThisLook");
+    expect(gallery).toContain("aspect-square");
+    expect(Object.keys(SHOP_LOOKS).sort()).toEqual([...FOOTWEAR_IDS].sort());
+    for (const id of FOOTWEAR_IDS) {
+      const listing = productById(id)!;
+      const set = IMAGE_REGISTRY[id];
+      const shots = galleryShots(id);
+      expect(listing.imageryPending).not.toBe(true);
+      expect(listing.thumb).toBe(set.productFront);
+      expect(listing.previews.secondary).toBe(set.modelFront);
+      expect(set.modelFront).toBeTruthy();
+      expect(shots.length).toBeGreaterThanOrEqual(5);
+      expect(shots.some((shot) => shot.fit === "cover" && shot.src === set.modelFront)).toBe(true);
+      const look = lookFor(id)!;
+      expect(look.pieces).toHaveLength(3);
+      for (const piece of look.pieces) {
+        expect(productById(piece)?.imageryPending).not.toBe(true);
+      }
+    }
   });
 });

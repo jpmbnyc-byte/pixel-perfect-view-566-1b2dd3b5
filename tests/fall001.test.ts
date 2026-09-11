@@ -132,7 +132,6 @@ describe("Fall 001 assortment", () => {
         "harbor-sweatpant-black",
         "club-sock-4pk",
         "market-tote",
-        "nb-p400-chalk",
       ].sort(),
     );
     expect(IMAGE_REGISTRY["harbor-coach"].productFront).toBeTruthy();

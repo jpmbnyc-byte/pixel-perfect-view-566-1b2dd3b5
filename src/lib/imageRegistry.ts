@@ -91,22 +91,39 @@ import nbAcRunnerLateral from "@/assets/bayonne/fall001/nb-ac-runner-lateral.jpg
 import nbAcRunnerAngle from "@/assets/bayonne/fall001/nb-ac-runner-medial.jpg";
 import nbAcRunnerTop from "@/assets/bayonne/fall001/nb-ac-runner-top.jpg";
 import nbAcRunnerOutsole from "@/assets/bayonne/fall001/nb-ac-runner-detail.jpg";
+import nbAcRunnerHeel from "@/assets/bayonne/fall001/nb-ac-runner-heel.jpg";
+import nbAcRunnerPair from "@/assets/bayonne/fall001/nb-ac-runner-pair.jpg";
+import nbAcRunnerLook from "@/assets/bayonne/fall001/nb-ac-runner-look.jpg";
+import nbAcRunnerLookDetail from "@/assets/bayonne/fall001/nb-ac-runner-look-detail.jpg";
 import nbAcHeatLateral from "@/assets/bayonne/fall001/nb-ac-heat-lateral.jpg";
 import nbAcHeatAngle from "@/assets/bayonne/fall001/nb-ac-heat-angle.jpg";
 import nbAcHeatHeel from "@/assets/bayonne/fall001/nb-ac-heat-heel.jpg";
 import nbAcHeatTop from "@/assets/bayonne/fall001/nb-ac-heat-top.jpg";
+import nbAcHeatLook from "@/assets/bayonne/fall001/nb-ac-heat-look.jpg";
+import nbAcHeatLookDetail from "@/assets/bayonne/fall001/nb-ac-heat-look-detail.jpg";
 import nbAcCardinalLateral from "@/assets/bayonne/fall001/nb-ac-cardinal-lateral.jpg";
 import nbAcCardinalAngle from "@/assets/bayonne/fall001/nb-ac-cardinal-angle.jpg";
 import nbAcCardinalHeel from "@/assets/bayonne/fall001/nb-ac-cardinal-heel.jpg";
 import nbAcCardinalTop from "@/assets/bayonne/fall001/nb-ac-cardinal-top.jpg";
+import nbAcCardinalLook from "@/assets/bayonne/fall001/nb-ac-cardinal-look.jpg";
+import nbAcCardinalLookDetail from "@/assets/bayonne/fall001/nb-ac-cardinal-look-detail.jpg";
 import nbP400Lateral from "@/assets/bayonne/fall001/nb-p400-lateral.jpg";
 import nbP400ThreeQuarter from "@/assets/bayonne/fall001/nb-p400-three-quarter.jpg";
 import nbP400Top from "@/assets/bayonne/fall001/nb-p400-pair.jpg";
 import nbP400Outsole from "@/assets/bayonne/fall001/nb-p400-outsole.jpg";
+import nbP400Look from "@/assets/bayonne/fall001/nb-p400-look.jpg";
+import nbP400LookDetail from "@/assets/bayonne/fall001/nb-p400-look-detail.jpg";
 import nbP400VoltLateral from "@/assets/bayonne/fall001/nb-p400-volt-lateral.jpg";
 import nbP400VoltAngle from "@/assets/bayonne/fall001/nb-p400-volt-angle.jpg";
 import nbP400VoltTop from "@/assets/bayonne/fall001/nb-p400-volt-top.jpg";
 import nbP400VoltPair from "@/assets/bayonne/fall001/nb-p400-volt-pair.jpg";
+import nbP400VoltLook from "@/assets/bayonne/fall001/nb-p400-volt-look.jpg";
+import nbP400VoltLookDetail from "@/assets/bayonne/fall001/nb-p400-volt-look-detail.jpg";
+import nbP400ChalkLateral from "@/assets/bayonne/fall001/nb-p400-chalk-lateral.jpg";
+import nbP400ChalkAngle from "@/assets/bayonne/fall001/nb-p400-chalk-angle.jpg";
+import nbP400ChalkTop from "@/assets/bayonne/fall001/nb-p400-chalk-top.jpg";
+import nbP400ChalkLook from "@/assets/bayonne/fall001/nb-p400-chalk-look.jpg";
+import nbP400ChalkLookDetail from "@/assets/bayonne/fall001/nb-p400-chalk-look-detail.jpg";
 
 export const COMING_SOON = comingSoon;
 
@@ -293,33 +310,38 @@ export const IMAGE_REGISTRY: Record<CanonicalProductId, ProductImageSet> = {
   "nb-bbp400": {
     productFront: nbP400Lateral,
     productBack: nbP400Outsole,
-    modelFront: nbP400ThreeQuarter,
-    modelSecondary: nbP400Top,
+    modelFront: nbP400Look,
+    modelSecondary: nbP400LookDetail,
   },
-  "nb-p400-chalk": { pending: true },
+  "nb-p400-chalk": {
+    productFront: nbP400ChalkLateral,
+    productBack: nbP400ChalkTop,
+    modelFront: nbP400ChalkLook,
+    modelSecondary: nbP400ChalkLookDetail,
+  },
   "nb-p400-volt": {
     productFront: nbP400VoltLateral,
     productBack: nbP400VoltPair,
-    modelFront: nbP400VoltAngle,
-    modelSecondary: nbP400VoltTop,
+    modelFront: nbP400VoltLook,
+    modelSecondary: nbP400VoltLookDetail,
   },
   "nb-runner": {
     productFront: nbAcRunnerLateral,
     productBack: nbAcRunnerOutsole,
-    modelFront: nbAcRunnerAngle,
-    modelSecondary: nbAcRunnerTop,
+    modelFront: nbAcRunnerLook,
+    modelSecondary: nbAcRunnerLookDetail,
   },
   "nb-runner-heat": {
     productFront: nbAcHeatLateral,
     productBack: nbAcHeatHeel,
-    modelFront: nbAcHeatAngle,
-    modelSecondary: nbAcHeatTop,
+    modelFront: nbAcHeatLook,
+    modelSecondary: nbAcHeatLookDetail,
   },
   "nb-runner-cardinal": {
     productFront: nbAcCardinalLateral,
     productBack: nbAcCardinalHeel,
-    modelFront: nbAcCardinalAngle,
-    modelSecondary: nbAcCardinalTop,
+    modelFront: nbAcCardinalLook,
+    modelSecondary: nbAcCardinalLookDetail,
   },
 };
 
@@ -362,7 +384,7 @@ export const HERO_CROP: Record<
   og: { fit: "contain", position: "center" },
 };
 
-export type GalleryShot = { src: string; alt: string };
+export type GalleryShot = { src: string; alt: string; fit?: "contain" | "cover" };
 
 const MATCH_JERSEY_GALLERY: GalleryShot[] = [
   { src: matchJerseyKitFront, alt: "1936 Match Jersey and Match Short, front" },
@@ -476,6 +498,61 @@ const AREA_CODE_CAP_GALLERY: GalleryShot[] = [
   { src: areaCodeHeroHat, alt: "201 Area Code Cap, crown in the 201" },
 ];
 
+const NB_P400_GALLERY: GalleryShot[] = [
+  { src: nbP400Lateral, alt: "New Balance P400, Cloud Blue, lateral" },
+  { src: nbP400ThreeQuarter, alt: "New Balance P400, Cloud Blue, three-quarter" },
+  { src: nbP400Look, alt: "New Balance P400, worn with Performance kit", fit: "cover" },
+  { src: nbP400LookDetail, alt: "New Balance P400, worn, shoe and Club Sock", fit: "cover" },
+  { src: nbP400Top, alt: "New Balance P400, Cloud Blue, top" },
+  { src: nbP400Outsole, alt: "New Balance P400, Cloud Blue, outsole" },
+];
+
+const NB_P400_CHALK_GALLERY: GalleryShot[] = [
+  { src: nbP400ChalkLateral, alt: "New Balance P400, Pink Chalk, lateral" },
+  { src: nbP400ChalkAngle, alt: "New Balance P400, Pink Chalk, three-quarter" },
+  { src: nbP400ChalkLook, alt: "New Balance P400, Pink Chalk, worn with Performance kit", fit: "cover" },
+  { src: nbP400ChalkLookDetail, alt: "New Balance P400, Pink Chalk, worn", fit: "cover" },
+  { src: nbP400ChalkTop, alt: "New Balance P400, Pink Chalk, pair" },
+];
+
+const NB_P400_VOLT_GALLERY: GalleryShot[] = [
+  { src: nbP400VoltLateral, alt: "New Balance P400, Afterglow, lateral" },
+  { src: nbP400VoltAngle, alt: "New Balance P400, Afterglow, three-quarter" },
+  { src: nbP400VoltLook, alt: "New Balance P400, Afterglow, worn with Performance kit", fit: "cover" },
+  { src: nbP400VoltLookDetail, alt: "New Balance P400, Afterglow, worn", fit: "cover" },
+  { src: nbP400VoltTop, alt: "New Balance P400, Afterglow, top" },
+  { src: nbP400VoltPair, alt: "New Balance P400, Afterglow, outsole" },
+];
+
+const NB_RUNNER_GALLERY: GalleryShot[] = [
+  { src: nbAcRunnerLateral, alt: "Fresh Foam Runner, Black / Afterglow, lateral" },
+  { src: nbAcRunnerAngle, alt: "Fresh Foam Runner, Black / Afterglow, medial" },
+  { src: nbAcRunnerLook, alt: "Fresh Foam Runner, worn with Max Heavy", fit: "cover" },
+  { src: nbAcRunnerLookDetail, alt: "Fresh Foam Runner, worn", fit: "cover" },
+  { src: nbAcRunnerTop, alt: "Fresh Foam Runner, Black / Afterglow, top" },
+  { src: nbAcRunnerHeel, alt: "Fresh Foam Runner, Black / Afterglow, heel" },
+  { src: nbAcRunnerPair, alt: "Fresh Foam Runner, Black / Afterglow, pair" },
+  { src: nbAcRunnerOutsole, alt: "Fresh Foam Runner, Black / Afterglow, outsole" },
+];
+
+const NB_RUNNER_HEAT_GALLERY: GalleryShot[] = [
+  { src: nbAcHeatLateral, alt: "AC Runner, Pink Heat / Black, lateral" },
+  { src: nbAcHeatAngle, alt: "AC Runner, Pink Heat / Black, three-quarter" },
+  { src: nbAcHeatLook, alt: "AC Runner, Pink Heat, worn with Performance kit", fit: "cover" },
+  { src: nbAcHeatLookDetail, alt: "AC Runner, Pink Heat, worn with Club Sock", fit: "cover" },
+  { src: nbAcHeatTop, alt: "AC Runner, Pink Heat / Black, top" },
+  { src: nbAcHeatHeel, alt: "AC Runner, Pink Heat / Black, heel" },
+];
+
+const NB_RUNNER_CARDINAL_GALLERY: GalleryShot[] = [
+  { src: nbAcCardinalLateral, alt: "AC Runner, White / Cardinal, lateral" },
+  { src: nbAcCardinalAngle, alt: "AC Runner, White / Cardinal, three-quarter" },
+  { src: nbAcCardinalLook, alt: "AC Runner, White / Cardinal, worn with Performance kit", fit: "cover" },
+  { src: nbAcCardinalLookDetail, alt: "AC Runner, White / Cardinal, worn with Club Sock", fit: "cover" },
+  { src: nbAcCardinalTop, alt: "AC Runner, White / Cardinal, top" },
+  { src: nbAcCardinalHeel, alt: "AC Runner, White / Cardinal, heel" },
+];
+
 const TWO_TONE_CAP_GALLERY: GalleryShot[] = [
   { src: twoToneCapHat, alt: "Two-Tone Club Cap, worn, Gothic B on the crown" },
   { src: twoToneCapFront, alt: "Two-Tone Club Cap, bone crown, black bill, garnet Gothic B" },
@@ -498,6 +575,12 @@ export function galleryShots(id: CanonicalProductId): GalleryShot[] {
   if (id === "gothic-b-beanie-brown") return GOTHIC_B_BEANIE_BROWN_GALLERY;
   if (id === "harbor-pullover") return HARBOR_PULLOVER_GALLERY;
   if (id === "harbor-sweatpant-grey") return HARBOR_SWEATPANT_GREY_GALLERY;
+  if (id === "nb-bbp400") return NB_P400_GALLERY;
+  if (id === "nb-p400-chalk") return NB_P400_CHALK_GALLERY;
+  if (id === "nb-p400-volt") return NB_P400_VOLT_GALLERY;
+  if (id === "nb-runner") return NB_RUNNER_GALLERY;
+  if (id === "nb-runner-heat") return NB_RUNNER_HEAT_GALLERY;
+  if (id === "nb-runner-cardinal") return NB_RUNNER_CARDINAL_GALLERY;
   const set = IMAGE_REGISTRY[id];
   if (set.pending) return [];
   const views = campaignViews(id);

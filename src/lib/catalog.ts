@@ -162,6 +162,9 @@ function listing(
   const pending = imagesFor(id).pending === true;
   const previews = platePair(id);
   const campaign = campaignViews(id);
+  const sizeChart = extra.sizeChart ?? "apparel";
+  const lifestyle = imagesFor(id).modelFront;
+  const shoe = sizeChart === "shoe" && !pending;
   return {
     id,
     handle,
@@ -175,8 +178,11 @@ function listing(
     typography: false,
     previewPair: "front-back",
     sizeChart: "apparel",
-    thumb: campaign.front ?? previews.front,
-    previews,
+    thumb: shoe ? previews.front : (campaign.front ?? previews.front),
+    previews:
+      shoe && lifestyle && lifestyle !== previews.front
+        ? { front: previews.front, secondary: lifestyle }
+        : previews,
     imageryPending: pending,
     details: sourceForProduct(id)?.facts ?? [],
     ...extra,
