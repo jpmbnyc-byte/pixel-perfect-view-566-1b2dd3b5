@@ -458,6 +458,42 @@ describe("Fall 001 assortment", () => {
     ).toBeGreaterThan(1_000_000);
   });
 
+  it("fills Harbor Sweatpant grey with adidas-style studio views and the Harbor look", async () => {
+    const { galleryShots } = await import("@/lib/imageRegistry");
+    const { stat } = await import("node:fs/promises");
+    const { resolve } = await import("node:path");
+    const plate = IMAGE_REGISTRY["harbor-sweatpant-grey"];
+    const listing = productById("harbor-sweatpant-grey")!;
+    const shots = galleryShots("harbor-sweatpant-grey");
+    const srcs = shots.map((shot) => shot.src);
+    expect(plate.pending).not.toBe(true);
+    expect(listing.imageryPending).not.toBe(true);
+    expect(listing.thumb).toBe(plate.productFront);
+    expect(listing.previews.secondary).toBe(plate.modelSecondary);
+    expect(plate.productFront).not.toBe(plate.productBack);
+    expect(plate.modelFront).not.toBe(plate.productFront);
+    expect(plate.modelSecondary).not.toBe(plate.modelFront);
+    expect(shots[0]?.src).toBe(plate.productFront);
+    expect(shots.length).toBeGreaterThanOrEqual(10);
+    expect(new Set(srcs).size).toBe(shots.length);
+    expect(shots.some((shot) => /BAYONNE ATHLETICS 07002/i.test(shot.alt))).toBe(true);
+    expect(shots.some((shot) => /Harbor Division Pullover/i.test(shot.alt))).toBe(true);
+    expect(srcs).toContain(plate.productBack);
+    expect(srcs).toContain(plate.modelFront);
+    expect(srcs).toContain(plate.modelSecondary);
+    for (const name of [
+      "harbor-sweatpant-grey-front.png",
+      "harbor-sweatpant-grey-back.png",
+      "harbor-sweatpant-grey-three-quarter.png",
+      "harbor-sweatpant-grey-rear-three-quarter.png",
+      "harbor-sweatpant-grey-look-crop.png",
+      "harbor-sweatpant-grey-model-crop.png",
+    ]) {
+      const file = await stat(resolve(process.cwd(), "src/assets/bayonne/fall001", name));
+      expect(file.size).toBeGreaterThan(80_000);
+    }
+  });
+
   it("pairs every live product with a shop-this-look of live plates", async () => {
     const { COMING_SOON, galleryShots } = await import("@/lib/imageRegistry");
     const { SHOP_LOOKS, lookFor } = await import("@/lib/looks");

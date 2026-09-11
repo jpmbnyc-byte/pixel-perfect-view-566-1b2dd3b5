@@ -231,7 +231,13 @@ export const PRODUCTS: CatalogProduct[] = [
   }),
   listing("harbor-pullover", "bayonne-harbor-division-pullover", "Harbor Division Pullover", "harbor", 88),
   listing("harbor-sweatpant-black", "bayonne-harbor-sweatpant-black", "Harbor Sweatpant — Black / Garnet", "harbor", 88),
-  listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 88),
+  listing("harbor-sweatpant-grey", "bayonne-harbor-sweatpant-grey", "Harbor Sweatpant — Heather Grey / Garnet", "harbor", 88, {
+    thumb: imagesFor("harbor-sweatpant-grey").productFront!,
+    previews: {
+      front: imagesFor("harbor-sweatpant-grey").productFront!,
+      secondary: imagesFor("harbor-sweatpant-grey").modelSecondary!,
+    },
+  }),
 
   listing("area-code-cap", "bayonne-201-area-code-cap", "201 Area Code Cap", "club", 48, {
     sizeChart: "hat",
