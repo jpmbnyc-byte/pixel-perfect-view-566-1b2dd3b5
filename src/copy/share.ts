@@ -10,10 +10,10 @@ export const SHARE_COPY = {
   passOn: "Pass it on",
   copied: "Copied. Represent.",
   siteName: COLLECTION_COPY.brand,
-  ogAlt: "Bayonne Athletics shop, 07002. Built different. Harbor Sweatpant — Heather Grey / Garnet.",
+  ogAlt: "Bayonne Athletics — Built different. Fall 001 · 07002. Train · Compete · Represent. 201 area code.",
 } as const;
 
-export const OG_IMAGE = "/og.jpg";
+export const OG_IMAGE = "/og.png";
 
 export type SharePayload = {
   title: string;
