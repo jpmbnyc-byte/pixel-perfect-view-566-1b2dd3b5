@@ -86,10 +86,10 @@ export function StoreNav({ className, inverted = false }: Props) {
 
         <Link
           to="/team"
-          className="flex items-center gap-2 justify-self-center focus-ring sm:gap-3"
+          className="flex items-center justify-self-center focus-ring"
           aria-label="Bayonne Athletics home"
         >
-          <Monogram className="h-8 w-9 text-garnet sm:h-9 sm:w-10" />
+          <Monogram className="h-8 w-9 text-garnet sm:hidden" />
           <Wordmark variant="compact" className="hidden sm:inline-flex" />
         </Link>
 
