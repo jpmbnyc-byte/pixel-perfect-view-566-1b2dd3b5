@@ -1,8 +1,11 @@
-import { OG_IMAGE, SHARE_COPY, type SharePayload } from "@/copy/share";
+import { OG_IMAGE, SHARE_COPY, SITE_URL, type SharePayload } from "@/copy/share";
 
 /** Stable public card — Harbor shop at night, BA lockup, Harbor Sweatpant. */
 export function shareHead(payload: SharePayload, opts?: { type?: "website" | "product"; image?: string }) {
-  const image = opts?.image ?? OG_IMAGE;
+  // og:image/twitter:image and canonical must be absolute — scrapers fetch
+  // them literally rather than resolving against the page URL.
+  const image = new URL(opts?.image ?? OG_IMAGE, SITE_URL).toString();
+  const canonical = new URL(payload.path, SITE_URL).toString();
   const type = opts?.type ?? "website";
   return {
     meta: [
@@ -19,6 +22,6 @@ export function shareHead(payload: SharePayload, opts?: { type?: "website" | "pr
       { name: "twitter:description", content: payload.description },
       { name: "twitter:image", content: image },
     ],
-    links: [{ rel: "canonical", href: payload.path }],
+    links: [{ rel: "canonical", href: canonical }],
   };
 }

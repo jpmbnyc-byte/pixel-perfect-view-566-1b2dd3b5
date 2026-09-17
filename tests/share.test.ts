@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { productById } from "@/lib/catalog";
-import { OG_IMAGE, SHARE_COPY, shareDepartment, shareHome, shareProduct } from "@/copy/share";
+import { OG_IMAGE, SHARE_COPY, SITE_URL, shareDepartment, shareHome, shareProduct } from "@/copy/share";
 import { shareHead } from "@/lib/shareHead";
 
 describe("share language", () => {
@@ -32,11 +32,16 @@ describe("share language", () => {
 
   it("stamps every card with the brand OG plate", async () => {
     const { stat } = await import("node:fs/promises");
-    const meta = shareHead(shareHome()).meta;
+    const head = shareHead(shareHome());
+    const meta = head.meta;
     const keys = meta.map((entry) => ("property" in entry ? entry.property : entry.name));
     expect(keys).toContain("og:image");
     expect(keys).toContain("twitter:image");
-    expect(meta.some((entry) => "content" in entry && entry.content === OG_IMAGE)).toBe(true);
+    // og:image/twitter:image and canonical must be absolute — scrapers fetch
+    // them literally rather than resolving against the page URL.
+    const absoluteImage = new URL(OG_IMAGE, SITE_URL).toString();
+    expect(meta.some((entry) => "content" in entry && entry.content === absoluteImage)).toBe(true);
+    expect(head.links[0]?.href).toBe(`${SITE_URL}/team`);
     expect(SHARE_COPY.ogAlt).toMatch(/Built different/i);
     expect(existsSync(resolve(process.cwd(), "public/og.png"))).toBe(true);
     expect((await stat(resolve(process.cwd(), "public/og.png"))).size).toBeGreaterThan(180_000);

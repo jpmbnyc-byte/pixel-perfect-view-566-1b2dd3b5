@@ -13,6 +13,9 @@ export const SHARE_COPY = {
   ogAlt: "Bayonne Athletics — Built different. Fall 001 · 07002. Train · Compete · Represent. 201 area code.",
 } as const;
 
+/** Production domain — used to build absolute canonical/OG URLs. */
+export const SITE_URL = "https://www.ba-athletics.com";
+
 export const OG_IMAGE = "/og.png";
 
 export type SharePayload = {

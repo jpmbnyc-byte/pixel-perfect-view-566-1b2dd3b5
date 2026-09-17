@@ -13,10 +13,7 @@
     "enabled": true
   },
   "vars": {
-    "SITE_URL": "https://ba.noparade-store.com"
-  },
-  "routes": [
-    { "pattern": "ba.noparade-store.com", "custom_domain": true }
-  ]
+    "SITE_URL": "https://www.ba-athletics.com"
+  }
 }
 

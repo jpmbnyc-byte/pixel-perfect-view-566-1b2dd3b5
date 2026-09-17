@@ -4,7 +4,7 @@ Storefront for the Bayonne Athletics Fall 001 collection: 1936 Match, Performanc
 
 The site is a **Represent Clo × Dior Mens** lookbook: bone ground (`#EDE9E1`), ink (`#0B0B0B`), identity garnet (`#4B0F17`), serif wordmark, wide-tracked nav, and airy two- and three-column merchandising. Kit print colors (`#5A1626` / `#F4F1F0`) stay on the manufacturing tokens and are not used as site chrome.
 
-Current preview is **Lovable via GitHub `main`**. Production will move to **https://noparade-store.com** on Cloudflare when you are ready to change DNS. Do not switch nameservers until that cutover.
+Current preview is **Lovable via GitHub `main`**. Production is live at **https://www.ba-athletics.com** on Vercel (`www` is canonical — the apex should redirect to it).
 
 Checkout is **Stripe-hosted** (no Shopify cart, no plugins). The product page creates a Checkout Session and redirects; Stripe collects email, shipping, Apple Pay / Google Pay / card, then returns to `/order/complete`.
 
@@ -28,39 +28,21 @@ Neighborhood film: muted H.264 loop at `public/bayonne/neighborhood.mp4` (parish
 
 Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary standard over $175.
 
-## Production (Cloudflare + noparade-store.com)
+## Production (Vercel + www.ba-athletics.com)
 
-Live hostname **after DNS cutover** is **https://noparade-store.com**. Until then, keep shipping to GitHub `main` so Lovable stays current. Checkout uses the request origin, so Stripe return URLs follow whatever host is serving the site.
+Live hostname is **https://www.ba-athletics.com** (`www` is canonical, not the apex), hosted on Vercel — not Cloudflare Workers. `vite.config.ts` already auto-selects the `vercel` Nitro preset whenever it's not building for Cloudflare, and `vercel.json` declares the framework, so no build config changes are needed. `wrangler.jsonc` is kept only as a dormant alternate path (e.g. local `wrangler dev`); it no longer claims any custom domain.
 
-Lovable is the preview host while we build. Shopify still holds the custom domain until you move nameservers.
+### 1. Import the repo into Vercel
 
-### 1. Deploy the Worker
+Vercel → Add New → Project → import this repo. Framework preset auto-detects from `vercel.json`. Add the `STRIPE_SECRET_KEY` environment variable (a restricted or secret key, `rk_`/`sk_` — never `VITE_`-prefixed). First deploy happens automatically.
 
-```sh
-bun install
-bun run deploy
-bunx wrangler secret put STRIPE_SECRET_KEY
-```
+### 2. Add the domain
 
-Wrangler logs you into Cloudflare. You get a temporary `*.workers.dev` URL for a smoke test before touching DNS.
+In that Vercel project → Settings → Domains → add `www.ba-athletics.com` and `ba-athletics.com` (set the apex to redirect to `www`, since `www` is the canonical host here). Vercel shows the exact DNS records to create — use those values, not ones from memory, since Vercel's IPs/targets can change.
 
-### 2. Move DNS off Shopify onto Cloudflare
+### 3. Point DNS at Vercel
 
-Do this at the registrar that currently points `noparade-store.com` at Shopify (often GoDaddy, Namecheap, Google Domains / Squarespace, or Cloudflare already).
+At `ba-athletics.com`'s DNS provider: a `CNAME` for `www` → `cname.vercel-dns.com`, and an `A`/`ALIAS` record on the apex per Vercel's instructions (redirecting to `www`). Once it propagates, `https://www.ba-athletics.com` serves this storefront directly — no Shopify domain hand-off needed for this domain.
 
-1. In Cloudflare: **Add a site** → `noparade-store.com` (Free plan). Copy the two nameservers Cloudflare gives you (like `ada.ns.cloudflare.com`).
-2. In the registrar: replace Shopify’s nameservers (or Shopify A records) with those Cloudflare nameservers. Do not delete the domain.
-3. Wait until Cloudflare says the zone is **Active** (often minutes, sometimes a few hours).
-4. In Cloudflare: **Workers & Pages** → `bayonne-athletics-07002` → **Settings → Domains** → add `noparade-store.com` and `www.noparade-store.com`. Cloudflare will create the apex + www records and issue SSL.
-5. Optional: page rule / redirect `www` → apex (or the reverse). One canonical host is enough.
-
-`wrangler.jsonc` already lists both hostnames as custom domains. If deploy errors with “zone not found”, finish step 2 first, then `bun run deploy` again.
-
-### 3. After DNS is live
-
-- Open https://noparade-store.com — you should see this storefront, not Shopify.
-- Stripe Dashboard → add `https://noparade-store.com` as a checkout / website domain if asked.
-- Shopify Admin → **Settings → Domains** → remove `noparade-store.com` so Shopify stops claiming it. Leave the shop password-protected or close the store when you are done.
-
-GitHub auto-deploy: repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `STRIPE_SECRET_KEY`. Token: Cloudflare → **My Profile → API Tokens → Edit Cloudflare Workers**.
+GitHub auto-deploy is automatic once the repo is imported into Vercel (a new deploy on every push to `main`); no repo secrets needed beyond the `STRIPE_SECRET_KEY` env var set in Vercel.
 
