@@ -14,7 +14,7 @@ export const SHARE_COPY = {
 } as const;
 
 /** Production domain — used to build absolute canonical/OG URLs. */
-export const SITE_URL = "https://ba-athletics.com";
+export const SITE_URL = "https://www.ba-athletics.com";
 
 export const OG_IMAGE = "/og.png";
 

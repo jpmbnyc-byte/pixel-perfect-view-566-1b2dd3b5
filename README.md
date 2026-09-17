@@ -4,7 +4,7 @@ Storefront for the Bayonne Athletics Fall 001 collection: 1936 Match, Performanc
 
 The site is a **Represent Clo × Dior Mens** lookbook: bone ground (`#EDE9E1`), ink (`#0B0B0B`), identity garnet (`#4B0F17`), serif wordmark, wide-tracked nav, and airy two- and three-column merchandising. Kit print colors (`#5A1626` / `#F4F1F0`) stay on the manufacturing tokens and are not used as site chrome.
 
-Current preview is **Lovable via GitHub `main`**. Production will move to **https://ba-athletics.com** on Vercel when DNS is pointed there.
+Current preview is **Lovable via GitHub `main`**. Production is live at **https://www.ba-athletics.com** on Vercel (`www` is canonical — the apex should redirect to it).
 
 Checkout is **Stripe-hosted** (no Shopify cart, no plugins). The product page creates a Checkout Session and redirects; Stripe collects email, shipping, Apple Pay / Google Pay / card, then returns to `/order/complete`.
 
@@ -28,9 +28,9 @@ Neighborhood film: muted H.264 loop at `public/bayonne/neighborhood.mp4` (parish
 
 Shipping (Represent-simplified, USD): Standard $10 / Express $20 / complimentary standard over $175.
 
-## Production (Vercel + ba-athletics.com)
+## Production (Vercel + www.ba-athletics.com)
 
-Live hostname is **https://ba-athletics.com**, hosted on Vercel — not Cloudflare Workers. `vite.config.ts` already auto-selects the `vercel` Nitro preset whenever it's not building for Cloudflare, and `vercel.json` declares the framework, so no build config changes are needed. `wrangler.jsonc` is kept only as a dormant alternate path (e.g. local `wrangler dev`); it no longer claims any custom domain.
+Live hostname is **https://www.ba-athletics.com** (`www` is canonical, not the apex), hosted on Vercel — not Cloudflare Workers. `vite.config.ts` already auto-selects the `vercel` Nitro preset whenever it's not building for Cloudflare, and `vercel.json` declares the framework, so no build config changes are needed. `wrangler.jsonc` is kept only as a dormant alternate path (e.g. local `wrangler dev`); it no longer claims any custom domain.
 
 ### 1. Import the repo into Vercel
 
@@ -38,11 +38,11 @@ Vercel → Add New → Project → import this repo. Framework preset auto-detec
 
 ### 2. Add the domain
 
-In that Vercel project → Settings → Domains → add `ba-athletics.com` and `www.ba-athletics.com` (set `www` to redirect to the apex). Vercel shows the exact DNS records to create — use those values, not ones from memory, since Vercel's IPs/targets can change.
+In that Vercel project → Settings → Domains → add `www.ba-athletics.com` and `ba-athletics.com` (set the apex to redirect to `www`, since `www` is the canonical host here). Vercel shows the exact DNS records to create — use those values, not ones from memory, since Vercel's IPs/targets can change.
 
 ### 3. Point DNS at Vercel
 
-At `ba-athletics.com`'s DNS provider: an `A`/`ALIAS` record on the apex per Vercel's instructions, and a `CNAME` for `www` → `cname.vercel-dns.com`. Once it propagates, `https://ba-athletics.com` serves this storefront directly — no Shopify domain hand-off needed for this domain.
+At `ba-athletics.com`'s DNS provider: a `CNAME` for `www` → `cname.vercel-dns.com`, and an `A`/`ALIAS` record on the apex per Vercel's instructions (redirecting to `www`). Once it propagates, `https://www.ba-athletics.com` serves this storefront directly — no Shopify domain hand-off needed for this domain.
 
 GitHub auto-deploy is automatic once the repo is imported into Vercel (a new deploy on every push to `main`); no repo secrets needed beyond the `STRIPE_SECRET_KEY` env var set in Vercel.
 
